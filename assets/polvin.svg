@@ -1,0 +1,19 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="POLVIn, o mascote do Fin+">
+  <!-- tentáculos -->
+  <path d="M28 78 Q14 92 22 108 Q26 100 32 96" fill="#6C4FCF"/>
+  <path d="M42 86 Q34 102 40 116 Q45 106 48 100" fill="#6C4FCF"/>
+  <path d="M60 90 Q58 106 64 118 Q68 108 68 100" fill="#6C4FCF"/>
+  <path d="M78 86 Q84 102 78 116 Q73 106 70 100" fill="#6C4FCF"/>
+  <path d="M92 78 Q106 92 98 108 Q94 100 88 96" fill="#6C4FCF"/>
+  <!-- cabeça -->
+  <ellipse cx="60" cy="55" rx="42" ry="38" fill="#7C5CE0"/>
+  <ellipse cx="60" cy="50" rx="42" ry="34" fill="#8A70E0"/>
+  <!-- óculos -->
+  <circle cx="42" cy="52" r="14" fill="#fff" stroke="#201235" stroke-width="3"/>
+  <circle cx="78" cy="52" r="14" fill="#fff" stroke="#201235" stroke-width="3"/>
+  <line x1="56" y1="50" x2="64" y2="50" stroke="#201235" stroke-width="3"/>
+  <circle cx="42" cy="52" r="5" fill="#201235"/>
+  <circle cx="78" cy="52" r="5" fill="#201235"/>
+  <!-- sorriso -->
+  <path d="M48 70 Q60 78 72 70" stroke="#201235" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>
