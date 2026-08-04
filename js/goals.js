@@ -41,7 +41,7 @@ const Goals = {
 
   /* Criado automaticamente a partir do objetivo escolhido no onboarding.
      Não duplica se o usuário já tiver um cofrinho com a mesma origem. */
-  ensureTemplateGoal(objetivoId) {
+  ensureTemplateGoal(objetivoId, metaCustom) {
     const template = GOAL_TEMPLATES[objetivoId];
     if (!template) return;
     const goals = this.getGoals();
@@ -50,7 +50,7 @@ const Goals = {
       id: Date.now().toString(),
       nome: template.nome,
       emoji: template.emoji,
-      meta: template.metaSugerida,
+      meta: metaCustom && metaCustom > 0 ? metaCustom : template.metaSugerida,
       acumulado: 0,
       concluido: false,
       origemObjetivo: objetivoId,

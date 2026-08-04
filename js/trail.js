@@ -169,9 +169,9 @@ const Trail = {
   startLesson(levelIdx, lessonIdx) {
     const level = this.levels()[levelIdx];
     const lesson = level.licoes[lessonIdx];
-    this.activeQuiz = { level, lesson, qIndex: 0, correctCount: 0, answered: false };
-    if (level.fonte === "historia" && lesson.conto) {
-      this.renderContoOverlay();
+    this.activeQuiz = { level, lesson, qIndex: 0, correctCount: 0, answered: false, onVariant: false, variantQuestion: null };
+    if (lesson.conto || lesson.aula) {
+      this.renderIntroOverlay();
     } else {
       this.renderQuizOverlay();
     }
@@ -188,25 +188,29 @@ const Trail = {
     return overlay;
   },
 
-  renderContoOverlay() {
+  /* Tela didática antes do quiz — "conto" (história) ou "aula" (financeira),
+     ambos um array de parágrafos contados pelo POLVIn com analogias do
+     dia a dia, antes de qualquer pergunta. */
+  renderIntroOverlay() {
     const overlay = this.overlayEl();
-    const { lesson } = this.activeQuiz;
+    const { lesson, level } = this.activeQuiz;
+    const paragraphs = lesson.conto || lesson.aula;
+    const isHistoria = level.fonte === "historia";
     overlay.innerHTML = `
       <div class="quiz-box story-box">
-        <div class="quiz-progress">📜 ${lesson.titulo}</div>
+        <div class="quiz-progress">${isHistoria ? "📜" : "📘"} ${lesson.titulo}</div>
         <div id="trailStoryPolvin"></div>
         <button class="btn btn-primary btn-block mt-16" id="storyContinueBtn">Continuar para o quiz</button>
       </div>
     `;
-    Polvin.renderStory(document.getElementById("trailStoryPolvin"), lesson.conto, { title: "POLVIn conta a história" });
+    Polvin.renderStory(document.getElementById("trailStoryPolvin"), paragraphs, { title: isHistoria ? "POLVIn conta a história" : "POLVIn explica" });
     document.getElementById("storyContinueBtn").addEventListener("click", () => this.renderQuizOverlay());
   },
 
   renderQuizOverlay() {
     const overlay = this.overlayEl();
-    const { lesson, qIndex } = this.activeQuiz;
-    const question = lesson.perguntas[qIndex];
-    const total = lesson.perguntas.length;
+    const { lesson, qIndex, onVariant, variantQuestion } = this.activeQuiz;
+    const question = onVariant ? variantQuestion : lesson.perguntas[qIndex];
 
     const dotsHtml = lesson.perguntas
       .map((_, i) => `<span class="quiz-dot ${i < qIndex ? "done" : i === qIndex ? "active" : ""}"></span>`)
@@ -216,6 +220,7 @@ const Trail = {
       <div class="quiz-box">
         <div class="quiz-progress">${lesson.titulo}</div>
         <div class="quiz-dots">${dotsHtml}</div>
+        ${onVariant ? `<div class="alert-box info text-sm">🔁 Vamos reforçar esse mesmo conceito com outro exemplo:</div>` : ""}
         <div class="quiz-question">${question.pergunta}</div>
         <div id="trailQuizOptions">
           ${question.opcoes.map((op, i) => `<button class="quiz-option" data-idx="${i}" style="--i:${i}">${op}</button>`).join("")}
@@ -232,8 +237,8 @@ const Trail = {
     if (this.activeQuiz.answered) return;
     this.activeQuiz.answered = true;
 
-    const { lesson, qIndex } = this.activeQuiz;
-    const question = lesson.perguntas[qIndex];
+    const { lesson, qIndex, onVariant, variantQuestion } = this.activeQuiz;
+    const question = onVariant ? variantQuestion : lesson.perguntas[qIndex];
     const correct = idx === question.correta;
     if (correct) this.activeQuiz.correctCount++;
 
@@ -243,16 +248,33 @@ const Trail = {
       else btn.classList.add("faded");
     });
 
+    const original = lesson.perguntas[qIndex];
+    const offerVariant = !onVariant && !correct && !!original.variante;
+    const nextLabel = offerVariant
+      ? "Tentar de novo com outro exemplo"
+      : qIndex + 1 < lesson.perguntas.length
+      ? "Próxima pergunta"
+      : "Concluir lição";
+
     document.getElementById("trailQuizFeedback").innerHTML = `
       <div class="quiz-feedback">${correct ? "✅ Correto!" : "❌ Não foi essa."} ${question.explicacao}</div>
-      <button class="btn btn-primary btn-block mt-16" id="trailQuizNextBtn">
-        ${qIndex + 1 < lesson.perguntas.length ? "Próxima pergunta" : "Concluir lição"}
-      </button>
+      <button class="btn btn-primary btn-block mt-16" id="trailQuizNextBtn">${nextLabel}</button>
     `;
-    document.getElementById("trailQuizNextBtn").addEventListener("click", () => this.nextQuestion());
+    document.getElementById("trailQuizNextBtn").addEventListener("click", () => {
+      if (offerVariant) {
+        this.activeQuiz.onVariant = true;
+        this.activeQuiz.variantQuestion = original.variante;
+        this.activeQuiz.answered = false;
+        this.renderQuizOverlay();
+      } else {
+        this.nextQuestion();
+      }
+    });
   },
 
   nextQuestion() {
+    this.activeQuiz.onVariant = false;
+    this.activeQuiz.variantQuestion = null;
     this.activeQuiz.qIndex++;
     this.activeQuiz.answered = false;
     if (this.activeQuiz.qIndex >= this.activeQuiz.lesson.perguntas.length) {

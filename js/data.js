@@ -256,8 +256,18 @@ const COURSE = [
               "A taxa de juros que os bancos cobram entre si",
             ],
             correta: 0,
-            explicacao:
-              "Inflação é o aumento geral de preços ao longo do tempo. Ela reduz o poder de compra do seu dinheiro parado.",
+            explicacao: "Inflação é o aumento geral de preços ao longo do tempo. Ela reduz o poder de compra do seu dinheiro parado.",
+            variante: {
+              pergunta: "Se uma cesta de compras custava R$ 200 em janeiro e passou a custar R$ 212 em dezembro do mesmo ano, sem nenhuma mudança nos produtos, o que aconteceu?",
+              opcoes: [
+                "Os produtos ficaram melhores",
+                "Houve inflação de 6% no período",
+                "O dinheiro rendeu 6%",
+                "Nada, é só uma promoção ao contrário",
+              ],
+              correta: 1,
+              explicacao: "Um aumento de preço sem mudança no produto é inflação — nesse caso, de 6% (R$12/R$200).",
+            },
           },
           {
             pergunta: "Se a inflação do ano foi de 5% e seu dinheiro ficou parado embaixo do colchão, o que aconteceu?",
@@ -269,6 +279,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Dinheiro parado perde valor real todo ano em que houver inflação — por isso investir é importante mesmo para preservar o que você já tem.",
+            variante: {
+              pergunta: "Você guardou R$ 1.000 numa gaveta por um ano, e a inflação anual foi de 8%. No fim do ano, o que você consegue comprar com esses R$ 1.000?",
+              opcoes: [
+                "Exatamente a mesma quantidade de coisas de antes",
+                "Mais coisas do que antes",
+                "Menos coisas do que antes, mesmo com o valor em reais intacto",
+                "O dobro de coisas",
+              ],
+              correta: 2,
+              explicacao: "Os R$1.000 continuam sendo R$1.000, mas compram menos, porque os preços em geral subiram 8% enquanto o valor guardado ficou parado.",
+            },
           },
           {
             pergunta: "Qual destes é o principal motivo para investir mesmo pequenas quantias?",
@@ -280,7 +301,79 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Investir, mesmo pouco, é sobre proteger e fazer crescer o valor do seu dinheiro ao longo do tempo — os juros compostos fazem o resto.",
+            variante: {
+              pergunta: "Maria investe R$ 50 por mês desde os 20 anos; Pedro só começa a investir R$ 50 por mês aos 35. O que essa diferença ilustra melhor sobre investir mesmo pouco?",
+              opcoes: [
+                "Que só vale a pena investir valores altos",
+                "Que começar antes, mesmo com pouco, aproveita mais tempo de crescimento do dinheiro",
+                "Que Pedro tomou a decisão certa",
+                "Que não faz diferença quando se começa",
+              ],
+              correta: 1,
+              explicacao: "Quanto mais tempo o dinheiro fica investido, mais ele cresce — começar cedo, mesmo com valores pequenos, importa muito no longo prazo.",
+            },
           },
+        ],
+        aula: [
+          "Imagine que você tem uma cesta com 10 pães hoje. Com R$ 50, você compra essa cesta inteira. Um ano depois, os mesmos 10 pães custam R$ 55 — os pães não mudaram, mas o seu dinheiro agora compra menos coisa com o mesmo valor. Isso é inflação: o aumento generalizado dos preços, que faz cada real valer um pouquinho menos ao longo do tempo.",
+          "É como um balão furado bem devagar: mesmo que você não gaste nada, o ar (o valor do seu dinheiro) vai escapando sozinho. Por isso, guardar dinheiro 'parado' significa perder poder de compra todos os anos, mesmo sem tirar um centavo de lá.",
+          "A boa notícia: existem formas de fazer seu dinheiro crescer mais rápido do que a inflação avança — é exatamente disso que trata o resto dessa trilha.",
+        ],
+      },
+      {
+        id: "l5_1",
+        titulo: "Juros compostos e o poder do tempo",
+        xp: 40,
+        perguntas: [
+          {
+            pergunta: "O que torna os juros compostos tão poderosos no longo prazo?",
+            opcoes: [
+              "Os juros incidem apenas sobre o valor inicial",
+              "Os juros incidem sobre o valor inicial mais os juros já acumulados",
+              "Eles só funcionam em criptomoedas",
+              "Eles reduzem o valor investido com o tempo",
+            ],
+            correta: 1,
+            explicacao: "Nos juros compostos, você ganha 'juros sobre juros' — por isso o crescimento acelera exponencialmente quanto mais tempo o dinheiro fica investido.",
+            variante: {
+              pergunta: "João investe R$ 100 e, no primeiro mês, ganha R$ 1 de juros (ficando com R$101). No segundo mês, sobre quanto valor os novos juros serão calculados, nos juros compostos?",
+              opcoes: [
+                "Só sobre os R$100 originais",
+                "Sobre os R$101 (o valor original mais o juro já ganho)",
+                "Sobre um valor fixo de R$50",
+                "Os juros não se acumulam",
+              ],
+              correta: 1,
+              explicacao: "Nos juros compostos, cada novo período de juros incide sobre o total acumulado até ali — os R$101, não só os R$100 iniciais.",
+            },
+          },
+          {
+            pergunta: "Começar a investir 5 anos mais tarde normalmente exige, para chegar ao mesmo resultado:",
+            opcoes: [
+              "O mesmo valor investido",
+              "Um valor investido bem menor",
+              "Um valor investido bem maior, para compensar o tempo perdido",
+              "Não faz diferença",
+            ],
+            correta: 2,
+            explicacao: "Como os juros compostos dependem fortemente do tempo, começar mais tarde exige aportes maiores para alcançar o mesmo patrimônio final.",
+            variante: {
+              pergunta: "Ana começa a investir R$ 200/mês aos 25 anos. Bruno só começa aos 35, querendo chegar ao mesmo patrimônio na aposentadoria. O que Bruno provavelmente vai precisar fazer?",
+              opcoes: [
+                "Investir um valor mensal bem menor que o de Ana",
+                "Investir um valor mensal bem maior que o de Ana, para compensar os 10 anos de vantagem que ela teve",
+                "Nada, os dois vão chegar ao mesmo lugar investindo igual",
+                "Esperar mais 10 anos resolve sozinho",
+              ],
+              correta: 1,
+              explicacao: "Como Ana teve 10 anos extras de juros compostos trabalhando por ela, Bruno precisa aportar valores maiores para tentar alcançar o mesmo resultado final.",
+            },
+          },
+        ],
+        aula: [
+          "Pense numa bola de neve rolando morro abaixo. No começo, ela é pequena e cresce devagar. Mas a cada volta, ela pega mais neve — e o tamanho que ela ACABOU de ganhar também vira parte da bola, pegando ainda mais neve na volta seguinte. Ela cresce cada vez mais rápido, não numa linha reta.",
+          "Juros compostos funcionam assim: você ganha juros sobre o valor que investiu, e no período seguinte, ganha juros sobre o valor investido MAIS os juros que já recebeu. É 'juro sobre juro' — por isso o crescimento acelera com o tempo.",
+          "Isso também significa que TEMPO é o ingrediente mais importante da fórmula — muitas vezes mais importante do que o valor investido por mês. Por isso quem começa mais tarde precisa investir bem mais para chegar ao mesmo lugar.",
         ],
       },
       {
@@ -298,12 +391,39 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "A reserva de emergência é o alicerce da vida financeira: dinheiro disponível para imprevistos (perda de emprego, saúde, reparos) sem recorrer a dívidas caras.",
+            variante: {
+              pergunta: "Carla perdeu o emprego de repente e precisa pagar as contas do mês enquanto procura uma nova posição. O que deveria cobrir esse período, idealmente?",
+              opcoes: [
+                "Um empréstimo no cartão de crédito",
+                "A reserva de emergência guardada previamente",
+                "A venda urgente de ações na baixa",
+                "Não há nada a fazer nesse caso",
+              ],
+              correta: 1,
+              explicacao: "Esse é exatamente o cenário para o qual a reserva de emergência existe: cobrir imprevistos sem recorrer a dívidas caras.",
+            },
           },
           {
             pergunta: "Quantos meses de despesas costuma-se recomendar guardar na reserva de emergência?",
-            opcoes: ["1 semana", "De 3 a 6 meses de despesas", "10 anos", "Não é necessário guardar nada"],
+            opcoes: [
+              "1 semana",
+              "De 3 a 6 meses de despesas",
+              "10 anos",
+              "Não é necessário guardar nada",
+            ],
             correta: 1,
             explicacao: "O recomendado geralmente é entre 3 e 6 meses de despesas essenciais, podendo variar conforme a estabilidade da sua renda.",
+            variante: {
+              pergunta: "As despesas essenciais de Rodrigo somam R$ 3.000 por mês. Seguindo a recomendação de 3 a 6 meses de reserva, qual faixa de valor ele deveria buscar guardar?",
+              opcoes: [
+                "Entre R$ 300 e R$ 600",
+                "Entre R$ 3.000 e R$ 6.000",
+                "Entre R$ 9.000 e R$ 18.000",
+                "Não há valor recomendado",
+              ],
+              correta: 2,
+              explicacao: "3 a 6 meses de R$3.000 de despesas essenciais equivalem a uma faixa de R$9.000 a R$18.000 de reserva.",
+            },
           },
           {
             pergunta: "Onde a reserva de emergência deve ficar investida?",
@@ -315,7 +435,23 @@ const COURSE = [
             ],
             correta: 2,
             explicacao: "A reserva precisa de liquidez (acesso rápido) e segurança — por isso Tesouro Selic e CDBs com liquidez diária são as escolhas mais comuns.",
+            variante: {
+              pergunta: "Fernanda quer guardar a reserva de emergência dela e pode precisar do dinheiro em poucos dias. Qual opção é mais adequada?",
+              opcoes: [
+                "Ações de uma empresa em alta",
+                "Um FII (fundo imobiliário)",
+                "Tesouro Selic ou CDB com liquidez diária",
+                "Um Tesouro Prefixado de longo prazo",
+              ],
+              correta: 2,
+              explicacao: "Reserva de emergência exige liquidez rápida e baixo risco de perda — Tesouro Selic e CDB com liquidez diária atendem bem a isso.",
+            },
           },
+        ],
+        aula: [
+          "Imagine seu carro com estepe no porta-malas. Você não usa o estepe todo dia — na verdade, espera nunca precisar dele. Mas se um pneu furar na estrada, ter o estepe é a diferença entre trocar o pneu em 10 minutos e ficar parado sem solução.",
+          "A reserva de emergência é o 'estepe' da sua vida financeira: dinheiro guardado especificamente para imprevistos (perda de emprego, um conserto urgente, uma emergência de saúde), para você não precisar recorrer a empréstimos caros quando esses imprevistos chegarem — e eles chegam, mais dia menos dia, para todo mundo.",
+          "Por isso essa reserva não deve estar num investimento arriscado ou de resgate lento: ela precisa estar em algo seguro e de acesso rápido, mesmo que renda menos do que outras opções.",
         ],
       },
       {
@@ -333,6 +469,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Orçamento pessoal é organizar entradas e saídas de dinheiro para saber exatamente para onde ele está indo — o primeiro passo de qualquer vida financeira saudável.",
+            variante: {
+              pergunta: "Joana quer entender por que, apesar de ganhar bem, nunca sobra dinheiro no fim do mês. Qual ferramenta a ajudaria a descobrir isso?",
+              opcoes: [
+                "Um empréstimo bancário",
+                "Um orçamento pessoal, registrando entradas e saídas por categoria",
+                "Trocar de banco",
+                "Nenhuma, isso não tem solução",
+              ],
+              correta: 1,
+              explicacao: "O orçamento pessoal existe exatamente para revelar para onde o dinheiro está indo, categoria por categoria.",
+            },
           },
           {
             pergunta: "Qual é uma regra simples e popular de orçamento?",
@@ -344,6 +491,17 @@ const COURSE = [
             ],
             correta: 0,
             explicacao: "A regra 50-30-20 sugere 50% da renda para necessidades, 30% para desejos e 20% para investimentos ou pagamento de dívidas — um ponto de partida simples.",
+            variante: {
+              pergunta: "Se a renda mensal de Pedro é R$ 4.000 e ele segue a regra 50-30-20, quanto ele reservaria, em teoria, para investimentos e pagamento de dívidas?",
+              opcoes: [
+                "R$ 2.000",
+                "R$ 1.200",
+                "R$ 800",
+                "R$ 400",
+              ],
+              correta: 2,
+              explicacao: "20% de R$4.000 = R$800 destinados a investimentos/dívidas, seguindo a regra 50 (necessidades) - 30 (desejos) - 20 (investir/pagar dívidas).",
+            },
           },
           {
             pergunta: "Por que registrar todos os gastos ajuda financeiramente?",
@@ -355,7 +513,79 @@ const COURSE = [
             ],
             correta: 2,
             explicacao: "Registrar gastos revela padrões — muita gente descobre que pequenos gastos recorrentes (delivery, assinaturas) somam muito mais do que imaginava.",
+            variante: {
+              pergunta: "Depois de anotar os gastos por um mês, Camila descobriu que gastava R$ 380 por mês em assinaturas de streaming que nem usava mais. O que esse exemplo demonstra?",
+              opcoes: [
+                "Que anotar gastos não serve para nada",
+                "Que anotar gastos revela padrões de consumo que passam despercebidos no dia a dia",
+                "Que streaming é sempre um mau gasto",
+                "Que ela deveria parar de trabalhar",
+              ],
+              correta: 1,
+              explicacao: "Registrar gastos frequentemente revela padrões invisíveis — como assinaturas ou pequenas compras recorrentes que somam bastante ao longo do mês.",
+            },
           },
+        ],
+        aula: [
+          "Pense num balde com um furo pequeno embaixo. Mesmo que você continue enchendo o balde, se não souber por onde a água está escapando (os gastos), ele nunca vai ficar cheio — e você nem vai entender por quê.",
+          "Fazer um orçamento pessoal é identificar esses furos: anotar quanto entra e quanto sai, e para onde vai cada parte. Não é sobre se privar de tudo — é sobre saber, com números reais, para onde seu dinheiro está indo.",
+          "Muita gente que começa a anotar os gastos se surpreende ao descobrir quanto pequenos gastos recorrentes (apps de delivery, assinaturas esquecidas) somam no fim do mês — coisas que passavam despercebidas até serem colocadas no papel.",
+        ],
+      },
+      {
+        id: "l4_1",
+        titulo: "Perfil de investidor",
+        xp: 35,
+        perguntas: [
+          {
+            pergunta: "O que é o perfil de investidor (suitability)?",
+            opcoes: [
+              "Uma avaliação que identifica sua tolerância ao risco e objetivos",
+              "Um tipo de imposto",
+              "Uma corretora específica",
+              "Um seguro obrigatório",
+            ],
+            correta: 0,
+            explicacao: "O perfil de investidor mede sua tolerância ao risco, seus objetivos e seu horizonte de tempo, ajudando a escolher investimentos adequados a você.",
+            variante: {
+              pergunta: "Dois investidores recebem R$ 10.000 cada. Um pergunta 'quanto eu posso perder sem entrar em pânico?' antes de escolher onde investir; o outro escolhe só olhando quem rendeu mais no último mês. Qual aplica melhor o conceito de perfil de investidor?",
+              opcoes: [
+                "O segundo, pois retorno passado garante retorno futuro",
+                "O primeiro, pois considera sua própria tolerância ao risco antes de decidir",
+                "Nenhum dos dois, perfil de investidor não importa",
+                "Os dois, da mesma forma",
+              ],
+              correta: 1,
+              explicacao: "Avaliar a própria tolerância ao risco e objetivos antes de escolher onde investir é exatamente o que o perfil de investidor propõe.",
+            },
+          },
+          {
+            pergunta: "Um investidor 'conservador' costuma priorizar:",
+            opcoes: [
+              "Máximo risco possível",
+              "Segurança e previsibilidade, mesmo com retorno menor",
+              "Apenas criptomoedas",
+              "Especulação de curto prazo",
+            ],
+            correta: 1,
+            explicacao: "Perfis conservadores priorizam segurança e previsibilidade — geralmente concentram a carteira em renda fixa de baixo risco.",
+            variante: {
+              pergunta: "Se uma pessoa diz: 'prefiro ganhar menos, mas quero ter certeza de que não vou perder dinheiro', a que perfil de investidor essa frase está mais associada?",
+              opcoes: [
+                "Perfil arrojado/agressivo",
+                "Perfil conservador",
+                "Perfil especulativo",
+                "Nenhum perfil descreve isso",
+              ],
+              correta: 1,
+              explicacao: "Priorizar segurança e previsibilidade acima de retorno maior é a marca do perfil conservador.",
+            },
+          },
+        ],
+        aula: [
+          "Duas pessoas podem ter a mesma quantia para investir e tomar decisões completamente diferentes — e as duas podem estar certas. Uma prefere dormir tranquila sabendo que seu dinheiro não vai oscilar; outra aceita ver o valor subir e cair bastante, em troca da chance de um retorno maior. Nenhuma está 'errada', elas só têm perfis diferentes.",
+          "O perfil de investidor é entender sua própria tolerância a ver o dinheiro balançar de valor (risco), seus objetivos e o tempo até precisar desse dinheiro. É a mesma lógica de escolher um esporte: alguém prefere uma caminhada tranquila, outro prefere algo radical — o 'melhor' depende de quem está perguntando.",
+          "Foi esse tipo de pergunta que o diagnóstico inicial do Fin+ fez para você — e é essa informação que ajuda a decidir entre focar em renda fixa, renda variável, ou uma combinação das duas nas próximas lições.",
         ],
       },
     ],
@@ -380,6 +610,17 @@ const COURSE = [
             ],
             correta: 0,
             explicacao: "A Selic é a taxa básica de juros do Brasil, definida pelo Copom (Banco Central). Ela influencia quase todos os investimentos de renda fixa do país.",
+            variante: {
+              pergunta: "Quem define a taxa Selic no Brasil?",
+              opcoes: [
+                "Cada banco individualmente",
+                "O Banco Central, através do Copom",
+                "O governo federal diretamente, sem órgão técnico",
+                "As bolsas de valores",
+              ],
+              correta: 1,
+              explicacao: "A Selic é definida pelo Copom, comitê de política monetária do Banco Central.",
+            },
           },
           {
             pergunta: "Um CDB que rende '110% do CDI' é considerado, em geral:",
@@ -391,6 +632,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Como o CDI acompanha a Selic de perto, pagar mais que 100% do CDI significa uma rentabilidade acima da referência do mercado.",
+            variante: {
+              pergunta: "Um CDB anunciado como '85% do CDI' está, em geral:",
+              opcoes: [
+                "Rendendo acima da média do mercado",
+                "Rendendo abaixo da referência do CDI",
+                "Isento de qualquer risco",
+                "Igual à Selic sempre",
+              ],
+              correta: 1,
+              explicacao: "Pagar menos de 100% do CDI significa uma rentabilidade abaixo dessa referência de mercado.",
+            },
           },
           {
             pergunta: "Quando a Selic sobe, o que geralmente acontece com a renda fixa pós-fixada?",
@@ -402,7 +654,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Investimentos pós-fixados (ligados ao CDI/Selic) rendem mais quando a Selic sobe, e menos quando ela cai.",
+            variante: {
+              pergunta: "Se a Selic cai de 12% para 9% ao ano, o que tende a acontecer com o rendimento de um CDB pós-fixado (ligado ao CDI)?",
+              opcoes: [
+                "Ele passa a render mais",
+                "Ele passa a render menos",
+                "Não muda nada",
+                "Ele deixa de existir",
+              ],
+              correta: 1,
+              explicacao: "Investimentos pós-fixados acompanham a Selic/CDI — se a taxa básica cai, o rendimento também cai.",
+            },
           },
+        ],
+        aula: [
+          "Pense na Selic como a 'temperatura base' da economia brasileira, definida pelo Banco Central a cada cerca de 45 dias. Quase todo contrato de juros do país é, de algum jeito, influenciado por essa temperatura.",
+          "O CDI é como um 'termômetro' que acompanha essa temperatura de pertinho. Por isso, quando você vê um investimento anunciado como '110% do CDI', é como comparar o quanto ele rende em relação a esse termômetro: acima de 100% significa acima dessa referência.",
+          "Entender Selic e CDI é o primeiro passo para comparar investimentos de renda fixa de forma justa — em vez de olhar só o número da taxa, você aprende a perguntar: '110% do CDI é bom, considerando o CDI de hoje?'",
         ],
       },
       {
@@ -420,6 +688,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "LCI e LCA são isentas de IR para pessoa física, o que pode compensar uma taxa nominal menor em comparação a um CDB equivalente.",
+            variante: {
+              pergunta: "Por que uma LCA pode valer mais a pena que um CDB mesmo pagando uma taxa nominal um pouco menor?",
+              opcoes: [
+                "Porque LCA sempre rende mais em número absoluto",
+                "Porque a LCA é isenta de Imposto de Renda para pessoa física, o que pode compensar a taxa menor",
+                "Porque LCA nunca tem risco",
+                "Porque LCA tem liquidez diária garantida",
+              ],
+              correta: 1,
+              explicacao: "A isenção de IR da LCA pode fazer o rendimento líquido dela superar um CDB de taxa nominal parecida ou um pouco maior.",
+            },
           },
           {
             pergunta: "O que garante a segurança de um CDB, LCI ou LCA até R$ 250.000 por instituição?",
@@ -431,6 +710,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "O FGC protege esses investimentos até R$ 250.000 por CPF e por instituição financeira, caso o banco emissor quebre.",
+            variante: {
+              pergunta: "Se um banco pequeno onde você tem um CDB de R$100.000 vier a falir, o que geralmente protege seu dinheiro?",
+              opcoes: [
+                "Nada, o dinheiro é perdido",
+                "O FGC, até o limite de R$250.000 por CPF/instituição",
+                "O Tesouro Nacional garante automaticamente",
+                "A Bolsa de Valores",
+              ],
+              correta: 1,
+              explicacao: "O FGC cobre CDB, LCI e LCA até R$250.000 por CPF e por instituição financeira.",
+            },
           },
           {
             pergunta: "Qual característica costuma limitar a LCI e a LCA?",
@@ -442,7 +732,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "LCI e LCA geralmente têm prazos de carência mais longos, então são mais indicadas para dinheiro que você não vai precisar no curto prazo.",
+            variante: {
+              pergunta: "Ana precisa de um investimento que possa resgatar em poucos dias, se necessário. LCI e LCA são uma boa escolha para esse caso?",
+              opcoes: [
+                "Sim, elas têm liquidez diária sempre",
+                "Não, costumam ter carência/prazo mínimo até o resgate",
+                "Sim, mas só para valores acima de R$1 milhão",
+                "Não, são proibidas para pessoa física",
+              ],
+              correta: 1,
+              explicacao: "LCI e LCA geralmente têm carência — não são ideais para quem pode precisar do dinheiro a qualquer momento.",
+            },
           },
+        ],
+        aula: [
+          "Imagine três potes de doce parecidos, mas com uma diferença: dois deles ('LCI' e 'LCA') vêm sem imposto sobre o que você comer deles — o governo isenta o Imposto de Renda para incentivar que esse dinheiro financie o setor imobiliário e o agronegócio. O terceiro pote ('CDB') tem imposto normal, mas costuma ter mais variedade e liquidez.",
+          "Como LCI e LCA são isentas de IR, elas conseguem competir com um CDB mesmo pagando uma taxa nominal um pouco menor. Só que, geralmente, você precisa deixar o dinheiro 'guardado' por mais tempo nesses potes isentos.",
+          "Tanto CDB quanto LCI/LCA contam com uma rede de segurança: o FGC devolve seu dinheiro (até R$250.000 por CPF/instituição) se o banco emissor quebrar — parecido com um seguro que protege o pequeno investidor.",
         ],
       },
       {
@@ -452,9 +758,25 @@ const COURSE = [
         perguntas: [
           {
             pergunta: "Qual título do Tesouro Direto é mais indicado para reserva de emergência?",
-            opcoes: ["Tesouro Prefixado", "Tesouro IPCA+", "Tesouro Selic", "Nenhum deles"],
+            opcoes: [
+              "Tesouro Prefixado",
+              "Tesouro IPCA+",
+              "Tesouro Selic",
+              "Nenhum deles",
+            ],
             correta: 2,
             explicacao: "O Tesouro Selic tem baixíssima oscilação de preço e alta liquidez, sendo o mais indicado para reserva de emergência.",
+            variante: {
+              pergunta: "Camila quer investir sua reserva de emergência, que pode precisar usar em qualquer momento sem perder valor. Qual título do Tesouro Direto combina melhor?",
+              opcoes: [
+                "Tesouro Prefixado 2035",
+                "Tesouro IPCA+ 2040",
+                "Tesouro Selic",
+                "Nenhum título do Tesouro serve para isso",
+              ],
+              correta: 2,
+              explicacao: "O Tesouro Selic tem preço estável e liquidez rápida, sendo o mais adequado para reserva de emergência.",
+            },
           },
           {
             pergunta: "O Tesouro IPCA+ é indicado principalmente para:",
@@ -466,6 +788,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "O Tesouro IPCA+ paga a inflação (IPCA) mais uma taxa fixa, protegendo o poder de compra — ótimo para aposentadoria e metas de longo prazo.",
+            variante: {
+              pergunta: "Rafael quer garantir que o valor investido para a faculdade do filho, em 15 anos, não perca poder de compra para a inflação. Qual título tende a ser mais adequado?",
+              opcoes: [
+                "Tesouro Selic",
+                "Tesouro IPCA+",
+                "Guardar em dinheiro vivo",
+                "Nenhuma opção protege contra inflação",
+              ],
+              correta: 1,
+              explicacao: "O Tesouro IPCA+ paga a inflação do período mais uma taxa fixa, protegendo o poder de compra em prazos longos.",
+            },
           },
           {
             pergunta: "O que pode acontecer se você vender um Tesouro Prefixado ou IPCA+ antes do vencimento?",
@@ -477,7 +810,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Esses títulos têm marcação a mercado: o preço varia diariamente. Vender antes do vencimento pode gerar ganho ou perda, dependendo da taxa de juros vigente.",
+            variante: {
+              pergunta: "Se as taxas de juros do mercado sobem bastante depois que você comprou um Tesouro Prefixado, e você vende esse título antes do vencimento, o que pode acontecer?",
+              opcoes: [
+                "Você necessariamente ganha mais dinheiro",
+                "Você pode ter uma perda, porque o preço do título cai quando os juros de mercado sobem",
+                "O valor do título nunca muda",
+                "É proibido vender antes do vencimento",
+              ],
+              correta: 1,
+              explicacao: "Títulos prefixados e IPCA+ têm marcação a mercado — vender antes do vencimento pode gerar perda se as taxas subiram desde a compra.",
+            },
           },
+        ],
+        aula: [
+          "O Tesouro Direto é como emprestar dinheiro para o governo federal e receber de volta com juros — considerado o investimento mais seguro do país, porque quem 'deve' para você é o próprio governo.",
+          "Existem 'sabores' diferentes: o Tesouro Selic é como uma poupança turbinada, com preço estável e liquidez rápida — ótimo para reserva de emergência. Já o Prefixado e o IPCA+ têm o preço oscilando dia a dia até o vencimento, porque são negociados no mercado — vender antes da hora pode significar ganhar ou perder um pouco.",
+          "A escolha do título certo depende do seu objetivo: dinheiro que pode precisar em breve pede Tesouro Selic; dinheiro para um objetivo de anos, protegido da inflação, combina melhor com o Tesouro IPCA+.",
         ],
       },
     ],
@@ -494,9 +843,25 @@ const COURSE = [
         perguntas: [
           {
             pergunta: "O que você se torna ao comprar uma ação?",
-            opcoes: ["Credor da empresa", "Sócio (acionista) da empresa", "Funcionário da empresa", "Fornecedor da empresa"],
+            opcoes: [
+              "Credor da empresa",
+              "Sócio (acionista) da empresa",
+              "Funcionário da empresa",
+              "Fornecedor da empresa",
+            ],
             correta: 1,
             explicacao: "Ao comprar uma ação, você compra uma fração da empresa e passa a ser sócio, participando dos lucros (via dividendos) e riscos do negócio.",
+            variante: {
+              pergunta: "Se você compra uma cota de participação de uma padaria com dois amigos, e a padaria dá lucro no fim do mês, o que você deveria esperar receber, proporcionalmente ao que investiu?",
+              opcoes: [
+                "Nada, sócios não recebem lucro",
+                "Uma parte do lucro, proporcional à sua participação",
+                "O lucro total, mesmo tendo investido pouco",
+                "Um salário fixo mensal obrigatório",
+              ],
+              correta: 1,
+              explicacao: "Como sócio, você tem direito a uma parte do lucro proporcional à sua participação — no mercado de ações, isso vem via dividendos.",
+            },
           },
           {
             pergunta: "Por que ações costumam ter mais risco do que a renda fixa?",
@@ -508,6 +873,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "O preço das ações reflete expectativas sobre o futuro da empresa e da economia, por isso pode subir ou cair de forma significativa e sem garantias.",
+            variante: {
+              pergunta: "Por que o preço de uma ação pode cair mesmo que a empresa continue lucrando normalmente?",
+              opcoes: [
+                "Isso nunca acontece",
+                "Porque o preço reflete expectativas do mercado sobre o futuro, que podem mudar independente do resultado atual",
+                "Porque é proibido o preço cair",
+                "Porque ações têm um preço fixo garantido por lei",
+              ],
+              correta: 1,
+              explicacao: "O preço de uma ação reflete expectativas futuras, não só o resultado presente — por isso pode oscilar mesmo sem mudança nos lucros atuais.",
+            },
           },
           {
             pergunta: "O que são dividendos?",
@@ -519,7 +895,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Dividendos são a parcela do lucro que a empresa distribui aos seus acionistas, geralmente proporcional à quantidade de ações que cada um possui.",
+            variante: {
+              pergunta: "Uma empresa lucrou R$10 milhões no ano e decidiu distribuir R$4 milhões aos acionistas. Como se chama esse valor distribuído?",
+              opcoes: [
+                "Imposto de Renda",
+                "Dividendos",
+                "Taxa de administração",
+                "Ágio",
+              ],
+              correta: 1,
+              explicacao: "Dividendos são a parte do lucro distribuída aos acionistas — nesse exemplo, R$4 milhões dos R$10 milhões lucrados.",
+            },
           },
+        ],
+        aula: [
+          "Imagine que você e alguns amigos decidem abrir um mercadinho juntos, cada um colocando uma parte do dinheiro. Se o mercadinho dá lucro no fim do mês, esse lucro é dividido entre todos, na proporção do que cada um investiu. Se vai mal, o prejuízo também é compartilhado.",
+          "Comprar uma ação é isso, numa escala gigante: você compra uma fatia pequena de uma empresa que já existe e passa a ser sócio dela. Se a empresa lucra e distribui parte desse lucro, você recebe dividendos; se ela desvaloriza, o preço da sua fatia também pode cair.",
+          "Por isso ações são mais arriscadas que renda fixa: seu retorno depende do desempenho real de um negócio no mundo real, sujeito à concorrência e à economia — não existe uma taxa combinada de antemão como num CDB.",
         ],
       },
       {
@@ -537,6 +929,17 @@ const COURSE = [
             ],
             correta: 0,
             explicacao: "FIIs reúnem o dinheiro de vários investidores para investir em imóveis (shoppings, galpões, escritórios) ou papéis do setor, repassando a renda gerada aos cotistas.",
+            variante: {
+              pergunta: "Um grupo de 5.000 pessoas junta dinheiro para comprar um shopping center e dividir o aluguel recebido todo mês, proporcionalmente às cotas de cada um. Que tipo de investimento isso descreve?",
+              opcoes: [
+                "Um CDB",
+                "Um Fundo Imobiliário (FII)",
+                "Uma criptomoeda",
+                "Um Tesouro Direto",
+              ],
+              correta: 1,
+              explicacao: "Essa é exatamente a lógica de um FII: reunir recursos de vários investidores para adquirir imóveis (ou papéis do setor) e dividir a renda gerada.",
+            },
           },
           {
             pergunta: "Como costumam ser tributados os dividendos (rendimentos) de FIIs para pessoa física?",
@@ -548,6 +951,17 @@ const COURSE = [
             ],
             correta: 0,
             explicacao: "Os rendimentos mensais distribuídos por FIIs são isentos de IR para pessoa física, desde que atendidos alguns requisitos (como negociação em bolsa).",
+            variante: {
+              pergunta: "Pedro recebe R$500 de rendimento mensal de um FII negociado em bolsa, seguindo as regras de isenção vigentes. Quanto de Imposto de Renda ele paga sobre esse valor, em geral?",
+              opcoes: [
+                "27,5%",
+                "15%",
+                "6%",
+                "Nenhum, é isento para pessoa física, seguindo as regras vigentes",
+              ],
+              correta: 3,
+              explicacao: "Rendimentos mensais de FIIs negociados em bolsa costumam ser isentos de IR para pessoa física, desde que atendidos os requisitos vigentes.",
+            },
           },
           {
             pergunta: "Qual é um risco específico dos FIIs 'de tijolo' (que possuem imóveis físicos)?",
@@ -559,7 +973,23 @@ const COURSE = [
             ],
             correta: 0,
             explicacao: "A vacância (imóvel desocupado) reduz a receita de aluguel do fundo, impactando diretamente os dividendos distribuídos.",
+            variante: {
+              pergunta: "Um FII de shopping centers perde vários lojistas que não renovaram o contrato de aluguel. Qual risco específico dos FIIs 'de tijolo' esse cenário ilustra?",
+              opcoes: [
+                "Risco de vacância",
+                "Risco de o FGC não cobrir",
+                "Risco cambial",
+                "Risco de come-cotas",
+              ],
+              correta: 0,
+              explicacao: "A vacância (espaços desocupados) reduz diretamente a receita e os dividendos distribuídos pelo fundo.",
+            },
           },
+        ],
+        aula: [
+          "Imagine que você quer ser 'dono' de um pedaço de um shopping center, mas não tem milhões para comprar o imóvel inteiro. Um FII resolve isso: reúne o dinheiro de milhares de pessoas para comprar imóveis (ou papéis ligados a imóveis) e divide entre todos o aluguel e os rendimentos gerados.",
+          "É parecido com um condomínio de investidores: você compra 'cotas' do fundo, e todo mês recebe sua parte da renda gerada pelos imóveis daquele fundo — sem se preocupar com inquilino ou manutenção, responsabilidade do gestor.",
+          "Uma vantagem curiosa: os rendimentos mensais de FIIs são isentos de Imposto de Renda para pessoa física (seguindo regras vigentes), o que explica por que são tão populares entre quem busca renda passiva recorrente.",
         ],
       },
     ],
@@ -569,35 +999,6 @@ const COURSE = [
     titulo: "Nível 4 · Diversificação e Risco",
     cor: "#6C4FCF",
     licoes: [
-      {
-        id: "l4_1",
-        titulo: "Perfil de investidor",
-        xp: 35,
-        perguntas: [
-          {
-            pergunta: "O que é o perfil de investidor (suitability)?",
-            opcoes: [
-              "Uma avaliação que identifica sua tolerância ao risco e objetivos",
-              "Um tipo de imposto",
-              "Uma corretora específica",
-              "Um seguro obrigatório",
-            ],
-            correta: 0,
-            explicacao: "O perfil de investidor mede sua tolerância ao risco, seus objetivos e seu horizonte de tempo, ajudando a escolher investimentos adequados a você.",
-          },
-          {
-            pergunta: "Um investidor 'conservador' costuma priorizar:",
-            opcoes: [
-              "Máximo risco possível",
-              "Segurança e previsibilidade, mesmo com retorno menor",
-              "Apenas criptomoedas",
-              "Especulação de curto prazo",
-            ],
-            correta: 1,
-            explicacao: "Perfis conservadores priorizam segurança e previsibilidade — geralmente concentram a carteira em renda fixa de baixo risco.",
-          },
-        ],
-      },
       {
         id: "l4_2",
         titulo: "Diversificação de carteira",
@@ -613,6 +1014,17 @@ const COURSE = [
             ],
             correta: 0,
             explicacao: "Diversificar significa não colocar todos os recursos em um único ativo — assim, se um investimento vai mal, outros podem equilibrar o resultado da carteira.",
+            variante: {
+              pergunta: "Se você colocasse 100% do seu patrimônio em ações de uma única empresa e essa empresa enfrentasse uma crise grave, o que aconteceria com sua carteira?",
+              opcoes: [
+                "Nada, o resto da carteira compensaria",
+                "Ela sofreria o impacto quase total dessa crise, já que não há outros ativos para equilibrar",
+                "Diversificação não faria diferença nesse caso",
+                "O risco seria automaticamente zero",
+              ],
+              correta: 1,
+              explicacao: "Sem diversificação, um problema num único ativo afeta quase toda a carteira — esse é exatamente o risco que diversificar busca reduzir.",
+            },
           },
           {
             pergunta: "O que significa 'não colocar todos os ovos na mesma cesta'?",
@@ -624,7 +1036,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "É uma metáfora clássica para diversificação: distribuir os recursos entre diferentes investimentos reduz o impacto de uma perda isolada.",
+            variante: {
+              pergunta: "Uma pessoa investe 100% do seu dinheiro em um único FII de um único shopping. Isso é um exemplo de quê, na linguagem da diversificação?",
+              opcoes: [
+                "Uma carteira bem diversificada",
+                "Colocar 'todos os ovos numa cesta só' — concentração de risco",
+                "Uma estratégia livre de risco",
+                "Uma alocação equilibrada",
+              ],
+              correta: 1,
+              explicacao: "Concentrar tudo em um único ativo (mesmo dentro da renda variável) é o oposto de diversificar.",
+            },
           },
+        ],
+        aula: [
+          "Você já ouviu 'não coloque todos os ovos na mesma cesta'? Se você cai com uma única cesta cheia de ovos, todos quebram. Se distribui os ovos em várias cestas, e uma cair, as outras continuam intactas.",
+          "Diversificar é aplicar essa lógica ao seu dinheiro: em vez de colocar tudo num único ativo, você distribui entre diferentes tipos de investimento, de forma que um desempenho ruim em um deles não comprometa todo o seu patrimônio.",
+          "Isso não elimina o risco por completo, mas reduz a chance de um único evento ruim destruir sua carteira inteira.",
         ],
       },
       {
@@ -642,6 +1070,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Criptomoedas não têm garantia como o FGC e podem oscilar de forma extrema em curtos períodos — qualquer alocação deve ser cautelosa.",
+            variante: {
+              pergunta: "Qual das afirmações sobre investir em criptomoedas é mais precisa?",
+              opcoes: [
+                "O FGC garante até R$250.000 em criptoativos",
+                "Não existe garantia oficial equivalente ao FGC, e a volatilidade de preço costuma ser muito alta",
+                "Criptomoedas têm risco igual ao da poupança",
+                "É impossível perder dinheiro com criptomoedas",
+              ],
+              correta: 1,
+              explicacao: "Diferente de CDB/LCI/LCA, criptomoedas não contam com uma garantia como o FGC, e sua volatilidade histórica é muito superior à de outros investimentos.",
+            },
           },
           {
             pergunta: "Qual é uma prática comum recomendada para quem decide investir em criptomoedas?",
@@ -653,7 +1092,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Por causa do alto risco, a orientação comum é destinar apenas uma pequena fração do patrimônio total a criptoativos.",
+            variante: {
+              pergunta: "Juliana decide investir em criptomoedas apenas o equivalente a 3% do seu patrimônio total, valor que ela topa perder sem comprometer suas finanças. Essa atitude reflete qual boa prática comum?",
+              opcoes: [
+                "Investir tudo de uma vez, sem planejamento",
+                "Destinar só uma pequena fração do patrimônio, compatível com o alto risco do ativo",
+                "Nunca diversificar dentro de criptomoedas",
+                "Pedir empréstimo para investir mais",
+              ],
+              correta: 1,
+              explicacao: "Por causa do altíssimo risco, a orientação comum é alocar só uma fração pequena e 'descartável' do patrimônio total em criptoativos.",
+            },
           },
+        ],
+        aula: [
+          "Pense em criptomoedas como um parque de diversões com montanhas-russas radicais: pode ser divertido e até lucrativo, mas o risco de passar mal é real, e não existe nenhum 'seguro' (como o FGC) cobrindo suas criptomoedas se algo der errado.",
+          "O preço de uma criptomoeda pode subir ou cair 10%, 20%, às vezes mais, em um único dia — uma volatilidade muito maior do que a maioria das ações e imensamente maior que a renda fixa.",
+          "Por isso, a orientação mais comum é simples: destine a criptomoedas só uma pequena fatia do patrimônio — uma que você estaria confortável em perder — e nunca o dinheiro da reserva de emergência ou de objetivos de curto prazo.",
         ],
       },
     ],
@@ -663,35 +1118,6 @@ const COURSE = [
     titulo: "Nível 5 · Avançado",
     cor: "#C0392B",
     licoes: [
-      {
-        id: "l5_1",
-        titulo: "Juros compostos e o poder do tempo",
-        xp: 40,
-        perguntas: [
-          {
-            pergunta: "O que torna os juros compostos tão poderosos no longo prazo?",
-            opcoes: [
-              "Os juros incidem apenas sobre o valor inicial",
-              "Os juros incidem sobre o valor inicial mais os juros já acumulados",
-              "Eles só funcionam em criptomoedas",
-              "Eles reduzem o valor investido com o tempo",
-            ],
-            correta: 1,
-            explicacao: "Nos juros compostos, você ganha 'juros sobre juros' — por isso o crescimento acelera exponencialmente quanto mais tempo o dinheiro fica investido.",
-          },
-          {
-            pergunta: "Começar a investir 5 anos mais tarde normalmente exige, para chegar ao mesmo resultado:",
-            opcoes: [
-              "O mesmo valor investido",
-              "Um valor investido bem menor",
-              "Um valor investido bem maior, para compensar o tempo perdido",
-              "Não faz diferença",
-            ],
-            correta: 2,
-            explicacao: "Como os juros compostos dependem fortemente do tempo, começar mais tarde exige aportes maiores para alcançar o mesmo patrimônio final.",
-          },
-        ],
-      },
       {
         id: "l5_2",
         titulo: "Análise fundamentalista",
@@ -707,13 +1133,45 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "A análise fundamentalista estuda balanços, lucros, dívidas e perspectivas de uma empresa para estimar se o preço da ação está caro ou barato.",
+            variante: {
+              pergunta: "Antes de comprar uma ação, um investidor analisa o lucro dos últimos 5 anos da empresa, sua dívida total e a qualidade da diretoria. Que tipo de análise ele está fazendo?",
+              opcoes: [
+                "Análise técnica de gráficos",
+                "Análise fundamentalista",
+                "Análise de sentimento do mercado",
+                "Nenhuma análise real",
+              ],
+              correta: 1,
+              explicacao: "Avaliar lucro, dívida e governança da empresa é a essência da análise fundamentalista — focada no valor real do negócio.",
+            },
           },
           {
             pergunta: "Qual indicador é comumente usado na análise fundamentalista?",
-            opcoes: ["P/L (Preço sobre Lucro)", "RSI de 9 períodos", "Número de seguidores nas redes sociais", "Cor do logotipo da empresa"],
+            opcoes: [
+              "P/L (Preço sobre Lucro)",
+              "RSI de 9 períodos",
+              "Número de seguidores nas redes sociais",
+              "Cor do logotipo da empresa",
+            ],
             correta: 0,
             explicacao: "O P/L (Preço/Lucro) mostra quantos anos de lucro atual seriam necessários para 'pagar' o preço da ação — um dos indicadores mais usados na análise fundamentalista.",
+            variante: {
+              pergunta: "Uma ação custa R$40 e a empresa lucra R$4 por ação ao ano. Qual é o P/L (Preço sobre Lucro) dessa ação?",
+              opcoes: [
+                "4",
+                "10",
+                "40",
+                "0,1",
+              ],
+              correta: 1,
+              explicacao: "P/L = Preço / Lucro por ação = 40/4 = 10 — levaria 10 anos de lucro atual para 'pagar' o preço da ação, mantendo tudo constante.",
+            },
           },
+        ],
+        aula: [
+          "Imagine que você quer comprar uma padaria à venda. Antes de decidir, você não olharia só a fachada — ia querer ver os livros contábeis: quanto ela fatura, quanto lucra, quanto deve.",
+          "A análise fundamentalista faz isso com empresas na bolsa: em vez de olhar só o gráfico de preço, o investidor examina os 'livros contábeis' da empresa — lucro, dívida, margem, governança — para estimar se o preço da ação é justo, caro ou barato.",
+          "Um dos indicadores mais usados é o P/L (Preço sobre Lucro): mostra quantos anos de lucro atual seriam necessários para 'pagar' o preço da ação — um jeito de comparar empresas do mesmo setor.",
         ],
       },
       {
@@ -731,6 +1189,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Investidores de longo prazo focam na qualidade dos ativos e toleram oscilações de curto prazo, confiando no crescimento ao longo dos anos.",
+            variante: {
+              pergunta: "Um investidor compra ações de uma empresa sólida e planeja mantê-las por 15 anos, ignorando as oscilações diárias do mercado. Que estratégia ele está seguindo?",
+              opcoes: [
+                "Day trade",
+                "Buy and hold (comprar e manter)",
+                "Especulação de curtíssimo prazo",
+                "Nenhuma estratégia definida",
+              ],
+              correta: 1,
+              explicacao: "Manter bons ativos por longos períodos, tolerando oscilações de curto prazo, é a essência do buy and hold.",
+            },
           },
           {
             pergunta: "Por que a educação financeira é considerada uma ferramenta de mobilidade social?",
@@ -742,7 +1211,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Educação financeira amplia a autonomia de decisão sobre o próprio dinheiro, permitindo que pessoas de qualquer renda planejem, poupem e invistam de forma mais consciente — um fator real de mobilidade social ao longo de gerações.",
+            variante: {
+              pergunta: "Duas pessoas com a mesma renda mensal: uma entende de juros, orçamento e investimentos; a outra não. Ao longo de 20 anos, qual efeito a educação financeira tende a ter na vida da primeira?",
+              opcoes: [
+                "Nenhum efeito, renda é tudo que importa",
+                "Maior autonomia para tomar decisões financeiras melhores, com efeito real no patrimônio acumulado",
+                "Um efeito apenas psicológico, sem impacto real",
+                "O efeito é sempre negativo",
+              ],
+              correta: 1,
+              explicacao: "Mesmo com a mesma renda, quem entende de finanças tende a tomar decisões melhores ao longo dos anos — um efeito acumulativo real.",
+            },
           },
+        ],
+        aula: [
+          "Pense num agricultor plantando uma árvore de fruta. Ele não arranca a plantinha toda semana para ver se já cresceu — rega, cuida, e espera anos até ela dar frutos. Quem arranca toda semana nunca colhe nada.",
+          "Investidores de longo prazo ('buy and hold') fazem parecido: escolhem bons ativos e os mantêm por anos, sem se assustar com oscilações de curto prazo. Quem compra e vende toda semana geralmente erra mais do que acerta — e ainda paga mais corretagem e impostos no caminho.",
+          "Por fim, educação financeira não é só sobre técnicas de investir: é sobre autonomia. Essa autonomia, acumulada ao longo de gerações, é uma ferramenta real de mobilidade social.",
         ],
       },
     ],
@@ -767,6 +1252,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Diversificação eficiente não é só 'ter vários ativos', é combinar ativos que não se movem sempre juntos (baixa correlação) — isso reduz a volatilidade da carteira como um todo.",
+            variante: {
+              pergunta: "Um investidor tem 100% da carteira em ações de empresas de commodities, que costumam subir e cair juntas. Segundo a teoria moderna de portfólio, o que ele deveria considerar para reduzir o risco sem abrir mão de retorno?",
+              opcoes: [
+                "Comprar mais ações do mesmo setor",
+                "Incluir ativos de setores/classes com baixa correlação entre si",
+                "Vender tudo e nunca mais investir",
+                "Aumentar a frequência de operações diárias",
+              ],
+              correta: 1,
+              explicacao: "Combinar ativos com baixa correlação é o cerne da diversificação eficiente segundo a teoria moderna de portfólio.",
+            },
           },
           {
             pergunta: "O que o Índice de Sharpe mede?",
@@ -778,6 +1274,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "O Sharpe divide o retorno excedente (acima do CDI/Selic, por exemplo) pela volatilidade do ativo — quanto maior, melhor a relação risco-retorno.",
+            variante: {
+              pergunta: "Dois fundos têm o mesmo retorno anual, mas o Fundo A oscila muito menos que o Fundo B. Qual dos dois tende a ter um Índice de Sharpe melhor?",
+              opcoes: [
+                "Fundo B, por ser mais arriscado",
+                "Fundo A, por entregar o mesmo retorno com menos volatilidade",
+                "Os dois têm o mesmo Sharpe, sempre",
+                "O Sharpe não considera volatilidade",
+              ],
+              correta: 1,
+              explicacao: "O Sharpe pondera o retorno pelo risco assumido — menos oscilação para o mesmo retorno significa um Sharpe melhor.",
+            },
           },
           {
             pergunta: "Rebalancear uma carteira significa:",
@@ -789,7 +1296,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Com o tempo, ativos que sobem mais passam a pesar mais na carteira do que o planejado. Rebalancear é vender parte do que subiu e comprar o que ficou abaixo da meta, mantendo o perfil de risco pretendido.",
+            variante: {
+              pergunta: "Depois de um ano, as ações de uma carteira subiram tanto que passaram de 30% para 55% do total, fugindo da alocação-alvo. O que 'rebalancear' significaria nesse caso?",
+              opcoes: [
+                "Comprar ainda mais ações, já que estão subindo",
+                "Vender uma parte das ações e realocar em outras classes para voltar perto dos 30% planejados",
+                "Vender toda a carteira imediatamente",
+                "Não fazer nada nunca",
+              ],
+              correta: 1,
+              explicacao: "Rebalancear significa ajustar os pesos de volta à alocação-alvo definida na estratégia.",
+            },
           },
+        ],
+        aula: [
+          "Imagine dois times de futebol: um só com atacantes estrela, outro balanceado entre defesa, meio-campo e ataque. O time só de atacantes faz muitos gols, mas também toma muitos — o balanceado tende a ser mais consistente numa temporada inteira.",
+          "A teoria moderna de portfólio mostra algo parecido, com matemática: combinar ativos que não sobem e caem sempre juntos (baixa correlação) reduz a oscilação total da carteira, sem sacrificar o retorno esperado. Não é só 'ter vários ativos' — é ter ativos que se comportam de formas diferentes entre si.",
+          "Rebalancear a carteira de vez em quando (vender um pouco do que subiu demais, comprar um pouco do que ficou atrás) ajuda a manter esse equilíbrio, em vez de deixar a carteira 'derivar' para um risco cada vez mais concentrado.",
         ],
       },
       {
@@ -807,6 +1330,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Títulos prefixados e IPCA+ têm o preço recalculado todos os dias com base nas taxas de juros do mercado. Se as taxas sobem, o preço desses títulos cai (e vice-versa) — por isso vender antes do vencimento pode gerar perda mesmo em um título 'seguro'.",
+            variante: {
+              pergunta: "Você comprou um Tesouro Prefixado a 10% ao ano. Um mês depois, as taxas de mercado sobem para 13% ao ano. O que provavelmente aconteceu com o preço do seu título, se você quisesse vendê-lo agora?",
+              opcoes: [
+                "Subiu, porque juros maiores valorizam títulos antigos",
+                "Caiu, porque seu título paga uma taxa menor que a nova referência de mercado",
+                "Não mudou nada",
+                "Dobrou de valor",
+              ],
+              correta: 1,
+              explicacao: "Quando as taxas de mercado sobem, títulos prefixados/IPCA+ antigos perdem valor de mercado, porque pagam menos que as novas opções.",
+            },
           },
           {
             pergunta: "O que é 'duration' de um título de renda fixa?",
@@ -818,6 +1352,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Duration mede o quanto o preço de um título reage a mudanças nos juros. Títulos mais longos e prefixados/IPCA+ têm duration maior e, portanto, mais volatilidade de preço no curto prazo.",
+            variante: {
+              pergunta: "Entre um título com vencimento em 2 anos e outro em 15 anos, ambos prefixados, qual tende a ter maior 'duration' e reagir mais a mudanças nas taxas de juros?",
+              opcoes: [
+                "O de 2 anos",
+                "O de 15 anos",
+                "Os dois reagem igual",
+                "Duration não se aplica a títulos prefixados",
+              ],
+              correta: 1,
+              explicacao: "Títulos mais longos têm duration maior, ou seja, mais sensibilidade a mudanças nas taxas de juros de mercado.",
+            },
           },
           {
             pergunta: "Quando a curva de juros brasileira está 'invertida' ou muito íngreme no longo prazo, isso costuma refletir:",
@@ -829,7 +1374,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "A curva de juros (DI futuro) precifica as expectativas do mercado para Selic, inflação e risco fiscal nos próximos anos — é um dos termômetros mais observados por quem trabalha com renda fixa.",
+            variante: {
+              pergunta: "A curva de juros brasileira fica muito mais alta para prazos longos do que para prazos curtos. Isso costuma refletir principalmente:",
+              opcoes: [
+                "O preço do café hoje",
+                "Expectativas do mercado sobre inflação futura e risco fiscal nos próximos anos",
+                "Uma decisão exclusiva de um banco central estrangeiro",
+                "O clima previsto para o próximo verão",
+              ],
+              correta: 1,
+              explicacao: "A inclinação da curva de juros precifica expectativas do mercado sobre inflação, Selic futura e risco fiscal.",
+            },
           },
+        ],
+        aula: [
+          "Pense num contrato de aluguel fixado há 3 anos, num bairro onde os aluguéis dobraram desde então. Se você quisesse 'vender' esse contrato hoje, ele valeria menos do que um contrato novo — porque paga um valor defasado.",
+          "Títulos prefixados e IPCA+ funcionam parecido: o preço no mercado secundário se ajusta todos os dias conforme as taxas de juros mudam. Se os juros sobem depois da sua compra, seu título (com taxa fixada mais baixa) perde valor de mercado — e vice-versa.",
+          "A 'duration' mede o tamanho desse efeito: títulos mais longos reagem mais forte a mudanças de juros. E a curva de juros é como um termômetro das expectativas do mercado sobre inflação e risco fiscal nos próximos anos.",
         ],
       },
       {
@@ -847,6 +1408,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "ROE = Lucro Líquido / Patrimônio Líquido. Mede a eficiência da empresa em transformar capital próprio em lucro — quanto maior (de forma sustentável), melhor.",
+            variante: {
+              pergunta: "Empresa A tem lucro de R$2 milhões com patrimônio líquido de R$10 milhões. Empresa B tem o mesmo lucro, mas patrimônio líquido de R$40 milhões. Qual tem o ROE mais alto?",
+              opcoes: [
+                "Empresa A (ROE de 20%)",
+                "Empresa B (ROE de 5%)",
+                "As duas têm o mesmo ROE",
+                "ROE não pode ser calculado com essas informações",
+              ],
+              correta: 0,
+              explicacao: "ROE = Lucro/Patrimônio Líquido. Empresa A: 2/10=20%; Empresa B: 2/40=5%. A Empresa A é mais eficiente em gerar lucro com o capital dos sócios.",
+            },
           },
           {
             pergunta: "Por que o indicador EV/EBITDA é considerado mais completo que o P/L para comparar empresas de setores intensivos em capital?",
@@ -858,6 +1430,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "O EV/EBITDA soma dívida e valor de mercado (EV) e compara com a geração de caixa operacional (EBITDA), tornando a comparação mais justa entre empresas com níveis de endividamento diferentes.",
+            variante: {
+              pergunta: "Duas empresas do setor de energia têm o mesmo EBITDA, mas uma tem o dobro de dívida da outra. Por que o EV/EBITDA tende a ser mais justo para compará-las do que o P/L?",
+              opcoes: [
+                "Porque o EV/EBITDA ignora completamente a dívida",
+                "Porque o EV/EBITDA inclui a dívida no cálculo do valor da empresa, tornando a comparação mais justa entre estruturas de capital diferentes",
+                "Porque o P/L sempre é mais preciso",
+                "Porque EBITDA é a mesma coisa que lucro líquido",
+              ],
+              correta: 1,
+              explicacao: "O EV soma valor de mercado e dívida, tornando o EV/EBITDA mais adequado para comparar empresas com endividamento diferente.",
+            },
           },
           {
             pergunta: "Um P/VP (Preço sobre Valor Patrimonial) bem abaixo de 1 pode indicar:",
@@ -869,7 +1452,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "P/VP baixo pode ser uma oportunidade (mercado subprecificando) ou um sinal de problema estrutural (ativos sobrevalorizados no balanço, baixa rentabilidade futura). Nunca deve ser usado isoladamente.",
+            variante: {
+              pergunta: "Uma ação está sendo negociada a um P/VP de 0,4, bem abaixo de 1. O que isso pode indicar, exigindo investigação antes de qualquer conclusão?",
+              opcoes: [
+                "Que a empresa está certamente falindo",
+                "Que a ação pode estar subprecificada, ou refletindo um problema real nos ativos/rentabilidade da empresa",
+                "Que a empresa nunca pagou dividendos",
+                "Que o P/VP não tem nenhum significado",
+              ],
+              correta: 1,
+              explicacao: "Um P/VP muito baixo pode ser uma pechincha real ou um sinal de problema estrutural — nunca deve ser interpretado isoladamente.",
+            },
           },
+        ],
+        aula: [
+          "Se dois restaurantes têm o mesmo lucro mensal, mas um foi construído com dinheiro dos próprios sócios e o outro com um empréstimo gigante, eles não estão em situações iguais — mesmo lucrando o mesmo valor hoje.",
+          "É esse tipo de diferença que ROE (retorno sobre o patrimônio dos sócios) e EV/EBITDA (que soma a dívida ao valor da empresa antes de comparar com a geração de caixa) tentam capturar: ajudam a comparar empresas de forma mais justa.",
+          "Já um P/VP muito baixo é como achar uma casa à venda por menos do que custou para construir: pode ser uma pechincha real, ou sinal de que algo não está bem — por isso nenhum indicador deve ser usado isoladamente.",
         ],
       },
       {
@@ -887,6 +1486,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Todo maio e novembro, fundos de renda fixa e multimercado (entre outros) sofrem a retenção automática de IR sobre os rendimentos, mesmo sem resgate — o 'come-cotas' reduz o efeito dos juros compostos ao longo do tempo em comparação a produtos sem essa antecipação.",
+            variante: {
+              pergunta: "Mesmo sem fazer nenhum resgate, um investidor de um fundo multimercado nota uma redução no número de cotas em maio e novembro. O que provavelmente causou isso?",
+              opcoes: [
+                "Uma taxa de performance surpresa",
+                "O 'come-cotas', antecipação semestral automática do IR sobre fundos (exceto fundos de ações)",
+                "Um erro do sistema do banco",
+                "A inflação do período",
+              ],
+              correta: 1,
+              explicacao: "O come-cotas retém IR automaticamente em maio e novembro sobre a maioria dos fundos, reduzindo cotas mesmo sem resgate.",
+            },
           },
           {
             pergunta: "Qual a principal motivação prática para criar uma holding patrimonial familiar?",
@@ -898,6 +1508,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Holdings patrimoniais são usadas principalmente para planejamento sucessório e, dependendo do caso, para eficiência tributária sobre renda de aluguéis — sempre com orientação contábil e jurídica especializada, pois envolve custos e regras específicas.",
+            variante: {
+              pergunta: "Uma família com vários imóveis alugados quer facilitar a herança futura e organizar melhor a tributação dos aluguéis. Que estrutura costuma ser considerada, com orientação profissional?",
+              opcoes: [
+                "Comprar criptomoedas com todo o patrimônio",
+                "Criar uma holding patrimonial familiar",
+                "Vender todos os imóveis imediatamente",
+                "Não fazer nenhum planejamento",
+              ],
+              correta: 1,
+              explicacao: "Holdings patrimoniais são comumente usadas para organizar sucessão e, em alguns casos, otimizar a tributação sobre aluguéis.",
+            },
           },
           {
             pergunta: "Na declaração anual de Imposto de Renda, ações, FIIs e ETFs vendidos com lucro geralmente precisam ser:",
@@ -909,7 +1530,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Diferente de fundos, o ganho de capital em ações/FIIs/ETFs (fora as isenções específicas, como a de R$ 20.000/mês em ações) exige apuração e recolhimento manual do imposto via DARF pelo próprio investidor.",
+            variante: {
+              pergunta: "Um investidor vendeu ações com lucro de R$5.000 em um mês, acima da faixa de isenção mensal para ações em bolsa. O que ele precisa fazer quanto ao Imposto de Renda?",
+              opcoes: [
+                "Nada, a corretora recolhe tudo automaticamente",
+                "Apurar o ganho e recolher o imposto via DARF por conta própria",
+                "Esperar a declaração anual sem pagar nada antes",
+                "O lucro é sempre isento em qualquer valor",
+              ],
+              correta: 1,
+              explicacao: "Diferente de fundos, o investidor de ações precisa apurar e recolher o DARF manualmente sobre ganhos que superem a faixa de isenção.",
+            },
           },
+        ],
+        aula: [
+          "Imagine que, em vez de receber seu salário todo no fim do mês, seu chefe descontasse uma parte adiantada duas vezes por ano, 'por garantia'. É basicamente o que o 'come-cotas' faz com fundos: todo maio e novembro, uma parte do IR é descontada automaticamente, mesmo sem resgate.",
+          "Já uma holding patrimonial familiar é como criar uma 'empresa guarda-roupa' para organizar bens da família, pensando em facilitar a sucessão e, dependendo do caso, otimizar impostos sobre aluguéis — sempre com acompanhamento contábil e jurídico especializado.",
+          "Diferente de um salário CLT (com imposto retido na fonte), ganhos com venda de ações, FIIs e ETFs geralmente exigem que o próprio investidor calcule e pague o imposto (via DARF) nos meses em que há lucro.",
         ],
       },
       {
@@ -927,6 +1564,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "Hedge é uma proteção: por exemplo, comprar uma opção de venda (put) sobre uma ação que você possui limita a perda máxima caso o preço caia, em troca do custo do prêmio da opção.",
+            variante: {
+              pergunta: "Um investidor possui ações e, temendo uma queda no curto prazo, compra uma opção que garante o direito de vender essas ações por um preço mínimo pré-definido. Que estratégia é essa?",
+              opcoes: [
+                "Efeito manada",
+                "Hedge, usando uma opção de venda para limitar a perda",
+                "Aversão à perda",
+                "Day trade puro",
+              ],
+              correta: 1,
+              explicacao: "Comprar uma opção de venda sobre um ativo que já se possui é uma forma clássica de hedge.",
+            },
           },
           {
             pergunta: "O que é 'aversão à perda' (loss aversion), um dos vieses mais estudados em finanças comportamentais?",
@@ -938,6 +1586,17 @@ const COURSE = [
             ],
             correta: 0,
             explicacao: "Esse viés explica por que muitos investidores vendem justamente nos momentos de queda (realizando a perda) e demoram a vender ativos ganhadores — o oposto do que a estratégia racional recomendaria.",
+            variante: {
+              pergunta: "Um investidor se recusa a vender uma ação que caiu 30%, esperando 'recuperar', mesmo com sinais de que a empresa está estruturalmente pior. Que viés comportamental isso ilustra?",
+              opcoes: [
+                "Efeito manada",
+                "Aversão à perda",
+                "Diversificação excessiva",
+                "Hedge natural",
+              ],
+              correta: 1,
+              explicacao: "A dificuldade de 'realizar' uma perda, mesmo quando racionalmente seria melhor vender, é a marca da aversão à perda.",
+            },
           },
           {
             pergunta: "O 'efeito manada' em investimentos se refere a:",
@@ -949,7 +1608,23 @@ const COURSE = [
             ],
             correta: 0,
             explicacao: "O efeito manada leva investidores a comprar na euforia (preços já altos) e vender no pânico (preços já baixos) — exatamente o contrário do que maximiza retorno no longo prazo.",
+            variante: {
+              pergunta: "Durante uma euforia de mercado, um investidor compra uma ação só porque 'todo mundo está comprando', sem analisar os fundamentos. Que comportamento é esse?",
+              opcoes: [
+                "Análise fundamentalista rigorosa",
+                "Efeito manada",
+                "Hedge bem planejado",
+                "Rebalanceamento de carteira",
+              ],
+              correta: 1,
+              explicacao: "Seguir a multidão sem análise própria, especialmente em euforia ou pânico, é a definição de efeito manada.",
+            },
           },
+        ],
+        aula: [
+          "Hedge é como comprar um seguro para o carro: você paga um valor (o prêmio) para se proteger de um prejuízo maior caso algo ruim aconteça. Comprar uma opção de venda sobre uma ação que você possui funciona parecido.",
+          "A 'aversão à perda' é um viés bem documentado: a dor de perder R$100 costuma ser sentida com MAIS intensidade do que o prazer de ganhar R$100 — levando muita gente a vender no pânico e demorar demais para vender ativos que já deveriam ter sido vendidos.",
+          "O 'efeito manada' é a versão coletiva desse problema: seguir a multidão comprando na euforia e vendendo no pânico — exatamente o oposto do que maximizaria o retorno no longo prazo.",
         ],
       },
       {
@@ -967,6 +1642,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "A regra dos 4% (originada do 'Trinity Study') estima o percentual do patrimônio que pode ser retirado anualmente sem esgotar o capital ao longo de ~30 anos, considerando uma carteira diversificada. É uma referência, não uma garantia — depende da carteira e do cenário real de retornos.",
+            variante: {
+              pergunta: "Uma pessoa acumulou R$1.000.000 investidos e segue a regra dos 4%, retirando por ano um valor equivalente a essa porcentagem do capital. Quanto isso representa no primeiro ano?",
+              opcoes: [
+                "R$4.000",
+                "R$40.000",
+                "R$400.000",
+                "R$100.000",
+              ],
+              correta: 1,
+              explicacao: "4% de R$1.000.000 = R$40.000 no primeiro ano, valor então ajustado pela inflação nos anos seguintes.",
+            },
           },
           {
             pergunta: "Qual a diferença essencial entre PGBL e VGBL, os dois principais planos de previdência privada no Brasil?",
@@ -978,6 +1664,17 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "PGBL costuma ser vantajoso para quem faz a declaração completa do IR e já contribui para o INSS/regime próprio; VGBL tende a ser melhor para quem usa a declaração simplificada ou já esgotou o limite de dedução do PGBL. A escolha errada do regime tributário (progressivo x regressivo) também afeta bastante o resultado final.",
+            variante: {
+              pergunta: "Uma pessoa faz a declaração simplificada do IR e quer começar em previdência privada. Qual tende a ser mais adequada, já que ela não aproveitaria a dedução exclusiva do PGBL?",
+              opcoes: [
+                "PGBL, sempre",
+                "VGBL, já que ela não usaria a dedução exclusiva do PGBL",
+                "Nenhuma das duas serve para quem usa declaração simplificada",
+                "É proibido ter previdência privada na declaração simplificada",
+              ],
+              correta: 1,
+              explicacao: "Quem usa a declaração simplificada não aproveita a dedução do PGBL, tornando o VGBL geralmente mais adequado nesse caso.",
+            },
           },
           {
             pergunta: "Por que o horizonte de tempo é o fator mais importante para quem busca independência financeira via mercado de capitais?",
@@ -989,7 +1686,23 @@ const COURSE = [
             ],
             correta: 1,
             explicacao: "O tempo é o maior aliado dos juros compostos e o maior amortecedor de ciclos ruins de mercado. Começar 10 anos antes, mesmo com aportes menores, costuma superar quem começa tarde com aportes maiores — é a lição mais repetida (e mais ignorada) do mercado financeiro.",
+            variante: {
+              pergunta: "Rita começa a investir para a aposentadoria aos 25 anos; Bruno, aos 40, buscando o mesmo valor final. O que costuma ser verdade sobre o aporte mensal necessário de cada um?",
+              opcoes: [
+                "Os dois precisam investir o mesmo valor por mês",
+                "Bruno provavelmente precisará investir um valor mensal bem maior que Rita, para compensar os 15 anos de vantagem que ela teve",
+                "Rita precisará investir mais que Bruno",
+                "O tempo de início não faz diferença nesse caso",
+              ],
+              correta: 1,
+              explicacao: "Quem começa mais tarde perde anos valiosos de juros compostos e geralmente precisa de aportes mensais bem maiores para alcançar a mesma meta.",
+            },
           },
+        ],
+        aula: [
+          "Imagine uma caixa d'água que você enche uma vez e depois só retira uma quantidade pequena por mês, para que nunca seque. A 'regra dos 4%' funciona nessa lógica: estima quanto você pode retirar por ano de uma carteira diversificada sem esvaziá-la em décadas.",
+          "PGBL e VGBL são como duas gavetas de previdência com regras de imposto diferentes: o PGBL permite abater as contribuições no IR (só para quem faz a declaração completa), o VGBL não abate, mas cobra imposto só sobre o rendimento no resgate.",
+          "Mas o fator mais importante de todos é o tempo: começar 10 anos antes, mesmo com aportes menores, tende a superar quem começa 10 anos depois com aportes bem maiores — a lição mais repetida (e mais ignorada) do mercado financeiro.",
         ],
       },
     ],
@@ -1251,9 +1964,13 @@ const LIFE_GOALS = [
   { id: "dividas", emoji: "💳", label: "Sair das dívidas" },
   { id: "reserva", emoji: "🚨", label: "Criar reserva de emergência" },
   { id: "renda", emoji: "💼", label: "Viver de renda" },
+  { id: "aposentadoria", emoji: "🌴", label: "Me aposentar bem" },
+  { id: "educacao", emoji: "🎓", label: "Investir em estudos" },
 ];
 
-/* Modelo de cofrinho sugerido automaticamente a partir do objetivo escolhido. */
+/* Modelo de cofrinho sugerido automaticamente a partir do objetivo escolhido.
+   "metaSugerida" é só um valor de partida mostrado no campo — no diagnóstico
+   inicial (js/onboarding.js) a pessoa pode digitar o valor real que quiser. */
 const GOAL_TEMPLATES = {
   carro: { nome: "Meu carro novo", emoji: "🚗", metaSugerida: 30000 },
   casa: { nome: "Entrada da casa", emoji: "🏠", metaSugerida: 50000 },
@@ -1262,6 +1979,8 @@ const GOAL_TEMPLATES = {
   dividas: { nome: "Fundo para quitar dívidas", emoji: "💳", metaSugerida: 3000 },
   reserva: { nome: "Reserva de emergência", emoji: "🚨", metaSugerida: 10000 },
   renda: { nome: "Carteira de renda passiva", emoji: "💼", metaSugerida: 100000 },
+  aposentadoria: { nome: "Aposentadoria tranquila", emoji: "🌴", metaSugerida: 300000 },
+  educacao: { nome: "Investimento em estudos", emoji: "🎓", metaSugerida: 15000 },
 };
 
 /* -------------------------------------------------------------------------
@@ -1602,21 +2321,69 @@ const HISTORY_COURSE = [
         perguntas: [
           {
             pergunta: "O que caracteriza uma 'economia primário-exportadora'?",
-            opcoes: ["Produzir matéria-prima para vender sem processamento, em vez de fabricar produtos elaborados", "Importar apenas produtos de luxo", "Uma economia sem nenhum tipo de comércio", "Um sistema baseado exclusivamente em criptomoedas"],
+            opcoes: [
+              "Produzir matéria-prima para vender sem processamento, em vez de fabricar produtos elaborados",
+              "Importar apenas produtos de luxo",
+              "Uma economia sem nenhum tipo de comércio",
+              "Um sistema baseado exclusivamente em criptomoedas",
+            ],
             correta: 0,
             explicacao: "É o modelo baseado em exportar matéria-prima barata (açúcar, ouro, café) sem agregar muito valor a ela — um padrão que marcou boa parte da história econômica brasileira.",
+            variante: {
+              pergunta: "Um país que extrai minério de ferro e o vende bruto para outro país fabricar aço, sem nunca desenvolver sua própria indústria siderúrgica, está seguindo qual modelo econômico?",
+              opcoes: [
+                "Economia primário-exportadora",
+                "Economia de serviços avançados",
+                "Substituição de importações",
+                "Economia planificada centralizada",
+              ],
+              correta: 0,
+              explicacao: "Vender matéria-prima bruta sem agregar valor industrial é a marca da economia primário-exportadora — o mesmo padrão que caracterizou o pau-brasil e o açúcar coloniais no Brasil.",
+            },
           },
           {
             pergunta: "Qual foi a principal base de mão de obra da economia açucareira colonial?",
-            opcoes: ["Trabalho assalariado livre", "Trabalho escravizado de povos indígenas e, principalmente, de africanos", "Robôs e máquinas importadas", "Voluntários europeus"],
+            opcoes: [
+              "Trabalho assalariado livre",
+              "Trabalho escravizado de povos indígenas e, principalmente, de africanos",
+              "Robôs e máquinas importadas",
+              "Voluntários europeus",
+            ],
             correta: 1,
             explicacao: "A escravidão foi o alicerce da produção açucareira e, depois, de boa parte da economia colonial — um fator central para entender as raízes da desigualdade brasileira.",
+            variante: {
+              pergunta: "Segundo o texto, qual é uma das razões pelas quais a distribuição de terra e renda no Brasil nasceu tão desigual?",
+              opcoes: [
+                "A economia colonial foi baseada em latifúndios açucareiros sustentados por mão de obra escravizada",
+                "A Coroa portuguesa distribuiu terras igualmente entre todos os colonos",
+                "O Brasil nunca teve grandes propriedades rurais",
+                "A ausência total de exportações durante o período colonial",
+              ],
+              correta: 0,
+              explicacao: "O modelo de grandes propriedades voltadas à exportação, sustentado pelo trabalho escravizado de indígenas e, principalmente, de africanos, lançou as bases históricas da desigualdade de terra e renda no Brasil.",
+            },
           },
           {
             pergunta: "Por que uma economia baseada só em exportar matéria-prima tende a concentrar menos riqueza para quem produz?",
-            opcoes: ["Porque matéria-prima nunca tem valor", "Porque o maior valor agregado costuma ficar com quem processa e revende o produto final", "Porque é proibido vender matéria-prima", "Não existe essa relação"],
+            opcoes: [
+              "Porque matéria-prima nunca tem valor",
+              "Porque o maior valor agregado costuma ficar com quem processa e revende o produto final",
+              "Porque é proibido vender matéria-prima",
+              "Não existe essa relação",
+            ],
             correta: 1,
             explicacao: "Quem só extrai e vende a matéria-prima bruta perde a parte mais valiosa da cadeia econômica: a industrialização e a distribuição, geralmente feitas por quem compra.",
+            variante: {
+              pergunta: "Um país vende soja em grão por um preço baixo; outro país compra essa soja, transforma em óleo e ração animal, e revende por um preço muito mais alto. Qual conceito econômico explica por que o segundo país costuma lucrar mais nessa relação?",
+              opcoes: [
+                "O valor agregado do processamento fica concentrado em quem industrializa e revende o produto",
+                "A matéria-prima bruta sempre vale mais do que o produto processado",
+                "Não existe diferença de lucro entre vender bruto ou processado",
+                "O país que produz a soja sempre ganha mais, por vender em maior quantidade",
+              ],
+              correta: 0,
+              explicacao: "Assim como no açúcar colonial, quem apenas extrai e vende a matéria-prima bruta perde a parte mais valiosa da cadeia econômica: o processamento e a distribuição, geralmente concentrados em quem compra.",
+            },
           },
         ],
       },
@@ -1632,21 +2399,69 @@ const HISTORY_COURSE = [
         perguntas: [
           {
             pergunta: "Qual era a moeda usada no Brasil Colônia e no Império?",
-            opcoes: ["O Real (atual)", "O Réis / Mil-réis", "O Cruzeiro", "O Dólar colonial"],
+            opcoes: [
+              "O Real (atual)",
+              "O Réis / Mil-réis",
+              "O Cruzeiro",
+              "O Dólar colonial",
+            ],
             correta: 1,
             explicacao: "O Réis (e sua notação 'mil-réis') foi a moeda brasileira por séculos, até ser substituída pelo Cruzeiro em 1942.",
+            variante: {
+              pergunta: "Depois de séculos em circulação, o Réis (e o mil-réis) foi substituído por qual moeda, em 1942?",
+              opcoes: [
+                "O Cruzeiro",
+                "O Real atual",
+                "O Cruzado",
+                "O Escudo",
+              ],
+              correta: 0,
+              explicacao: "O Réis foi usado do período colonial até 1942, quando deu lugar ao Cruzeiro — a primeira de várias trocas de moeda que o Brasil viveria no século XX.",
+            },
           },
           {
             pergunta: "O que era o 'quinto' cobrado por Portugal durante o ciclo do ouro?",
-            opcoes: ["Um imposto de 20% sobre todo o ouro extraído", "Um tipo de moeda", "Um imposto sobre importações", "Uma taxa bancária"],
+            opcoes: [
+              "Um imposto de 20% sobre todo o ouro extraído",
+              "Um tipo de moeda",
+              "Um imposto sobre importações",
+              "Uma taxa bancária",
+            ],
             correta: 0,
             explicacao: "O 'quinto' garantia que a Coroa portuguesa recebesse 20% de toda a produção de ouro da colônia — uma forma de extração de riqueza típica do período colonial.",
+            variante: {
+              pergunta: "Se um garimpeiro extraísse 100 gramas de ouro durante o ciclo do ouro em Minas Gerais, quantas gramas, aproximadamente, deveriam ser destinadas à Coroa portuguesa por causa do 'quinto'?",
+              opcoes: [
+                "20 gramas",
+                "50 gramas",
+                "5 gramas",
+                "Nenhuma, o quinto era apenas uma taxa simbólica",
+              ],
+              correta: 0,
+              explicacao: "O 'quinto' correspondia a 20% de todo o ouro extraído, destinado obrigatoriamente à Coroa portuguesa — por isso, de 100 gramas extraídas, 20 gramas seguiam para Portugal.",
+            },
           },
           {
             pergunta: "Qual padrão econômico se repetiu várias vezes na história do Brasil, do ouro ao café?",
-            opcoes: ["Diversificação constante da economia", "Ciclos de 'boom e queda' baseados em um único produto de exportação", "Estabilidade total de preços", "Ausência completa de exportações"],
+            opcoes: [
+              "Diversificação constante da economia",
+              "Ciclos de 'boom e queda' baseados em um único produto de exportação",
+              "Estabilidade total de preços",
+              "Ausência completa de exportações",
+            ],
             correta: 1,
             explicacao: "Açúcar, ouro, café: o Brasil repetiu por séculos o padrão de depender fortemente de um único produto por vez, trazendo crescimento rápido, mas também crises quando esse produto perdia valor ou se esgotava.",
+            variante: {
+              pergunta: "Quando o ouro de Minas Gerais começou a se esgotar, no final do século XVIII, qual produto assumiu o papel de novo centro econômico do país, repetindo o padrão de dependência de uma única exportação?",
+              opcoes: [
+                "O café, no Sudeste",
+                "O petróleo, no Rio de Janeiro",
+                "O algodão, no Nordeste",
+                "A borracha, na Amazônia",
+              ],
+              correta: 0,
+              explicacao: "O declínio do ouro deslocou o centro econômico do Brasil para o café no Sudeste, repetindo o mesmo padrão de 'boom e queda' baseado em um único produto que já havia ocorrido com o pau-brasil, o açúcar e o próprio ouro.",
+            },
           },
         ],
       },
@@ -1669,15 +2484,47 @@ const HISTORY_COURSE = [
         perguntas: [
           {
             pergunta: "Por que o Brasil incentivou a imigração europeia em massa após 1888?",
-            opcoes: ["Para substituir a mão de obra escravizada nas lavouras de café após a abolição", "Porque não havia mais brasileiros no país", "Para fundar novas capitais", "Por exigência de organismos internacionais"],
+            opcoes: [
+              "Para substituir a mão de obra escravizada nas lavouras de café após a abolição",
+              "Porque não havia mais brasileiros no país",
+              "Para fundar novas capitais",
+              "Por exigência de organismos internacionais",
+            ],
             correta: 0,
             explicacao: "Com o fim da escravidão em 1888, os fazendeiros de café precisavam de mão de obra, e o governo passou a subsidiar a imigração, principalmente de italianos, para as lavouras paulistas.",
+            variante: {
+              pergunta: "Além dos italianos, quais outros grupos vieram como parte da imigração subsidiada para trabalhar nas lavouras de café após 1888?",
+              opcoes: [
+                "Espanhóis, portugueses e, mais tarde, japoneses",
+                "Apenas alemães e holandeses",
+                "Somente chineses e coreanos",
+                "Nenhum outro grupo além dos italianos",
+              ],
+              correta: 0,
+              explicacao: "A imigração subsidiada para substituir a mão de obra escravizada nas lavouras de café trouxe principalmente italianos, mas também espanhóis, portugueses e, mais tarde, japoneses.",
+            },
           },
           {
             pergunta: "O que aconteceu com parte da riqueza gerada pelo café?",
-            opcoes: ["Foi toda destruída", "Parte foi reinvestida em fábricas, ajudando a iniciar a industrialização em São Paulo", "Foi usada só para pagar dívidas externas", "Nunca saiu da lavoura"],
+            opcoes: [
+              "Foi toda destruída",
+              "Parte foi reinvestida em fábricas, ajudando a iniciar a industrialização em São Paulo",
+              "Foi usada só para pagar dívidas externas",
+              "Nunca saiu da lavoura",
+            ],
             correta: 1,
             explicacao: "O capital do café ajudou a financiar a primeira onda de industrialização brasileira — um exemplo de como a riqueza de um setor pode impulsionar outros, quando reinvestida internamente.",
+            variante: {
+              pergunta: "Um fazendeiro de café decide usar parte do lucro das safras para montar uma fábrica de tecidos em São Paulo, em vez de comprar mais terras para plantar café. Esse tipo de decisão exemplifica qual processo histórico descrito no texto?",
+              opcoes: [
+                "O reinvestimento do capital do café na industrialização paulista",
+                "A criação da CLT pelo governo Vargas",
+                "A cobrança do 'quinto' sobre a produção",
+                "A imigração subsidiada de trabalhadores europeus",
+              ],
+              correta: 0,
+              explicacao: "Parte da riqueza gerada pelo café foi reinvestida em fábricas, principalmente em São Paulo, ajudando a plantar a semente da industrialização brasileira do século XX.",
+            },
           },
         ],
       },
@@ -1693,21 +2540,69 @@ const HISTORY_COURSE = [
         perguntas: [
           {
             pergunta: "O que significa 'substituição de importações' como estratégia econômica?",
-            opcoes: ["Parar de vender produtos para outros países", "Produzir internamente o que antes era importado, para reduzir a dependência externa", "Aumentar as importações de qualquer forma", "Proibir a exportação de matéria-prima"],
+            opcoes: [
+              "Parar de vender produtos para outros países",
+              "Produzir internamente o que antes era importado, para reduzir a dependência externa",
+              "Aumentar as importações de qualquer forma",
+              "Proibir a exportação de matéria-prima",
+            ],
             correta: 1,
             explicacao: "A ideia era desenvolver indústria própria para não depender de comprar produtos manufaturados de fora — uma estratégia usada por vários países em desenvolvimento no século XX, incluindo o Brasil.",
+            variante: {
+              pergunta: "Em vez de continuar comprando aço de outros países, o governo brasileiro decide investir na construção de uma usina siderúrgica nacional nos anos 1940. Essa política é um exemplo de quê?",
+              opcoes: [
+                "Substituição de importações",
+                "Livre-comércio irrestrito",
+                "Dolarização da economia",
+                "Economia primário-exportadora",
+              ],
+              correta: 0,
+              explicacao: "Produzir internamente o que antes era importado, como o aço da Companhia Siderúrgica Nacional, é o exemplo clássico da estratégia de substituição de importações adotada por Vargas.",
+            },
           },
           {
             pergunta: "Qual lei trabalhista criada no governo Vargas (1943) ainda influencia as relações de trabalho no Brasil?",
-            opcoes: ["O Código Civil", "A CLT (Consolidação das Leis do Trabalho)", "A Lei de Diretrizes da Educação", "O Código Penal"],
+            opcoes: [
+              "O Código Civil",
+              "A CLT (Consolidação das Leis do Trabalho)",
+              "A Lei de Diretrizes da Educação",
+              "O Código Penal",
+            ],
             correta: 1,
             explicacao: "A CLT unificou direitos trabalhistas (férias, jornada, carteira de trabalho) e segue sendo a base da legislação trabalhista brasileira, com reformas ao longo do tempo.",
+            variante: {
+              pergunta: "O que a CLT, criada em 1943 no governo Vargas, unificou e passou a regulamentar no Brasil?",
+              opcoes: [
+                "Direitos trabalhistas, como férias, jornada de trabalho e carteira de trabalho",
+                "As regras do sistema bancário e financeiro nacional",
+                "Os impostos cobrados sobre a importação de produtos",
+                "O processo eleitoral para presidente da República",
+              ],
+              correta: 0,
+              explicacao: "A CLT (Consolidação das Leis do Trabalho) reuniu em uma única lei os principais direitos trabalhistas do país, e segue sendo a base da legislação trabalhista brasileira até hoje.",
+            },
           },
           {
             pergunta: "Qual é o debate econômico de fundo por trás da criação de empresas estatais como a Petrobras?",
-            opcoes: ["Não existe nenhum debate, é sempre consenso", "O papel do Estado na economia: quando ele deve atuar diretamente em setores estratégicos versus deixar para o setor privado", "Apenas uma questão de logotipo da empresa", "Uma disputa sobre qual moeda usar"],
+            opcoes: [
+              "Não existe nenhum debate, é sempre consenso",
+              "O papel do Estado na economia: quando ele deve atuar diretamente em setores estratégicos versus deixar para o setor privado",
+              "Apenas uma questão de logotipo da empresa",
+              "Uma disputa sobre qual moeda usar",
+            ],
             correta: 1,
             explicacao: "É um dos debates centrais da economia: o equilíbrio entre economia pública (Estado) e economia privada (mercado) em setores considerados estratégicos para o país.",
+            variante: {
+              pergunta: "Um governo cria uma empresa estatal de telecomunicações para garantir acesso à internet em regiões pouco lucrativas para empresas privadas. Essa decisão ilustra qual debate econômico de fundo, semelhante ao da criação da Petrobras?",
+              opcoes: [
+                "O papel do Estado em setores considerados estratégicos versus deixar a atuação a cargo do mercado privado",
+                "A escolha de qual moeda o país deve adotar",
+                "A criação de impostos sobre exportação de matéria-prima",
+                "A definição de um novo regime de governo",
+              ],
+              correta: 0,
+              explicacao: "Assim como a criação da Petrobras, esse tipo de decisão remete ao debate sobre o equilíbrio entre economia pública e privada em setores estratégicos.",
+            },
           },
         ],
       },
@@ -1730,15 +2625,47 @@ const HISTORY_COURSE = [
         perguntas: [
           {
             pergunta: "O que caracterizou o 'milagre econômico' brasileiro (1968–1973)?",
-            opcoes: ["Crescimento lento e distribuído igualmente", "Crescimento acelerado do PIB, mas com forte concentração de renda e aumento da dívida externa", "Queda do PIB por 5 anos seguidos", "Fim completo da pobreza no Brasil"],
+            opcoes: [
+              "Crescimento lento e distribuído igualmente",
+              "Crescimento acelerado do PIB, mas com forte concentração de renda e aumento da dívida externa",
+              "Queda do PIB por 5 anos seguidos",
+              "Fim completo da pobreza no Brasil",
+            ],
             correta: 1,
             explicacao: "O período teve crescimento real e visível em infraestrutura, mas concentrou renda e represou uma dívida externa que se tornaria um problema grave na década seguinte.",
+            variante: {
+              pergunta: "Durante o 'milagre econômico' (1968–1973), o PIB brasileiro chegou a crescer mais de 10% ao ano. Segundo o texto, qual foi o principal custo escondido por trás desse crescimento acelerado?",
+              opcoes: [
+                "Forte concentração de renda, repressão política e aumento acelerado da dívida externa",
+                "Uma redução geral da desigualdade social no mesmo período",
+                "Uma queda constante do PIB ao longo dos cinco anos",
+                "O fim completo da dependência de capital e empréstimos estrangeiros",
+              ],
+              correta: 0,
+              explicacao: "O crescimento acelerado do 'milagre' veio acompanhado de forte concentração de renda, censura política e uma dívida externa crescente que se tornaria insustentável na década seguinte.",
+            },
           },
           {
             pergunta: "O que ajudou a encerrar o ciclo de forte crescimento de 1968-1973?",
-            opcoes: ["A queda do preço do petróleo", "A crise do petróleo de 1973 e a alta das taxas de juros internacionais, que encareceram a dívida externa", "A criação do Real", "Um excesso de exportação de tecnologia"],
+            opcoes: [
+              "A queda do preço do petróleo",
+              "A crise do petróleo de 1973 e a alta das taxas de juros internacionais, que encareceram a dívida externa",
+              "A criação do Real",
+              "Um excesso de exportação de tecnologia",
+            ],
             correta: 1,
             explicacao: "O choque do petróleo de 1973 e o aumento dos juros internacionais tornaram a dívida externa brasileira muito mais cara de pagar, contribuindo para a crise da década seguinte.",
+            variante: {
+              pergunta: "A crise do petróleo de 1973, combinada com a alta das taxas de juros internacionais no fim da década, teve qual consequência direta para o Brasil?",
+              opcoes: [
+                "O encarecimento da dívida externa brasileira, contribuindo para a crise da 'década perdida'",
+                "A redução imediata da dívida externa do país",
+                "Um novo período de crescimento acelerado do PIB",
+                "A criação do Plano Real logo em seguida",
+              ],
+              correta: 0,
+              explicacao: "O choque do petróleo e a alta dos juros internacionais encareceram a dívida externa brasileira, ajudando a encerrar o ciclo de forte crescimento e abrindo caminho para a chamada 'década perdida'.",
+            },
           },
         ],
       },
@@ -1754,21 +2681,69 @@ const HISTORY_COURSE = [
         perguntas: [
           {
             pergunta: "O que geralmente acontecia a cada troca de moeda no Brasil nesse período?",
-            opcoes: ["A moeda dobrava de valor", "Zeros eram 'cortados' — geralmente 1.000 unidades da moeda antiga valiam 1 unidade da nova", "Nada mudava na prática", "O câmbio com o dólar era abolido"],
+            opcoes: [
+              "A moeda dobrava de valor",
+              "Zeros eram 'cortados' — geralmente 1.000 unidades da moeda antiga valiam 1 unidade da nova",
+              "Nada mudava na prática",
+              "O câmbio com o dólar era abolido",
+            ],
             correta: 1,
             explicacao: "Cada nova moeda geralmente reiniciava a contagem, cortando zeros acumulados pela hiperinflação da moeda anterior, mas sem resolver a causa raiz do problema.",
+            variante: {
+              pergunta: "Se uma nota de uma nova moeda brasileira valesse 1.000 unidades da moeda anterior, isso ilustraria qual prática comum nas trocas de moeda ocorridas entre 1942 e 1994?",
+              opcoes: [
+                "O corte de zeros da moeda antiga na criação de uma nova moeda",
+                "A fusão da moeda brasileira com moedas de outros países do Mercosul",
+                "A criação de um imposto retroativo sobre a moeda antiga",
+                "A dolarização compulsória da economia brasileira",
+              ],
+              correta: 0,
+              explicacao: "Cada nova moeda geralmente 'cortava zeros' acumulados pela inflação da moeda anterior — como 1.000 unidades antigas valendo 1 unidade nova —, sem resolver a causa raiz do problema.",
+            },
           },
           {
             pergunta: "Qual foi a principal lição econômica dos planos que fracassaram entre 1986 e 1991?",
-            opcoes: ["Trocar o nome da moeda, por si só, não resolve a inflação", "Congelar preços sempre funciona por décadas", "O Brasil nunca teve inflação alta", "Moeda nova sempre garante estabilidade"],
+            opcoes: [
+              "Trocar o nome da moeda, por si só, não resolve a inflação",
+              "Congelar preços sempre funciona por décadas",
+              "O Brasil nunca teve inflação alta",
+              "Moeda nova sempre garante estabilidade",
+            ],
             correta: 0,
             explicacao: "Vários planos tentaram 'resetar' a moeda sem atacar as causas estruturais da inflação (excesso de gastos públicos, indexação generalizada, desconfiança), e por isso fracassaram rapidamente.",
+            variante: {
+              pergunta: "Um político promete acabar com a inflação apenas lançando uma moeda nova e congelando os preços por decreto, sem alterar os gastos do governo. Com base no que aconteceu no Brasil entre 1986 e 1991, o que provavelmente aconteceria?",
+              opcoes: [
+                "A inflação provavelmente voltaria em poucos meses, pois a causa raiz do problema não foi resolvida",
+                "A inflação seria eliminada de forma permanente e imediata",
+                "Os preços cairiam a zero em todo o país",
+                "O Brasil passaria a usar automaticamente o dólar como moeda",
+              ],
+              correta: 0,
+              explicacao: "Os planos Cruzado, Bresser, Verão e Collor mostraram, repetidas vezes, que trocar o nome da moeda e congelar preços não resolve inflação sem atacar suas causas estruturais, como o déficit público.",
+            },
           },
           {
             pergunta: "Quantas moedas diferentes o Brasil teve, aproximadamente, entre 1942 e 1994?",
-            opcoes: ["Duas", "Cerca de oito", "Vinte", "Nenhuma, foi sempre o Real"],
+            opcoes: [
+              "Duas",
+              "Cerca de oito",
+              "Vinte",
+              "Nenhuma, foi sempre o Real",
+            ],
             correta: 1,
             explicacao: "Cruzeiro, Cruzeiro Novo, Cruzeiro (de novo), Cruzado, Cruzado Novo, Cruzeiro (de novo outra vez), Cruzeiro Real e Real: um recorde de trocas motivado pela hiperinflação crônica.",
+            variante: {
+              pergunta: "Qual das opções abaixo foi, de fato, uma das moedas oficiais do Brasil entre 1942 e 1994, além do Real?",
+              opcoes: [
+                "O Cruzado Novo",
+                "O Peso brasileiro",
+                "O Franco colonial",
+                "O Escudo republicano",
+              ],
+              correta: 0,
+              explicacao: "O Brasil teve cerca de oito moedas diferentes nesse período, incluindo o Cruzado Novo (1989), fruto da tentativa de conter a hiperinflação crônica das décadas de 1980 e 1990.",
+            },
           },
         ],
       },
@@ -1791,15 +2766,47 @@ const HISTORY_COURSE = [
         perguntas: [
           {
             pergunta: "Qual foi a inovação principal do Plano Real em relação aos planos anteriores?",
-            opcoes: ["Congelar preços por decreto, como antes", "Criar uma unidade de referência (URV) para uma transição gradual antes de lançar a nova moeda física", "Proibir qualquer tipo de comércio por 6 meses", "Adotar o dólar como moeda oficial"],
+            opcoes: [
+              "Congelar preços por decreto, como antes",
+              "Criar uma unidade de referência (URV) para uma transição gradual antes de lançar a nova moeda física",
+              "Proibir qualquer tipo de comércio por 6 meses",
+              "Adotar o dólar como moeda oficial",
+            ],
             correta: 1,
             explicacao: "A URV permitiu reindexar preços e salários gradualmente antes da troca física de moeda, reconstruindo a confiança de forma mais sólida do que os congelamentos abruptos dos planos anteriores.",
+            variante: {
+              pergunta: "Diferente dos planos anteriores (Cruzado, Bresser, Verão, Collor), que geralmente congelavam preços por decreto, o Plano Real usou qual estratégia adicional antes de lançar a nova moeda física?",
+              opcoes: [
+                "Uma transição gradual por meio da URV, para reconstruir a confiança nos preços",
+                "Um confisco temporário das contas bancárias da população",
+                "A adoção imediata do dólar americano como moeda oficial",
+                "Um novo imposto extraordinário sobre grandes fortunas",
+              ],
+              correta: 0,
+              explicacao: "A URV funcionou como uma referência estável para indexar preços e salários gradualmente, algo que os planos anteriores, baseados em congelamentos abruptos, não fizeram.",
+            },
           },
           {
             pergunta: "O que aconteceu com a inflação mensal brasileira logo após a criação do Real em 1994?",
-            opcoes: ["Continuou acima de 40% ao mês", "Caiu para níveis de um dígito em poucos meses", "Dobrou imediatamente", "Não mudou nada"],
+            opcoes: [
+              "Continuou acima de 40% ao mês",
+              "Caiu para níveis de um dígito em poucos meses",
+              "Dobrou imediatamente",
+              "Não mudou nada",
+            ],
             correta: 1,
             explicacao: "O Plano Real foi o primeiro a efetivamente controlar a hiperinflação crônica que assombrava o Brasil desde os anos 1980.",
+            variante: {
+              pergunta: "Qual foi um efeito político direto do sucesso do Plano Real em controlar a hiperinflação?",
+              opcoes: [
+                "Fernando Henrique Cardoso, um dos responsáveis pelo plano, foi eleito presidente ainda em 1994",
+                "O regime militar retornou ao poder no mesmo ano",
+                "O Brasil voltou a adotar o Cruzeiro Real em seguida",
+                "A CLT foi imediatamente revogada",
+              ],
+              correta: 0,
+              explicacao: "O sucesso do Plano Real em estabilizar os preços teve repercussão política imediata, ajudando a eleger Fernando Henrique Cardoso à presidência ainda em 1994.",
+            },
           },
         ],
       },
@@ -1815,21 +2822,69 @@ const HISTORY_COURSE = [
         perguntas: [
           {
             pergunta: "O que o índice de Gini mede?",
-            opcoes: ["A taxa de juros de um país", "O grau de concentração/desigualdade de renda em uma população", "O valor de uma moeda em relação ao dólar", "A taxa de inflação"],
+            opcoes: [
+              "A taxa de juros de um país",
+              "O grau de concentração/desigualdade de renda em uma população",
+              "O valor de uma moeda em relação ao dólar",
+              "A taxa de inflação",
+            ],
             correta: 1,
             explicacao: "O índice de Gini vai de 0 (igualdade perfeita) a 1 (concentração total), e o Brasil está historicamente entre os países com os índices mais altos do mundo.",
+            variante: {
+              pergunta: "Um país tem índice de Gini de 0,63, e outro tem índice de 0,25. O que essa diferença indica sobre os dois países?",
+              opcoes: [
+                "O primeiro país tem uma distribuição de renda muito mais desigual do que o segundo",
+                "O primeiro país tem uma moeda mais valorizada do que o segundo",
+                "O segundo país tem uma inflação muito mais alta do que o primeiro",
+                "Os dois índices medem exatamente a mesma coisa: a taxa de juros",
+              ],
+              correta: 0,
+              explicacao: "O índice de Gini vai de 0 (igualdade total) a 1 (concentração total de renda); quanto mais próximo de 1, maior a desigualdade — por isso 0,63 indica uma distribuição bem mais desigual do que 0,25.",
+            },
           },
           {
             pergunta: "Qual é a lógica central de programas de transferência de renda como o Bolsa Família?",
-            opcoes: ["Aumentar impostos sobre os mais pobres", "Transferir renda diretamente para famílias em pobreza, geralmente com contrapartidas como frequência escolar", "Eliminar toda forma de mercado privado", "Substituir completamente o sistema bancário"],
+            opcoes: [
+              "Aumentar impostos sobre os mais pobres",
+              "Transferir renda diretamente para famílias em pobreza, geralmente com contrapartidas como frequência escolar",
+              "Eliminar toda forma de mercado privado",
+              "Substituir completamente o sistema bancário",
+            ],
             correta: 1,
             explicacao: "É uma política de redistribuição direta de renda, com condicionalidades sociais (educação, saúde), debatida tanto por seus resultados na redução da pobreza quanto por seu custo e desenho de longo prazo.",
+            variante: {
+              pergunta: "Um programa de governo paga um valor mensal a famílias de baixa renda, mas exige que as crianças estejam matriculadas na escola e com as vacinas em dia para a família continuar recebendo o benefício. Que tipo de política econômica é essa?",
+              opcoes: [
+                "Transferência de renda condicionada, como o Bolsa Família",
+                "Um imposto progressivo sobre grandes fortunas",
+                "Uma política de substituição de importações",
+                "Um bem público de acesso irrestrito",
+              ],
+              correta: 0,
+              explicacao: "Essa é a lógica do Bolsa Família: transferência direta de renda para famílias em pobreza, condicionada a contrapartidas sociais como frequência escolar e vacinação.",
+            },
           },
           {
             pergunta: "Por que entender os dois lados do debate sobre redistribuição de renda é importante, segundo o texto?",
-            opcoes: ["Porque só existe um lado correto e definitivo", "Porque toda política econômica envolve trade-offs, e entender os argumentos dos dois lados é parte de pensar economia de forma madura", "Porque o assunto não tem nenhuma relevância prática", "Porque não há dados sobre o tema"],
+            opcoes: [
+              "Porque só existe um lado correto e definitivo",
+              "Porque toda política econômica envolve trade-offs, e entender os argumentos dos dois lados é parte de pensar economia de forma madura",
+              "Porque o assunto não tem nenhuma relevância prática",
+              "Porque não há dados sobre o tema",
+            ],
             correta: 1,
             explicacao: "Economia raramente tem respostas de 'certo ou errado' absoluto — entender os argumentos e evidências dos diferentes lados é o que permite formar uma opinião mais sólida, em vez de repetir slogans.",
+            variante: {
+              pergunta: "Dois economistas discordam sobre se o governo deveria aumentar impostos sobre grandes fortunas para financiar programas sociais. Segundo a lógica apresentada no texto sobre debates econômicos, qual seria a atitude mais madura diante dessa divergência?",
+              opcoes: [
+                "Reconhecer que existem trade-offs e argumentos válidos dos dois lados, em vez de assumir que só um está certo",
+                "Ignorar completamente os argumentos do lado que discorda de você",
+                "Assumir que existe apenas uma resposta certa e óbvia para o problema",
+                "Evitar estudar o tema por ele ser considerado polêmico",
+              ],
+              correta: 0,
+              explicacao: "Como toda política econômica envolve trade-offs, entender os argumentos dos dois lados de um debate é parte de pensar economia de forma madura, em vez de repetir slogans prontos.",
+            },
           },
         ],
       },
@@ -1845,21 +2900,69 @@ const HISTORY_COURSE = [
         perguntas: [
           {
             pergunta: "O que são 'bens públicos', no sentido econômico do termo?",
-            opcoes: ["Produtos vendidos exclusivamente pelo governo", "Bens/serviços que beneficiam a coletividade e são difíceis de cobrar de forma individualizada, como segurança e iluminação pública", "Qualquer produto fabricado no Brasil", "Ações negociadas na bolsa de valores"],
+            opcoes: [
+              "Produtos vendidos exclusivamente pelo governo",
+              "Bens/serviços que beneficiam a coletividade e são difíceis de cobrar de forma individualizada, como segurança e iluminação pública",
+              "Qualquer produto fabricado no Brasil",
+              "Ações negociadas na bolsa de valores",
+            ],
             correta: 1,
             explicacao: "Bens públicos são caracterizados por beneficiar a todos de forma não exclusiva — por isso costumam ser financiados coletivamente, via impostos, em vez de vendidos individualmente.",
+            variante: {
+              pergunta: "A iluminação de uma praça pública beneficia todos os moradores do bairro à noite, e nenhum morador pode ser individualmente impedido de usar essa luz. Esse é um exemplo clássico de quê, em economia?",
+              opcoes: [
+                "Um bem público",
+                "Um bem de luxo",
+                "Um monopólio privado",
+                "Uma externalidade exclusivamente negativa",
+              ],
+              correta: 0,
+              explicacao: "Bens públicos, como iluminação e segurança, beneficiam a todos de forma não exclusiva, por isso costumam ser financiados coletivamente via impostos, em vez de vendidos individualmente.",
+            },
           },
           {
             pergunta: "Por que a maioria dos países hoje é considerada uma 'economia mista'?",
-            opcoes: ["Porque combinam, em proporções variadas, mercado privado e atuação do Estado", "Porque usam duas moedas ao mesmo tempo", "Porque não têm impostos", "Porque proíbem qualquer empresa privada"],
+            opcoes: [
+              "Porque combinam, em proporções variadas, mercado privado e atuação do Estado",
+              "Porque usam duas moedas ao mesmo tempo",
+              "Porque não têm impostos",
+              "Porque proíbem qualquer empresa privada",
+            ],
             correta: 0,
             explicacao: "Quase nenhum país opera em um extremo puro: a maioria combina setor privado e atuação estatal (educação, saúde, infraestrutura, regulação) em graus diferentes.",
+            variante: {
+              pergunta: "Um país tem hospitais e escolas públicas financiados pelo Estado, mas também empresas privadas de tecnologia e varejo operando livremente no mercado. Como esse tipo de arranjo econômico é chamado?",
+              opcoes: [
+                "Economia mista",
+                "Comunismo pleno",
+                "Capitalismo absoluto sem qualquer Estado",
+                "Economia de escambo",
+              ],
+              correta: 0,
+              explicacao: "Praticamente todo país hoje combina, em proporções variadas, mercado privado e atuação estatal — por isso é chamado de economia mista, e não de um extremo puro.",
+            },
           },
           {
             pergunta: "Segundo o texto, qual é geralmente o debate econômico real sobre o tamanho do Estado?",
-            opcoes: ["Se deve existir Estado ou não, de forma absoluta", "Em quais setores, com que intensidade e financiado por qual tipo de imposto o Estado deve atuar", "Apenas qual será a cor da moeda", "Não existe debate nenhum sobre o tema"],
+            opcoes: [
+              "Se deve existir Estado ou não, de forma absoluta",
+              "Em quais setores, com que intensidade e financiado por qual tipo de imposto o Estado deve atuar",
+              "Apenas qual será a cor da moeda",
+              "Não existe debate nenhum sobre o tema",
+            ],
             correta: 1,
             explicacao: "O debate raramente é binário: na prática, gira em torno de graus e formas específicas de atuação estatal e tributação, não de 'tudo ou nada'.",
+            variante: {
+              pergunta: "Em uma eleição, um candidato defende privatizar apenas empresas de setores considerados não estratégicos, mantendo estatais de energia, enquanto outro defende o oposto. Segundo o texto, isso ilustra que o debate real sobre o tamanho do Estado geralmente gira em torno de quê?",
+              opcoes: [
+                "Em quais setores e com que intensidade o Estado deve atuar, e não uma escolha binária entre 'Estado sim ou não'",
+                "Qual será a cor da nova moeda nacional",
+                "Se o país deve adotar uma ou duas moedas ao mesmo tempo",
+                "Se o Brasil deve retornar ao status de colônia",
+              ],
+              correta: 0,
+              explicacao: "O debate raramente é 'tudo ou nada': na prática, gira em torno de graus específicos de atuação estatal, setores e formas de tributação, como o texto descreve.",
+            },
           },
         ],
       },
@@ -1894,21 +2997,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "Qual a diferença central entre 'empreender' e 'ser empresário'?",
-            opcoes: ["Não há diferença, são sinônimos", "Empreender é uma atitude de criar/agir; ser empresário é uma condição jurídica formal (ter um CNPJ)", "Só é possível empreender depois de abrir uma empresa", "Ser empresário significa necessariamente ter criado o próprio negócio"],
+            opcoes: [
+              "Não há diferença, são sinônimos",
+              "Empreender é uma atitude de criar/agir; ser empresário é uma condição jurídica formal (ter um CNPJ)",
+              "Só é possível empreender depois de abrir uma empresa",
+              "Ser empresário significa necessariamente ter criado o próprio negócio",
+            ],
             correta: 1,
             explicacao: "Empreender é comportamento; ser empresário é uma condição jurídica formal. Uma coisa não depende da outra.",
+            variante: {
+              pergunta: "Marina criou uma solução própria para resolver a fila de agendamentos da barbearia do irmão, mas nunca abriu CNPJ. Do ponto de vista da distinção entre empreender e ser empresário, o que isso significa?",
+              opcoes: [
+                "Marina não pode ser considerada alguém que empreendeu, já que não tem empresa",
+                "Marina empreendeu, mesmo sem ser empresária, porque empreender é uma atitude e não depende de ter CNPJ",
+                "Marina só empreendeu de fato quando registrar a empresa",
+                "É impossível resolver problemas sem abrir uma empresa antes",
+              ],
+              correta: 1,
+              explicacao: "Empreender é a atitude de identificar e resolver um problema; isso pode acontecer sem nenhuma formalização jurídica.",
+            },
           },
           {
             pergunta: "O que é 'intraempreendedorismo'?",
-            opcoes: ["Abrir uma empresa fora do país", "Empreender dentro de uma empresa já existente, como funcionário que propõe e executa soluções", "Um tipo de imposto", "Um regime tributário"],
+            opcoes: [
+              "Abrir uma empresa fora do país",
+              "Empreender dentro de uma empresa já existente, como funcionário que propõe e executa soluções",
+              "Um tipo de imposto",
+              "Um regime tributário",
+            ],
             correta: 1,
             explicacao: "É possível ter atitude empreendedora sem ter (ou precisar de) uma empresa própria — dentro de uma organização já existente, por exemplo.",
+            variante: {
+              pergunta: "Pedro trabalha como funcionário registrado em uma rede de farmácias e, por conta própria, cria um novo processo interno que reduz o desperdício de remédios vencidos. Ele não tem CNPJ nem pretende abrir um. Que nome se dá a essa atitude de Pedro?",
+              opcoes: [
+                "Empresariamento",
+                "Intraempreendedorismo — empreender dentro de uma empresa em que já se é funcionário",
+                "Terceirização",
+                "Regime de Lucro Presumido",
+              ],
+              correta: 1,
+              explicacao: "Quando alguém propõe e executa soluções dentro de uma empresa em que já trabalha como funcionário, isso é chamado de intraempreendedorismo.",
+            },
           },
           {
             pergunta: "Por que a decisão de abrir uma empresa deve ser estratégica, e não automática?",
-            opcoes: ["Porque abrir CNPJ é obrigatório para qualquer atividade", "Porque formalizar traz obrigações fiscais e contábeis que só compensam dependendo do momento e do modelo de negócio", "Porque não traz vantagem nenhuma", "Porque é proibido empreender informalmente"],
+            opcoes: [
+              "Porque abrir CNPJ é obrigatório para qualquer atividade",
+              "Porque formalizar traz obrigações fiscais e contábeis que só compensam dependendo do momento e do modelo de negócio",
+              "Porque não traz vantagem nenhuma",
+              "Porque é proibido empreender informalmente",
+            ],
             correta: 1,
             explicacao: "Formalizar tem custos e obrigações reais — vale entender se, e quando, isso compensa para o seu caso.",
+            variante: {
+              pergunta: "Um grupo de amigos decide abrir uma empresa juntos só porque 'está todo mundo empreendendo' nas redes sociais, sem calcular custos nem verificar se o negócio se sustenta. Qual é o principal risco dessa decisão?",
+              opcoes: [
+                "Nenhum, abrir empresa nunca traz obrigação alguma",
+                "Assumir obrigações fiscais e contábeis reais antes de saber se o modelo de negócio realmente compensa",
+                "O risco é apenas estético, ligado à marca",
+                "Empresas abertas por entusiasmo são automaticamente isentas de impostos",
+              ],
+              correta: 1,
+              explicacao: "Formalizar cria obrigações reais (fiscais, contábeis) — decidir isso sem planejamento pode gerar custos que o negócio ainda não está pronto para sustentar.",
+            },
           },
         ],
       },
@@ -1924,21 +3075,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "Qual é uma desvantagem de operar 'no CPF' conforme a renda cresce?",
-            opcoes: ["Não existe desvantagem alguma", "A tributação de pessoa física é progressiva e pode chegar a alíquotas altas", "CPF nunca paga imposto", "É proibido por lei"],
+            opcoes: [
+              "Não existe desvantagem alguma",
+              "A tributação de pessoa física é progressiva e pode chegar a alíquotas altas",
+              "CPF nunca paga imposto",
+              "É proibido por lei",
+            ],
             correta: 1,
             explicacao: "O IR de pessoa física é progressivo — quanto mais você ganha, maior a alíquota marginal aplicada.",
+            variante: {
+              pergunta: "Um designer autônomo, sem CNPJ, passa a faturar R$ 18.000 por mês trabalhando 'no CPF'. O que tende a acontecer com a carga tributária dele conforme a renda mensal sobe nessa faixa?",
+              opcoes: [
+                "Nada muda, pessoa física paga sempre a mesma alíquota",
+                "A alíquota marginal do Imposto de Renda tende a subir, pois a tributação de pessoa física é progressiva",
+                "Ele passa a ser automaticamente isento de impostos",
+                "A tributação de pessoa física é sempre menor que qualquer regime de PJ",
+              ],
+              correta: 1,
+              explicacao: "Quanto maior a renda de pessoa física, maior a alíquota marginal do IR aplicada — é um sistema progressivo por faixas.",
+            },
           },
           {
             pergunta: "Qual vantagem prática a formalização como PJ costuma trazer?",
-            opcoes: ["Impossibilidade de emitir nota fiscal", "Acesso a crédito PJ, emissão de nota fiscal e contratos mais robustos com outras empresas", "Isenção total de qualquer imposto", "Proibição de contratar funcionários"],
+            opcoes: [
+              "Impossibilidade de emitir nota fiscal",
+              "Acesso a crédito PJ, emissão de nota fiscal e contratos mais robustos com outras empresas",
+              "Isenção total de qualquer imposto",
+              "Proibição de contratar funcionários",
+            ],
             correta: 1,
             explicacao: "PJ costuma abrir portas comerciais e de crédito que pessoa física, operando informalmente, não tem.",
+            variante: {
+              pergunta: "Uma consultora perde um contrato grande porque a empresa contratante exige emissão de nota fiscal e ela atua apenas como autônoma sem CNPJ. Qual vantagem prática ela obteria ao se formalizar como PJ?",
+              opcoes: [
+                "Ficaria proibida de emitir qualquer documento fiscal",
+                "Passaria a poder emitir nota fiscal, além de ter acesso a crédito PJ e contratos mais robustos com empresas",
+                "Deixaria de precisar declarar qualquer imposto",
+                "Perderia automaticamente o direito de atender clientes pessoa física",
+              ],
+              correta: 1,
+              explicacao: "Formalizar como PJ costuma abrir portas comerciais — como emissão de nota fiscal e crédito PJ — que a informalidade não oferece.",
+            },
           },
           {
             pergunta: "O que a separação patrimonial busca proteger, dependendo do tipo de empresa escolhido?",
-            opcoes: ["O patrimônio pessoal do sócio em relação às dívidas do negócio", "O faturamento da empresa contra impostos", "Os funcionários contra a CLT", "Nenhuma proteção real existe"],
+            opcoes: [
+              "O patrimônio pessoal do sócio em relação às dívidas do negócio",
+              "O faturamento da empresa contra impostos",
+              "Os funcionários contra a CLT",
+              "Nenhuma proteção real existe",
+            ],
             correta: 0,
             explicacao: "Em certos tipos societários, o patrimônio pessoal do sócio fica mais isolado das dívidas da empresa — com exceções previstas em lei.",
+            variante: {
+              pergunta: "Um empreendedor que atua sem CNPJ contrai uma dívida grande com um fornecedor em nome próprio. Se, em vez disso, ele tivesse uma empresa do tipo Sociedade Unipessoal, o que a separação patrimonial buscaria proteger nesse cenário?",
+              opcoes: [
+                "O faturamento da empresa contra a cobrança de impostos",
+                "O patrimônio pessoal do sócio, tornando-o mais isolado das dívidas contraídas pelo negócio, com exceções previstas em lei",
+                "Os fornecedores contra o não pagamento",
+                "Não existe nenhuma proteção patrimonial em nenhum tipo de empresa",
+              ],
+              correta: 1,
+              explicacao: "Em certos tipos societários, o patrimônio pessoal do sócio fica mais protegido das dívidas do negócio — embora existam exceções legais a essa proteção.",
+            },
           },
         ],
       },
@@ -1954,21 +3153,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "O que é o 'ponto de equilíbrio' de um negócio?",
-            opcoes: ["O valor que o dono precisa ganhar por mês", "O faturamento mínimo a partir do qual a empresa começa a ter lucro, cobrindo custos fixos e variáveis", "Um tipo de imposto", "O número de funcionários ideal"],
+            opcoes: [
+              "O valor que o dono precisa ganhar por mês",
+              "O faturamento mínimo a partir do qual a empresa começa a ter lucro, cobrindo custos fixos e variáveis",
+              "Um tipo de imposto",
+              "O número de funcionários ideal",
+            ],
             correta: 1,
             explicacao: "É o faturamento em que a empresa 'empata' — nem lucra, nem perde — cobrindo exatamente seus custos.",
+            variante: {
+              pergunta: "Uma confeitaria tem R$ 4.000 de custos fixos por mês (aluguel, energia, ferramentas) e cada bolo vendido deixa uma margem de R$ 50 depois de descontar os ingredientes. Aproximadamente quantos bolos por mês ela precisa vender para atingir o ponto de equilíbrio?",
+              opcoes: [
+                "Qualquer quantidade, o ponto de equilíbrio não depende de custos fixos",
+                "Cerca de 80 bolos, o suficiente para cobrir os R$ 4.000 de custos fixos com a margem de R$ 50 por unidade",
+                "O ponto de equilíbrio é sempre igual ao número de clientes que a loja atende por dia",
+                "É impossível calcular o ponto de equilíbrio sem saber o número de funcionários",
+              ],
+              correta: 1,
+              explicacao: "O ponto de equilíbrio é o volume de vendas em que a margem acumulada cobre exatamente os custos fixos — aqui, R$4.000 ÷ R$50 ≈ 80 bolos.",
+            },
           },
           {
             pergunta: "Por que olhar para a concorrência antes de abrir a empresa?",
-            opcoes: ["Para copiar exatamente o que já existe", "Para entender o que já funciona no mercado e identificar espaço para ser diferente ou melhor", "Não faz sentido olhar para concorrentes", "Porque é uma exigência legal"],
+            opcoes: [
+              "Para copiar exatamente o que já existe",
+              "Para entender o que já funciona no mercado e identificar espaço para ser diferente ou melhor",
+              "Não faz sentido olhar para concorrentes",
+              "Porque é uma exigência legal",
+            ],
             correta: 1,
             explicacao: "Estudar concorrentes ajuda a calibrar expectativas e a encontrar um diferencial real, não a copiar.",
+            variante: {
+              pergunta: "Antes de abrir uma padaria de bairro, o dono visita outras padarias da região para entender preços, horários de funcionamento e o que os clientes reclamam. Qual é o principal objetivo dessa prática?",
+              opcoes: [
+                "Copiar exatamente o cardápio e os preços dos concorrentes",
+                "Entender o que já funciona no mercado local e identificar onde há espaço para ser diferente ou melhor",
+                "Denunciar os concorrentes aos órgãos de fiscalização",
+                "Não faz sentido estudar concorrentes antes de abrir um negócio",
+              ],
+              correta: 1,
+              explicacao: "Olhar para a concorrência serve para calibrar expectativas e encontrar um diferencial real — não para copiar.",
+            },
           },
           {
             pergunta: "Qual é o principal risco de abrir uma empresa baseado só em entusiasmo, sem planejamento básico?",
-            opcoes: ["Nenhum risco real", "Não verificar se as contas fecham — abrir um negócio que gasta mais do que arrecada desde o início", "Pagar menos impostos", "Ter clientes em excesso"],
+            opcoes: [
+              "Nenhum risco real",
+              "Não verificar se as contas fecham — abrir um negócio que gasta mais do que arrecada desde o início",
+              "Pagar menos impostos",
+              "Ter clientes em excesso",
+            ],
             correta: 1,
             explicacao: "Sem mapear custos e ponto de equilíbrio, é fácil abrir uma empresa que já nasce no vermelho.",
+            variante: {
+              pergunta: "Uma pessoa abre uma sorveteria só porque sempre sonhou com isso, sem calcular quanto precisa vender por mês para cobrir aluguel, energia e ingredientes. Dois meses depois, o caixa já não é suficiente para pagar as contas. Qual foi o principal risco que faltou ser mapeado?",
+              opcoes: [
+                "Nenhum risco real existia nesse caso",
+                "Não verificar, antes de abrir, se o faturamento esperado cobriria os custos fixos e variáveis do negócio",
+                "O risco de pagar impostos em excesso",
+                "O risco de ter clientes fiéis demais",
+              ],
+              correta: 1,
+              explicacao: "Sem mapear custos e ponto de equilíbrio antes de abrir, é comum que o negócio já nasça gastando mais do que arrecada.",
+            },
           },
         ],
       },
@@ -1991,21 +3238,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "O que o pagamento fixo mensal do MEI (DAS-MEI) inclui?",
-            opcoes: ["Apenas o Imposto de Renda", "Contribuição ao INSS (dando direito a benefícios previdenciários) mais um valor fixo de ICMS ou ISS", "Nenhum imposto, é totalmente isento", "Apenas taxas bancárias"],
+            opcoes: [
+              "Apenas o Imposto de Renda",
+              "Contribuição ao INSS (dando direito a benefícios previdenciários) mais um valor fixo de ICMS ou ISS",
+              "Nenhum imposto, é totalmente isento",
+              "Apenas taxas bancárias",
+            ],
             correta: 1,
             explicacao: "O DAS-MEI é um valor único mensal que já cobre a previdência do empreendedor e um pequeno valor de ICMS/ISS.",
+            variante: {
+              pergunta: "Uma MEI que vende bijuterias paga mensalmente o DAS-MEI. Além da contribuição ao INSS, o que mais costuma estar incluso nesse valor fixo, já que ela vende produtos (não serviços)?",
+              opcoes: [
+                "O Imposto de Renda sobre o lucro do mês",
+                "Um valor fixo referente ao ICMS, já que ela vende produtos",
+                "Nenhum outro tributo, o DAS-MEI cobre apenas o INSS",
+                "O IPTU do imóvel onde ela mora",
+              ],
+              correta: 1,
+              explicacao: "O DAS-MEI é um valor único que inclui a contribuição previdenciária mais um valor fixo de ICMS (para quem vende produtos) ou ISS (para quem presta serviços).",
+            },
           },
           {
             pergunta: "Quantos funcionários um MEI pode contratar, no máximo?",
-            opcoes: ["Nenhum", "No máximo 1", "Até 10", "Sem limite"],
+            opcoes: [
+              "Nenhum",
+              "No máximo 1",
+              "Até 10",
+              "Sem limite",
+            ],
             correta: 1,
             explicacao: "O MEI pode ter até 1 empregado contratado — mais que isso exige migrar de regime.",
+            variante: {
+              pergunta: "Um MEI que presta serviços de manutenção está crescendo e quer contratar 2 funcionários para dar conta da demanda. O que ele precisa saber sobre essa decisão?",
+              opcoes: [
+                "MEI pode contratar quantos funcionários quiser, sem limite",
+                "O MEI só pode ter no máximo 1 funcionário contratado — para ter 2, ele precisaria migrar de regime",
+                "MEI nunca pode contratar nenhum funcionário",
+                "O limite de funcionários do MEI é de 5 pessoas",
+              ],
+              correta: 1,
+              explicacao: "O MEI está limitado a 1 empregado — contratar mais do que isso exige migrar para outro regime, como o Simples Nacional.",
+            },
           },
           {
             pergunta: "Por que uma empresa que cresce além do teto do MEI normalmente migra para outro regime?",
-            opcoes: ["Porque o MEI deixa de existir depois de um tempo", "Porque o MEI tem um limite legal de faturamento anual, e ultrapassá-lo exige migrar para um regime como o Simples Nacional", "Porque é proibido continuar como MEI depois de 1 ano", "Porque o MEI só serve para produtos, nunca para serviços"],
+            opcoes: [
+              "Porque o MEI deixa de existir depois de um tempo",
+              "Porque o MEI tem um limite legal de faturamento anual, e ultrapassá-lo exige migrar para um regime como o Simples Nacional",
+              "Porque é proibido continuar como MEI depois de 1 ano",
+              "Porque o MEI só serve para produtos, nunca para serviços",
+            ],
             correta: 1,
             explicacao: "Passar do teto de faturamento do MEI obriga a migração para outro regime tributário, geralmente o Simples Nacional.",
+            variante: {
+              pergunta: "Uma MEI de confeitaria projeta faturar R$ 90.000 neste ano, valor acima do teto anual permitido para o MEI (atualmente na faixa de R$ 81 mil, valor que deve ser sempre confirmado). O que ela deve considerar diante disso?",
+              opcoes: [
+                "Não precisa fazer nada, o MEI não tem limite de faturamento",
+                "Ela provavelmente precisará migrar para outro regime, como o Simples Nacional, ao ultrapassar o teto do MEI",
+                "Ela será automaticamente enquadrada no Lucro Real",
+                "O excesso de faturamento é simplesmente perdoado pelo governo",
+              ],
+              correta: 1,
+              explicacao: "Ultrapassar o teto de faturamento do MEI normalmente exige migração para outro regime, como o Simples Nacional.",
+            },
           },
         ],
       },
@@ -2021,21 +3316,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "Qual é a principal proposta do Simples Nacional?",
-            opcoes: ["Aumentar a quantidade de guias de impostos a pagar", "Unificar vários tributos federais, estaduais e municipais em uma guia única (DAS), com base no faturamento", "Isentar totalmente a empresa de qualquer imposto", "Substituir o MEI para todas as empresas"],
+            opcoes: [
+              "Aumentar a quantidade de guias de impostos a pagar",
+              "Unificar vários tributos federais, estaduais e municipais em uma guia única (DAS), com base no faturamento",
+              "Isentar totalmente a empresa de qualquer imposto",
+              "Substituir o MEI para todas as empresas",
+            ],
             correta: 1,
             explicacao: "O Simples troca várias guias separadas por uma única, calculada sobre o faturamento.",
+            variante: {
+              pergunta: "Antes de optar pelo Simples Nacional, uma pequena loja de roupas precisava calcular e pagar separadamente vários tributos federais, estaduais e municipais. O que muda na prática ao optar pelo Simples?",
+              opcoes: [
+                "A loja passa a pagar mais guias separadas do que antes",
+                "A loja passa a pagar uma guia única (DAS), que unifica os tributos com base no faturamento",
+                "A loja fica isenta de qualquer tributo",
+                "O Simples substitui apenas o ICMS, mantendo todos os outros tributos separados",
+              ],
+              correta: 1,
+              explicacao: "O Simples Nacional simplifica a vida da empresa ao unificar vários tributos em uma única guia mensal, calculada sobre o faturamento.",
+            },
           },
           {
             pergunta: "O que determina a alíquota que uma empresa paga dentro do Simples Nacional?",
-            opcoes: ["Um valor fixo, igual para todas as empresas", "A faixa de faturamento acumulado nos últimos 12 meses e o tipo de atividade (Anexo)", "O número de sócios da empresa", "A cidade onde a empresa está sediada, exclusivamente"],
+            opcoes: [
+              "Um valor fixo, igual para todas as empresas",
+              "A faixa de faturamento acumulado nos últimos 12 meses e o tipo de atividade (Anexo)",
+              "O número de sócios da empresa",
+              "A cidade onde a empresa está sediada, exclusivamente",
+            ],
             correta: 1,
             explicacao: "A alíquota efetiva varia por faixa de faturamento (RBT12) e pelo Anexo correspondente à atividade.",
+            variante: {
+              pergunta: "Duas empresas do Simples Nacional, uma de comércio e outra de serviços, com o mesmo faturamento acumulado nos últimos 12 meses, pagam alíquotas efetivas diferentes. O que explica essa diferença?",
+              opcoes: [
+                "O faturamento é idêntico, então a alíquota deveria ser sempre igual, é um erro",
+                "Cada tipo de atividade segue uma tabela (Anexo) diferente dentro do Simples, que combinada com a faixa de faturamento define a alíquota",
+                "A alíquota depende apenas do número de sócios de cada empresa",
+                "A cidade onde a empresa está sediada é o único fator que importa",
+              ],
+              correta: 1,
+              explicacao: "A alíquota no Simples varia conforme a faixa de faturamento (RBT12) e o Anexo correspondente à atividade — por isso empresas de setores diferentes pagam alíquotas distintas mesmo faturando o mesmo valor.",
+            },
           },
           {
             pergunta: "O que geralmente acontece com a alíquota efetiva conforme o faturamento da empresa sobe dentro do Simples?",
-            opcoes: ["Ela sempre diminui", "Ela tende a aumentar, dentro da faixa correspondente da tabela", "Ela nunca muda", "O faturamento não tem relação com a alíquota"],
+            opcoes: [
+              "Ela sempre diminui",
+              "Ela tende a aumentar, dentro da faixa correspondente da tabela",
+              "Ela nunca muda",
+              "O faturamento não tem relação com a alíquota",
+            ],
             correta: 1,
             explicacao: "É uma tabela progressiva: faturar mais, dentro do Simples, tende a elevar a alíquota efetiva aplicada.",
+            variante: {
+              pergunta: "Uma empresa do Simples Nacional cresce de um faturamento acumulado de R$ 200 mil para R$ 1,5 milhão em 12 meses, mudando de faixa na tabela. O que costuma acontecer com a alíquota efetiva nessa mudança de faixa?",
+              opcoes: [
+                "Ela sempre cai para zero",
+                "Ela tende a aumentar, já que o Simples usa uma tabela progressiva por faixa de faturamento",
+                "Ela permanece idêntica, independente da faixa",
+                "O faturamento não influencia a alíquota no Simples",
+              ],
+              correta: 1,
+              explicacao: "A tabela do Simples é progressiva: subir de faixa de faturamento tende a elevar a alíquota efetiva aplicada.",
+            },
           },
         ],
       },
@@ -2051,21 +3394,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "O que o 'Fator R' compara?",
-            opcoes: ["O lucro líquido da empresa", "A proporção entre gastos com folha de pagamento (salários + encargos) e o faturamento dos últimos 12 meses", "O valor do capital social", "O número de clientes ativos"],
+            opcoes: [
+              "O lucro líquido da empresa",
+              "A proporção entre gastos com folha de pagamento (salários + encargos) e o faturamento dos últimos 12 meses",
+              "O valor do capital social",
+              "O número de clientes ativos",
+            ],
             correta: 1,
             explicacao: "O Fator R relaciona folha de pagamento (com encargos) e faturamento acumulado em 12 meses.",
+            variante: {
+              pergunta: "Uma empresa de consultoria fatura R$ 500.000 nos últimos 12 meses e gastou R$ 120.000 com salários e encargos no mesmo período. Que cálculo o Fator R faz com esses dois números?",
+              opcoes: [
+                "Ele soma os dois valores para achar o lucro líquido",
+                "Ele calcula a proporção entre o gasto com folha de pagamento (salários + encargos) e o faturamento dos últimos 12 meses",
+                "Ele calcula apenas o valor do capital social da empresa",
+                "Ele mede exclusivamente o número de clientes ativos",
+              ],
+              correta: 1,
+              explicacao: "O Fator R é a razão entre folha de pagamento (com encargos) e faturamento acumulado em 12 meses — no exemplo, R$120.000 ÷ R$500.000 = 24%.",
+            },
           },
           {
             pergunta: "O que costuma acontecer quando o Fator R de uma empresa de serviços atinge 28% ou mais?",
-            opcoes: ["A empresa é excluída do Simples Nacional", "A empresa pode ser tributada pelo Anexo III, geralmente com alíquotas mais baixas que o Anexo V", "A empresa passa a pagar mais impostos", "Nada muda na tributação"],
+            opcoes: [
+              "A empresa é excluída do Simples Nacional",
+              "A empresa pode ser tributada pelo Anexo III, geralmente com alíquotas mais baixas que o Anexo V",
+              "A empresa passa a pagar mais impostos",
+              "Nada muda na tributação",
+            ],
             correta: 1,
             explicacao: "Atingir o Fator R de 28% costuma dar acesso ao Anexo III, com carga tributária geralmente menor.",
+            variante: {
+              pergunta: "Uma agência de marketing tem um Fator R de 30% neste ano, ou seja, acima do limite de 28%. O que isso costuma significar para o Anexo em que ela é tributada dentro do Simples?",
+              opcoes: [
+                "Ela é automaticamente excluída do Simples Nacional",
+                "Ela pode ser tributada pelo Anexo III, que costuma ter alíquotas mais baixas do que o Anexo V",
+                "Ela passa a pagar exatamente a mesma alíquota de antes",
+                "Ela é obrigada a migrar para o Lucro Real",
+              ],
+              correta: 1,
+              explicacao: "Atingir 28% ou mais de Fator R costuma dar acesso ao Anexo III, geralmente mais vantajoso que o Anexo V.",
+            },
           },
           {
             pergunta: "O planejamento tributário legal (como observar o Fator R) é sobre o quê?",
-            opcoes: ["Sonegar impostos escondendo faturamento", "Organizar a empresa dentro das regras da lei para reduzir legalmente a carga tributária", "Nunca contratar funcionários", "Ignorar as regras fiscais"],
+            opcoes: [
+              "Sonegar impostos escondendo faturamento",
+              "Organizar a empresa dentro das regras da lei para reduzir legalmente a carga tributária",
+              "Nunca contratar funcionários",
+              "Ignorar as regras fiscais",
+            ],
             correta: 1,
             explicacao: "Planejamento tributário legal usa as regras existentes a favor da empresa — é diferente de sonegação.",
+            variante: {
+              pergunta: "Um empresário decide formalizar o pró-labore e contratar parte da equipe como CLT (em vez de deixar tudo informal) para elevar seu Fator R e acessar um Anexo mais vantajoso do Simples. Isso é um exemplo de quê?",
+              opcoes: [
+                "Sonegação fiscal, já que reduz o imposto pago",
+                "Planejamento tributário legal, que organiza a empresa dentro das regras existentes para reduzir a carga tributária",
+                "Uma prática proibida por lei",
+                "Uma forma de ocultar faturamento do Fisco",
+              ],
+              correta: 1,
+              explicacao: "Organizar a empresa (como a folha de pagamento) dentro do que a lei permite, para pagar menos imposto de forma legal, é planejamento tributário — diferente de sonegação.",
+            },
           },
         ],
       },
@@ -2088,21 +3479,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "O que o Lucro Presumido usa como base para calcular o IRPJ e a CSLL?",
-            opcoes: ["O lucro líquido contábil exato da empresa", "Um percentual do faturamento definido por lei, que 'presume' a margem de lucro conforme a atividade", "O número de funcionários", "O capital social da empresa"],
+            opcoes: [
+              "O lucro líquido contábil exato da empresa",
+              "Um percentual do faturamento definido por lei, que 'presume' a margem de lucro conforme a atividade",
+              "O número de funcionários",
+              "O capital social da empresa",
+            ],
             correta: 1,
             explicacao: "O regime usa uma margem de lucro presumida por lei, não o resultado contábil real do período.",
+            variante: {
+              pergunta: "Uma empresa de serviços de tecnologia optante pelo Lucro Presumido fatura R$ 100.000 em um trimestre. Em vez de calcular o IRPJ e a CSLL sobre o lucro contábil real desse período, sobre o que a Receita Federal baseia o cálculo?",
+              opcoes: [
+                "Sobre o lucro líquido contábil exato, apurado mês a mês",
+                "Sobre um percentual do faturamento definido por lei, que presume a margem de lucro conforme a atividade",
+                "Sobre o número de clientes atendidos no trimestre",
+                "Sobre o capital social registrado no contrato social",
+              ],
+              correta: 1,
+              explicacao: "O Lucro Presumido usa uma margem de lucro presumida por lei, aplicada sobre o faturamento, não o resultado contábil real do período.",
+            },
           },
           {
             pergunta: "Quando o Lucro Presumido tende a ser vantajoso?",
-            opcoes: ["Quando a margem de lucro real da empresa é maior que a margem presumida pela lei", "Sempre, independente da margem de lucro", "Apenas para empresas com prejuízo", "Nunca é vantajoso"],
+            opcoes: [
+              "Quando a margem de lucro real da empresa é maior que a margem presumida pela lei",
+              "Sempre, independente da margem de lucro",
+              "Apenas para empresas com prejuízo",
+              "Nunca é vantajoso",
+            ],
             correta: 0,
             explicacao: "Se a empresa lucra proporcionalmente mais do que a presunção legal, ela paga imposto sobre uma base menor que a real.",
+            variante: {
+              pergunta: "Uma clínica de estética no Lucro Presumido tem margem de lucro real de 40%, enquanto a margem presumida por lei para sua atividade é de 32%. Nesse cenário, o regime tende a ser vantajoso ou desvantajoso para ela?",
+              opcoes: [
+                "Vantajoso, porque ela paga imposto como se tivesse lucrado 32%, menos do que os 40% que realmente lucrou",
+                "Desvantajoso, porque ela sempre paga sobre 40%",
+                "Indiferente, o Lucro Presumido nunca varia com a margem real",
+                "Vantajoso apenas se a empresa tiver prejuízo",
+              ],
+              correta: 0,
+              explicacao: "Quando a margem real supera a margem presumida pela lei, a empresa paga imposto sobre uma base menor que seu lucro de fato — o que torna o regime vantajoso nesse caso.",
+            },
           },
           {
             pergunta: "O que acontece no Lucro Presumido se a empresa tiver prejuízo real no período?",
-            opcoes: ["Ela fica automaticamente isenta de impostos", "Ela ainda paga IRPJ/CSLL como se tivesse lucrado o percentual presumido, mesmo com prejuízo real", "O governo reembolsa a empresa", "O regime muda automaticamente para o Lucro Real"],
+            opcoes: [
+              "Ela fica automaticamente isenta de impostos",
+              "Ela ainda paga IRPJ/CSLL como se tivesse lucrado o percentual presumido, mesmo com prejuízo real",
+              "O governo reembolsa a empresa",
+              "O regime muda automaticamente para o Lucro Real",
+            ],
             correta: 1,
             explicacao: "A presunção de lucro se aplica independente do resultado real — mesmo com prejuízo, o imposto é calculado sobre a margem presumida.",
+            variante: {
+              pergunta: "Uma loja de material de construção optante pelo Lucro Presumido tem um trimestre de prejuízo real, por conta de uma queda temporária nas vendas. O que acontece com o IRPJ e a CSLL devidos nesse período?",
+              opcoes: [
+                "A empresa fica automaticamente isenta, já que teve prejuízo",
+                "Ela ainda paga IRPJ/CSLL como se tivesse lucrado o percentual presumido por lei, mesmo com prejuízo real no período",
+                "O governo devolve o valor pago em períodos anteriores",
+                "A empresa é obrigada a migrar imediatamente para o Lucro Real",
+              ],
+              correta: 1,
+              explicacao: "No Lucro Presumido, a presunção de lucro se aplica independentemente do resultado real — mesmo com prejuízo, o imposto é calculado sobre a margem presumida.",
+            },
           },
         ],
       },
@@ -2118,21 +3557,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "Sobre o que incide o imposto no Lucro Real?",
-            opcoes: ["Sobre uma presunção de lucro definida por lei", "Sobre o lucro contábil real da empresa, após ajustes fiscais específicos", "Sobre o faturamento bruto, sem nenhum ajuste", "Sobre o número de funcionários"],
+            opcoes: [
+              "Sobre uma presunção de lucro definida por lei",
+              "Sobre o lucro contábil real da empresa, após ajustes fiscais específicos",
+              "Sobre o faturamento bruto, sem nenhum ajuste",
+              "Sobre o número de funcionários",
+            ],
             correta: 1,
             explicacao: "O Lucro Real tributa o resultado contábil efetivo, com ajustes fiscais (adições e exclusões) previstos em lei.",
+            variante: {
+              pergunta: "Duas empresas, uma no Lucro Presumido e outra no Lucro Real, tiveram o mesmo faturamento no trimestre, mas a do Lucro Real teve muitas despesas e lucrou proporcionalmente pouco. Sobre o que o IRPJ/CSLL dessa segunda empresa é calculado?",
+              opcoes: [
+                "Sobre uma margem de lucro presumida por lei, igual à da primeira empresa",
+                "Sobre o lucro contábil real da empresa, depois de ajustes fiscais específicos",
+                "Sobre o faturamento bruto total, sem qualquer dedução",
+                "Sobre a média de lucro do setor, calculada pela Receita Federal",
+              ],
+              correta: 1,
+              explicacao: "O Lucro Real tributa o resultado contábil efetivo da empresa, após ajustes fiscais previstos em lei — por isso reflete melhor uma margem de lucro baixa.",
+            },
           },
           {
             pergunta: "Quais empresas são obrigadas a usar o Lucro Real?",
-            opcoes: ["Apenas o MEI", "Empresas com receita acima do teto do Lucro Presumido, instituições financeiras, entre outras situações específicas da lei", "Todas as empresas brasileiras, sem exceção", "Apenas empresas de serviços"],
+            opcoes: [
+              "Apenas o MEI",
+              "Empresas com receita acima do teto do Lucro Presumido, instituições financeiras, entre outras situações específicas da lei",
+              "Todas as empresas brasileiras, sem exceção",
+              "Apenas empresas de serviços",
+            ],
             correta: 1,
             explicacao: "A obrigatoriedade depende de faturamento, setor (como instituições financeiras) e outras hipóteses legais.",
+            variante: {
+              pergunta: "Um banco de investimentos e uma fabricante de autopeças com faturamento anual de R$ 200 milhões — acima do teto do Lucro Presumido — estão avaliando seus regimes tributários. O que essas duas empresas têm em comum quanto à obrigatoriedade de regime?",
+              opcoes: [
+                "Ambas podem escolher livremente o MEI",
+                "Ambas são obrigadas a apurar pelo Lucro Real, por se encaixarem em hipóteses previstas em lei (instituição financeira e faturamento acima do teto do Presumido)",
+                "Nenhuma empresa brasileira é obrigada a usar o Lucro Real",
+                "Apenas empresas de serviços podem ser obrigadas ao Lucro Real",
+              ],
+              correta: 1,
+              explicacao: "A obrigatoriedade do Lucro Real depende de fatores como faturamento acima do teto do Presumido e setores específicos, como instituições financeiras.",
+            },
           },
           {
             pergunta: "Qual é uma vantagem do Lucro Real para empresas com margem de lucro baixa ou variável?",
-            opcoes: ["Nenhuma vantagem existe", "O imposto reflete o lucro real (paga menos ou nada se lucrar pouco/tiver prejuízo), e prejuízos passados podem abater lucros futuros dentro de um limite legal", "É sempre o regime mais barato para qualquer empresa", "Isenta a empresa de qualquer obrigação contábil"],
+            opcoes: [
+              "Nenhuma vantagem existe",
+              "O imposto reflete o lucro real (paga menos ou nada se lucrar pouco/tiver prejuízo), e prejuízos passados podem abater lucros futuros dentro de um limite legal",
+              "É sempre o regime mais barato para qualquer empresa",
+              "Isenta a empresa de qualquer obrigação contábil",
+            ],
             correta: 1,
             explicacao: "Diferente do Presumido, o Real cobra sobre o lucro de fato — o que ajuda quem tem margens baixas ou instáveis.",
+            variante: {
+              pergunta: "Uma startup teve prejuízo fiscal de R$ 80.000 no primeiro ano e lucro de R$ 150.000 no segundo ano, ambos no Lucro Real. O que pode acontecer com o prejuízo do primeiro ano?",
+              opcoes: [
+                "Ele é simplesmente descartado e não tem nenhum efeito posterior",
+                "Ele pode ser usado para compensar (abater) o lucro do segundo ano, dentro de um limite legal, reduzindo o IRPJ/CSLL devido",
+                "Ele obriga a empresa a fechar as portas",
+                "Ele é convertido automaticamente em crédito de ICMS",
+              ],
+              correta: 1,
+              explicacao: "No Lucro Real, prejuízos fiscais de anos anteriores podem abater lucros futuros dentro de um limite legal — uma vantagem para empresas com resultado variável.",
+            },
           },
         ],
       },
@@ -2148,21 +3635,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "Existe um regime tributário 'melhor' para todas as empresas?",
-            opcoes: ["Sim, o MEI é sempre o melhor", "Sim, o Lucro Real é sempre o melhor", "Não — o regime mais adequado depende do faturamento, margem de lucro e perfil de cada empresa", "Sim, o Simples Nacional é sempre o melhor"],
+            opcoes: [
+              "Sim, o MEI é sempre o melhor",
+              "Sim, o Lucro Real é sempre o melhor",
+              "Não — o regime mais adequado depende do faturamento, margem de lucro e perfil de cada empresa",
+              "Sim, o Simples Nacional é sempre o melhor",
+            ],
             correta: 2,
             explicacao: "A escolha ideal depende das características específicas de cada negócio, não existe resposta universal.",
+            variante: {
+              pergunta: "Um consultor recomenda o mesmo regime tributário para todos os seus clientes, independentemente do faturamento ou da margem de lucro de cada negócio. O que essa trilha sugere sobre essa prática?",
+              opcoes: [
+                "É correta, o Simples Nacional é sempre a melhor opção para qualquer empresa",
+                "É equivocada — o regime mais adequado depende do faturamento, da margem de lucro e do perfil de cada empresa",
+                "É correta, o Lucro Real é sempre a melhor opção para qualquer empresa",
+                "É correta, desde que a empresa seja pequena",
+              ],
+              correta: 1,
+              explicacao: "Não existe regime universalmente melhor — a escolha ideal depende das características específicas de cada negócio.",
+            },
           },
           {
             pergunta: "Com que frequência normalmente uma empresa pode trocar de regime tributário?",
-            opcoes: ["A qualquer momento do ano, sem restrição", "Geralmente uma vez por ano, no início do ano-calendário", "Nunca é possível trocar de regime", "Apenas a cada 5 anos"],
+            opcoes: [
+              "A qualquer momento do ano, sem restrição",
+              "Geralmente uma vez por ano, no início do ano-calendário",
+              "Nunca é possível trocar de regime",
+              "Apenas a cada 5 anos",
+            ],
             correta: 1,
             explicacao: "A troca de regime costuma valer a partir do ano-calendário seguinte à opção, exigindo planejamento antecipado.",
+            variante: {
+              pergunta: "Em julho, um empresário percebe que o regime tributário atual da empresa não é mais o mais vantajoso e quer trocar imediatamente. O que ele provavelmente vai descobrir com o contador?",
+              opcoes: [
+                "Que pode trocar de regime imediatamente, sem qualquer restrição de data",
+                "Que a troca geralmente só pode ser feita uma vez por ano, valendo a partir do início do próximo ano-calendário",
+                "Que nunca é possível trocar de regime tributário",
+                "Que a troca só é permitida a cada 5 anos",
+              ],
+              correta: 1,
+              explicacao: "A mudança de regime costuma valer apenas a partir do ano-calendário seguinte à opção, por isso exige planejamento com antecedência.",
+            },
           },
           {
             pergunta: "Qual é o objetivo de entender os regimes tributários, segundo o texto?",
-            opcoes: ["Substituir completamente a necessidade de um contador", "Ter conversas melhores com o contador e participar ativamente do planejamento tributário da empresa", "Sonegar impostos legalmente", "Não há utilidade prática nisso"],
+            opcoes: [
+              "Substituir completamente a necessidade de um contador",
+              "Ter conversas melhores com o contador e participar ativamente do planejamento tributário da empresa",
+              "Sonegar impostos legalmente",
+              "Não há utilidade prática nisso",
+            ],
             correta: 1,
             explicacao: "Entender os conceitos qualifica sua participação nas decisões — não substitui o profissional contábil.",
+            variante: {
+              pergunta: "Depois de estudar os regimes tributários, uma empresária passa a questionar e discutir com o contador qual Anexo do Simples faz mais sentido para o próximo ano. Qual é o objetivo prático de ter esse tipo de conhecimento, segundo o texto?",
+              opcoes: [
+                "Eliminar completamente a necessidade de contratar um contador",
+                "Ter conversas melhores com o contador e participar ativamente do planejamento tributário da empresa",
+                "Conseguir sonegar impostos de forma mais eficiente",
+                "Não existe utilidade prática nesse conhecimento",
+              ],
+              correta: 1,
+              explicacao: "Entender os conceitos qualifica a participação do empresário nas decisões — não substitui o profissional contábil, mas melhora a parceria com ele.",
+            },
           },
         ],
       },
@@ -2185,21 +3720,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "Por que emitir nota fiscal é importante para a empresa, além de ser uma obrigação legal?",
-            opcoes: ["Não tem nenhuma importância prática", "É o documento que comprova o faturamento real, essencial para a contabilidade e para o cálculo correto de impostos", "Serve apenas para o cliente, nunca para a empresa", "Só é necessário para empresas grandes"],
+            opcoes: [
+              "Não tem nenhuma importância prática",
+              "É o documento que comprova o faturamento real, essencial para a contabilidade e para o cálculo correto de impostos",
+              "Serve apenas para o cliente, nunca para a empresa",
+              "Só é necessário para empresas grandes",
+            ],
             correta: 1,
             explicacao: "A nota fiscal sustenta o registro contábil e fiscal do faturamento real da empresa.",
+            variante: {
+              pergunta: "Um prestador de serviços decide não emitir nota fiscal para alguns clientes, achando que assim 'economiza' impostos. Além de ser ilegal, qual problema contábil essa prática cria?",
+              opcoes: [
+                "Nenhum problema, a nota fiscal é apenas um documento burocrático sem função contábil",
+                "Fica mais difícil comprovar o faturamento real da empresa, o que compromete a contabilidade e o cálculo correto de impostos",
+                "A empresa passa a pagar automaticamente menos impostos de forma legal",
+                "O problema afeta apenas o cliente, nunca a própria empresa",
+              ],
+              correta: 1,
+              explicacao: "Sem nota fiscal, fica mais difícil comprovar o faturamento real — o que prejudica a contabilidade e o cálculo correto de tributos.",
+            },
           },
           {
             pergunta: "O que o MEI precisa manter como controle simplificado de suas movimentações financeiras?",
-            opcoes: ["Um Livro Caixa simplificado, com entradas e saídas", "Nenhum controle é exigido do MEI", "Um balanço patrimonial completo", "Apenas declarações verbais ao contador"],
+            opcoes: [
+              "Um Livro Caixa simplificado, com entradas e saídas",
+              "Nenhum controle é exigido do MEI",
+              "Um balanço patrimonial completo",
+              "Apenas declarações verbais ao contador",
+            ],
             correta: 0,
             explicacao: "O Livro Caixa simplificado é a exigência básica de escrituração para o MEI.",
+            variante: {
+              pergunta: "Uma MEI que vende doces quer manter um controle simples das entradas e saídas de dinheiro do negócio, conforme exigido pela lei para o seu regime. Que tipo de registro ela precisa manter?",
+              opcoes: [
+                "Um Livro Caixa simplificado, com entradas e saídas",
+                "Um balanço patrimonial completo, como o de uma grande empresa",
+                "Nenhum registro é exigido de uma MEI",
+                "Apenas anotações verbais informadas ao contador uma vez por ano",
+              ],
+              correta: 0,
+              explicacao: "O Livro Caixa simplificado é a exigência básica de escrituração para o MEI, registrando entradas e saídas financeiras.",
+            },
           },
           {
             pergunta: "Por que guardar notas fiscais e comprovantes de despesas organizados é importante?",
-            opcoes: ["Não tem utilidade real", "Permite que o contador calcule impostos corretamente e aproveite deduções legítimas", "Serve apenas para decoração do arquivo da empresa", "É opcional e nunca é verificado"],
+            opcoes: [
+              "Não tem utilidade real",
+              "Permite que o contador calcule impostos corretamente e aproveite deduções legítimas",
+              "Serve apenas para decoração do arquivo da empresa",
+              "É opcional e nunca é verificado",
+            ],
             correta: 1,
             explicacao: "Documentação organizada é a base para uma contabilidade precisa e para aproveitar deduções permitidas por lei.",
+            variante: {
+              pergunta: "Ao final do ano, uma empresária percebe que perdeu vários comprovantes de despesas e notas de fornecedores ao longo dos meses. Qual é a principal consequência prática disso para a contabilidade da empresa?",
+              opcoes: [
+                "Nenhuma, documentos perdidos não afetam o cálculo de impostos",
+                "O contador pode ter dificuldade em calcular impostos corretamente e a empresa pode perder deduções legítimas a que teria direito",
+                "A empresa passa a ser automaticamente isenta de impostos",
+                "É apenas um problema estético, sem efeito fiscal",
+              ],
+              correta: 1,
+              explicacao: "Documentação organizada é a base para uma contabilidade precisa — sem ela, é mais difícil calcular impostos certos e aproveitar deduções permitidas por lei.",
+            },
           },
         ],
       },
@@ -2215,21 +3798,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "O que são 'obrigações acessórias'?",
-            opcoes: ["O mesmo que pagar imposto", "Declarações que informam ao governo as atividades da empresa, sem envolver pagamento direto (ex.: DEFIS, ECF)", "Um tipo de multa", "Documentos exigidos apenas de bancos"],
+            opcoes: [
+              "O mesmo que pagar imposto",
+              "Declarações que informam ao governo as atividades da empresa, sem envolver pagamento direto (ex.: DEFIS, ECF)",
+              "Um tipo de multa",
+              "Documentos exigidos apenas de bancos",
+            ],
             correta: 1,
             explicacao: "São declarações informativas, distintas do pagamento de tributos, mas igualmente obrigatórias.",
+            variante: {
+              pergunta: "Uma empresa optante pelo Simples Nacional entrega a DEFIS todos os anos, mesmo sem ter nenhum valor adicional a pagar naquele momento específico da entrega. Que tipo de obrigação é essa?",
+              opcoes: [
+                "O mesmo que pagar um imposto extra",
+                "Uma obrigação acessória — uma declaração que informa ao governo as atividades da empresa, sem envolver pagamento direto",
+                "Um tipo de multa por atraso",
+                "Um documento exigido apenas de instituições financeiras",
+              ],
+              correta: 1,
+              explicacao: "Obrigações acessórias, como a DEFIS, são declarações informativas — distintas do pagamento de tributos, mas igualmente obrigatórias.",
+            },
           },
           {
             pergunta: "O que pode acontecer em casos recorrentes de atraso em obrigações fiscais?",
-            opcoes: ["Nenhuma consequência", "Multas crescentes, juros, e possíveis restrições como exclusão do regime tributário ou problemas para emitir certidões de regularidade fiscal", "A empresa é automaticamente fechada", "O governo perdoa a dívida"],
+            opcoes: [
+              "Nenhuma consequência",
+              "Multas crescentes, juros, e possíveis restrições como exclusão do regime tributário ou problemas para emitir certidões de regularidade fiscal",
+              "A empresa é automaticamente fechada",
+              "O governo perdoa a dívida",
+            ],
             correta: 1,
             explicacao: "Atrasos recorrentes têm consequências que vão além da multa, incluindo riscos ao próprio regime tributário.",
+            variante: {
+              pergunta: "Uma empresa que atrasa repetidamente o pagamento de tributos descobre que não consegue emitir a certidão de regularidade fiscal necessária para participar de uma licitação pública. Isso é um exemplo de quê?",
+              opcoes: [
+                "Um problema sem relação com os atrasos fiscais anteriores",
+                "Uma das consequências possíveis de atrasos recorrentes: além de multas e juros, restrições como a dificuldade de emitir certidões de regularidade fiscal",
+                "Um erro exclusivo do órgão que organiza a licitação",
+                "Uma penalidade que só afeta empresas do Lucro Real",
+              ],
+              correta: 1,
+              explicacao: "Atrasos recorrentes em obrigações fiscais podem gerar, além de multas e juros, restrições como a dificuldade de obter certidões de regularidade fiscal — essenciais para licitações e contratos maiores.",
+            },
           },
           {
             pergunta: "Qual prática simples ajuda a evitar surpresas com obrigações fiscais vencidas?",
-            opcoes: ["Gastar todo o caixa disponível e resolver os impostos depois", "Ter um calendário fiscal claro e separar o dinheiro dos impostos antes de usar o caixa para outras despesas", "Ignorar os prazos até receber uma notificação", "Trocar de contador a cada mês"],
+            opcoes: [
+              "Gastar todo o caixa disponível e resolver os impostos depois",
+              "Ter um calendário fiscal claro e separar o dinheiro dos impostos antes de usar o caixa para outras despesas",
+              "Ignorar os prazos até receber uma notificação",
+              "Trocar de contador a cada mês",
+            ],
             correta: 1,
             explicacao: "Separar o dinheiro do imposto com antecedência evita o risco de faltar caixa na hora de pagar.",
+            variante: {
+              pergunta: "Um empresário costuma gastar todo o caixa disponível com fornecedores e só se preocupa em separar o dinheiro do DAS na véspera do vencimento, o que já causou atrasos. O que a trilha recomenda para evitar esse problema?",
+              opcoes: [
+                "Continuar gastando o caixa livremente e negociar a multa depois",
+                "Ter um calendário fiscal claro e separar o dinheiro dos impostos antes de gastar o caixa da empresa em outras coisas",
+                "Ignorar os vencimentos até receber uma notificação do governo",
+                "Trocar de contador todo mês até encontrar um que resolva o problema",
+              ],
+              correta: 1,
+              explicacao: "Separar o dinheiro do imposto com antecedência, guiado por um calendário fiscal, evita o risco de faltar caixa na hora de pagar.",
+            },
           },
         ],
       },
@@ -2245,21 +3876,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "Quais documentos costumam compor a entrega mensal padrão para o contador?",
-            opcoes: ["Apenas o extrato bancário", "Extratos bancários, notas fiscais emitidas e recebidas, comprovantes de despesas e folha de pagamento", "Somente comprovantes de despesas pessoais do sócio", "Nenhum documento é necessário"],
+            opcoes: [
+              "Apenas o extrato bancário",
+              "Extratos bancários, notas fiscais emitidas e recebidas, comprovantes de despesas e folha de pagamento",
+              "Somente comprovantes de despesas pessoais do sócio",
+              "Nenhum documento é necessário",
+            ],
             correta: 1,
             explicacao: "Um pacote mensal completo reduz erros e retrabalho na contabilidade da empresa.",
+            variante: {
+              pergunta: "Uma empresária envia ao contador apenas o extrato bancário da empresa, sem as notas fiscais emitidas e recebidas nem a folha de pagamento dos funcionários. O que provavelmente falta nessa entrega mensal?",
+              opcoes: [
+                "Nada, o extrato bancário sozinho é suficiente para qualquer cálculo contábil",
+                "Notas fiscais emitidas e recebidas, comprovantes de despesas relevantes e a folha de pagamento, que também compõem a entrega mensal padrão",
+                "Apenas comprovantes de despesas pessoais do sócio, o resto é opcional",
+                "Nenhum documento é realmente necessário além do extrato",
+              ],
+              correta: 1,
+              explicacao: "Um pacote mensal completo — extratos, notas emitidas e recebidas, comprovantes de despesas e folha de pagamento — reduz erros e retrabalho na contabilidade.",
+            },
           },
           {
             pergunta: "O que é a 'conciliação bancária'?",
-            opcoes: ["Um tipo de imposto", "Comparar o que está registrado no extrato bancário com os próprios registros/anotações da empresa, para identificar diferenças", "Uma obrigação exclusiva do MEI", "Um processo feito apenas uma vez, na abertura da empresa"],
+            opcoes: [
+              "Um tipo de imposto",
+              "Comparar o que está registrado no extrato bancário com os próprios registros/anotações da empresa, para identificar diferenças",
+              "Uma obrigação exclusiva do MEI",
+              "Um processo feito apenas uma vez, na abertura da empresa",
+            ],
             correta: 1,
             explicacao: "A conciliação cruza extrato bancário e registros internos para encontrar divergências antes que virem problema.",
+            variante: {
+              pergunta: "O extrato bancário de uma empresa mostra um saldo de R$ 5.230, mas o sistema interno de controle financeiro da empresa registra R$ 5.180 para o mesmo período. Qual processo serve exatamente para identificar e explicar essa diferença de R$ 50?",
+              opcoes: [
+                "Um tipo de imposto sobre movimentações bancárias",
+                "A conciliação bancária, que compara o extrato com os registros internos da empresa para encontrar divergências",
+                "Uma obrigação exclusiva do MEI",
+                "Um processo feito apenas uma vez, na abertura da empresa",
+              ],
+              correta: 1,
+              explicacao: "A conciliação bancária cruza o extrato com os registros internos para encontrar diferenças, como transações não registradas ou duplicadas, antes que se tornem um problema maior.",
+            },
           },
           {
             pergunta: "Segundo o texto, qual é o papel de um bom contador para o negócio?",
-            opcoes: ["Apenas calcular impostos mecanicamente", "Um parceiro estratégico, quando recebe as informações certas e no tempo certo", "Um papel puramente burocrático, sem valor estratégico", "Substituir a necessidade de o empresário entender qualquer coisa sobre a empresa"],
+            opcoes: [
+              "Apenas calcular impostos mecanicamente",
+              "Um parceiro estratégico, quando recebe as informações certas e no tempo certo",
+              "Um papel puramente burocrático, sem valor estratégico",
+              "Substituir a necessidade de o empresário entender qualquer coisa sobre a empresa",
+            ],
             correta: 1,
             explicacao: "Com boas informações e prazo, o contador vira parceiro de decisão, não só executor de cálculos.",
+            variante: {
+              pergunta: "Um empresário só fala com o contador uma vez por ano, na hora de entregar declarações, e nunca discute decisões estratégicas do negócio com ele. Segundo o texto, o que esse empresário está deixando de aproveitar?",
+              opcoes: [
+                "Nada, o contador serve apenas para calcular impostos mecanicamente",
+                "A possibilidade de ter no contador um parceiro estratégico do negócio, quando recebe as informações certas no tempo certo",
+                "Um papel puramente burocrático, sem nenhum valor estratégico possível",
+                "A substituição total da necessidade de o empresário entender qualquer coisa sobre a empresa",
+              ],
+              correta: 1,
+              explicacao: "Quando o empresário fornece boas informações a tempo, o contador pode atuar como parceiro estratégico, não apenas como executor de cálculos.",
+            },
           },
         ],
       },
@@ -2282,21 +3961,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "Por que o custo real de um funcionário CLT é maior do que o salário nominal?",
-            opcoes: ["Não é maior, é exatamente o valor do salário", "Porque incluem encargos como FGTS, INSS patronal, 13º salário e férias com adicional de 1/3, entre outros", "Porque o funcionário recebe várias vezes o mesmo salário", "Não existem encargos adicionais no Brasil"],
+            opcoes: [
+              "Não é maior, é exatamente o valor do salário",
+              "Porque incluem encargos como FGTS, INSS patronal, 13º salário e férias com adicional de 1/3, entre outros",
+              "Porque o funcionário recebe várias vezes o mesmo salário",
+              "Não existem encargos adicionais no Brasil",
+            ],
             correta: 1,
             explicacao: "Os encargos trabalhistas somados ao salário elevam bastante o custo total para a empresa.",
+            variante: {
+              pergunta: "Uma pequena empresa contrata um funcionário CLT com salário nominal de R$ 2.500. Por que o custo mensal real desse funcionário para a empresa tende a ser significativamente maior do que esse valor?",
+              opcoes: [
+                "Não é maior, o custo para a empresa é exatamente igual ao salário nominal",
+                "Porque somam-se encargos como FGTS, contribuição previdenciária patronal, 13º salário e férias com adicional de 1/3, entre outros direitos",
+                "Porque o funcionário recebe o salário em duplicidade todos os meses",
+                "Porque não existem encargos trabalhistas adicionais no Brasil",
+              ],
+              correta: 1,
+              explicacao: "Encargos como FGTS, INSS patronal, 13º salário e férias com 1/3 se somam ao salário nominal, elevando bastante o custo total do funcionário para a empresa.",
+            },
           },
           {
             pergunta: "O que é 'pejotização', mencionada como um risco?",
-            opcoes: ["Um tipo de imposto sobre pessoa jurídica", "Contratar como 'PJ' alguém que na prática trabalha como funcionário CLT (horário fixo, subordinação, exclusividade), o que pode gerar passivos trabalhistas", "Um benefício fiscal legal e sem riscos", "Um regime tributário exclusivo para startups"],
+            opcoes: [
+              "Um tipo de imposto sobre pessoa jurídica",
+              "Contratar como 'PJ' alguém que na prática trabalha como funcionário CLT (horário fixo, subordinação, exclusividade), o que pode gerar passivos trabalhistas",
+              "Um benefício fiscal legal e sem riscos",
+              "Um regime tributário exclusivo para startups",
+            ],
             correta: 1,
             explicacao: "Disfarçar uma relação de emprego como contrato PJ é um risco jurídico real, não uma economia sem consequências.",
+            variante: {
+              pergunta: "Uma empresa contrata alguém como 'prestador de serviços PJ', mas essa pessoa cumpre horário fixo de 9h às 18h, responde diretamente a um chefe e trabalha exclusivamente para essa empresa. Como essa prática é caracterizada?",
+              opcoes: [
+                "Um benefício fiscal legal, sem nenhum risco para a empresa",
+                "Pejotização — disfarçar uma relação de emprego CLT como contrato PJ, o que pode gerar passivos trabalhistas no futuro",
+                "Um tipo de imposto sobre pessoa jurídica",
+                "Um regime tributário exclusivo para pequenas empresas",
+              ],
+              correta: 1,
+              explicacao: "Quando há subordinação, horário fixo e exclusividade, a relação se parece com vínculo empregatício — contratar isso como PJ é uma prática de risco chamada pejotização.",
+            },
           },
           {
             pergunta: "Por que entender o custo real de um funcionário é importante para o empresário?",
-            opcoes: ["Não tem utilidade prática", "Ajuda a precificar produtos/serviços corretamente e planejar o caixa da empresa com realismo", "Serve apenas para reduzir salários", "É uma exigência legal de divulgação pública"],
+            opcoes: [
+              "Não tem utilidade prática",
+              "Ajuda a precificar produtos/serviços corretamente e planejar o caixa da empresa com realismo",
+              "Serve apenas para reduzir salários",
+              "É uma exigência legal de divulgação pública",
+            ],
             correta: 1,
             explicacao: "Sem considerar o custo total, é fácil precificar errado e comprometer o caixa da empresa.",
+            variante: {
+              pergunta: "Um prestador de serviços de manutenção precifica seus contratos considerando apenas o salário nominal do técnico que vai contratar, sem incluir encargos trabalhistas. O que provavelmente vai acontecer com o caixa da empresa?",
+              opcoes: [
+                "Nada, o salário nominal já reflete o custo total do funcionário",
+                "A precificação tende a ficar abaixo do custo real, comprometendo o caixa da empresa ao longo do tempo",
+                "O caixa da empresa vai aumentar automaticamente",
+                "É uma exigência legal de divulgação pública, sem efeito financeiro",
+              ],
+              correta: 1,
+              explicacao: "Ignorar os encargos no cálculo do custo de um funcionário leva a preços mal calculados, o que pode comprometer o caixa da empresa.",
+            },
           },
         ],
       },
@@ -2312,21 +4039,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "Por que reter funcionários costuma ser mais barato do que substituí-los?",
-            opcoes: ["Nunca é mais barato reter", "Contratar, treinar e adaptar um novo funcionário consome tempo e dinheiro, custos evitados ao reter quem já está treinado", "Funcionários antigos custam sempre mais", "Não há diferença de custo"],
+            opcoes: [
+              "Nunca é mais barato reter",
+              "Contratar, treinar e adaptar um novo funcionário consome tempo e dinheiro, custos evitados ao reter quem já está treinado",
+              "Funcionários antigos custam sempre mais",
+              "Não há diferença de custo",
+            ],
             correta: 1,
             explicacao: "O custo de substituição (contratar + treinar + adaptar) costuma superar o investimento em retenção.",
+            variante: {
+              pergunta: "Uma empresa perde um funcionário experiente e precisa gastar tempo e dinheiro com recrutamento, contratação e treinamento de um substituto, além do período em que a produtividade fica menor. O que esse cenário ilustra sobre reter talentos?",
+              opcoes: [
+                "Que substituir funcionários nunca gera custo adicional para a empresa",
+                "Que reter boas pessoas costuma custar menos do que os custos de recrutar, contratar e treinar um substituto",
+                "Que funcionários antigos sempre custam mais do que novos",
+                "Que não existe diferença de custo entre reter e substituir",
+              ],
+              correta: 1,
+              explicacao: "Os custos de recrutamento, treinamento e adaptação de um novo funcionário costumam superar o investimento necessário para reter quem já está na equipe.",
+            },
           },
           {
             pergunta: "Segundo o texto, o reconhecimento no trabalho precisa ser necessariamente financeiro?",
-            opcoes: ["Sim, sempre precisa ser em dinheiro", "Não — pode incluir autonomia, oportunidade de crescimento e flexibilidade, além de dinheiro", "Reconhecimento não tem nenhum efeito", "É proibido reconhecer funcionários informalmente"],
+            opcoes: [
+              "Sim, sempre precisa ser em dinheiro",
+              "Não — pode incluir autonomia, oportunidade de crescimento e flexibilidade, além de dinheiro",
+              "Reconhecimento não tem nenhum efeito",
+              "É proibido reconhecer funcionários informalmente",
+            ],
             correta: 1,
             explicacao: "Reconhecimento vai além do financeiro — autonomia e crescimento também pesam na retenção.",
+            variante: {
+              pergunta: "Um funcionário recebe uma proposta de aumento salarial pequeno, mas prefere permanecer na empresa atual porque tem autonomia para organizar sua rotina e horário flexível. O que esse exemplo mostra sobre reconhecimento no trabalho?",
+              opcoes: [
+                "Que reconhecimento só existe na forma de dinheiro",
+                "Que reconhecimento pode incluir fatores como autonomia e flexibilidade, além (ou no lugar) de aumento financeiro",
+                "Que esse funcionário está cometendo um erro de carreira",
+                "Que reconhecimento não tem nenhum efeito real sobre a decisão de permanecer em um emprego",
+              ],
+              correta: 1,
+              explicacao: "Reconhecimento vai além do financeiro — autonomia, flexibilidade e oportunidade de crescimento também pesam bastante na retenção de talentos.",
+            },
           },
           {
             pergunta: "Como um ambiente de trabalho tóxico pode afetar os custos reais de uma empresa?",
-            opcoes: ["Não tem nenhum efeito financeiro", "Pode aumentar afastamentos por saúde, processos trabalhistas e rotatividade — todos custos reais para a empresa", "Sempre reduz custos no curto prazo", "Só afeta a reputação, nunca o financeiro"],
+            opcoes: [
+              "Não tem nenhum efeito financeiro",
+              "Pode aumentar afastamentos por saúde, processos trabalhistas e rotatividade — todos custos reais para a empresa",
+              "Sempre reduz custos no curto prazo",
+              "Só afeta a reputação, nunca o financeiro",
+            ],
             correta: 1,
             explicacao: "Ambientes ruins geram custos concretos: saúde, rotatividade e risco jurídico, não é só uma questão de clima.",
+            variante: {
+              pergunta: "Uma equipe com carga de trabalho constantemente excessiva registra um aumento de afastamentos por motivo de saúde e uma alta rotatividade de funcionários ao longo do ano. Como isso se reflete financeiramente na empresa?",
+              opcoes: [
+                "Não tem nenhum efeito financeiro, é apenas uma questão de clima organizacional",
+                "Gera custos reais, como despesas com afastamentos, processos trabalhistas e o custo repetido de contratar e treinar substitutos",
+                "Sempre reduz custos no curto prazo, pois a empresa paga menos salários",
+                "Afeta apenas a reputação da empresa, nunca o financeiro",
+              ],
+              correta: 1,
+              explicacao: "Ambientes de trabalho ruins geram custos concretos — afastamentos, rotatividade e risco jurídico —, não é apenas uma questão de clima.",
+            },
           },
         ],
       },
@@ -2342,21 +4117,69 @@ const BUSINESS_COURSE = [
         perguntas: [
           {
             pergunta: "Qual é um erro comum de quem começa a empreender, mencionado no texto?",
-            opcoes: ["Ter uma conta bancária exclusiva para a empresa", "Misturar o dinheiro pessoal com o dinheiro da empresa, dificultando saber se o negócio dá lucro de fato", "Contratar um contador desde o início", "Emitir notas fiscais corretamente"],
+            opcoes: [
+              "Ter uma conta bancária exclusiva para a empresa",
+              "Misturar o dinheiro pessoal com o dinheiro da empresa, dificultando saber se o negócio dá lucro de fato",
+              "Contratar um contador desde o início",
+              "Emitir notas fiscais corretamente",
+            ],
             correta: 1,
             explicacao: "Misturar finanças pessoais e da empresa embaça a visão real do desempenho do negócio.",
+            variante: {
+              pergunta: "Um sócio paga a conta de energia da própria casa usando o cartão de crédito da empresa, alegando que 'no fim das contas é tudo dele mesmo'. Qual é o principal problema dessa prática?",
+              opcoes: [
+                "Nenhum problema, já que o sócio é o único dono do negócio",
+                "Fica muito mais difícil saber se a empresa está de fato dando lucro, pois as finanças pessoais e da empresa se misturam",
+                "É uma prática recomendada para reduzir impostos",
+                "Só é um problema se a empresa tiver outros sócios",
+              ],
+              correta: 1,
+              explicacao: "Misturar despesas pessoais com as da empresa embaça a visão real do desempenho financeiro do negócio.",
+            },
           },
           {
             pergunta: "Quais são as duas formas mais comuns de o sócio retirar dinheiro da empresa formalmente?",
-            opcoes: ["Apenas retirar em dinheiro sem registro", "Pró-labore e distribuição de lucros", "Apenas através de empréstimos bancários", "Não existe forma legal de retirar dinheiro"],
+            opcoes: [
+              "Apenas retirar em dinheiro sem registro",
+              "Pró-labore e distribuição de lucros",
+              "Apenas através de empréstimos bancários",
+              "Não existe forma legal de retirar dinheiro",
+            ],
             correta: 1,
             explicacao: "Pró-labore (tributado como remuneração) e distribuição de lucros são as vias formais mais comuns.",
+            variante: {
+              pergunta: "Um contador explica a um novo sócio que existem duas formas formais de retirar dinheiro da empresa: uma funciona como uma espécie de salário do sócio, com incidência de INSS e, dependendo do valor, IR de pessoa física; a outra pode ser isenta de IR para o sócio, cumprindo certas regras contábeis. Como se chamam essas duas formas?",
+              opcoes: [
+                "Empréstimo bancário e financiamento",
+                "Pró-labore e distribuição de lucros",
+                "Retirada em dinheiro e adiantamento salarial",
+                "Não existe forma legal de retirar dinheiro da empresa",
+              ],
+              correta: 1,
+              explicacao: "O pró-labore funciona como remuneração do sócio (com INSS e, conforme o valor, IR), enquanto a distribuição de lucros pode ser isenta de IR, respeitando as regras contábeis.",
+            },
           },
           {
             pergunta: "Qual é o primeiro passo prático para separar as finanças pessoais das da empresa?",
-            opcoes: ["Não é possível separar completamente", "Ter uma conta bancária exclusiva da empresa, mesmo sendo MEI", "Contratar um sócio", "Abrir uma segunda empresa"],
+            opcoes: [
+              "Não é possível separar completamente",
+              "Ter uma conta bancária exclusiva da empresa, mesmo sendo MEI",
+              "Contratar um sócio",
+              "Abrir uma segunda empresa",
+            ],
             correta: 1,
             explicacao: "Uma conta bancária exclusiva é o alicerce prático de qualquer controle financeiro sério da empresa.",
+            variante: {
+              pergunta: "Uma artesã que vende seus produtos como MEI usa a mesma conta bancária pessoal para receber das vendas, pagar fornecedores e cobrir despesas de casa. Qual é o primeiro passo prático recomendado para começar a separar essas finanças?",
+              opcoes: [
+                "Não é possível separar completamente as finanças de uma MEI",
+                "Abrir e usar uma conta bancária exclusiva da empresa, mesmo sendo MEI",
+                "Contratar um sócio para dividir as responsabilidades financeiras",
+                "Abrir uma segunda empresa para separar as receitas",
+              ],
+              correta: 1,
+              explicacao: "Ter uma conta bancária exclusiva da empresa, mesmo no MEI, é o alicerce prático para separar as finanças pessoais das do negócio.",
+            },
           },
         ],
       },

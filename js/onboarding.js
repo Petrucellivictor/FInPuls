@@ -72,15 +72,32 @@ const Onboarding = {
           ${LIFE_GOALS.map((g) => `<button class="life-goal-btn" data-id="${g.id}"><span class="emoji">${g.emoji}</span>${g.label}</button>`).join("")}
         </div>
       </div>
+      <div class="field hidden" id="introMetaField">
+        <label for="introMetaValor">Quanto você quer alcançar com esse objetivo? (R$)</label>
+        <input type="number" id="introMetaValor" min="1" step="0.01" placeholder="Ex: 10000" />
+        <div class="text-sm text-soft mt-8" id="introMetaHint"></div>
+      </div>
       <button class="btn btn-primary btn-block mt-16" id="introContinueBtn">Continuar</button>
     `;
 
     let objetivoSelecionado = null;
+    const metaField = document.getElementById("introMetaField");
+    const metaInput = document.getElementById("introMetaValor");
+    const metaHint = document.getElementById("introMetaHint");
+
     card.querySelectorAll(".life-goal-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         card.querySelectorAll(".life-goal-btn").forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
         objetivoSelecionado = btn.dataset.id;
+
+        const template = GOAL_TEMPLATES[objetivoSelecionado];
+        metaField.classList.remove("hidden");
+        if (template) {
+          metaInput.value = template.metaSugerida;
+          metaHint.textContent = `Sugestão: ${template.metaSugerida.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} — ajuste para o valor que fizer sentido pra você.`;
+        }
+        metaInput.focus();
       });
     });
 
@@ -89,11 +106,17 @@ const Onboarding = {
         alert("Escolha um objetivo principal para continuar.");
         return;
       }
+      const metaValor = parseFloat(metaInput.value);
+      if (!metaValor || metaValor <= 0) {
+        alert("Informe um valor de meta válido (maior que zero) para o seu objetivo.");
+        return;
+      }
       this.introData = {
         idade: parseInt(document.getElementById("introIdade").value) || null,
         situacao: document.getElementById("introSituacao").value,
         renda: document.getElementById("introRenda").value,
         objetivo: objetivoSelecionado,
+        metaValor,
       };
       this.next();
     });
@@ -167,6 +190,7 @@ const Onboarding = {
     const info = nivelLabels[profile.nivel];
     const goalInfo = profile.pessoal && GOAL_TEMPLATES[profile.pessoal.objetivo];
     const goalLabel = profile.pessoal && LIFE_GOALS.find((g) => g.id === profile.pessoal.objetivo);
+    const metaValor = (profile.pessoal && profile.pessoal.metaValor) || (goalInfo && goalInfo.metaSugerida);
 
     card.innerHTML = `
       <div class="onboarding-result">
@@ -176,7 +200,7 @@ const Onboarding = {
         <p class="text-soft">${info.desc}</p>
         ${
           goalInfo
-            ? `<div class="alert-box info" style="text-align:left">🎯 Seu objetivo agora é <b>${goalLabel.emoji} ${goalLabel.label}</b>. Já criamos um cofrinho <b>"${goalInfo.emoji} ${goalInfo.nome}"</b> com meta de ${goalInfo.metaSugerida.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} na aba Carteira — ajuste o valor quando quiser.</div>`
+            ? `<div class="alert-box info" style="text-align:left">🎯 Seu objetivo agora é <b>${goalLabel.emoji} ${goalLabel.label}</b>. Já criamos um cofrinho <b>"${goalInfo.emoji} ${goalInfo.nome}"</b> com meta de ${metaValor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} na aba Carteira — ajuste o valor quando quiser.</div>`
             : ""
         }
         <button class="btn btn-primary btn-block mt-16" id="finishOnboardingBtn">Entrar no Fin+</button>
@@ -185,7 +209,7 @@ const Onboarding = {
     document.getElementById("finishOnboardingBtn").addEventListener("click", () => {
       this.hide();
       if (profile.pessoal && profile.pessoal.objetivo) {
-        Goals.ensureTemplateGoal(profile.pessoal.objetivo);
+        Goals.ensureTemplateGoal(profile.pessoal.objetivo, profile.pessoal.metaValor);
       }
       document.dispatchEvent(new CustomEvent("profile:updated"));
     });

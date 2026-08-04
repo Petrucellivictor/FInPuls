@@ -142,7 +142,7 @@ const Business = {
   startLesson(levelIdx, lessonIdx) {
     const level = BUSINESS_COURSE[levelIdx];
     const lesson = level.licoes[lessonIdx];
-    this.activeQuiz = { level, lesson, qIndex: 0, correctCount: 0, answered: false };
+    this.activeQuiz = { level, lesson, qIndex: 0, correctCount: 0, answered: false, onVariant: false, variantQuestion: null };
     this.renderAulaOverlay();
   },
 
@@ -173,8 +173,8 @@ const Business = {
 
   renderQuizOverlay() {
     const overlay = this.overlayEl();
-    const { lesson, qIndex } = this.activeQuiz;
-    const question = lesson.perguntas[qIndex];
+    const { lesson, qIndex, onVariant, variantQuestion } = this.activeQuiz;
+    const question = onVariant ? variantQuestion : lesson.perguntas[qIndex];
 
     const dotsHtml = lesson.perguntas
       .map((_, i) => `<span class="quiz-dot ${i < qIndex ? "done" : i === qIndex ? "active" : ""}"></span>`)
@@ -184,6 +184,7 @@ const Business = {
       <div class="quiz-box">
         <div class="quiz-progress">${lesson.titulo}</div>
         <div class="quiz-dots">${dotsHtml}</div>
+        ${onVariant ? `<div class="alert-box info text-sm">🔁 Vamos reforçar esse mesmo conceito com outro exemplo:</div>` : ""}
         <div class="quiz-question">${question.pergunta}</div>
         <div id="businessQuizOptions">
           ${question.opcoes.map((op, i) => `<button class="quiz-option" data-idx="${i}" style="--i:${i}">${op}</button>`).join("")}
@@ -200,8 +201,8 @@ const Business = {
     if (this.activeQuiz.answered) return;
     this.activeQuiz.answered = true;
 
-    const { lesson, qIndex } = this.activeQuiz;
-    const question = lesson.perguntas[qIndex];
+    const { lesson, qIndex, onVariant, variantQuestion } = this.activeQuiz;
+    const question = onVariant ? variantQuestion : lesson.perguntas[qIndex];
     const correct = idx === question.correta;
     if (correct) this.activeQuiz.correctCount++;
 
@@ -211,16 +212,33 @@ const Business = {
       else btn.classList.add("faded");
     });
 
+    const original = lesson.perguntas[qIndex];
+    const offerVariant = !onVariant && !correct && !!original.variante;
+    const nextLabel = offerVariant
+      ? "Tentar de novo com outro exemplo"
+      : qIndex + 1 < lesson.perguntas.length
+      ? "Próxima pergunta"
+      : "Concluir lição";
+
     document.getElementById("businessQuizFeedback").innerHTML = `
       <div class="quiz-feedback">${correct ? "✅ Correto!" : "❌ Não foi essa."} ${question.explicacao}</div>
-      <button class="btn btn-primary btn-block mt-16" id="businessQuizNextBtn">
-        ${qIndex + 1 < lesson.perguntas.length ? "Próxima pergunta" : "Concluir lição"}
-      </button>
+      <button class="btn btn-primary btn-block mt-16" id="businessQuizNextBtn">${nextLabel}</button>
     `;
-    document.getElementById("businessQuizNextBtn").addEventListener("click", () => this.nextQuestion());
+    document.getElementById("businessQuizNextBtn").addEventListener("click", () => {
+      if (offerVariant) {
+        this.activeQuiz.onVariant = true;
+        this.activeQuiz.variantQuestion = original.variante;
+        this.activeQuiz.answered = false;
+        this.renderQuizOverlay();
+      } else {
+        this.nextQuestion();
+      }
+    });
   },
 
   nextQuestion() {
+    this.activeQuiz.onVariant = false;
+    this.activeQuiz.variantQuestion = null;
     this.activeQuiz.qIndex++;
     this.activeQuiz.answered = false;
     if (this.activeQuiz.qIndex >= this.activeQuiz.lesson.perguntas.length) {

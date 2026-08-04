@@ -4,6 +4,30 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.9.0] - 2026-08-04
+
+### Adicionado
+- Onboarding agora pergunta o **valor da meta** de cada objetivo (em vez de
+  usar sempre um valor fixo sugerido, como os R$ 100.000 da carteira de
+  renda passiva) — o cofrinho criado automaticamente usa o valor real
+  que a pessoa digitar. Adicionados também dois novos objetivos:
+  "Me aposentar bem" e "Investir em estudos".
+- Toda lição da trilha financeira (COURSE) agora tem uma introdução
+  didática com analogias do dia a dia (ex.: inflação como um balão
+  furado, juros compostos como uma bola de neve) antes do quiz — mesmo
+  padrão que já existia nas trilhas de História e Empreender.
+- **Reforço após erro**: ao errar uma pergunta, a pessoa vê a explicação
+  correta e, se houver uma "pergunta-variante" cadastrada, responde uma
+  segunda versão da mesma pergunta (outro exemplo/cenário) antes de
+  seguir — implementado nas três trilhas (financeira, história,
+  empreender). Acertar a variante conta para a pontuação da lição.
+- Trilha financeira reordenada: "Perfil de investidor" e "Juros
+  compostos" movidos para o Nível 1 (Fundamentos), antes de qualquer
+  produto específico de renda fixa/variável — sequência mais alinhada
+  com como currículos de educação financeira reais são estruturados
+  (valores/comportamento → mecânica → produtos → estratégia).
+
+## [1.8.0] - 2026-08-04
 ## [1.8.0] - 2026-08-04
 
 ### Corrigido
