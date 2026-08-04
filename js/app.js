@@ -5,14 +5,17 @@
 const App = {
   init() {
     Tabs.init();
+    Auth.init();
     Onboarding.init();
     InvestmentsUI.init();
     Simulator.init();
     Wallet.init();
+    Installments.init();
     Goals.init();
     Portfolio.init();
     Stocks.init();
     Learn.init();
+    History.init();
     Engagement.init();
     Achievements.init();
     Market.init();

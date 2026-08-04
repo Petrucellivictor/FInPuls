@@ -25,6 +25,12 @@ const Achievements = {
     },
     primeiro_desafio: () => Store.get(STORAGE_KEYS.CHALLENGES_STATE, { totalCompleted: 0 }).totalCompleted > 0,
     leitor: () => Store.get(STORAGE_KEYS.BOOKS_SEEN, []).length > 0,
+    primeiro_conto: () => Object.keys(Store.get(STORAGE_KEYS.HISTORY_PROGRESS, {})).length > 0,
+    historiador: () => {
+      const progress = Store.get(STORAGE_KEYS.HISTORY_PROGRESS, {});
+      return HISTORY_COURSE.every((lvl) => lvl.licoes.every((l) => !!progress[l.id]));
+    },
+    primeira_compra_parcelada: () => (typeof Installments !== "undefined" ? Installments.getAll().length > 0 : false),
   },
 
   getUnlocked() {

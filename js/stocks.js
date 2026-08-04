@@ -12,15 +12,41 @@ const Stocks = {
   init() {
     document.getElementById("stockAddTradeBtn")?.addEventListener("click", () => this.addTrade());
     document.getElementById("stockAddDividendBtn")?.addEventListener("click", () => this.addDividend());
+    document.getElementById("stockTradeTipo")?.addEventListener("change", () => this.toggleTradeFields());
     const dataTrade = document.getElementById("stockTradeData");
     if (dataTrade) dataTrade.value = new Date().toISOString().slice(0, 10);
     const dataDiv = document.getElementById("stockDividendData");
     if (dataDiv) dataDiv.value = new Date().toISOString().slice(0, 10);
+    this.populateCryptoSelect();
+    this.toggleTradeFields();
     this.renderAll();
+    this.refreshCryptoPrices();
   },
 
   fmt(v) {
     return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  },
+
+  fmtQty(p) {
+    const maxDigits = p.tipo === "Criptomoeda" ? 8 : 0;
+    return p.qty.toLocaleString("pt-BR", { maximumFractionDigits: maxDigits });
+  },
+
+  populateCryptoSelect() {
+    const select = document.getElementById("stockCryptoTicker");
+    if (!select) return;
+    select.innerHTML = Object.entries(CRYPTO_IDS)
+      .map(([ticker, info]) => `<option value="${ticker}">${info.nome}</option>`)
+      .join("");
+  },
+
+  toggleTradeFields() {
+    const tipo = document.getElementById("stockTradeTipo")?.value;
+    const isCripto = tipo === "Criptomoeda";
+    document.getElementById("stockFieldsAcaoFii")?.classList.toggle("hidden", isCripto);
+    document.getElementById("stockFieldsCripto")?.classList.toggle("hidden", !isCripto);
+    const hint = document.getElementById("stockCryptoHint");
+    if (hint) hint.style.display = isCripto ? "block" : "none";
   },
 
   getTrades() {
@@ -33,12 +59,18 @@ const Stocks = {
     return Store.get(STORAGE_KEYS.STOCK_PRICES, {});
   },
 
-  addTrade() {
-    const ticker = document.getElementById("stockTradeTicker").value.trim().toUpperCase();
+  async addTrade() {
     const tipo = document.getElementById("stockTradeTipo").value;
+    const data = document.getElementById("stockTradeData").value || new Date().toISOString().slice(0, 10);
+
+    if (tipo === "Criptomoeda") {
+      await this.addCryptoTrade(data);
+      return;
+    }
+
+    const ticker = document.getElementById("stockTradeTicker").value.trim().toUpperCase();
     const quantidade = parseFloat(document.getElementById("stockTradeQtd").value);
     const precoUnit = parseFloat(document.getElementById("stockTradePreco").value);
-    const data = document.getElementById("stockTradeData").value || new Date().toISOString().slice(0, 10);
 
     if (!ticker || !quantidade || quantidade <= 0 || !precoUnit || precoUnit <= 0) {
       alert("Preencha o ticker, a quantidade e o preço pago corretamente.");
@@ -55,6 +87,72 @@ const Stocks = {
 
     this.renderAll();
     if (typeof Achievements !== "undefined") Achievements.checkAll();
+  },
+
+  /* Compra de criptomoeda: o usuário informa o valor em R$, e o sistema
+     busca a cotação atual (CoinGecko) para calcular a quantidade
+     fracionária automaticamente — cripto não se compra em "cotas". */
+  async addCryptoTrade(data) {
+    const ticker = document.getElementById("stockCryptoTicker").value;
+    const valorInvestido = parseFloat(document.getElementById("stockCryptoValor").value);
+
+    if (!valorInvestido || valorInvestido <= 0) {
+      alert("Informe o valor investido em reais.");
+      return;
+    }
+
+    const btn = document.getElementById("stockAddTradeBtn");
+    const textoOriginal = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Buscando cotação...";
+
+    try {
+      const precoAtual = await this.fetchCryptoPrice(ticker);
+      if (!precoAtual) throw new Error("sem cotação");
+
+      const quantidade = valorInvestido / precoAtual;
+      const trades = this.getTrades();
+      trades.push({ id: Date.now().toString(), ticker, tipo: "Criptomoeda", quantidade, precoUnit: precoAtual, data: new Date(data).toISOString() });
+      Store.set(STORAGE_KEYS.STOCK_TRADES, trades);
+      this.setPriceSilent(ticker, precoAtual);
+
+      document.getElementById("stockCryptoValor").value = "";
+      this.renderAll();
+      if (typeof Achievements !== "undefined") Achievements.checkAll();
+    } catch (e) {
+      alert("Não foi possível buscar a cotação agora. Verifique sua conexão com a internet e tente novamente.");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = textoOriginal;
+    }
+  },
+
+  async fetchCryptoPrice(ticker) {
+    const info = CRYPTO_IDS[ticker];
+    if (!info) return null;
+    try {
+      const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${info.id}&vs_currencies=brl`);
+      const json = await res.json();
+      return json[info.id] ? json[info.id].brl : null;
+    } catch (e) {
+      console.warn("Falha ao buscar cotação de criptomoeda:", e);
+      return null;
+    }
+  },
+
+  /* Atualiza o preço atual de todas as posições em cripto automaticamente,
+     sem depender de atualização manual — só as ações/FIIs continuam
+     manuais, por causa das limitações das APIs gratuitas de bolsa. */
+  async refreshCryptoPrices() {
+    const cryptoTickers = [...new Set(this.getTrades().filter((t) => t.tipo === "Criptomoeda").map((t) => t.ticker))];
+    if (!cryptoTickers.length) return;
+    await Promise.all(
+      cryptoTickers.map(async (ticker) => {
+        const preco = await this.fetchCryptoPrice(ticker);
+        if (preco) this.setPriceSilent(ticker, preco);
+      })
+    );
+    this.renderAll();
   },
 
   removeTrade(id) {
@@ -91,10 +189,14 @@ const Stocks = {
     this.renderAll();
   },
 
-  setPrice(ticker, preco) {
+  setPriceSilent(ticker, preco) {
     const prices = this.getPrices();
     prices[ticker] = preco;
     Store.set(STORAGE_KEYS.STOCK_PRICES, prices);
+  },
+
+  setPrice(ticker, preco) {
+    this.setPriceSilent(ticker, preco);
     this.renderAll();
   },
 
@@ -191,10 +293,11 @@ const Stocks = {
               (p) => `
             <tr>
               <td><b>${p.ticker}</b><br/><span class="text-soft" style="font-size:11px">${p.tipo}</span></td>
-              <td class="mono">${p.qty}</td>
+              <td class="mono">${this.fmtQty(p)}</td>
               <td class="mono">${this.fmt(p.precoMedio)}</td>
               <td class="mono">
                 <input type="number" class="stock-price-input" data-ticker="${p.ticker}" value="${p.precoAtual.toFixed(2)}" step="0.01" min="0" style="width:90px;padding:4px 6px" />
+                ${p.tipo === "Criptomoeda" ? `<div class="text-soft" style="font-size:10px">🔄 cotação automática</div>` : ""}
               </td>
               <td class="mono">${this.fmt(p.valorInvestido)}</td>
               <td class="mono">${this.fmt(p.valorAtual)}</td>
@@ -223,8 +326,9 @@ const Stocks = {
   },
 
   renderHistory() {
+    const iconePorTipo = { Ação: "📈", FII: "🏢", Criptomoeda: "🪙" };
     this.renderHistoryList("stockTradesHistory", this.getTrades(), (t) => ({
-      titulo: `${t.tipo === "Ação" ? "📈" : "🏢"} ${t.ticker} — ${t.quantidade} un.`,
+      titulo: `${iconePorTipo[t.tipo] || "📊"} ${t.ticker} — ${this.fmtQty({ qty: t.quantidade, tipo: t.tipo })} un.`,
       valor: t.quantidade * t.precoUnit,
       onDelete: () => this.removeTrade(t.id),
     }));

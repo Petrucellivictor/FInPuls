@@ -1359,6 +1359,9 @@ const ACHIEVEMENTS = [
   { id: "trilha_completa", emoji: "🏆", titulo: "Trilha completa", descricao: "Você completou todas as lições da Academia Fin+." },
   { id: "primeiro_desafio", emoji: "🎯", titulo: "Primeiro desafio concluído", descricao: "Você completou seu primeiro desafio diário." },
   { id: "leitor", emoji: "📚", titulo: "Primeira leitura", descricao: "Você conferiu sua primeira recomendação na Biblioteca Fin+." },
+  { id: "primeiro_conto", emoji: "📜", titulo: "Primeiro conto lido", descricao: "Você completou sua primeira lição da trilha Brasil: História & Economia." },
+  { id: "historiador", emoji: "🇧🇷", titulo: "Historiador econômico", descricao: "Você completou toda a trilha Brasil: História & Economia." },
+  { id: "primeira_compra_parcelada", emoji: "🧾", titulo: "Primeira compra parcelada", descricao: "Você registrou sua primeira compra parcelada na Carteira." },
 ];
 
 /* -------------------------------------------------------------------------
@@ -1378,4 +1381,317 @@ const BOOKS = [
   { id: "acoescomuns", titulo: "Ações Comuns, Lucros Extraordinários", autor: "Philip Fisher", nivel: "avancado", tema: "Análise de crescimento", pitch: "Como avaliar a qualidade e o potencial de crescimento de uma empresa além dos números do balanço." },
   { id: "pequenolivro", titulo: "O Pequeno Livro Que Ainda Bate o Mercado", autor: "Joel Greenblatt", nivel: "avancado", tema: "Estratégia sistemática", pitch: "Uma metodologia simples e sistemática para selecionar ações com bom potencial de retorno no longo prazo." },
   { id: "boladeneve", titulo: "A Bola de Neve: Warren Buffett e o Negócio da Vida", autor: "Alice Schroeder", nivel: "avancado", tema: "Biografia e estratégia", pitch: "A biografia definitiva de Warren Buffett, mostrando décadas de decisões reais de alocação de capital." },
+
+  // Economia pública, distribuição de renda e pensamento econômico crítico —
+  // para complementar a visão de mercado com a compreensão do papel do
+  // Estado, da desigualdade e de correntes de pensamento além do liberalismo.
+  { id: "formacaoeconomica", titulo: "Formação Econômica do Brasil", autor: "Celso Furtado", nivel: "avancado", tema: "Economia e história do Brasil", pitch: "O clássico que explica como a economia colonial exportadora moldou a desigualdade e a dependência externa do Brasil até hoje." },
+  { id: "dependenciaedesenvolvimento", titulo: "Dependência e Desenvolvimento na América Latina", autor: "Fernando Henrique Cardoso e Enzo Faletto", nivel: "avancado", tema: "Teoria da dependência", pitch: "Um dos textos fundadores da teoria da dependência, sobre por que países latino-americanos permaneceram economicamente dependentes dos países ricos." },
+  { id: "ocapital", titulo: "O Capital", autor: "Karl Marx", nivel: "avancado", tema: "Crítica ao capitalismo", pitch: "A obra fundamental do pensamento socialista, com a crítica de Marx à exploração do trabalho e à concentração de capital no sistema capitalista." },
+  { id: "precodesigualdade", titulo: "O Preço da Desigualdade", autor: "Joseph Stiglitz", nivel: "avancado", tema: "Desigualdade e distribuição de renda", pitch: "O Nobel de Economia mostra, com dados, como a desigualdade extrema prejudica o crescimento econômico de um país como um todo — não só os mais pobres." },
+  { id: "capitalseculoxxi", titulo: "O Capital no Século XXI", autor: "Thomas Piketty", nivel: "avancado", tema: "Desigualdade e distribuição de renda", pitch: "Um estudo histórico sobre como a riqueza se concentra ao longo do tempo e por que a tributação progressiva é debatida como ferramenta de redistribuição." },
+];
+
+/* -------------------------------------------------------------------------
+   15) CRIPTOMOEDAS SUPORTADAS COM COTAÇÃO AUTOMÁTICA (fração via CoinGecko)
+   Usado na aba Ações & FIIs: ao comprar por valor em R$, o sistema busca o
+   preço atual e calcula a quantidade fracionária automaticamente.
+   ------------------------------------------------------------------------- */
+const CRYPTO_IDS = {
+  BTC: { id: "bitcoin", nome: "Bitcoin (BTC)" },
+  ETH: { id: "ethereum", nome: "Ethereum (ETH)" },
+  SOL: { id: "solana", nome: "Solana (SOL)" },
+  ADA: { id: "cardano", nome: "Cardano (ADA)" },
+};
+
+/* -------------------------------------------------------------------------
+   16) TRILHA "BRASIL: HISTÓRIA & ECONOMIA" — pequenos contos + quiz
+   Uma segunda trilha gamificada (sub-aba de Aprender), contando a história
+   das moedas, dos ciclos econômicos, da desigualdade e do papel do Estado
+   no Brasil, através de pequenas histórias antes de cada quiz. Todo o
+   conteúdo é histórico/educativo, apresentado de forma factual e sem
+   viés partidário — inclusive nos temas de distribuição de renda e do
+   papel do setor público, tratados como debates econômicos legítimos.
+   ------------------------------------------------------------------------- */
+const HISTORY_COURSE = [
+  {
+    id: "hnivel1",
+    titulo: "Colônia: ciclos econômicos e as primeiras moedas",
+    cor: "#2E7D32",
+    licoes: [
+      {
+        id: "h1_1",
+        titulo: "Do pau-brasil ao açúcar: a primeira economia exportadora",
+        xp: 25,
+        conto: [
+          "Antes de existir 'Brasil' como país, já existia uma lógica econômica: extrair uma riqueza natural e vender para a Europa. Primeiro foi o pau-brasil, madeira usada para tingir tecidos, que deu nome ao território. Depois vieram os engenhos de açúcar, no litoral do Nordeste, que transformaram a colônia na maior produtora mundial de açúcar do século XVI.",
+          "Esse modelo tinha um nome que os economistas usam até hoje: economia primário-exportadora — produzir matéria-prima barata para vender fora, em vez de fabricar produtos mais elaborados dentro do próprio território. Esse modelo raramente enriquece quem produz: enriquece principalmente quem compra e revende o produto já processado.",
+          "A mão de obra que sustentou os engenhos foi, por séculos, o trabalho escravizado de povos indígenas e, principalmente, de pessoas sequestradas do continente africano. Entender essa origem é entender por que a distribuição de renda e de terras no Brasil nasceu profundamente desigual — uma desigualdade que a economia brasileira ainda carrega hoje, séculos depois.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que caracteriza uma 'economia primário-exportadora'?",
+            opcoes: ["Produzir matéria-prima para vender sem processamento, em vez de fabricar produtos elaborados", "Importar apenas produtos de luxo", "Uma economia sem nenhum tipo de comércio", "Um sistema baseado exclusivamente em criptomoedas"],
+            correta: 0,
+            explicacao: "É o modelo baseado em exportar matéria-prima barata (açúcar, ouro, café) sem agregar muito valor a ela — um padrão que marcou boa parte da história econômica brasileira.",
+          },
+          {
+            pergunta: "Qual foi a principal base de mão de obra da economia açucareira colonial?",
+            opcoes: ["Trabalho assalariado livre", "Trabalho escravizado de povos indígenas e, principalmente, de africanos", "Robôs e máquinas importadas", "Voluntários europeus"],
+            correta: 1,
+            explicacao: "A escravidão foi o alicerce da produção açucareira e, depois, de boa parte da economia colonial — um fator central para entender as raízes da desigualdade brasileira.",
+          },
+          {
+            pergunta: "Por que uma economia baseada só em exportar matéria-prima tende a concentrar menos riqueza para quem produz?",
+            opcoes: ["Porque matéria-prima nunca tem valor", "Porque o maior valor agregado costuma ficar com quem processa e revende o produto final", "Porque é proibido vender matéria-prima", "Não existe essa relação"],
+            correta: 1,
+            explicacao: "Quem só extrai e vende a matéria-prima bruta perde a parte mais valiosa da cadeia econômica: a industrialização e a distribuição, geralmente feitas por quem compra.",
+          },
+        ],
+      },
+      {
+        id: "h1_2",
+        titulo: "O ciclo do ouro e a moeda em Réis",
+        xp: 25,
+        conto: [
+          "No fim do século XVII, garimpeiros encontraram ouro nas montanhas de Minas Gerais. Em poucas décadas, o interior do Brasil — até então quase esquecido pela Coroa portuguesa — se tornou o centro econômico da colônia. Vilas cresceram da noite para o dia, e Portugal criou um imposto pesado, o 'quinto', para garantir que 20% de todo o ouro extraído fosse enviado à metrópole.",
+          "A moeda usada durante todo esse período — do Brasil Colônia ao Império — era o Réis (a unidade era o 'Real', no plural 'Réis'). Como a inflação corroía o valor da moeda com o tempo, era comum usar a abreviação 'mil-réis' para representar 1.000 réis — mostrando que, mesmo há séculos, o Brasil já lidava com moeda perdendo valor.",
+          "Quando o ouro começou a se esgotar, no final do século XVIII, a economia mineira entrou em declínio, e o centro econômico do país foi se deslocando de novo, dessa vez para o café, no Sudeste. Esse padrão de 'boom e queda' de um único produto, sem diversificar a economia, se repetiria várias vezes na história brasileira.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual era a moeda usada no Brasil Colônia e no Império?",
+            opcoes: ["O Real (atual)", "O Réis / Mil-réis", "O Cruzeiro", "O Dólar colonial"],
+            correta: 1,
+            explicacao: "O Réis (e sua notação 'mil-réis') foi a moeda brasileira por séculos, até ser substituída pelo Cruzeiro em 1942.",
+          },
+          {
+            pergunta: "O que era o 'quinto' cobrado por Portugal durante o ciclo do ouro?",
+            opcoes: ["Um imposto de 20% sobre todo o ouro extraído", "Um tipo de moeda", "Um imposto sobre importações", "Uma taxa bancária"],
+            correta: 0,
+            explicacao: "O 'quinto' garantia que a Coroa portuguesa recebesse 20% de toda a produção de ouro da colônia — uma forma de extração de riqueza típica do período colonial.",
+          },
+          {
+            pergunta: "Qual padrão econômico se repetiu várias vezes na história do Brasil, do ouro ao café?",
+            opcoes: ["Diversificação constante da economia", "Ciclos de 'boom e queda' baseados em um único produto de exportação", "Estabilidade total de preços", "Ausência completa de exportações"],
+            correta: 1,
+            explicacao: "Açúcar, ouro, café: o Brasil repetiu por séculos o padrão de depender fortemente de um único produto por vez, trazendo crescimento rápido, mas também crises quando esse produto perdia valor ou se esgotava.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "hnivel2",
+    titulo: "Café, imigração e a industrialização de Vargas",
+    cor: "#F9A825",
+    licoes: [
+      {
+        id: "h2_1",
+        titulo: "O ciclo do café e a nova imigração",
+        xp: 25,
+        conto: [
+          "No século XIX, o café virou o novo 'ouro verde' do Brasil, cultivado primeiro no Vale do Paraíba e depois no interior de São Paulo. A renda do café financiou ferrovias, portos e os primeiros bancos do país — e também, décadas mais tarde, boa parte da industrialização paulista.",
+          "Mas havia um problema: em 1888, a escravidão foi abolida, e os fazendeiros de café precisavam de mão de obra. A solução veio de fora: o governo brasileiro subsidiou a vinda de milhões de imigrantes, principalmente italianos, além de espanhóis, portugueses e, mais tarde, japoneses, para trabalhar nas lavouras — muitas vezes em condições ainda muito duras no sistema de 'colonato'.",
+          "O dinheiro do café também não ficou só na lavoura: parte dele foi reinvestida em fábricas, principalmente em São Paulo, plantando a semente da industrialização brasileira do século XX. É um exemplo real de como o capital acumulado em um setor pode (ou não) ser redirecionado para desenvolver outros setores da economia — uma decisão que tem tudo a ver com política econômica, não só com 'sorte'.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que o Brasil incentivou a imigração europeia em massa após 1888?",
+            opcoes: ["Para substituir a mão de obra escravizada nas lavouras de café após a abolição", "Porque não havia mais brasileiros no país", "Para fundar novas capitais", "Por exigência de organismos internacionais"],
+            correta: 0,
+            explicacao: "Com o fim da escravidão em 1888, os fazendeiros de café precisavam de mão de obra, e o governo passou a subsidiar a imigração, principalmente de italianos, para as lavouras paulistas.",
+          },
+          {
+            pergunta: "O que aconteceu com parte da riqueza gerada pelo café?",
+            opcoes: ["Foi toda destruída", "Parte foi reinvestida em fábricas, ajudando a iniciar a industrialização em São Paulo", "Foi usada só para pagar dívidas externas", "Nunca saiu da lavoura"],
+            correta: 1,
+            explicacao: "O capital do café ajudou a financiar a primeira onda de industrialização brasileira — um exemplo de como a riqueza de um setor pode impulsionar outros, quando reinvestida internamente.",
+          },
+        ],
+      },
+      {
+        id: "h2_2",
+        titulo: "Getúlio Vargas e a industrialização por substituição de importações",
+        xp: 25,
+        conto: [
+          "Nos anos 1930, o mundo vivia a Grande Depressão, e o preço do café despencou. Getúlio Vargas, que chegou ao poder em 1930, apostou em uma estratégia diferente: em vez de depender de importar produtos industrializados, o Brasil passaria a produzi-los internamente. Essa estratégia tem nome: substituição de importações.",
+          "O governo Vargas criou empresas estatais estratégicas — a Companhia Siderúrgica Nacional (aço, 1941) e, mais tarde, a Petrobras (petróleo, 1953, já no segundo governo Vargas) — e consolidou direitos trabalhistas em uma única lei, a CLT (Consolidação das Leis do Trabalho), em 1943, que ainda regula boa parte das relações de trabalho no Brasil hoje.",
+          "Essa fase mostra um debate econômico que ainda existe: até que ponto o Estado deve criar e controlar empresas estratégicas (economia pública) em vez de deixar isso inteiramente para empresas privadas (economia privada)? Não existe resposta 'certa' universal — diferentes países, e diferentes momentos da história brasileira, escolheram caminhos diferentes, com resultados e críticas dos dois lados.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que significa 'substituição de importações' como estratégia econômica?",
+            opcoes: ["Parar de vender produtos para outros países", "Produzir internamente o que antes era importado, para reduzir a dependência externa", "Aumentar as importações de qualquer forma", "Proibir a exportação de matéria-prima"],
+            correta: 1,
+            explicacao: "A ideia era desenvolver indústria própria para não depender de comprar produtos manufaturados de fora — uma estratégia usada por vários países em desenvolvimento no século XX, incluindo o Brasil.",
+          },
+          {
+            pergunta: "Qual lei trabalhista criada no governo Vargas (1943) ainda influencia as relações de trabalho no Brasil?",
+            opcoes: ["O Código Civil", "A CLT (Consolidação das Leis do Trabalho)", "A Lei de Diretrizes da Educação", "O Código Penal"],
+            correta: 1,
+            explicacao: "A CLT unificou direitos trabalhistas (férias, jornada, carteira de trabalho) e segue sendo a base da legislação trabalhista brasileira, com reformas ao longo do tempo.",
+          },
+          {
+            pergunta: "Qual é o debate econômico de fundo por trás da criação de empresas estatais como a Petrobras?",
+            opcoes: ["Não existe nenhum debate, é sempre consenso", "O papel do Estado na economia: quando ele deve atuar diretamente em setores estratégicos versus deixar para o setor privado", "Apenas uma questão de logotipo da empresa", "Uma disputa sobre qual moeda usar"],
+            correta: 1,
+            explicacao: "É um dos debates centrais da economia: o equilíbrio entre economia pública (Estado) e economia privada (mercado) em setores considerados estratégicos para o país.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "hnivel3",
+    titulo: "Ditadura, moedas em cascata e a década perdida",
+    cor: "#1565C0",
+    licoes: [
+      {
+        id: "h3_1",
+        titulo: "O 'milagre econômico' e o custo que ele escondia",
+        xp: 30,
+        conto: [
+          "Entre 1968 e 1973, durante o regime militar (1964–1985), a economia brasileira cresceu a taxas de mais de 10% ao ano — um período apelidado de 'milagre econômico'. Rodovias, a indústria automobilística e grandes obras de infraestrutura avançaram rapidamente, financiadas em boa parte por empréstimos internacionais.",
+          "Mas 'milagre' é uma palavra enganosa. O crescimento veio junto com forte concentração de renda — os mais ricos capturaram a maior parte dos ganhos —, com repressão política e censura que limitavam qualquer debate público sobre esse modelo, e com uma dívida externa que cresceu rapidamente, sem preocupação suficiente com o que aconteceria quando as taxas de juros internacionais mudassem.",
+          "Quando a crise do petróleo de 1973 elevou os custos de energia no mundo todo e as taxas de juros internacionais subiram no final da década, a conta chegou: o Brasil entrou nos anos 1980 com uma dívida externa enorme e sem fôlego para continuar crescendo no mesmo ritmo. Esse período seguinte ficou conhecido como a 'década perdida'.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que caracterizou o 'milagre econômico' brasileiro (1968–1973)?",
+            opcoes: ["Crescimento lento e distribuído igualmente", "Crescimento acelerado do PIB, mas com forte concentração de renda e aumento da dívida externa", "Queda do PIB por 5 anos seguidos", "Fim completo da pobreza no Brasil"],
+            correta: 1,
+            explicacao: "O período teve crescimento real e visível em infraestrutura, mas concentrou renda e represou uma dívida externa que se tornaria um problema grave na década seguinte.",
+          },
+          {
+            pergunta: "O que ajudou a encerrar o ciclo de forte crescimento de 1968-1973?",
+            opcoes: ["A queda do preço do petróleo", "A crise do petróleo de 1973 e a alta das taxas de juros internacionais, que encareceram a dívida externa", "A criação do Real", "Um excesso de exportação de tecnologia"],
+            correta: 1,
+            explicacao: "O choque do petróleo de 1973 e o aumento dos juros internacionais tornaram a dívida externa brasileira muito mais cara de pagar, contribuindo para a crise da década seguinte.",
+          },
+        ],
+      },
+      {
+        id: "h3_2",
+        titulo: "Do Cruzeiro ao Cruzado Novo: por que o Brasil trocou de moeda tantas vezes?",
+        xp: 30,
+        conto: [
+          "Você sabia que o Brasil já teve pelo menos oito moedas diferentes desde 1942? Cruzeiro (1942), Cruzeiro Novo (1967), Cruzeiro de novo (1970), Cruzado (1986), Cruzado Novo (1989), Cruzeiro outra vez (1990), Cruzeiro Real (1993) e, finalmente, o Real (1994). Cada troca geralmente 'cortava zeros' da moeda anterior — 1.000 unidades da moeda antiga viravam 1 unidade da nova.",
+          "Isso acontecia porque a inflação no Brasil, nas décadas de 1980 e começo de 1990, era descontrolada — em alguns meses, os preços chegavam a subir mais de 80% no mês. Vários planos econômicos (Cruzado em 1986, Bresser em 1987, Verão em 1989, Plano Collor em 1990) tentaram resolver o problema, geralmente combinando congelamento de preços com a criação de uma moeda nova, e quase todos fracassaram em poucos meses.",
+          "A lição mais importante desse período: trocar o NOME da moeda não resolve inflação. Inflação é um problema de excesso de dinheiro circulando, de desconfiança generalizada nos preços futuros e, muitas vezes, de déficit público mal controlado — não de qual símbolo aparece na nota. Essa lição prepararia o terreno para a solução que finalmente funcionaria, alguns anos depois: o Plano Real.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que geralmente acontecia a cada troca de moeda no Brasil nesse período?",
+            opcoes: ["A moeda dobrava de valor", "Zeros eram 'cortados' — geralmente 1.000 unidades da moeda antiga valiam 1 unidade da nova", "Nada mudava na prática", "O câmbio com o dólar era abolido"],
+            correta: 1,
+            explicacao: "Cada nova moeda geralmente reiniciava a contagem, cortando zeros acumulados pela hiperinflação da moeda anterior, mas sem resolver a causa raiz do problema.",
+          },
+          {
+            pergunta: "Qual foi a principal lição econômica dos planos que fracassaram entre 1986 e 1991?",
+            opcoes: ["Trocar o nome da moeda, por si só, não resolve a inflação", "Congelar preços sempre funciona por décadas", "O Brasil nunca teve inflação alta", "Moeda nova sempre garante estabilidade"],
+            correta: 0,
+            explicacao: "Vários planos tentaram 'resetar' a moeda sem atacar as causas estruturais da inflação (excesso de gastos públicos, indexação generalizada, desconfiança), e por isso fracassaram rapidamente.",
+          },
+          {
+            pergunta: "Quantas moedas diferentes o Brasil teve, aproximadamente, entre 1942 e 1994?",
+            opcoes: ["Duas", "Cerca de oito", "Vinte", "Nenhuma, foi sempre o Real"],
+            correta: 1,
+            explicacao: "Cruzeiro, Cruzeiro Novo, Cruzeiro (de novo), Cruzado, Cruzado Novo, Cruzeiro (de novo outra vez), Cruzeiro Real e Real: um recorde de trocas motivado pela hiperinflação crônica.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "hnivel4",
+    titulo: "Plano Real, desigualdade e o papel do Estado",
+    cor: "#00695C",
+    licoes: [
+      {
+        id: "h4_1",
+        titulo: "O Plano Real e o fim da hiperinflação",
+        xp: 35,
+        conto: [
+          "Em 1994, uma equipe econômica liderada pelo então Ministro da Fazenda Fernando Henrique Cardoso lançou uma estratégia diferente de todas as anteriores: em vez de simplesmente criar uma moeda nova de uma vez, o plano criou primeiro uma unidade de referência, a URV (Unidade Real de Valor), que funcionava como uma 'moeda virtual' estável, usada para indexar preços e salários por alguns meses antes da moeda física mudar.",
+          "Essa transição gradual ajudou a reconstruir a confiança nos preços — o problema psicológico e prático mais profundo da hiperinflação. Quando o Real finalmente entrou em circulação em julho de 1994, a inflação mensal, que passava de 40-50% em alguns meses, despencou para níveis de um dígito em poucos meses.",
+          "O sucesso do Plano Real teve um efeito político direto: Fernando Henrique Cardoso foi eleito presidente ainda em 1994, muito por causa da estabilização. Décadas depois, o Real continua sendo a moeda brasileira — a mais duradoura desde o Réis colonial — mostrando que planos de estabilização bem desenhados, com transição gradual e credibilidade, funcionam melhor do que decretos abruptos.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual foi a inovação principal do Plano Real em relação aos planos anteriores?",
+            opcoes: ["Congelar preços por decreto, como antes", "Criar uma unidade de referência (URV) para uma transição gradual antes de lançar a nova moeda física", "Proibir qualquer tipo de comércio por 6 meses", "Adotar o dólar como moeda oficial"],
+            correta: 1,
+            explicacao: "A URV permitiu reindexar preços e salários gradualmente antes da troca física de moeda, reconstruindo a confiança de forma mais sólida do que os congelamentos abruptos dos planos anteriores.",
+          },
+          {
+            pergunta: "O que aconteceu com a inflação mensal brasileira logo após a criação do Real em 1994?",
+            opcoes: ["Continuou acima de 40% ao mês", "Caiu para níveis de um dígito em poucos meses", "Dobrou imediatamente", "Não mudou nada"],
+            correta: 1,
+            explicacao: "O Plano Real foi o primeiro a efetivamente controlar a hiperinflação crônica que assombrava o Brasil desde os anos 1980.",
+          },
+        ],
+      },
+      {
+        id: "h4_2",
+        titulo: "Desigualdade de renda e o papel do Estado na economia",
+        xp: 35,
+        conto: [
+          "O Brasil é, historicamente, um dos países mais desiguais do mundo, medido pelo índice de Gini (uma escala de 0 a 1, em que 0 seria igualdade total de renda e 1 seria toda a renda concentrada em uma única pessoa). Essa desigualdade não é acidente: ela tem raízes na economia colonial escravista, na concentração de terras e no acesso desigual à educação ao longo de séculos.",
+          "Existem, grosso modo, duas grandes visões econômicas sobre como lidar com isso. Uma defende que o crescimento econômico, com menos intervenção do Estado, eventualmente reduz a desigualdade por conta própria ('o bolo precisa crescer antes de ser dividido'). Outra defende que, sem políticas ativas de redistribuição — como impostos progressivos e transferência de renda —, a desigualdade tende a se manter ou aumentar, mesmo com crescimento ('o bolo pode crescer e ainda assim ser dividido de forma muito desigual'). Ambas têm economistas sérios defendendo-as, e ambas aparecem em diferentes momentos da política econômica brasileira.",
+          "Um exemplo prático desse debate foi o Bolsa Família, criado em 2003: um programa de transferência direta de renda para famílias em situação de pobreza, condicionado a frequência escolar e vacinação das crianças. Defensores apontam a redução comprovada da pobreza extrema; críticos questionam o custo fiscal e o desenho de incentivos no longo prazo. Conhecer os dois lados do debate é parte de entender economia de verdade — não existe política econômica sem trade-offs.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que o índice de Gini mede?",
+            opcoes: ["A taxa de juros de um país", "O grau de concentração/desigualdade de renda em uma população", "O valor de uma moeda em relação ao dólar", "A taxa de inflação"],
+            correta: 1,
+            explicacao: "O índice de Gini vai de 0 (igualdade perfeita) a 1 (concentração total), e o Brasil está historicamente entre os países com os índices mais altos do mundo.",
+          },
+          {
+            pergunta: "Qual é a lógica central de programas de transferência de renda como o Bolsa Família?",
+            opcoes: ["Aumentar impostos sobre os mais pobres", "Transferir renda diretamente para famílias em pobreza, geralmente com contrapartidas como frequência escolar", "Eliminar toda forma de mercado privado", "Substituir completamente o sistema bancário"],
+            correta: 1,
+            explicacao: "É uma política de redistribuição direta de renda, com condicionalidades sociais (educação, saúde), debatida tanto por seus resultados na redução da pobreza quanto por seu custo e desenho de longo prazo.",
+          },
+          {
+            pergunta: "Por que entender os dois lados do debate sobre redistribuição de renda é importante, segundo o texto?",
+            opcoes: ["Porque só existe um lado correto e definitivo", "Porque toda política econômica envolve trade-offs, e entender os argumentos dos dois lados é parte de pensar economia de forma madura", "Porque o assunto não tem nenhuma relevância prática", "Porque não há dados sobre o tema"],
+            correta: 1,
+            explicacao: "Economia raramente tem respostas de 'certo ou errado' absoluto — entender os argumentos e evidências dos diferentes lados é o que permite formar uma opinião mais sólida, em vez de repetir slogans.",
+          },
+        ],
+      },
+      {
+        id: "h4_3",
+        titulo: "Economia pública x economia privada: o que o Estado faz com o seu dinheiro",
+        xp: 35,
+        conto: [
+          "Quando você paga imposto, parte desse dinheiro financia o que os economistas chamam de 'bens públicos': coisas como iluminação de ruas, segurança, justiça e defesa, que beneficiam todo mundo e são difíceis de cobrar individualmente por seu uso. Outra parte financia serviços como saúde e educação públicas, que no Brasil são direitos garantidos pela Constituição de 1988.",
+          "'Economia pública' não é sinônimo de socialismo, e 'economia privada' não é sinônimo de capitalismo puro — praticamente todo país do mundo hoje tem uma economia mista, com parte de mercado privado e parte de atuação estatal, em proporções que variam bastante. O debate real geralmente não é 'Estado sim ou não', mas sim: em quais setores, com que intensidade, e financiado por qual tipo de imposto (sobre consumo, sobre renda, sobre patrimônio)?",
+          "Entender esse espectro — do mais liberal (menos Estado, mais mercado) ao mais social-democrata ou socialista (mais Estado, mais redistribuição) — ajuda a interpretar notícias, eleições e propostas de reforma tributária com mais autonomia. Educação financeira não é só sobre o seu bolso individual: é também sobre entender como as escolhas coletivas de um país afetam o valor do seu dinheiro, seus impostos e suas oportunidades ao longo da vida.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que são 'bens públicos', no sentido econômico do termo?",
+            opcoes: ["Produtos vendidos exclusivamente pelo governo", "Bens/serviços que beneficiam a coletividade e são difíceis de cobrar de forma individualizada, como segurança e iluminação pública", "Qualquer produto fabricado no Brasil", "Ações negociadas na bolsa de valores"],
+            correta: 1,
+            explicacao: "Bens públicos são caracterizados por beneficiar a todos de forma não exclusiva — por isso costumam ser financiados coletivamente, via impostos, em vez de vendidos individualmente.",
+          },
+          {
+            pergunta: "Por que a maioria dos países hoje é considerada uma 'economia mista'?",
+            opcoes: ["Porque combinam, em proporções variadas, mercado privado e atuação do Estado", "Porque usam duas moedas ao mesmo tempo", "Porque não têm impostos", "Porque proíbem qualquer empresa privada"],
+            correta: 0,
+            explicacao: "Quase nenhum país opera em um extremo puro: a maioria combina setor privado e atuação estatal (educação, saúde, infraestrutura, regulação) em graus diferentes.",
+          },
+          {
+            pergunta: "Segundo o texto, qual é geralmente o debate econômico real sobre o tamanho do Estado?",
+            opcoes: ["Se deve existir Estado ou não, de forma absoluta", "Em quais setores, com que intensidade e financiado por qual tipo de imposto o Estado deve atuar", "Apenas qual será a cor da moeda", "Não existe debate nenhum sobre o tema"],
+            correta: 1,
+            explicacao: "O debate raramente é binário: na prática, gira em torno de graus e formas específicas de atuação estatal e tributação, não de 'tudo ou nada'.",
+          },
+        ],
+      },
+    ],
+  },
 ];

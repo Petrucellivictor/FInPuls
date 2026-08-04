@@ -21,6 +21,9 @@ const STORAGE_KEYS = {
   STOCK_DIVIDENDS: "if_stock_dividends",
   STOCK_PRICES: "if_stock_prices",
   LESSON_LOG: "if_lesson_log",
+  INSTALLMENTS: "if_installments",
+  ACCOUNT: "if_account",
+  HISTORY_PROGRESS: "if_history_progress",
 };
 
 const Store = {

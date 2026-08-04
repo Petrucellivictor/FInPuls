@@ -987,6 +987,141 @@ tr.row-best td {
 .book-card.highlighted { border-color: var(--gold); box-shadow: var(--shadow-lg); }
 .book-card h3 { font-size: 15.5px; }
 
+/* =========================================================================
+   CONTA (login Google / perfil local por e-mail)
+   ========================================================================= */
+.account-chip {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.account-avatar, .account-avatar-fallback {
+  width: 18px; height: 18px; border-radius: 50%; object-fit: cover;
+}
+.account-avatar-fallback {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--gold); color: var(--primary-dark); font-size: 10px; font-weight: 700;
+}
+.account-avatar-lg, .account-avatar-lg.account-avatar-fallback {
+  width: 52px; height: 52px; border-radius: 50%; object-fit: cover; font-size: 20px;
+}
+.auth-modal .auth-current { display: flex; align-items: center; gap: 14px; margin: 14px 0; }
+.auth-divider {
+  display: flex; align-items: center; text-align: center; color: var(--ink-soft);
+  font-size: 12px; margin: 18px 0; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; border-bottom: 1px solid var(--border); }
+.auth-divider::before { margin-right: 10px; }
+.auth-divider::after { margin-left: 10px; }
+
+/* =========================================================================
+   COMPRAS PARCELADAS
+   ========================================================================= */
+.installment-card.done { border-color: var(--green); background: #eef8ec; }
+.installment-dots { display: flex; flex-wrap: wrap; gap: 4px; }
+.installment-dot {
+  width: 10px; height: 10px; border-radius: 3px; background: var(--border-strong);
+}
+.installment-dot.paga { background: var(--green); }
+.installment-dot.futura { background: var(--border); }
+
+/* =========================================================================
+   TRILHA "BRASIL: HISTÓRIA & ECONOMIA" — conto antes do quiz
+   ========================================================================= */
+.story-box { max-width: 620px; }
+.story-text p {
+  font-size: 14.5px;
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+.story-text p:first-of-type {
+  font-family: var(--font-display);
+  font-size: 16px;
+}
+
+/* =========================================================================
+   ANIMAÇÕES DA TRILHA GAMIFICADA (mais vida na Academia Fin+)
+   ========================================================================= */
+.quiz-box {
+  position: relative;
+  overflow: visible;
+  animation: quizPopIn 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+@keyframes quizPopIn {
+  from { opacity: 0; transform: scale(0.92) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.quiz-option { transition: border-color 0.15s, background 0.15s, transform 0.15s; }
+.quiz-option.correct { animation: optionPulse 0.4s ease; }
+.quiz-option.wrong { animation: optionShake 0.4s ease; }
+@keyframes optionPulse {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+@keyframes optionShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+
+.quiz-result-emoji { animation: resultPop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.3); display: inline-block; }
+@keyframes resultPop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.lessons-row .lesson-node {
+  opacity: 0;
+  animation: nodeIn 0.35s ease forwards;
+}
+.lessons-row .lesson-node:nth-child(1) { animation-delay: 0.02s; }
+.lessons-row .lesson-node:nth-child(2) { animation-delay: 0.08s; }
+.lessons-row .lesson-node:nth-child(3) { animation-delay: 0.14s; }
+.lessons-row .lesson-node:nth-child(4) { animation-delay: 0.2s; }
+.lessons-row .lesson-node:nth-child(5) { animation-delay: 0.26s; }
+.lessons-row .lesson-node:nth-child(n+6) { animation-delay: 0.3s; }
+@keyframes nodeIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.lesson-node {
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.lesson-node.done .lesson-icon { animation: resultPop 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.3); display: inline-block; }
+
+.confetti-piece {
+  position: absolute;
+  top: -10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  transform: rotate(var(--rot, 0deg));
+  animation: confettiFall 1.5s ease-in forwards;
+  pointer-events: none;
+}
+@keyframes confettiFall {
+  to { transform: translateY(340px) rotate(calc(var(--rot, 0deg) + 260deg)); opacity: 0; }
+}
+
+.level-toast {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: #3a2600;
+}
+.level-toast b { color: #3a2600; }
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-box, .quiz-option.correct, .quiz-option.wrong, .quiz-result-emoji,
+  .lessons-row .lesson-node, .lesson-node.done .lesson-icon, .confetti-piece {
+    animation: none !important;
+    opacity: 1;
+  }
+}
+
 /* ---------- rodapé ---------- */
 .app-footer {
   text-align: center;

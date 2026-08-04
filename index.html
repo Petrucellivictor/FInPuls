@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css" />
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -36,6 +37,7 @@
         </div>
       </div>
       <div class="header-stats">
+        <button class="stat-chip account-chip" id="accountBtn" title="Entrar / minha conta">👤 Entrar</button>
         <div class="stat-chip xp"><span class="ico">⭐</span><span id="headerXp">0 XP</span></div>
         <div class="stat-chip streak"><span class="ico">🔥</span><span id="headerStreak">0 dias</span></div>
         <div class="stat-chip"><span class="ico">🎯</span><span id="headerLevel">Iniciante</span></div>
@@ -272,6 +274,23 @@
 
       <div class="card mt-16">
         <div class="flex-between">
+          <h3 style="margin:0">🧾 Compras Parceladas</h3>
+          <span class="stat-chip xp" title="Total de parcelas ativas neste mês"><span class="ico">📅</span><span id="instKpiMes">R$ 0,00</span></span>
+        </div>
+        <p class="text-soft text-sm">Registre o valor total e o número de parcelas — o Fin+ calcula sozinho quantas parcelas já venceram e quanto ainda falta pagar.</p>
+        <div class="grid tx-form-grid">
+          <div class="field"><label for="instDescricao">Descrição</label><input type="text" id="instDescricao" placeholder="Ex: Celular novo" /></div>
+          <div class="field"><label for="instValorTotal">Valor total da compra (R$)</label><input type="number" id="instValorTotal" min="0" step="0.01" /></div>
+          <div class="field"><label for="instNumParcelas">Número de parcelas</label><input type="number" id="instNumParcelas" min="1" step="1" /></div>
+          <div class="field"><label for="instCategoriaSelect">Categoria</label><select id="instCategoriaSelect"></select></div>
+          <div class="field"><label for="instData">Data da compra</label><input type="date" id="instData" /></div>
+        </div>
+        <button class="btn btn-primary btn-block" id="instAddBtn">Adicionar compra parcelada</button>
+        <div class="grid grid-2 mt-16" id="instList"></div>
+      </div>
+
+      <div class="card mt-16">
+        <div class="flex-between">
           <h3 style="margin:0">🐷 Cofrinhos (metas de economia)</h3>
         </div>
         <p class="text-soft text-sm">Crie metas com nome e valor — cada aporte te aproxima da conclusão. Ao bater 100%, é festa.</p>
@@ -333,7 +352,19 @@
         </div>
         <div class="stat-chip xp"><span class="ico">⭐</span><span id="courseXpLabel">0 XP</span></div>
       </div>
-      <div id="courseContainer"></div>
+
+      <div class="invest-filters" id="learnSubnav">
+        <button class="filter-chip active" data-learn="financeira">📈 Trilha Financeira</button>
+        <button class="filter-chip" data-learn="historia">🇧🇷 Brasil: História &amp; Economia</button>
+      </div>
+
+      <div id="learnFinanceiraContent">
+        <div id="courseContainer"></div>
+      </div>
+      <div id="learnHistoriaContent" class="hidden">
+        <p class="text-soft text-sm">Pequenos contos sobre as moedas que o Brasil já teve, os ciclos econômicos, a desigualdade de renda e o papel do Estado — leia a história antes de cada quiz.</p>
+        <div id="historyCourseContainer"></div>
+      </div>
 
       <div class="card mt-16">
         <h3>🏆 Conquistas</h3>
@@ -457,13 +488,21 @@
       <div class="grid grid-2 mt-16">
         <div class="card">
           <h3>Registrar compra</h3>
-          <div class="grid tx-form-grid">
+          <div class="field"><label for="stockTradeTipo">Tipo</label><select id="stockTradeTipo"><option value="Ação">Ação</option><option value="FII">FII</option><option value="Criptomoeda">Criptomoeda</option></select></div>
+          <div id="stockFieldsAcaoFii" class="grid tx-form-grid">
             <div class="field"><label for="stockTradeTicker">Ticker</label><input type="text" id="stockTradeTicker" placeholder="Ex: PETR4, MXRF11" style="text-transform:uppercase" /></div>
-            <div class="field"><label for="stockTradeTipo">Tipo</label><select id="stockTradeTipo"><option value="Ação">Ação</option><option value="FII">FII</option></select></div>
             <div class="field"><label for="stockTradeQtd">Quantidade</label><input type="number" id="stockTradeQtd" min="0" step="1" /></div>
             <div class="field"><label for="stockTradePreco">Preço pago (unitário)</label><input type="number" id="stockTradePreco" min="0" step="0.01" /></div>
-            <div class="field"><label for="stockTradeData">Data da compra</label><input type="date" id="stockTradeData" /></div>
           </div>
+          <div id="stockFieldsCripto" class="grid tx-form-grid hidden">
+            <div class="field"><label for="stockCryptoTicker">Criptomoeda</label><select id="stockCryptoTicker"></select></div>
+            <div class="field">
+              <label for="stockCryptoValor">Valor investido (R$)</label>
+              <input type="number" id="stockCryptoValor" min="0" step="0.01" placeholder="Ex: 500" />
+            </div>
+          </div>
+          <p class="text-sm text-soft" id="stockCryptoHint" style="display:none">Cripto se compra em fração: informe quanto você quer investir em reais que o Fin+ busca a cotação atual e calcula a quantidade automaticamente.</p>
+          <div class="field"><label for="stockTradeData">Data da compra</label><input type="date" id="stockTradeData" /></div>
           <button class="btn btn-primary btn-block" id="stockAddTradeBtn">Adicionar compra</button>
         </div>
 
@@ -526,15 +565,19 @@
 <!-- Módulos JS -->
 <script src="js/data.js"></script>
 <script src="js/storage.js"></script>
+<script src="js/fx.js"></script>
 <script src="js/tabs.js"></script>
+<script src="js/auth.js"></script>
 <script src="js/onboarding.js"></script>
 <script src="js/investments.js"></script>
 <script src="js/simulator.js"></script>
 <script src="js/wallet.js"></script>
+<script src="js/installments.js"></script>
 <script src="js/goals.js"></script>
 <script src="js/portfolio.js"></script>
 <script src="js/stocks.js"></script>
 <script src="js/learn.js"></script>
+<script src="js/history.js"></script>
 <script src="js/engagement.js"></script>
 <script src="js/achievements.js"></script>
 <script src="js/market.js"></script>

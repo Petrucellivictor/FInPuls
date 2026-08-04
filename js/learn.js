@@ -20,10 +20,17 @@ const Learn = {
   },
 
   addXp(amount) {
+    const oldLevel = this.playerLevel();
     const xp = this.getXp() + amount;
     Store.set(STORAGE_KEYS.XP, xp);
     this.bumpStreak();
     document.dispatchEvent(new CustomEvent("xp:updated"));
+    const newLevel = this.playerLevel();
+    if (newLevel > oldLevel && typeof Fx !== "undefined") {
+      const tierOld = playerLevelTitle(oldLevel);
+      const tierNew = playerLevelTitle(newLevel);
+      if (tierNew.titulo !== tierOld.titulo) Fx.levelUpToast(tierNew);
+    }
     return xp;
   },
 
@@ -199,6 +206,7 @@ const Learn = {
         <button class="btn btn-primary btn-block mt-16" id="quizCloseBtn">${passed ? "Continuar" : "Tentar novamente"}</button>
       </div>
     `;
+    if (passed && typeof Fx !== "undefined") Fx.confetti(overlay.querySelector(".quiz-box"));
 
     document.getElementById("quizCloseBtn").addEventListener("click", () => {
       overlay.remove();
