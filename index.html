@@ -206,6 +206,24 @@
           <div class="sim-bars" id="simBars"></div>
         </div>
       </div>
+
+      <div class="card mt-16">
+        <div class="section-title" style="margin-bottom:10px">
+          <div>
+            <h3 style="font-size:16px;margin:0">📊 Comparador de Investimentos</h3>
+            <div class="subtitle">Informe o valor e o prazo — o Fin+ calcula as 3 opções de renda fixa mais vantajosas (de 4 simuladas) e compara com 1 opção de renda variável (FII), usando a Selic atual como referência.</div>
+          </div>
+        </div>
+        <div class="grid cmp-form-grid">
+          <div class="field"><label for="cmpValor">Valor a investir (R$)</label><input type="number" id="cmpValor" value="10000" min="0" /></div>
+          <div class="field"><label for="cmpPrazo">Prazo (dias)</label><input type="number" id="cmpPrazo" value="360" min="1" /></div>
+          <div class="field"><label for="cmpPctCdb">CDB paga (% do CDI)</label><input type="number" id="cmpPctCdb" value="100" min="0" step="1" /></div>
+          <div class="field"><label for="cmpPctLci">LCI/LCA paga (% do CDI)</label><input type="number" id="cmpPctLci" value="90" min="0" step="1" /></div>
+          <div class="field"><label for="cmpDyFii">Dividend yield estimado do FII (% a.a.)</label><input type="number" id="cmpDyFii" value="9" min="0" step="0.1" /></div>
+        </div>
+        <button class="btn btn-primary btn-block" id="cmpCalcBtn">Comparar investimentos</button>
+        <div id="cmpResult" class="mt-16"></div>
+      </div>
     </section>
 
     <!-- ---------- CARTEIRA / CONTROLE DE GASTOS ---------- -->
@@ -338,12 +356,23 @@
       <div class="section-title">
         <div>
           <h2>Academia Fin+</h2>
-          <div class="subtitle">Uma trilha só: educação financeira intercalada com pequenos contos sobre a história econômica do Brasil.</div>
+          <div class="subtitle">Educação financeira intercalada com a história econômica do Brasil — e, à parte, uma trilha para quem quer empreender.</div>
         </div>
         <div class="stat-chip xp"><span class="ico">⭐</span><span id="courseXpLabel">0 XP</span></div>
       </div>
 
-      <div id="trailContainer"></div>
+      <div class="invest-filters" id="academiaSubnav">
+        <button class="filter-chip active" data-academia="trilha">🎓 Trilha Principal</button>
+        <button class="filter-chip" data-academia="empreender">💼 Empreender</button>
+      </div>
+
+      <div id="academiaTrilhaContent">
+        <div id="trailContainer"></div>
+      </div>
+      <div id="academiaEmpreenderContent" class="hidden">
+        <p class="text-soft text-sm">Uma trilha própria para quem quer empreender ou já é empresário: a diferença entre os dois, regimes tributários (MEI, Simples, Presumido, Real), obrigações fiscais/contábeis e gestão de pessoas e finanças — em mini aulas didáticas, no mesmo estilo Duolingo. Conteúdo educativo, não é consultoria contábil ou tributária.</p>
+        <div id="businessTrailContainer"></div>
+      </div>
 
       <div class="card mt-16">
         <h3>🏆 Conquistas</h3>
@@ -558,6 +587,7 @@
 <script src="js/stocks.js"></script>
 <script src="js/learn.js"></script>
 <script src="js/trail.js"></script>
+<script src="js/business.js"></script>
 <script src="js/engagement.js"></script>
 <script src="js/achievements.js"></script>
 <script src="js/market.js"></script>

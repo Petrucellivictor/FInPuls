@@ -620,6 +620,10 @@ input:focus, select:focus, textarea:focus {
 .tx-form-grid { grid-template-columns: 1fr 1fr 1fr; align-items: end; }
 @media (max-width: 700px) { .tx-form-grid { grid-template-columns: 1fr; } }
 
+.cmp-form-grid { grid-template-columns: repeat(5, 1fr); align-items: end; }
+@media (max-width: 900px) { .cmp-form-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 500px) { .cmp-form-grid { grid-template-columns: 1fr; } }
+
 .tx-type-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
 .tx-type-btn {
   flex: 1; padding: 10px; border-radius: 10px; border: 1.5px solid var(--border);

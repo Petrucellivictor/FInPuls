@@ -24,6 +24,7 @@ const STORAGE_KEYS = {
   INSTALLMENTS: "if_installments",
   ACCOUNT: "if_account",
   HISTORY_PROGRESS: "if_history_progress",
+  BUSINESS_PROGRESS: "if_business_progress",
 };
 
 const Store = {

@@ -107,6 +107,8 @@ fin-plus/
 │   ├── stocks.js                                 → aba Ações & FIIs: posições, dividendos, cripto fracionada
 │   ├── learn.js                                    → utilitários de gamificação (XP, streak, nível de jogador)
 │   ├── trail.js                                      → trilha única intercalada (financeira + Brasil: História), caminho sinuoso
+│   ├── business.js                                     → trilha "Empreender" (independente): regimes tributários,
+│   │                                                      obrigações fiscais/contábeis e gestão de pessoas/finanças
 │   ├── engagement.js                                   → desafios diários, missão da semana e evento do dia
 │   ├── achievements.js                                   → conquistas desbloqueadas pelo uso real do app
 │   ├── market.js                                           → indicadores em tempo real (moedas, cripto, BCB)
@@ -117,7 +119,7 @@ fin-plus/
 └── README.md
 ```
 
-## O que já funciona (v5 — do bolso à história econômica, com o POLVIn interativo)
+## O que já funciona (v6 — do bolso à empresa própria, com o POLVIn interativo)
 
 ### Conta e personalização
 - **Login com Google ou perfil local por e-mail** (sem senha): personaliza
@@ -158,15 +160,33 @@ fin-plus/
 - **Níveis de jogador nomeados**: Iniciante → Aprendiz Financeiro →
   Planejador → Investidor → Construtor de Patrimônio → Mestre Fin+, com o
   contador de XP no cabeçalho "subindo" com animação ao ganhar pontos.
+- **Trilha "Empreender"** (nova!): uma trilha independente, no mesmo
+  estilo, para quem quer abrir ou já tem uma empresa — 5 níveis, 15 mini
+  aulas didáticas com quiz. Cobre a diferença entre empreender e ser
+  empresário, os 4 regimes tributários (MEI, Simples Nacional, Lucro
+  Presumido, Lucro Real — o que é cada um, limites e quando compensa
+  migrar), obrigações fiscais/contábeis (notas fiscais, prazos, como
+  preparar a entrega mensal para o contador) e gestão de pessoas e
+  finanças (custo real de um funcionário, como reter talento, separar
+  finanças pessoais da empresa). Conteúdo educativo — não é consultoria
+  contábil, tributária ou trabalhista, e valores de limites/alíquotas
+  mudam por lei; confirme sempre com seu contador.
 - **Desafios diários**, **missão da semana** e **evento aleatório do dia**
   (cenários educativos), com detecção automática de progresso.
-- **Conquistas**: 17 badges desbloqueadas pelo uso real do app, incluindo
-  completar a trilha unificada por completo.
+- **Conquistas**: 19 badges desbloqueadas pelo uso real do app, incluindo
+  completar a trilha unificada e a trilha Empreender por completo.
 
 ### Dinheiro e investimentos
 - **Guia de investimentos** com 9 tipos, risco, liquidez, tributação,
   garantia, prós e contras, e filtros por categoria/nível.
-- **Simulador de juros compostos** (investir x guardar sem render).
+- **Simulador de juros compostos** (investir x guardar sem render) e um
+  **Comparador de Investimentos** (novo!): informe o valor e o prazo, e o
+  Fin+ simula Poupança, CDB, LCI/LCA e Tesouro Selic, usando a Selic
+  atual (Banco Central) como referência, aplica o IR regressivo real e
+  ranqueia as 3 opções de renda fixa mais vantajosas líquidas — mais 1
+  comparação com FIIs (renda variável, via dividend yield estimado) — com
+  uma explicação de por que a vencedora venceu (isenção de IR x taxa
+  nominal maior).
 - **Carteira digital**: entradas/saídas, orçamento por categoria, alertas
   de gasto compulsivo, lista de espera de desejos (regra de 7 dias).
 - **Compras parceladas** (nova!): registre o valor total e o número de
@@ -245,6 +265,9 @@ não tem, e não deveria simular de forma enganosa:
 
 ---
 *Este projeto é uma ferramenta educativa. Nenhum conteúdo aqui constitui
-recomendação de investimento, política ou econômica personalizada — os
-temas de história e economia são apresentados de forma factual e
-educativa, incluindo diferentes correntes de pensamento econômico.*
+recomendação de investimento, tributária, contábil, trabalhista, política
+ou econômica personalizada — os temas de história e economia são
+apresentados de forma factual e educativa, incluindo diferentes correntes
+de pensamento econômico, e os valores de limites/alíquotas tributárias
+citados na trilha Empreender são aproximados e mudam por lei: confirme
+sempre com um contador antes de qualquer decisão real.*

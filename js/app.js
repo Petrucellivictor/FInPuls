@@ -16,6 +16,7 @@ const App = {
     Portfolio.init();
     Stocks.init();
     Trail.init();
+    Business.init();
     Engagement.init();
     Achievements.init();
     Market.init();

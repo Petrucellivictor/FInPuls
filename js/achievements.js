@@ -38,6 +38,11 @@ const Achievements = {
       const historyDone = HISTORY_COURSE.every((lvl) => lvl.licoes.every((l) => !!historyProgress[l.id]));
       return courseDone && historyDone;
     },
+    primeiro_passo_empreendedor: () => Object.keys(Store.get(STORAGE_KEYS.BUSINESS_PROGRESS, {})).length > 0,
+    mestre_empreendedor: () => {
+      const progress = Store.get(STORAGE_KEYS.BUSINESS_PROGRESS, {});
+      return BUSINESS_COURSE.every((lvl) => lvl.licoes.every((l) => !!progress[l.id]));
+    },
   },
 
   getUnlocked() {

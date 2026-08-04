@@ -1363,6 +1363,8 @@ const ACHIEVEMENTS = [
   { id: "historiador", emoji: "🇧🇷", titulo: "Historiador econômico", descricao: "Você completou toda a trilha Brasil: História & Economia." },
   { id: "primeira_compra_parcelada", emoji: "🧾", titulo: "Primeira compra parcelada", descricao: "Você registrou sua primeira compra parcelada na Carteira." },
   { id: "trilha_unificada_completa", emoji: "🌟", titulo: "Mestre da trilha completa", descricao: "Você completou toda a Academia Fin+: trilha financeira e Brasil: História & Economia, do início ao fim." },
+  { id: "primeiro_passo_empreendedor", emoji: "💼", titulo: "Primeiro passo empreendedor", descricao: "Você completou sua primeira lição na trilha Empreender." },
+  { id: "mestre_empreendedor", emoji: "🏢", titulo: "Mestre empreendedor", descricao: "Você completou toda a trilha Empreender: regimes tributários, obrigações e gestão de pessoas e finanças." },
 ];
 
 /* -------------------------------------------------------------------------
@@ -1818,6 +1820,503 @@ const HISTORY_COURSE = [
             opcoes: ["Se deve existir Estado ou não, de forma absoluta", "Em quais setores, com que intensidade e financiado por qual tipo de imposto o Estado deve atuar", "Apenas qual será a cor da moeda", "Não existe debate nenhum sobre o tema"],
             correta: 1,
             explicacao: "O debate raramente é binário: na prática, gira em torno de graus e formas específicas de atuação estatal e tributação, não de 'tudo ou nada'.",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+/* -------------------------------------------------------------------------
+   19) TRILHA "EMPREENDER" — mini aulas + quiz para quem quer abrir ou já
+   tem uma empresa. Cobre a diferença entre empreender e ser empresário,
+   regimes tributários (MEI, Simples, Presumido, Real), obrigações
+   fiscais/contábeis e gestão de pessoas e finanças. Valores de limites e
+   alíquotas mudam por lei ao longo do tempo — os números aqui são
+   aproximados e devem ser confirmados com um contador antes de qualquer
+   decisão real. Não constitui consultoria tributária ou trabalhista.
+   ------------------------------------------------------------------------- */
+const BUSINESS_COURSE = [
+  {
+    id: "enivel1",
+    titulo: "Nível 1 · Empreender x Ser Empresário",
+    cor: "#0277BD",
+    licoes: [
+      {
+        id: "e1_1",
+        titulo: "Empreender não é o mesmo que ser empresário",
+        xp: 30,
+        aula: [
+          "Muita gente usa 'empreender' e 'ser empresário' como sinônimos, mas são coisas diferentes. Empreender é uma atitude: identificar um problema, criar uma solução, assumir riscos calculados para fazer algo acontecer. Você pode empreender dentro de uma empresa grande (o chamado 'intraempreendedorismo'), como autônomo informal, ou criando o seu próprio negócio.",
+          "Ser empresário, por outro lado, é uma condição jurídica: significa ter uma pessoa jurídica formalmente registrada (com CNPJ), sujeita a obrigações legais, fiscais e contábeis específicas. Dá para empreender sem nunca abrir uma empresa — e dá para ser 'empresário' apenas administrando um negócio que você comprou ou herdou, sem necessariamente ter empreendido nada.",
+          "Por que essa distinção importa? Porque formalizar uma empresa é uma decisão estratégica, não um destino automático de quem empreende. Antes de abrir CNPJ, vale entender se faz sentido para o seu momento — é sobre isso que essa trilha vai te ajudar a decidir.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual a diferença central entre 'empreender' e 'ser empresário'?",
+            opcoes: ["Não há diferença, são sinônimos", "Empreender é uma atitude de criar/agir; ser empresário é uma condição jurídica formal (ter um CNPJ)", "Só é possível empreender depois de abrir uma empresa", "Ser empresário significa necessariamente ter criado o próprio negócio"],
+            correta: 1,
+            explicacao: "Empreender é comportamento; ser empresário é uma condição jurídica formal. Uma coisa não depende da outra.",
+          },
+          {
+            pergunta: "O que é 'intraempreendedorismo'?",
+            opcoes: ["Abrir uma empresa fora do país", "Empreender dentro de uma empresa já existente, como funcionário que propõe e executa soluções", "Um tipo de imposto", "Um regime tributário"],
+            correta: 1,
+            explicacao: "É possível ter atitude empreendedora sem ter (ou precisar de) uma empresa própria — dentro de uma organização já existente, por exemplo.",
+          },
+          {
+            pergunta: "Por que a decisão de abrir uma empresa deve ser estratégica, e não automática?",
+            opcoes: ["Porque abrir CNPJ é obrigatório para qualquer atividade", "Porque formalizar traz obrigações fiscais e contábeis que só compensam dependendo do momento e do modelo de negócio", "Porque não traz vantagem nenhuma", "Porque é proibido empreender informalmente"],
+            correta: 1,
+            explicacao: "Formalizar tem custos e obrigações reais — vale entender se, e quando, isso compensa para o seu caso.",
+          },
+        ],
+      },
+      {
+        id: "e1_2",
+        titulo: "Do CPF ao CNPJ: por que formalizar",
+        xp: 30,
+        aula: [
+          "Trabalhar 'no CPF' (como autônomo sem empresa) é possível, mas tem limites: você não emite nota fiscal como pessoa jurídica, alguns clientes (principalmente empresas maiores) exigem CNPJ para fechar contrato, e a tributação sobre pessoa física é progressiva e pode pesar conforme a renda cresce.",
+          "Formalizar como pessoa jurídica traz vantagens práticas: acesso a crédito PJ (geralmente com taxas melhores), possibilidade de emitir nota fiscal, contratos mais robustos, e — dependendo do regime — uma carga tributária proporcionalmente menor do que pagar tudo via Imposto de Renda de pessoa física.",
+          "Também existe uma vantagem de separação patrimonial: dependendo do tipo de empresa (uma LTDA ou uma Sociedade Unipessoal, por exemplo), o patrimônio pessoal do sócio fica mais protegido das dívidas do negócio do que quando você opera tudo em nome próprio. Isso não é absoluto — existem exceções legais —, mas é uma camada extra de proteção que vale entender com um contador ou advogado.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual é uma desvantagem de operar 'no CPF' conforme a renda cresce?",
+            opcoes: ["Não existe desvantagem alguma", "A tributação de pessoa física é progressiva e pode chegar a alíquotas altas", "CPF nunca paga imposto", "É proibido por lei"],
+            correta: 1,
+            explicacao: "O IR de pessoa física é progressivo — quanto mais você ganha, maior a alíquota marginal aplicada.",
+          },
+          {
+            pergunta: "Qual vantagem prática a formalização como PJ costuma trazer?",
+            opcoes: ["Impossibilidade de emitir nota fiscal", "Acesso a crédito PJ, emissão de nota fiscal e contratos mais robustos com outras empresas", "Isenção total de qualquer imposto", "Proibição de contratar funcionários"],
+            correta: 1,
+            explicacao: "PJ costuma abrir portas comerciais e de crédito que pessoa física, operando informalmente, não tem.",
+          },
+          {
+            pergunta: "O que a separação patrimonial busca proteger, dependendo do tipo de empresa escolhido?",
+            opcoes: ["O patrimônio pessoal do sócio em relação às dívidas do negócio", "O faturamento da empresa contra impostos", "Os funcionários contra a CLT", "Nenhuma proteção real existe"],
+            correta: 0,
+            explicacao: "Em certos tipos societários, o patrimônio pessoal do sócio fica mais isolado das dívidas da empresa — com exceções previstas em lei.",
+          },
+        ],
+      },
+      {
+        id: "e1_3",
+        titulo: "Antes de abrir: um plano de negócio simples",
+        xp: 30,
+        aula: [
+          "Antes de formalizar, vale mapear três coisas no papel: quanto custa para o negócio existir todo mês (custos fixos, como aluguel e ferramentas), quanto custa cada venda/entrega (custos variáveis), e a partir de quanto de faturamento a empresa começa a dar lucro (o chamado ponto de equilíbrio).",
+          "Também vale mapear quem é o seu cliente e por que ele pagaria por essa solução — e olhar para quem já faz algo parecido (concorrência), não para copiar, mas para entender o que já funciona e onde existe espaço para ser diferente ou melhor.",
+          "Esse mapeamento não precisa ser um documento de 50 páginas. Pode ser algumas linhas por tópico. O objetivo é reduzir a chance de abrir uma empresa baseada só em entusiasmo, sem verificar se a conta fecha.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que é o 'ponto de equilíbrio' de um negócio?",
+            opcoes: ["O valor que o dono precisa ganhar por mês", "O faturamento mínimo a partir do qual a empresa começa a ter lucro, cobrindo custos fixos e variáveis", "Um tipo de imposto", "O número de funcionários ideal"],
+            correta: 1,
+            explicacao: "É o faturamento em que a empresa 'empata' — nem lucra, nem perde — cobrindo exatamente seus custos.",
+          },
+          {
+            pergunta: "Por que olhar para a concorrência antes de abrir a empresa?",
+            opcoes: ["Para copiar exatamente o que já existe", "Para entender o que já funciona no mercado e identificar espaço para ser diferente ou melhor", "Não faz sentido olhar para concorrentes", "Porque é uma exigência legal"],
+            correta: 1,
+            explicacao: "Estudar concorrentes ajuda a calibrar expectativas e a encontrar um diferencial real, não a copiar.",
+          },
+          {
+            pergunta: "Qual é o principal risco de abrir uma empresa baseado só em entusiasmo, sem planejamento básico?",
+            opcoes: ["Nenhum risco real", "Não verificar se as contas fecham — abrir um negócio que gasta mais do que arrecada desde o início", "Pagar menos impostos", "Ter clientes em excesso"],
+            correta: 1,
+            explicacao: "Sem mapear custos e ponto de equilíbrio, é fácil abrir uma empresa que já nasce no vermelho.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "enivel2",
+    titulo: "Nível 2 · MEI e Simples Nacional",
+    cor: "#00897B",
+    licoes: [
+      {
+        id: "e2_1",
+        titulo: "MEI: a porta de entrada da formalização",
+        xp: 35,
+        aula: [
+          "O MEI (Microempreendedor Individual) é o jeito mais simples de formalizar um negócio pequeno no Brasil. Você paga um valor fixo mensal (o DAS-MEI), que já inclui a contribuição ao INSS — te dando direito a benefícios como aposentadoria e auxílio-doença — mais um valor pequeno de ICMS (se vende produtos) ou ISS (se presta serviços).",
+          "Para ser MEI, existem limites: o faturamento anual precisa ficar dentro de um teto definido por lei (atualmente na faixa de R$ 81 mil por ano — esse valor é atualizado de tempos em tempos, sempre confirme o valor vigente), você não pode ter sócios, e só pode contratar no máximo 1 funcionário. Além disso, apenas algumas atividades específicas podem optar pelo MEI.",
+          "O MEI é ótimo para começar simples e testar um negócio com baixo custo de formalização. Mas tem limitações reais: poucas deduções, dificuldade para crescer além do teto de faturamento, e nenhuma flexibilidade para ter sócios. Quando o negócio cresce, migrar para o Simples Nacional costuma ser o próximo passo natural.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que o pagamento fixo mensal do MEI (DAS-MEI) inclui?",
+            opcoes: ["Apenas o Imposto de Renda", "Contribuição ao INSS (dando direito a benefícios previdenciários) mais um valor fixo de ICMS ou ISS", "Nenhum imposto, é totalmente isento", "Apenas taxas bancárias"],
+            correta: 1,
+            explicacao: "O DAS-MEI é um valor único mensal que já cobre a previdência do empreendedor e um pequeno valor de ICMS/ISS.",
+          },
+          {
+            pergunta: "Quantos funcionários um MEI pode contratar, no máximo?",
+            opcoes: ["Nenhum", "No máximo 1", "Até 10", "Sem limite"],
+            correta: 1,
+            explicacao: "O MEI pode ter até 1 empregado contratado — mais que isso exige migrar de regime.",
+          },
+          {
+            pergunta: "Por que uma empresa que cresce além do teto do MEI normalmente migra para outro regime?",
+            opcoes: ["Porque o MEI deixa de existir depois de um tempo", "Porque o MEI tem um limite legal de faturamento anual, e ultrapassá-lo exige migrar para um regime como o Simples Nacional", "Porque é proibido continuar como MEI depois de 1 ano", "Porque o MEI só serve para produtos, nunca para serviços"],
+            correta: 1,
+            explicacao: "Passar do teto de faturamento do MEI obriga a migração para outro regime tributário, geralmente o Simples Nacional.",
+          },
+        ],
+      },
+      {
+        id: "e2_2",
+        titulo: "Simples Nacional: um imposto só para simplificar",
+        xp: 35,
+        aula: [
+          "O Simples Nacional foi criado para simplificar a vida de micro e pequenas empresas: em vez de calcular e pagar separadamente uma lista de tributos federais, estaduais e municipais, a empresa paga uma guia única (o DAS), com um percentual sobre o faturamento que já engloba tudo.",
+          "Podem optar pelo Simples empresas com receita bruta anual até um teto bem mais alto que o do MEI (atualmente na faixa de R$ 4,8 milhões por ano). A alíquota não é fixa: ela varia conforme a faixa de faturamento acumulado nos últimos 12 meses e o tipo de atividade (existem tabelas diferentes — chamadas de 'Anexos' — para comércio, indústria e serviços).",
+          "Uma particularidade importante: quanto mais a empresa fatura, maior tende a ser a alíquota efetiva dentro da tabela — por isso, entender em qual faixa sua empresa está, e projetar o crescimento, ajuda a não ser pego de surpresa por um aumento de carga tributária.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual é a principal proposta do Simples Nacional?",
+            opcoes: ["Aumentar a quantidade de guias de impostos a pagar", "Unificar vários tributos federais, estaduais e municipais em uma guia única (DAS), com base no faturamento", "Isentar totalmente a empresa de qualquer imposto", "Substituir o MEI para todas as empresas"],
+            correta: 1,
+            explicacao: "O Simples troca várias guias separadas por uma única, calculada sobre o faturamento.",
+          },
+          {
+            pergunta: "O que determina a alíquota que uma empresa paga dentro do Simples Nacional?",
+            opcoes: ["Um valor fixo, igual para todas as empresas", "A faixa de faturamento acumulado nos últimos 12 meses e o tipo de atividade (Anexo)", "O número de sócios da empresa", "A cidade onde a empresa está sediada, exclusivamente"],
+            correta: 1,
+            explicacao: "A alíquota efetiva varia por faixa de faturamento (RBT12) e pelo Anexo correspondente à atividade.",
+          },
+          {
+            pergunta: "O que geralmente acontece com a alíquota efetiva conforme o faturamento da empresa sobe dentro do Simples?",
+            opcoes: ["Ela sempre diminui", "Ela tende a aumentar, dentro da faixa correspondente da tabela", "Ela nunca muda", "O faturamento não tem relação com a alíquota"],
+            correta: 1,
+            explicacao: "É uma tabela progressiva: faturar mais, dentro do Simples, tende a elevar a alíquota efetiva aplicada.",
+          },
+        ],
+      },
+      {
+        id: "e2_3",
+        titulo: "Fator R e os anexos do Simples",
+        xp: 35,
+        aula: [
+          "Empresas de serviços dentro do Simples Nacional costumam ser tributadas por diferentes 'Anexos' (tabelas), e a diferença entre eles pode ser grande. Um mecanismo importante para algumas atividades de serviço é o chamado 'Fator R': ele compara quanto a empresa gasta com folha de pagamento (salários + encargos) em relação ao seu faturamento nos últimos 12 meses.",
+          "Se essa proporção for igual ou maior que 28% (o Fator R), a empresa pode ser tributada pelo Anexo III, que costuma ter alíquotas mais baixas. Se for menor que isso, a empresa cai no Anexo V, geralmente mais caro. Isso significa que, para algumas empresas de serviço, ter uma folha de pagamento maior (dentro do razoável) pode reduzir a carga tributária proporcional.",
+          "Esse é um exemplo de como o planejamento tributário não é sobre 'sonegar' nada — é sobre entender as regras do jogo e organizar a empresa (contratações, distribuição de pró-labore, etc.) de um jeito legal que reduza o imposto pago dentro do que a lei permite. Por isso, ter um contador de confiança acompanhando isso de perto é tão importante.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que o 'Fator R' compara?",
+            opcoes: ["O lucro líquido da empresa", "A proporção entre gastos com folha de pagamento (salários + encargos) e o faturamento dos últimos 12 meses", "O valor do capital social", "O número de clientes ativos"],
+            correta: 1,
+            explicacao: "O Fator R relaciona folha de pagamento (com encargos) e faturamento acumulado em 12 meses.",
+          },
+          {
+            pergunta: "O que costuma acontecer quando o Fator R de uma empresa de serviços atinge 28% ou mais?",
+            opcoes: ["A empresa é excluída do Simples Nacional", "A empresa pode ser tributada pelo Anexo III, geralmente com alíquotas mais baixas que o Anexo V", "A empresa passa a pagar mais impostos", "Nada muda na tributação"],
+            correta: 1,
+            explicacao: "Atingir o Fator R de 28% costuma dar acesso ao Anexo III, com carga tributária geralmente menor.",
+          },
+          {
+            pergunta: "O planejamento tributário legal (como observar o Fator R) é sobre o quê?",
+            opcoes: ["Sonegar impostos escondendo faturamento", "Organizar a empresa dentro das regras da lei para reduzir legalmente a carga tributária", "Nunca contratar funcionários", "Ignorar as regras fiscais"],
+            correta: 1,
+            explicacao: "Planejamento tributário legal usa as regras existentes a favor da empresa — é diferente de sonegação.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "enivel3",
+    titulo: "Nível 3 · Lucro Presumido e Lucro Real",
+    cor: "#EF6C00",
+    licoes: [
+      {
+        id: "e3_1",
+        titulo: "Lucro Presumido: quando a presunção compensa",
+        xp: 40,
+        aula: [
+          "No Lucro Presumido, a Receita Federal não olha o lucro real da empresa: ela 'presume' que a empresa lucrou um percentual do faturamento (esse percentual varia por atividade — costuma ser bem menor para comércio/indústria do que para serviços) e cobra os impostos (IRPJ e CSLL) sobre esse valor presumido, não sobre o lucro de fato.",
+          "Isso significa que, se a margem de lucro real da empresa for maior do que a margem presumida pela lei, o Lucro Presumido tende a compensar — a empresa paga imposto como se tivesse lucrado menos do que realmente lucrou. Mas se a margem real for menor que a presumida (ou até der prejuízo), a empresa ainda paga como se tivesse lucrado aquele percentual — o que pode ser desvantajoso.",
+          "Podem optar pelo Lucro Presumido empresas com receita bruta total até um teto definido em lei (atualmente na faixa de R$ 78 milhões por ano). É um regime intermediário: mais simples que o Lucro Real, mas com uma carga tributária que não reflete necessariamente o resultado real da empresa.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que o Lucro Presumido usa como base para calcular o IRPJ e a CSLL?",
+            opcoes: ["O lucro líquido contábil exato da empresa", "Um percentual do faturamento definido por lei, que 'presume' a margem de lucro conforme a atividade", "O número de funcionários", "O capital social da empresa"],
+            correta: 1,
+            explicacao: "O regime usa uma margem de lucro presumida por lei, não o resultado contábil real do período.",
+          },
+          {
+            pergunta: "Quando o Lucro Presumido tende a ser vantajoso?",
+            opcoes: ["Quando a margem de lucro real da empresa é maior que a margem presumida pela lei", "Sempre, independente da margem de lucro", "Apenas para empresas com prejuízo", "Nunca é vantajoso"],
+            correta: 0,
+            explicacao: "Se a empresa lucra proporcionalmente mais do que a presunção legal, ela paga imposto sobre uma base menor que a real.",
+          },
+          {
+            pergunta: "O que acontece no Lucro Presumido se a empresa tiver prejuízo real no período?",
+            opcoes: ["Ela fica automaticamente isenta de impostos", "Ela ainda paga IRPJ/CSLL como se tivesse lucrado o percentual presumido, mesmo com prejuízo real", "O governo reembolsa a empresa", "O regime muda automaticamente para o Lucro Real"],
+            correta: 1,
+            explicacao: "A presunção de lucro se aplica independente do resultado real — mesmo com prejuízo, o imposto é calculado sobre a margem presumida.",
+          },
+        ],
+      },
+      {
+        id: "e3_2",
+        titulo: "Lucro Real: tributar o que a empresa realmente lucrou",
+        xp: 40,
+        aula: [
+          "No Lucro Real, o imposto (IRPJ e CSLL) é calculado sobre o lucro contábil de fato, depois de ajustes fiscais específicos (algumas despesas podem ou não ser aceitas como dedução para fins fiscais). É o regime mais complexo dos quatro, exigindo controles contábeis mais detalhados.",
+          "Certas empresas são obrigadas a usar o Lucro Real: quem tem receita anual acima do teto do Lucro Presumido (atualmente na faixa de R$ 78 milhões), instituições financeiras, empresas que têm lucros ou rendimentos vindos do exterior, entre outras situações específicas da lei.",
+          "A grande vantagem do Lucro Real é que ele reflete a realidade: se a empresa lucra pouco (ou tem prejuízo), paga pouco (ou nada) de IRPJ/CSLL sobre o lucro daquele período — e ainda pode compensar prejuízos fiscais de anos anteriores para abater lucros futuros, dentro de um limite legal. Por isso, empresas com margens de lucro baixas ou muito variáveis podem se beneficiar desse regime, mesmo sem serem obrigadas a ele.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Sobre o que incide o imposto no Lucro Real?",
+            opcoes: ["Sobre uma presunção de lucro definida por lei", "Sobre o lucro contábil real da empresa, após ajustes fiscais específicos", "Sobre o faturamento bruto, sem nenhum ajuste", "Sobre o número de funcionários"],
+            correta: 1,
+            explicacao: "O Lucro Real tributa o resultado contábil efetivo, com ajustes fiscais (adições e exclusões) previstos em lei.",
+          },
+          {
+            pergunta: "Quais empresas são obrigadas a usar o Lucro Real?",
+            opcoes: ["Apenas o MEI", "Empresas com receita acima do teto do Lucro Presumido, instituições financeiras, entre outras situações específicas da lei", "Todas as empresas brasileiras, sem exceção", "Apenas empresas de serviços"],
+            correta: 1,
+            explicacao: "A obrigatoriedade depende de faturamento, setor (como instituições financeiras) e outras hipóteses legais.",
+          },
+          {
+            pergunta: "Qual é uma vantagem do Lucro Real para empresas com margem de lucro baixa ou variável?",
+            opcoes: ["Nenhuma vantagem existe", "O imposto reflete o lucro real (paga menos ou nada se lucrar pouco/tiver prejuízo), e prejuízos passados podem abater lucros futuros dentro de um limite legal", "É sempre o regime mais barato para qualquer empresa", "Isenta a empresa de qualquer obrigação contábil"],
+            correta: 1,
+            explicacao: "Diferente do Presumido, o Real cobra sobre o lucro de fato — o que ajuda quem tem margens baixas ou instáveis.",
+          },
+        ],
+      },
+      {
+        id: "e3_3",
+        titulo: "Qual regime escolher — e quando migrar",
+        xp: 40,
+        aula: [
+          "Não existe um regime 'melhor' em absoluto — existe o regime mais adequado para o momento e o perfil da empresa. Como regra bem geral: negócios pequenos e simples começam no MEI; ao crescer além do teto ou precisar de sócios, migram para o Simples Nacional; empresas maiores, ou com margem de lucro alta e poucas despesas dedutíveis, costumam considerar o Lucro Presumido; e empresas com margens baixas, prejuízo recorrente, ou que são obrigadas por lei, avaliam o Lucro Real.",
+          "A troca de regime geralmente só pode ser feita uma vez por ano (no início do ano-calendário), então a decisão exige planejamento — não é algo para decidir de última hora em dezembro. Simular a carga tributária em cada regime, com base no faturamento e nas despesas projetadas, é o que um bom contador faz antes de recomendar uma migração.",
+          "Isso reforça um ponto central desta trilha: entender os regimes não substitui ter um contador — substitui a confusão. Quando você entende os conceitos, consegue ter conversas melhores com seu contador, questionar decisões e participar ativamente do planejamento tributário da sua empresa.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Existe um regime tributário 'melhor' para todas as empresas?",
+            opcoes: ["Sim, o MEI é sempre o melhor", "Sim, o Lucro Real é sempre o melhor", "Não — o regime mais adequado depende do faturamento, margem de lucro e perfil de cada empresa", "Sim, o Simples Nacional é sempre o melhor"],
+            correta: 2,
+            explicacao: "A escolha ideal depende das características específicas de cada negócio, não existe resposta universal.",
+          },
+          {
+            pergunta: "Com que frequência normalmente uma empresa pode trocar de regime tributário?",
+            opcoes: ["A qualquer momento do ano, sem restrição", "Geralmente uma vez por ano, no início do ano-calendário", "Nunca é possível trocar de regime", "Apenas a cada 5 anos"],
+            correta: 1,
+            explicacao: "A troca de regime costuma valer a partir do ano-calendário seguinte à opção, exigindo planejamento antecipado.",
+          },
+          {
+            pergunta: "Qual é o objetivo de entender os regimes tributários, segundo o texto?",
+            opcoes: ["Substituir completamente a necessidade de um contador", "Ter conversas melhores com o contador e participar ativamente do planejamento tributário da empresa", "Sonegar impostos legalmente", "Não há utilidade prática nisso"],
+            correta: 1,
+            explicacao: "Entender os conceitos qualifica sua participação nas decisões — não substitui o profissional contábil.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "enivel4",
+    titulo: "Nível 4 · Obrigações fiscais e contábeis",
+    cor: "#5D4037",
+    licoes: [
+      {
+        id: "e4_1",
+        titulo: "Notas fiscais e livros obrigatórios",
+        xp: 35,
+        aula: [
+          "Toda empresa formal precisa emitir nota fiscal para as vendas ou serviços prestados — é o documento que comprova a operação para o Fisco, para o cliente e para a própria contabilidade da empresa. Deixar de emitir nota é, além de ilegal, um problema contábil: sem nota, fica mais difícil comprovar o faturamento real da empresa.",
+          "Cada regime tem obrigações de escrituração (registro formal das operações) diferentes. O MEI, por exemplo, precisa manter um Livro Caixa simplificado, com entradas e saídas. Empresas do Simples, Presumido e Real têm exigências mais robustas, incluindo livros contábeis e o registro fiscal de todas as notas emitidas e recebidas.",
+          "Guardar essa documentação organizada — notas emitidas, notas recebidas de fornecedores, comprovantes de despesas — não é burocracia por burocracia: é o que permite que seu contador calcule os impostos corretos, aproveite deduções legítimas e monte a contabilidade real da empresa, mês a mês.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que emitir nota fiscal é importante para a empresa, além de ser uma obrigação legal?",
+            opcoes: ["Não tem nenhuma importância prática", "É o documento que comprova o faturamento real, essencial para a contabilidade e para o cálculo correto de impostos", "Serve apenas para o cliente, nunca para a empresa", "Só é necessário para empresas grandes"],
+            correta: 1,
+            explicacao: "A nota fiscal sustenta o registro contábil e fiscal do faturamento real da empresa.",
+          },
+          {
+            pergunta: "O que o MEI precisa manter como controle simplificado de suas movimentações financeiras?",
+            opcoes: ["Um Livro Caixa simplificado, com entradas e saídas", "Nenhum controle é exigido do MEI", "Um balanço patrimonial completo", "Apenas declarações verbais ao contador"],
+            correta: 0,
+            explicacao: "O Livro Caixa simplificado é a exigência básica de escrituração para o MEI.",
+          },
+          {
+            pergunta: "Por que guardar notas fiscais e comprovantes de despesas organizados é importante?",
+            opcoes: ["Não tem utilidade real", "Permite que o contador calcule impostos corretamente e aproveite deduções legítimas", "Serve apenas para decoração do arquivo da empresa", "É opcional e nunca é verificado"],
+            correta: 1,
+            explicacao: "Documentação organizada é a base para uma contabilidade precisa e para aproveitar deduções permitidas por lei.",
+          },
+        ],
+      },
+      {
+        id: "e4_2",
+        titulo: "Prazos e guias: não perca a data",
+        xp: 35,
+        aula: [
+          "Cada regime tributário tem seu próprio calendário de obrigações. O MEI paga o DAS-MEI todo mês, com vencimento no dia 20. Empresas do Simples também pagam o DAS mensalmente. Além do imposto em si, existem obrigações acessórias — declarações que não envolvem pagamento direto, mas que informam ao governo o que a empresa fez (como a DEFIS para o Simples, ou a ECF para Presumido/Real).",
+          "Perder um prazo geralmente gera multa, que cresce com o tempo de atraso, além de juros. Em casos recorrentes, pode gerar problemas mais sérios, como a exclusão do regime tributário ou restrições para emitir certidões de regularidade fiscal — documentos que muitas empresas precisam para participar de licitações ou fechar contratos maiores.",
+          "Ter um calendário fiscal claro (o próprio contador geralmente fornece um) e separar o dinheiro dos impostos antes de gastar o caixa da empresa em outras coisas é uma das práticas mais simples e mais importantes para nunca ser pego de surpresa por uma obrigação vencida.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que são 'obrigações acessórias'?",
+            opcoes: ["O mesmo que pagar imposto", "Declarações que informam ao governo as atividades da empresa, sem envolver pagamento direto (ex.: DEFIS, ECF)", "Um tipo de multa", "Documentos exigidos apenas de bancos"],
+            correta: 1,
+            explicacao: "São declarações informativas, distintas do pagamento de tributos, mas igualmente obrigatórias.",
+          },
+          {
+            pergunta: "O que pode acontecer em casos recorrentes de atraso em obrigações fiscais?",
+            opcoes: ["Nenhuma consequência", "Multas crescentes, juros, e possíveis restrições como exclusão do regime tributário ou problemas para emitir certidões de regularidade fiscal", "A empresa é automaticamente fechada", "O governo perdoa a dívida"],
+            correta: 1,
+            explicacao: "Atrasos recorrentes têm consequências que vão além da multa, incluindo riscos ao próprio regime tributário.",
+          },
+          {
+            pergunta: "Qual prática simples ajuda a evitar surpresas com obrigações fiscais vencidas?",
+            opcoes: ["Gastar todo o caixa disponível e resolver os impostos depois", "Ter um calendário fiscal claro e separar o dinheiro dos impostos antes de usar o caixa para outras despesas", "Ignorar os prazos até receber uma notificação", "Trocar de contador a cada mês"],
+            correta: 1,
+            explicacao: "Separar o dinheiro do imposto com antecedência evita o risco de faltar caixa na hora de pagar.",
+          },
+        ],
+      },
+      {
+        id: "e4_3",
+        titulo: "Preparando a entrega para o seu contador",
+        xp: 35,
+        aula: [
+          "Um bom relacionamento com o escritório de contabilidade começa com organização da sua parte. Todo mês, reúna: extratos bancários completos da conta da empresa, todas as notas fiscais emitidas e recebidas, comprovantes de despesas relevantes, e a folha de pagamento (se houver funcionários) — quanto mais completo e cedo você enviar, menor a chance de erro ou de imposto calculado a mais ou a menos.",
+          "Fazer a conciliação bancária — comparar o que está no extrato com o que está registrado nas suas próprias anotações/sistema — antes de enviar ao contador evita dores de cabeça: valores que 'sobram' ou 'faltam' geralmente indicam uma transação não registrada ou duplicada.",
+          "Um contador não é só quem 'calcula imposto': é um parceiro estratégico do seu negócio, quando você fornece as informações certas, no tempo certo. Empresários que tratam essa entrega como um checklist mensal simples — em vez de uma correria de última hora — geralmente têm uma relação muito mais saudável (e barata) com a contabilidade.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Quais documentos costumam compor a entrega mensal padrão para o contador?",
+            opcoes: ["Apenas o extrato bancário", "Extratos bancários, notas fiscais emitidas e recebidas, comprovantes de despesas e folha de pagamento", "Somente comprovantes de despesas pessoais do sócio", "Nenhum documento é necessário"],
+            correta: 1,
+            explicacao: "Um pacote mensal completo reduz erros e retrabalho na contabilidade da empresa.",
+          },
+          {
+            pergunta: "O que é a 'conciliação bancária'?",
+            opcoes: ["Um tipo de imposto", "Comparar o que está registrado no extrato bancário com os próprios registros/anotações da empresa, para identificar diferenças", "Uma obrigação exclusiva do MEI", "Um processo feito apenas uma vez, na abertura da empresa"],
+            correta: 1,
+            explicacao: "A conciliação cruza extrato bancário e registros internos para encontrar divergências antes que virem problema.",
+          },
+          {
+            pergunta: "Segundo o texto, qual é o papel de um bom contador para o negócio?",
+            opcoes: ["Apenas calcular impostos mecanicamente", "Um parceiro estratégico, quando recebe as informações certas e no tempo certo", "Um papel puramente burocrático, sem valor estratégico", "Substituir a necessidade de o empresário entender qualquer coisa sobre a empresa"],
+            correta: 1,
+            explicacao: "Com boas informações e prazo, o contador vira parceiro de decisão, não só executor de cálculos.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "enivel5",
+    titulo: "Nível 5 · Gestão de Pessoas e Finanças",
+    cor: "#455A64",
+    licoes: [
+      {
+        id: "e5_1",
+        titulo: "Quanto custa um funcionário, de verdade",
+        xp: 40,
+        aula: [
+          "Contratar alguém pela CLT custa bem mais do que o salário que aparece no contracheque. Além do salário, a empresa paga encargos como FGTS (8% do salário, depositado mensalmente em uma conta do trabalhador), a contribuição previdenciária patronal (INSS sobre a folha), 13º salário, férias com o adicional de 1/3, entre outros direitos.",
+          "Somando tudo, é comum que o custo total de um funcionário CLT para a empresa fique bem acima do salário nominal, dependendo do regime tributário e dos benefícios oferecidos. Isso não é um motivo para não contratar — é uma informação essencial para precificar produtos/serviços e planejar o caixa com realismo.",
+          "Existem alternativas de contratação (como PJ ou estágio) para situações específicas, mas cada uma tem regras próprias sobre quando pode (e quando não pode) ser usada — contratar como 'PJ' uma pessoa que na prática trabalha como funcionário CLT (com horário fixo, subordinação direta, exclusividade) é uma prática de risco jurídico chamada de 'pejotização', que pode gerar passivos trabalhistas caros no futuro.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que o custo real de um funcionário CLT é maior do que o salário nominal?",
+            opcoes: ["Não é maior, é exatamente o valor do salário", "Porque incluem encargos como FGTS, INSS patronal, 13º salário e férias com adicional de 1/3, entre outros", "Porque o funcionário recebe várias vezes o mesmo salário", "Não existem encargos adicionais no Brasil"],
+            correta: 1,
+            explicacao: "Os encargos trabalhistas somados ao salário elevam bastante o custo total para a empresa.",
+          },
+          {
+            pergunta: "O que é 'pejotização', mencionada como um risco?",
+            opcoes: ["Um tipo de imposto sobre pessoa jurídica", "Contratar como 'PJ' alguém que na prática trabalha como funcionário CLT (horário fixo, subordinação, exclusividade), o que pode gerar passivos trabalhistas", "Um benefício fiscal legal e sem riscos", "Um regime tributário exclusivo para startups"],
+            correta: 1,
+            explicacao: "Disfarçar uma relação de emprego como contrato PJ é um risco jurídico real, não uma economia sem consequências.",
+          },
+          {
+            pergunta: "Por que entender o custo real de um funcionário é importante para o empresário?",
+            opcoes: ["Não tem utilidade prática", "Ajuda a precificar produtos/serviços corretamente e planejar o caixa da empresa com realismo", "Serve apenas para reduzir salários", "É uma exigência legal de divulgação pública"],
+            correta: 1,
+            explicacao: "Sem considerar o custo total, é fácil precificar errado e comprometer o caixa da empresa.",
+          },
+        ],
+      },
+      {
+        id: "e5_2",
+        titulo: "Como manter um time saudável e motivado",
+        xp: 40,
+        aula: [
+          "Reter boas pessoas custa muito menos do que substituir alguém que sai. Contratação, treinamento e adaptação de um novo funcionário levam tempo e dinheiro — por isso, cuidar de quem já está na equipe é também uma decisão financeira, não só uma questão de 'ser um bom chefe'.",
+          "Alguns fatores que pesquisas de clima organizacional apontam repetidamente como importantes: comunicação clara sobre expectativas e resultados, reconhecimento genuíno (que não precisa ser só dinheiro — pode ser autonomia, oportunidade de crescimento, flexibilidade), carga de trabalho realista, e feedback constante, em vez de só uma vez por ano.",
+          "Isso também protege legalmente a empresa: um ambiente de trabalho tóxico ou sobrecarregado aumenta o risco de afastamentos por saúde, processos trabalhistas e alta rotatividade — todos custos reais que aparecem na planilha financeira da empresa, mesmo que de forma indireta.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que reter funcionários costuma ser mais barato do que substituí-los?",
+            opcoes: ["Nunca é mais barato reter", "Contratar, treinar e adaptar um novo funcionário consome tempo e dinheiro, custos evitados ao reter quem já está treinado", "Funcionários antigos custam sempre mais", "Não há diferença de custo"],
+            correta: 1,
+            explicacao: "O custo de substituição (contratar + treinar + adaptar) costuma superar o investimento em retenção.",
+          },
+          {
+            pergunta: "Segundo o texto, o reconhecimento no trabalho precisa ser necessariamente financeiro?",
+            opcoes: ["Sim, sempre precisa ser em dinheiro", "Não — pode incluir autonomia, oportunidade de crescimento e flexibilidade, além de dinheiro", "Reconhecimento não tem nenhum efeito", "É proibido reconhecer funcionários informalmente"],
+            correta: 1,
+            explicacao: "Reconhecimento vai além do financeiro — autonomia e crescimento também pesam na retenção.",
+          },
+          {
+            pergunta: "Como um ambiente de trabalho tóxico pode afetar os custos reais de uma empresa?",
+            opcoes: ["Não tem nenhum efeito financeiro", "Pode aumentar afastamentos por saúde, processos trabalhistas e rotatividade — todos custos reais para a empresa", "Sempre reduz custos no curto prazo", "Só afeta a reputação, nunca o financeiro"],
+            correta: 1,
+            explicacao: "Ambientes ruins geram custos concretos: saúde, rotatividade e risco jurídico, não é só uma questão de clima.",
+          },
+        ],
+      },
+      {
+        id: "e5_3",
+        titulo: "Separe as finanças: PJ não é sua conta pessoal",
+        xp: 40,
+        aula: [
+          "Um dos erros mais comuns de quem começa a empreender é misturar o dinheiro da empresa com o dinheiro pessoal — pagar uma conta de casa com o cartão da empresa, ou usar o caixa do negócio como se fosse uma extensão da própria carteira. Isso torna praticamente impossível saber se a empresa está de fato dando lucro.",
+          "A forma correta de 'tirar dinheiro' da empresa geralmente passa por duas vias: o pró-labore (uma espécie de salário do sócio, sobre o qual incide INSS e, dependendo do valor, IR de pessoa física) e a distribuição de lucros (que, cumprindo certas regras contábeis, pode ser isenta de IR para o sócio). Um contador ajuda a definir a proporção ideal entre as duas, conforme o regime tributário da empresa.",
+          "Ter uma conta bancária exclusiva da empresa, mesmo sendo MEI, é o primeiro passo prático para essa separação. A partir daí, todo o controle financeiro — fluxo de caixa, lucro real do negócio, planejamento de investimentos — fica muito mais confiável.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual é um erro comum de quem começa a empreender, mencionado no texto?",
+            opcoes: ["Ter uma conta bancária exclusiva para a empresa", "Misturar o dinheiro pessoal com o dinheiro da empresa, dificultando saber se o negócio dá lucro de fato", "Contratar um contador desde o início", "Emitir notas fiscais corretamente"],
+            correta: 1,
+            explicacao: "Misturar finanças pessoais e da empresa embaça a visão real do desempenho do negócio.",
+          },
+          {
+            pergunta: "Quais são as duas formas mais comuns de o sócio retirar dinheiro da empresa formalmente?",
+            opcoes: ["Apenas retirar em dinheiro sem registro", "Pró-labore e distribuição de lucros", "Apenas através de empréstimos bancários", "Não existe forma legal de retirar dinheiro"],
+            correta: 1,
+            explicacao: "Pró-labore (tributado como remuneração) e distribuição de lucros são as vias formais mais comuns.",
+          },
+          {
+            pergunta: "Qual é o primeiro passo prático para separar as finanças pessoais das da empresa?",
+            opcoes: ["Não é possível separar completamente", "Ter uma conta bancária exclusiva da empresa, mesmo sendo MEI", "Contratar um sócio", "Abrir uma segunda empresa"],
+            correta: 1,
+            explicacao: "Uma conta bancária exclusiva é o alicerce prático de qualquer controle financeiro sério da empresa.",
           },
         ],
       },
