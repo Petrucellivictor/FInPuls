@@ -4,6 +4,27 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.5.0] - 2026-08-04
+
+### Adicionado
+- Sistema de moedas (separado do XP): ganhas em lições, desafios diários,
+  missões da semana, cofrinhos concluídos e um bônus de login diário
+  escalando com a ofensiva (5 a 30 moedas).
+- Aba Perfil: avatar equipável, estatísticas (XP, moedas, ofensiva,
+  pontuação total, medalha) e a Loja (acessórios, insígnias/bandeiras e
+  molduras para o POLVIn).
+- Aba Desafios: placar próprio, tabela de medalhas por pontuação
+  (Bronze/Prata/Ouro/Platina/Diamante) e Ligas locais para desafiar
+  amigos manualmente.
+- Cartão "O que o POLVIn percebeu sobre você" na Home, com insights
+  reais (total guardado em cofrinhos, total investido, próxima meta,
+  maior categoria de gasto do mês).
+
+### Alterado
+- Avatar do POLVIn passou do SVG simples para a arte 3D real
+  (`Polvin-logo.png`) em todos os balões de fala, assistente e FAB.
+- Conquistas movidas da aba Aprender para a nova aba Perfil.
+
 ## [1.4.0] - 2026-08-04
 
 ### Adicionado
