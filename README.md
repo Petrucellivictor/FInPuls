@@ -45,26 +45,57 @@ infraestrutura do Google que este projeto não controla:
   e o "+" do logotipo **Fin+**.
 - **Dourado, coral e azul** seguem como cores de apoio para gamificação (XP),
   alertas/saídas e informações neutras, respectivamente.
-- **POLVIn**, o mascote (SVG em `assets/polvin.svg`), aparece na tela de
-  boas-vindas do diagnóstico, no resultado do diagnóstico, na "Dica do dia"
-  do Início (com um selo de acessório que evolui conforme seu nível de
-  jogador) e na dica contra gastos compulsivos da Carteira.
+- **POLVIn**, o mascote, existe em três formatos: a arte 3D completa
+  (`Polvin-logo.png`, usada no logotipo do cabeçalho e nas telas de
+  boas-vindas do diagnóstico) e um SVG inline animável (`js/polvin.js`),
+  usado sempre que ele "fala" — dica do dia, aviso de gastos, dica de
+  investimento, contos da trilha e o assistente flutuante.
+
+## O mascote POLVIn como personagem interativo
+
+O POLVIn não é só uma imagem — ele fala, "conta" as histórias da trilha e
+responde dúvidas sobre o site, com uma animação 3D em CSS puro (nada de
+biblioteca externa: `perspective` + `rotateX/Y` + `translateZ`, tentáculos
+e olhos animados dentro de um SVG inline).
+
+- **Fala com efeito de digitação**: toda vez que o POLVIn dá uma dica —
+  na Home, na Carteira (avisos de gasto por impulso) e nos Investimentos —
+  o texto aparece "digitando" e a boca dele se move.
+- **Leitura em voz alta de verdade**: o botão "🔊 Ouvir" usa a Web Speech
+  API nativa do navegador (`speechSynthesis`) para narrar a dica ou o
+  conto da trilha — sem nenhuma chave de API, sem custo, e sem depender de
+  internet (o navegador usa vozes já instaladas no seu sistema). A
+  disponibilidade de uma voz em português depende do seu navegador/SO.
+- **"Pergunte ao POLVIn"**: um botão flutuante, disponível em qualquer
+  aba, abre um chat onde você pode perguntar sobre qualquer funcionalidade
+  do site ou termo financeiro. **Importante: não é uma IA generativa** —
+  não há nenhum modelo de linguagem por trás. É uma busca por palavras-
+  chave sobre o próprio conteúdo do Fin+ (a base de FAQ em
+  `ASSISTANT_FAQ`, o glossário, o guia de investimentos e a biblioteca de
+  livros). O próprio POLVIn explica isso na primeira mensagem do chat,
+  para não gerar uma expectativa que a ferramenta não cumpre.
 
 ## Estrutura do projeto
 
 ```
 fin-plus/
 ├── index.html                 → estrutura da página e das 11 abas
+├── Polvin-logo.png             → arte 3D do POLVIn (logotipo do cabeçalho, telas de boas-vindas)
+├── PolvIN.png                    → mood board/identidade visual do mascote (referência de marca)
 ├── assets/
-│   └── polvin.svg               → mascote POLVIn
+│   └── polvin.svg                  → (legado) mascote em SVG simples
 ├── css/
-│   └── style.css               → todo o sistema de design (cores, tipografia, componentes, animações)
+│   └── style.css                    → todo o sistema de design (cores, tipografia, componentes, animações)
 ├── js/
-│   ├── data.js                  → conteúdo: investimentos, trilhas, glossário, carteiras-modelo,
-│   │                                tabela de IR, níveis nomeados, desafios, eventos, conquistas, livros
-│   ├── storage.js                → camada de persistência (localStorage) + exportar/importar backup
-│   ├── fx.js                      → efeitos visuais compartilhados (confete, toast de subida de nível)
-│   ├── tabs.js                      → navegação entre abas
+│   ├── data.js                       → conteúdo: investimentos, trilhas, glossário, carteiras-modelo,
+│   │                                     tabela de IR, níveis nomeados, desafios, eventos, conquistas,
+│   │                                     livros, dicas e a base de conhecimento do assistente POLVIn
+│   ├── storage.js                     → camada de persistência (localStorage) + exportar/importar backup
+│   ├── fx.js                           → efeitos visuais compartilhados (confete, toast de subida de nível)
+│   ├── polvin.js                        → mascote interativo: avatar SVG animado em 3D (CSS), fala com
+│   │                                       efeito de digitação + voz nativa do navegador, e o assistente
+│   │                                       flutuante "Pergunte ao POLVIn" (busca por palavras-chave)
+│   ├── tabs.js                            → navegação entre abas
 │   ├── auth.js                       → login com Google ou perfil local por e-mail
 │   ├── onboarding.js                  → diagnóstico inicial: "sobre você" + 5 perguntas de perfil de risco
 │   ├── investments.js                  → guia de investimentos com filtros e modal
@@ -86,7 +117,7 @@ fin-plus/
 └── README.md
 ```
 
-## O que já funciona (v4 — jornada completa, do bolso à história econômica)
+## O que já funciona (v5 — do bolso à história econômica, com o POLVIn interativo)
 
 ### Conta e personalização
 - **Login com Google ou perfil local por e-mail** (sem senha): personaliza
@@ -97,6 +128,15 @@ fin-plus/
   profissional, faixa de renda e objetivo principal com ícones) + o
   diagnóstico de 5 perguntas que calcula nível, objetivo e tolerância a
   risco. O objetivo escolhido já cria automaticamente um cofrinho sugerido.
+
+### Mascote interativo (nova!)
+- **Avatar 3D animado** (CSS puro) com tentáculos e olhos animados,
+  presente na Home, Carteira, Investimentos, na trilha e no assistente.
+- **Fala com efeito de digitação** + **botão "🔊 Ouvir"** com leitura em
+  voz alta nativa do navegador (Web Speech API).
+- **"Pergunte ao POLVIn"**: botão flutuante em qualquer aba, abre um chat
+  com busca por palavras-chave sobre todo o conteúdo do site — transparente
+  sobre não ser uma IA generativa de verdade.
 
 ### Gamificação ("Academia Fin+")
 - **Trilha única e intercalada** (nova!): a trilha financeira "Do Zero ao
@@ -117,8 +157,7 @@ fin-plus/
   jogador" — tudo respeitando `prefers-reduced-motion`.
 - **Níveis de jogador nomeados**: Iniciante → Aprendiz Financeiro →
   Planejador → Investidor → Construtor de Patrimônio → Mestre Fin+, com o
-  mascote POLVIn ganhando um selo/acessório visual a cada nova fase, e o
-  contador de XP no cabeçalho "sobe" com animação ao ganhar pontos.
+  contador de XP no cabeçalho "subindo" com animação ao ganhar pontos.
 - **Desafios diários**, **missão da semana** e **evento aleatório do dia**
   (cenários educativos), com detecção automática de progresso.
 - **Conquistas**: 17 badges desbloqueadas pelo uso real do app, incluindo
@@ -170,8 +209,11 @@ não tem, e não deveria simular de forma enganosa:
 - **Scanner de nota fiscal (IA de visão) e scanner de extrato/Open
   Finance**: exigem processamento de IA e/ou integração regulada com
   instituições financeiras, com backend seguro e credenciamento.
-- **IA conversacional (tipo ChatGPT)**: exigiria uma chave de API de LLM
-  guardada em servidor — nunca deve ficar exposta direto no navegador.
+- **IA conversacional de verdade (tipo ChatGPT)**: exigiria uma chave de
+  API de LLM guardada em servidor — nunca deve ficar exposta direto no
+  navegador. O "Pergunte ao POLVIn" existe, mas é busca por palavras-chave
+  sobre o conteúdo do site (ver seção "O mascote POLVIn como personagem
+  interativo"), não uma IA generativa.
 - **Comunidade/ranking entre usuários**: exige múltiplos usuários
   sincronizados em um backend; hoje cada navegador guarda dados isolados.
 - **Login com Google 100% "pronto de fábrica"**: tecnicamente depende de

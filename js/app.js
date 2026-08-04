@@ -5,6 +5,7 @@
 const App = {
   init() {
     Tabs.init();
+    Polvin.init();
     Auth.init();
     Onboarding.init();
     InvestmentsUI.init();
@@ -113,8 +114,6 @@ const App = {
 
     const tier = playerLevelTitle(playerLevel);
     document.getElementById("homeLevelTitle").textContent = `${tier.emoji} ${tier.titulo}`;
-    const accessoryEl = document.getElementById("polvinAccessory");
-    if (accessoryEl) accessoryEl.textContent = tier.min > 1 ? tier.emoji : "";
 
     // KPIs financeiros do mês
     const totals = Wallet.totals();
@@ -126,7 +125,11 @@ const App = {
     // Dica do dia (determinística por dia, para não mudar a cada refresh)
     const dayIndex = new Date().getDate() % SPENDING_TIPS.length;
     const tip = SPENDING_TIPS[dayIndex];
-    document.getElementById("tipOfDayText").innerHTML = `<b>${tip.titulo}:</b> ${tip.texto}`;
+    const tipContainer = document.getElementById("polvinTipOfDay");
+    if (tipContainer && tipContainer.dataset.day !== String(dayIndex)) {
+      tipContainer.dataset.day = String(dayIndex);
+      Polvin.renderBubble(tipContainer, `${tip.titulo}: ${tip.texto}`, { title: "Dica do POLVIn" });
+    }
 
     // Snippet da trilha de aprendizado (financeira + história intercaladas)
     Trail.renderHomeSnippet();

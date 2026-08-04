@@ -36,9 +36,10 @@ const Wallet = {
     document.getElementById("wishAddBtn").addEventListener("click", () => this.addWish());
     this.populateBudgetCategorySelect();
     this.renderAll();
-    // dica de gasto compulsivo aleatória
+    // dica de gasto compulsivo aleatória — o POLVIn como "fiscal" dos seus gastos
     const tip = SPENDING_TIPS[Math.floor(Math.random() * SPENDING_TIPS.length)];
-    document.getElementById("spendingTipText").innerHTML = `<b>${tip.titulo}:</b> ${tip.texto}`;
+    const tipContainer = document.getElementById("polvinSpendingTip");
+    if (tipContainer) Polvin.renderBubble(tipContainer, `${tip.titulo}: ${tip.texto}`, { title: "POLVIn avisa: cuidado com gastos por impulso" });
   },
 
   bindTypeToggle() {

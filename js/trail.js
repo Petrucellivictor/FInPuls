@@ -194,10 +194,11 @@ const Trail = {
     overlay.innerHTML = `
       <div class="quiz-box story-box">
         <div class="quiz-progress">📜 ${lesson.titulo}</div>
-        <div class="story-text">${lesson.conto.map((p) => `<p>${p}</p>`).join("")}</div>
+        <div id="trailStoryPolvin"></div>
         <button class="btn btn-primary btn-block mt-16" id="storyContinueBtn">Continuar para o quiz</button>
       </div>
     `;
+    Polvin.renderStory(document.getElementById("trailStoryPolvin"), lesson.conto, { title: "POLVIn conta a história" });
     document.getElementById("storyContinueBtn").addEventListener("click", () => this.renderQuizOverlay());
   },
 

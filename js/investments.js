@@ -8,6 +8,15 @@ const InvestmentsUI = {
   init() {
     this.renderFilters();
     this.renderGrid();
+    this.renderPolvinTip();
+  },
+
+  renderPolvinTip() {
+    const container = document.getElementById("polvinInvestTip");
+    if (!container) return;
+    const dayIndex = new Date().getDate() % INVESTMENT_TIPS.length;
+    const tip = INVESTMENT_TIPS[dayIndex];
+    Polvin.renderBubble(container, `${tip.titulo}: ${tip.texto}`, { title: "Dica de investimento do POLVIn" });
   },
 
   renderFilters() {

@@ -39,7 +39,7 @@ const Onboarding = {
     const card = document.getElementById("onboardingCard");
     card.innerHTML = `
       <div class="onboarding-welcome">
-        <img src="assets/polvin.svg" alt="POLVIn, o mascote do Fin+" class="mascot-img mascot-lg" />
+        <img src="Polvin-logo.png" alt="POLVIn, o mascote do Fin+" class="mascot-img mascot-hero" />
         <h2>Oi! Eu sou o POLVIn 👋</h2>
         <p class="text-soft">Antes de começar, vamos conhecer um pouco sobre você e fazer ${ONBOARDING_QUESTIONS.length} perguntas rápidas para entender seu nível e personalizar sua trilha — do zero ao avançado.</p>
         <button class="btn btn-primary btn-block mt-16" id="startOnboardingBtn">Começar diagnóstico</button>
@@ -170,7 +170,7 @@ const Onboarding = {
 
     card.innerHTML = `
       <div class="onboarding-result">
-        <img src="assets/polvin.svg" alt="POLVIn" class="mascot-img mascot-md" />
+        <img src="Polvin-logo.png" alt="POLVIn" class="mascot-img mascot-md" />
         <div class="onboarding-emoji" style="margin-top:-8px">${info.emoji}</div>
         <h2>Perfil: ${info.nome}</h2>
         <p class="text-soft">${info.desc}</p>

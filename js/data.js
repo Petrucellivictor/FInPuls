@@ -1366,6 +1366,134 @@ const ACHIEVEMENTS = [
 ];
 
 /* -------------------------------------------------------------------------
+   17) ASSISTENTE POLVIN — base de conhecimento para o "Pergunte ao POLVIn"
+   Não é uma IA generativa: é busca por palavras-chave sobre o conteúdo do
+   próprio site (dúvidas de uso) + o glossário/investimentos/livros já
+   existentes. Cada entrada tem frases-gatilho (para casar com a pergunta
+   do usuário) e uma resposta escrita na voz do POLVIn.
+   ------------------------------------------------------------------------- */
+const ASSISTANT_FAQ = [
+  {
+    id: "sobre_polvin",
+    gatilhos: ["quem é você", "quem é o polvin", "por que um polvo", "o que você faz", "o que voce faz", "quem e o polvin"],
+    resposta: "Eu sou o POLVIn, seu amigo das finanças! Escolhemos um polvo porque ele é inteligente e estratégico, organizado e eficiente, versátil e adaptável, e cuida de várias coisas ao mesmo tempo — assim como suas finanças. Uso meus braços para te ajudar a planejar, economizar, investir e conquistar seus objetivos.",
+  },
+  {
+    id: "ia_de_verdade",
+    gatilhos: ["você é uma ia", "voce e uma ia", "é chatgpt", "e chatgpt", "inteligência artificial de verdade", "você pensa", "voce pensa"],
+    resposta: "Não sou uma IA generativa de verdade como o ChatGPT — não tenho um modelo de linguagem gigante me alimentando! Eu busco a resposta dentro do próprio conteúdo do Fin+ (glossário, guia de investimentos, livros, dúvidas comuns) e tento te responder da forma mais útil possível. Se eu não souber algo, é porque ainda não está no site.",
+  },
+  {
+    id: "login_conta",
+    gatilhos: ["como faço login", "como faco login", "como crio conta", "entrar com google", "cadastro por email", "preciso de senha", "criar perfil"],
+    resposta: "Você pode entrar com sua conta Google ou criar um perfil local só com nome e e-mail, sem senha. Isso só personaliza sua saudação — o Fin+ não tem servidor, então seus dados financeiros continuam salvos neste navegador, sem sincronizar entre dispositivos. Clique em '👤 Entrar' no topo da tela.",
+  },
+  {
+    id: "seguranca_dados",
+    gatilhos: ["meus dados são seguros", "onde ficam meus dados", "vocês guardam minhas informações", "privacidade", "meus dados estao seguros"],
+    resposta: "Todos os seus dados (transações, investimentos, progresso) ficam salvos só no navegador que você está usando — nada é enviado a nenhum servidor, porque o Fin+ não tem backend. Isso também significa que, se limpar os dados do navegador ou trocar de dispositivo, você precisa ter feito backup antes! Use os botões 'Exportar' e 'Importar' no topo da tela.",
+  },
+  {
+    id: "backup_exportar",
+    gatilhos: ["como faço backup", "como faco backup", "exportar dados", "importar dados", "salvar meus dados"],
+    resposta: "No topo da tela, clique em '⬇️ Exportar' para baixar um arquivo JSON com todos os seus dados. Para restaurar, clique em '⬆️ Importar' e selecione esse arquivo. Vale a pena fazer isso de vez em quando, já que os dados vivem só neste navegador.",
+  },
+  {
+    id: "compras_parceladas",
+    gatilhos: ["o que são compras parceladas", "como funciona parcelamento", "parcelas", "compra parcelada"],
+    resposta: "Na aba Carteira, você registra uma compra parcelada informando o valor total e o número de parcelas. Eu calculo automaticamente, com base na data da compra, quantas parcelas já 'venceram' e quanto ainda falta pagar — sem você precisar lançar cada mês manualmente.",
+  },
+  {
+    id: "cofrinhos",
+    gatilhos: ["o que são cofrinhos", "como criar uma meta", "metas de economia", "cofrinho"],
+    resposta: "Cofrinhos são metas de economia! Na aba Carteira, dê um nome e um valor-alvo, depois vá fazendo aportes. Quando você bate 100% da meta, é festa — literalmente, tem confete.",
+  },
+  {
+    id: "carteira_investimentos",
+    gatilhos: ["carteira de investimentos", "alocação de ativos", "alocacao de ativos", "carteira modelo"],
+    resposta: "Na aba Carteira, a seção 'Carteira de Investimentos' deixa você registrar quanto tem em cada classe de ativo (renda fixa, FIIs, ações, cripto...) e compara automaticamente com uma carteira-modelo baseada no seu perfil de risco, definido no diagnóstico inicial.",
+  },
+  {
+    id: "acoes_fiis",
+    gatilhos: ["como registro ações", "como registro fiis", "dividendos", "ações e fiis", "acoes e fiis"],
+    resposta: "Na aba 'Ações & FIIs', registre suas compras (ticker, quantidade, preço) e os dividendos recebidos. Eu calculo sua valorização e o retorno total automaticamente, com histórico separado por ano e mês.",
+  },
+  {
+    id: "cripto_fracionada",
+    gatilhos: ["como comprar bitcoin", "criptomoeda fração", "criptomoeda fracao", "comprar cripto"],
+    resposta: "Para criptomoedas, você não informa a quantidade — informa quanto quer investir em reais. Eu busco a cotação atual (via CoinGecko) e calculo a fração exata que isso compra, já que cripto se negocia em fração, não em 'cotas' inteiras.",
+  },
+  {
+    id: "trilha_historia",
+    gatilhos: ["trilha de história", "trilha de historia", "brasil história economia", "contos", "moedas do brasil"],
+    resposta: "A Academia Fin+ tem uma trilha só, intercalando educação financeira com pequenos contos sobre a história econômica do Brasil — as moedas que já tivemos (do Réis ao Real), os ciclos econômicos, a industrialização, o Plano Real e mais. Cada capítulo de história abre com uma historinha antes do quiz.",
+  },
+  {
+    id: "xp_niveis",
+    gatilhos: ["como ganho xp", "como subo de nível", "como subo de nivel", "níveis de jogador", "niveis de jogador"],
+    resposta: "Você ganha XP completando lições na trilha, desafios diários, a missão da semana e batendo metas nos cofrinhos. Cada 100 XP sobe um nível, e a cada faixa você ganha um título novo — de Iniciante até Mestre Fin+.",
+  },
+  {
+    id: "desafios_missoes",
+    gatilhos: ["desafios diários", "desafios diarios", "missão da semana", "missao da semana", "evento do dia"],
+    resposta: "Todo dia, a Home mostra 3 desafios novos (tipo registrar uma transação ou completar uma lição), mais uma missão da semana e um evento aleatório com uma situação para você decidir — cada um te dá XP e ensina algo na prática.",
+  },
+  {
+    id: "simulador_juros",
+    gatilhos: ["simulador de juros compostos", "investir x guardar", "simulador"],
+    resposta: "Na aba Simulador, você compara visualmente o resultado de investir versus só guardar o dinheiro sem render — com um valor inicial, aporte mensal, taxa estimada e o período que você escolher.",
+  },
+  {
+    id: "aba_avancado",
+    gatilhos: ["aba avançado", "aba avancado", "calculadoras pro", "dicionário do mercado", "dicionario do mercado"],
+    resposta: "A aba 'Avançado' tem carteiras-modelo por perfil de risco, calculadoras pro (tributação de renda fixa, independência financeira, retorno real) e um dicionário com quase 40 termos do mercado, do básico ao avançado.",
+  },
+  {
+    id: "biblioteca_livros",
+    gatilhos: ["biblioteca", "livros recomendados", "o que ler", "livro"],
+    resposta: "A aba 'Biblioteca' tem recomendações reais de livros, do zero ao avançado — incluindo livros sobre distribuição de renda e pensamento econômico crítico, não só sobre investir no mercado.",
+  },
+  {
+    id: "reserva_emergencia",
+    gatilhos: ["o que é reserva de emergência", "o que e reserva de emergencia", "quanto guardar de reserva"],
+    resposta: "A reserva de emergência é dinheiro guardado com liquidez e baixo risco (tipo Tesouro Selic ou CDB com liquidez diária) para imprevistos, sem precisar entrar em dívida cara. O recomendado geralmente é entre 3 e 6 meses das suas despesas essenciais.",
+  },
+  {
+    id: "gasto_impulso",
+    gatilhos: ["gasto por impulso", "compras compulsivas", "lista de espera", "compra por impulso"],
+    resposta: "Se você quer comprar algo não essencial, adicione na 'Lista de espera de desejos' na Carteira — só pode marcar como comprado depois de 7 dias. Na maioria das vezes, o desejo passa antes disso! Eu também aviso quando seus gastos por impulso passam de 15% da sua movimentação do mês.",
+  },
+  {
+    id: "onboarding_diagnostico",
+    gatilhos: ["refazer diagnóstico", "refazer diagnostico", "mudar perfil", "perguntas iniciais"],
+    resposta: "Você pode refazer o diagnóstico inicial quando quiser, clicando em 'Refazer diagnóstico' no card do seu perfil, na Home. Isso recalcula seu nível de risco e o objetivo principal.",
+  },
+  {
+    id: "google_login_config",
+    gatilhos: ["login google não funciona", "login google nao funciona", "configurar google", "client id"],
+    resposta: "O login com Google só funciona depois de configurar um Client ID gratuito no Google Cloud Console e abrir o Fin+ por um servidor local, não direto pelo arquivo. Tem o passo a passo completo no README do projeto. Enquanto isso, o cadastro por e-mail funciona sempre, sem nenhuma configuração.",
+  },
+];
+
+/* -------------------------------------------------------------------------
+   18) DICAS DE INVESTIMENTO DO POLVIN (aba Investimentos)
+   ------------------------------------------------------------------------- */
+const INVESTMENT_TIPS = [
+  { titulo: "Comece pela reserva", texto: "Antes de qualquer investimento de risco, garanta sua reserva de emergência em algo líquido e seguro, como Tesouro Selic ou CDB com liquidez diária." },
+  { titulo: "Diversifique de verdade", texto: "Diversificar não é só ter vários ativos — é combinar ativos que não se movem sempre na mesma direção." },
+  { titulo: "Tempo é seu maior aliado", texto: "Os juros compostos recompensam quem começa antes, não quem investe mais de uma vez só. Comece pequeno, mas comece." },
+  { titulo: "Cuidado com promessas de retorno garantido", texto: "Nenhum investimento sério garante um retorno fixo muito acima do mercado. Se parece bom demais para ser verdade, provavelmente é." },
+  { titulo: "Entenda antes de investir", texto: "Só invista em algo que você conseguiria explicar para outra pessoa em poucas frases. Se não entendeu o produto, ainda não é hora de comprar." },
+  { titulo: "Rebalanceie periodicamente", texto: "De tempos em tempos, revise sua carteira e reequilibre os pesos entre as classes de ativos — isso mantém seu risco sob controle." },
+];
+
+const ASSISTANT_FALLBACKS = [
+  "Hmm, essa eu não sei responder ainda — meu conhecimento vem só do conteúdo do próprio Fin+. Tenta perguntar sobre alguma aba, funcionalidade ou termo financeiro específico!",
+  "Não encontrei nada muito próximo disso no que eu conheço do site. Que tal reformular a pergunta, ou dar uma olhada no Dicionário do Mercado (aba Avançado)?",
+  "Essa passou batido pelos meus 8 braços! Posso te ajudar com dúvidas sobre as abas do Fin+, termos financeiros, investimentos ou livros da Biblioteca — tenta de outro jeito?",
+];
+
+/* -------------------------------------------------------------------------
    14) BIBLIOTECA FIN+ — recomendações reais de livros, do zero ao avançado
    ------------------------------------------------------------------------- */
 const BOOKS = [
