@@ -9,6 +9,7 @@ const App = {
     const desbloqueado = await this.ensureVaultUnlocked();
     if (!desbloqueado) return; // usuário fechou a aba na tela de bloqueio; nada mais deve rodar
 
+    Tooltip.init();
     Tabs.init();
     Polvin.init();
     Auth.init();

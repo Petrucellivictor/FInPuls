@@ -210,19 +210,19 @@
       <div class="grid sim-grid">
         <div class="card">
           <div class="field">
-            <label for="simAporteInicial">Valor inicial (R$)</label>
+            <label for="simAporteInicial">Valor inicial (R$)<span class="tip-trigger" tabindex="0" role="button" aria-label="Ajuda" data-tip="Quanto dinheiro você já tem para começar a investir, antes de qualquer aporte mensal.">?</span></label>
             <input type="number" id="simAporteInicial" value="1000" min="0" />
           </div>
           <div class="field">
-            <label for="simAporteMensal">Aporte mensal (R$)</label>
+            <label for="simAporteMensal">Aporte mensal (R$)<span class="tip-trigger" tabindex="0" role="button" aria-label="Ajuda" data-tip="Quanto você vai guardar e investir TODO mês, a partir de agora.">?</span></label>
             <input type="number" id="simAporteMensal" value="200" min="0" />
           </div>
           <div class="field">
-            <label for="simTaxa">Rentabilidade estimada (% ao ano)</label>
+            <label for="simTaxa">Rentabilidade estimada (% ao ano)<span class="tip-trigger" tabindex="0" role="button" aria-label="Ajuda" data-tip="O quanto esse investimento deve crescer POR ANO, em média — é só uma estimativa, não uma garantia.">?</span></label>
             <input type="number" id="simTaxa" value="12" min="0" step="0.1" />
           </div>
           <div class="field">
-            <label for="simAnos">Período (anos)</label>
+            <label for="simAnos">Período (anos)<span class="tip-trigger" tabindex="0" role="button" aria-label="Ajuda" data-tip="Por quantos anos você vai deixar esse dinheiro investido, sem tirar.">?</span></label>
             <input type="number" id="simAnos" value="10" min="1" max="50" />
           </div>
           <button class="btn btn-primary btn-block" id="simCalcBtn">Simular</button>
@@ -245,11 +245,11 @@
           </div>
         </div>
         <div class="grid cmp-form-grid">
-          <div class="field"><label for="cmpValor">Valor a investir (R$)</label><input type="number" id="cmpValor" value="10000" min="0" /></div>
-          <div class="field"><label for="cmpPrazo">Prazo (dias)</label><input type="number" id="cmpPrazo" value="360" min="1" /></div>
-          <div class="field"><label for="cmpPctCdb">CDB paga (% do CDI)</label><input type="number" id="cmpPctCdb" value="100" min="0" step="1" /></div>
-          <div class="field"><label for="cmpPctLci">LCI/LCA paga (% do CDI)</label><input type="number" id="cmpPctLci" value="90" min="0" step="1" /></div>
-          <div class="field"><label for="cmpDyFii">Dividend yield estimado do FII (% a.a.)</label><input type="number" id="cmpDyFii" value="9" min="0" step="0.1" /></div>
+          <div class="field"><label for="cmpValor">Valor a investir (R$)<span class="tip-trigger" tabindex="0" role="button" aria-label="Ajuda" data-tip="Quanto dinheiro você colocaria nesse investimento, de uma vez só, hoje.">?</span></label><input type="number" id="cmpValor" value="10000" min="0" /></div>
+          <div class="field"><label for="cmpPrazo">Prazo (dias)<span class="tip-trigger" tabindex="0" role="button" aria-label="Ajuda" data-tip="Por quantos dias esse dinheiro ficaria investido, sem ser resgatado.">?</span></label><input type="number" id="cmpPrazo" value="360" min="1" /></div>
+          <div class="field"><label for="cmpPctCdb">CDB paga (% do CDI)<span class="tip-trigger" tabindex="0" role="button" aria-label="Ajuda" data-tip="Quanto esse CDB paga comparado ao CDI. 100% significa que paga igual ao CDI.">?</span></label><input type="number" id="cmpPctCdb" value="100" min="0" step="1" /></div>
+          <div class="field"><label for="cmpPctLci">LCI/LCA paga (% do CDI)<span class="tip-trigger" tabindex="0" role="button" aria-label="Ajuda" data-tip="Parecido com o CDB, mas sem pagar Imposto de Renda — por isso pode valer a pena mesmo com uma taxa um pouco menor.">?</span></label><input type="number" id="cmpPctLci" value="90" min="0" step="1" /></div>
+          <div class="field"><label for="cmpDyFii">Dividend yield estimado do FII (% a.a.)<span class="tip-trigger" tabindex="0" role="button" aria-label="Ajuda" data-tip="Quanto esse FII costuma pagar de rendimento por ano, comparado ao preço da cota — como um 'aluguel' que você recebe por ter a cota.">?</span></label><input type="number" id="cmpDyFii" value="9" min="0" step="0.1" /></div>
         </div>
         <button class="btn btn-primary btn-block" id="cmpCalcBtn">Comparar investimentos</button>
         <div id="cmpResult" class="mt-16"></div>
@@ -485,6 +485,12 @@
         <p class="text-soft text-sm">Ranking educativo baseado nas taxas atuais — não é recomendação de investimento personalizada.</p>
         <div id="rankingList"></div>
       </div>
+
+      <div class="card mt-16">
+        <h3>📊 Ações e FIIs em destaque</h3>
+        <p class="text-soft text-sm">O Fin+ não tem uma cotação em tempo real de ações/FIIs individuais (ver aba Ações &amp; FIIs) — por isso, isto não é um "top de altas e baixas de hoje". São características estruturais historicamente conhecidas de cada exemplo, para fins didáticos. Não é recomendação de investimento.</p>
+        <div id="stockHighlights"></div>
+      </div>
     </section>
 
     <!-- ---------- NOTÍCIAS ---------- -->
@@ -663,6 +669,7 @@
 <script src="js/vault.js"></script>
 <script src="js/supabase-config.js"></script>
 <script src="js/cloud.js"></script>
+<script src="js/tooltip.js"></script>
 <script src="js/fx.js"></script>
 <script src="js/polvin.js"></script>
 <script src="js/tabs.js"></script>

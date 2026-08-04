@@ -4,6 +4,29 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.10.0] - 2026-08-04
+
+### Adicionado
+- Aba Mercado: seção "Ações e FIIs em destaque" (`STOCK_HIGHLIGHTS` em
+  data.js), categorizando exemplos reais e líquidos da bolsa brasileira
+  em Histórico de dividendos consistentes / Setores cíclicos (maior
+  volatilidade) / Exposição ampla e diversificada. Deixado explícito que
+  não é um ranking de altas e baixas do dia (o Fin+ não tem cotação em
+  tempo real de ativos individuais) — são características estruturais
+  conhecidas, para fins didáticos, não recomendação de investimento.
+- Sistema de dica rápida (`js/tooltip.js`, componente `Tooltip`):
+  ícone "?" ao lado de campos de calculadoras (Simulador, Comparador de
+  Investimentos, Calculadoras Pro) e indicadores do Banco Central,
+  explicando em linguagem simples o que cada termo/campo significa.
+  Funciona por hover (mouse), foco (teclado) e toque (mobile).
+
+### Corrigido
+- Bug real no componente de tooltip: ao passar o mouse sobre um campo e
+  então clicar nele, o clique fechava a dica imediatamente (interpretava
+  como "alternar para fechar"), quando o usuário só queria confirmar que
+  ficasse visível. Corrigido rastreando se a dica foi aberta por um
+  clique deliberado ou só por hover/foco.
+
 ## [1.9.0] - 2026-08-04
 
 ### Adicionado

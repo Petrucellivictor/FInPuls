@@ -82,11 +82,11 @@ const Advanced = {
         <div class="card calc-card">
           <h3>💸 Comparador de tributação (RF)</h3>
           <p class="text-sm text-soft">Compare CDB, LCI/LCA e Tesouro Selic líquidos de IR para um mesmo prazo.</p>
-          <div class="field"><label for="calcTaxValor">Valor investido (R$)</label><input type="number" id="calcTaxValor" value="10000" min="0" /></div>
-          <div class="field"><label for="calcTaxPrazo">Prazo (dias)</label><input type="number" id="calcTaxPrazo" value="720" min="1" /></div>
-          <div class="field"><label for="calcTaxCdi">CDI/Selic estimado (% a.a.)</label><input type="number" id="calcTaxCdi" value="10.5" min="0" step="0.1" /></div>
-          <div class="field"><label for="calcTaxCdb">CDB paga (% do CDI)</label><input type="number" id="calcTaxCdb" value="100" min="0" step="1" /></div>
-          <div class="field"><label for="calcTaxLci">LCI/LCA paga (% do CDI, isenta de IR)</label><input type="number" id="calcTaxLci" value="90" min="0" step="1" /></div>
+          <div class="field"><label for="calcTaxValor">Valor investido (R$)${Tooltip.icon("Quanto dinheiro você colocaria nesse investimento, de uma vez só, hoje.")}</label><input type="number" id="calcTaxValor" value="10000" min="0" /></div>
+          <div class="field"><label for="calcTaxPrazo">Prazo (dias)${Tooltip.icon("Por quantos dias esse dinheiro ficaria investido, sem ser resgatado.")}</label><input type="number" id="calcTaxPrazo" value="720" min="1" /></div>
+          <div class="field"><label for="calcTaxCdi">CDI/Selic estimado (% a.a.)${Tooltip.icon("A 'taxa básica' de juros do Brasil — é como um termômetro que quase todo investimento de renda fixa usa como referência.")}</label><input type="number" id="calcTaxCdi" value="10.5" min="0" step="0.1" /></div>
+          <div class="field"><label for="calcTaxCdb">CDB paga (% do CDI)${Tooltip.icon("Quanto esse CDB paga comparado ao CDI. 100% = paga igual ao CDI. 110% = paga um pouco mais que o CDI.")}</label><input type="number" id="calcTaxCdb" value="100" min="0" step="1" /></div>
+          <div class="field"><label for="calcTaxLci">LCI/LCA paga (% do CDI, isenta de IR)${Tooltip.icon("Parecido com o CDB, mas sem pagar Imposto de Renda — por isso pode valer a pena mesmo com uma taxa um pouco menor.")}</label><input type="number" id="calcTaxLci" value="90" min="0" step="1" /></div>
           <button class="btn btn-primary btn-block" id="calcTaxBtn">Comparar</button>
           <div id="calcTaxResult" class="mt-16"></div>
         </div>
@@ -94,10 +94,10 @@ const Advanced = {
         <div class="card calc-card">
           <h3>🏖️ Independência financeira</h3>
           <p class="text-sm text-soft">Quanto capital você precisa e quanto tempo falta, na regra dos 4% (ajustável).</p>
-          <div class="field"><label for="calcFireRenda">Renda passiva mensal desejada (R$)</label><input type="number" id="calcFireRenda" value="5000" min="0" /></div>
-          <div class="field"><label for="calcFireTaxa">Taxa real esperada (% a.a. acima da inflação)</label><input type="number" id="calcFireTaxa" value="5" min="0.1" step="0.1" /></div>
-          <div class="field"><label for="calcFireAtual">Capital já investido (R$)</label><input type="number" id="calcFireAtual" value="0" min="0" /></div>
-          <div class="field"><label for="calcFireAporte">Aporte mensal (R$)</label><input type="number" id="calcFireAporte" value="1500" min="0" /></div>
+          <div class="field"><label for="calcFireRenda">Renda passiva mensal desejada (R$)${Tooltip.icon("Quanto dinheiro por mês você quer poder gastar, vivendo dos rendimentos, sem tocar no valor investido.")}</label><input type="number" id="calcFireRenda" value="5000" min="0" /></div>
+          <div class="field"><label for="calcFireTaxa">Taxa real esperada (% a.a. acima da inflação)${Tooltip.icon("O quanto seu dinheiro deve crescer POR ANO, já descontando a inflação — ou seja, o crescimento real do seu poder de compra.")}</label><input type="number" id="calcFireTaxa" value="5" min="0.1" step="0.1" /></div>
+          <div class="field"><label for="calcFireAtual">Capital já investido (R$)${Tooltip.icon("Quanto você já tem investido hoje, somando tudo.")}</label><input type="number" id="calcFireAtual" value="0" min="0" /></div>
+          <div class="field"><label for="calcFireAporte">Aporte mensal (R$)${Tooltip.icon("Quanto você planeja investir todo mês, a partir de agora.")}</label><input type="number" id="calcFireAporte" value="1500" min="0" /></div>
           <button class="btn btn-primary btn-block" id="calcFireBtn">Calcular</button>
           <div id="calcFireResult" class="mt-16"></div>
         </div>
@@ -105,8 +105,8 @@ const Advanced = {
         <div class="card calc-card">
           <h3>📐 Retorno real (Fisher)</h3>
           <p class="text-sm text-soft">Descubra quanto seu investimento realmente rendeu acima (ou abaixo) da inflação.</p>
-          <div class="field"><label for="calcRealNominal">Taxa nominal (% a.a.)</label><input type="number" id="calcRealNominal" value="12" min="-50" step="0.1" /></div>
-          <div class="field"><label for="calcRealInflacao">Inflação no período (% a.a.)</label><input type="number" id="calcRealInflacao" value="4.5" min="-50" step="0.1" /></div>
+          <div class="field"><label for="calcRealNominal">Taxa nominal (% a.a.)${Tooltip.icon("A taxa de juros 'anunciada' do investimento, antes de descontar a inflação do período.")}</label><input type="number" id="calcRealNominal" value="12" min="-50" step="0.1" /></div>
+          <div class="field"><label for="calcRealInflacao">Inflação no período (% a.a.)${Tooltip.icon("O quanto os preços em geral subiram no mesmo período, medido por um índice como o IPCA.")}</label><input type="number" id="calcRealInflacao" value="4.5" min="-50" step="0.1" /></div>
           <button class="btn btn-primary btn-block" id="calcRealBtn">Calcular</button>
           <div id="calcRealResult" class="mt-16"></div>
         </div>

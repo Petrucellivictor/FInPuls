@@ -261,9 +261,11 @@ fin-plus/
   (e-mail+senha, ou Google validado pelo Supabase), com dados sincronizados
   entre dispositivos e isolados por conta via Row Level Security.
 - **Onboarding em duas etapas**: "sobre você" (idade, situação
-  profissional, faixa de renda e objetivo principal com ícones) + o
-  diagnóstico de 5 perguntas que calcula nível, objetivo e tolerância a
-  risco. O objetivo escolhido já cria automaticamente um cofrinho sugerido.
+  profissional, faixa de renda, objetivo principal com ícones — entre 9
+  opções, incluindo aposentadoria e investir em estudos — e o **valor real
+  da meta**, que a pessoa digita) + o diagnóstico de 5 perguntas que
+  calcula nível, objetivo e tolerância a risco. O cofrinho criado
+  automaticamente usa o valor que a pessoa informou, não um valor fixo.
 
 ### Mascote interativo (nova!)
 - **Avatar 3D animado** (CSS puro) com tentáculos e olhos animados,
@@ -297,15 +299,25 @@ fin-plus/
   própria linha na tabela é sempre calculada automaticamente.
 
 ### Gamificação ("Academia Fin+")
-- **Trilha única e intercalada** (nova!): a trilha financeira "Do Zero ao
-  Avançado" (6 níveis, 20 lições) e a trilha "Brasil: História & Economia"
-  (4 níveis, 9 lições, cada uma com um pequeno conto — moedas do Réis ao
-  Real, ciclos econômicos, Vargas, milagre econômico, Plano Real,
-  desigualdade e o papel do Estado) não são mais abas separadas: os níveis
-  se alternam em **um único caminho sequencial** (financeira → história →
-  financeira → história...), como capítulos de uma mesma jornada. Uma
-  lição só destrava a próxima depois de concluída, seja ela de qual das
-  duas trilhas for. Ambas compartilham o mesmo XP.
+- **Trilha única e intercalada**: a trilha financeira "Do Zero ao
+  Avançado" (6 níveis, 20 lições, reordenada para colocar perfil de
+  investidor e juros compostos nos fundamentos, antes de qualquer produto
+  específico) e a trilha "Brasil: História & Economia" (4 níveis, 9
+  lições, cada uma com um pequeno conto — moedas do Réis ao Real, ciclos
+  econômicos, Vargas, milagre econômico, Plano Real, desigualdade e o
+  papel do Estado) não são abas separadas: os níveis se alternam em **um
+  único caminho sequencial** (financeira → história → financeira →
+  história...), como capítulos de uma mesma jornada. Uma lição só
+  destrava a próxima depois de concluída, seja ela de qual das duas
+  trilhas for. Ambas compartilham o mesmo XP.
+- **Introdução didática + reforço após erro** (nova!): toda lição (das
+  três trilhas — financeira, história e Empreender) começa com um texto
+  curto do POLVIn usando analogias do dia a dia (ex.: inflação como um
+  balão furado, diversificação como "não colocar todos os ovos na mesma
+  cesta") antes do quiz. Ao errar uma pergunta, a pessoa vê a explicação
+  correta e, quando existe, responde uma segunda versão da mesma pergunta
+  (outro exemplo/cenário) antes de seguir — para fixar o conceito, não só
+  mostrar a resposta certa.
 - **Caminho sinuoso e animado**: os níveis aparecem como estações de um
   trajeto vertical, com nós de lição em zigue-zague conectados por uma
   "espinha" que se preenche de cor conforme seu progresso avança. A lição
@@ -368,7 +380,14 @@ fin-plus/
   distribuição de renda, dependência econômica e pensamento crítico sobre
   o capitalismo, não só finanças de mercado.
 - **Indicadores em tempo real**: moedas, cripto e Selic/CDI/IPCA/Dólar
-  oficiais, com ranking educativo por perfil de risco.
+  oficiais, com ranking educativo por perfil de risco, e uma seção de
+  **Ações e FIIs em destaque** — exemplos reais categorizados por
+  característica estrutural (dividendos consistentes / setores cíclicos
+  / exposição diversificada), já que o app não tem cotação em tempo real
+  de ativos individuais. Não é recomendação de investimento.
+- **Dicas rápidas** (`js/tooltip.js`): um ícone "?" em campos de
+  calculadoras e indicadores explica, em linguagem simples, o que aquele
+  termo/campo significa — funciona com mouse, teclado e toque.
 - **Notícias** e **Educação financeira e consciência de classe**.
 
 ### Infraestrutura
@@ -407,6 +426,12 @@ não tem, e não deveria simular de forma enganosa:
 
 ## Roadmap sugerido (próximas etapas)
 
+0. **Expansão das 3 trilhas para ~300 lições cada** — já existe um
+   blueprint modular (17-21 módulos por trilha, pedagogicamente ordenado
+   com base em referências reais de currículo financeiro/históricos/MBA)
+   rumo ao conteúdo "do zero ao mestrado" em Financeira, História &
+   Economia e Empreender. A escrita do conteúdo em si acontece em ondas
+   revisáveis nas próximas atualizações — não é uma tarefa de uma vez só.
 1. **Ranking/Ligas ao vivo** — agora que existe um backend (Supabase),
    dá para expor um ranking público de XP/moedas/streak e ligas
    sincronizadas de verdade, em vez de manuais/locais.

@@ -1761,6 +1761,44 @@ const BCB_SERIES = [
 ];
 
 /* -------------------------------------------------------------------------
+   5.1) DESTAQUES EDUCATIVOS DE AÇÕES E FIIS (aba Mercado)
+   O Fin+ não tem cotação em tempo real de ações/FIIs individuais (ver
+   "Fora do escopo" no README) — por isso isto NÃO é um ranking de altas e
+   baixas do dia. São características estruturais historicamente conhecidas
+   de exemplos reais e líquidos da bolsa brasileira, para fins didáticos.
+   Não é recomendação de investimento personalizada.
+   ------------------------------------------------------------------------- */
+const STOCK_HIGHLIGHTS = {
+  positivo: {
+    titulo: "Histórico de dividendos consistentes",
+    desc: "Empresas e fundos com longo histórico de distribuir proventos de forma regular — não é garantia de que vai continuar, mas é um padrão observado por anos.",
+    itens: [
+      { ticker: "ITUB4", nome: "Itaú Unibanco", tipo: "Ação", motivo: "Banco com décadas de histórico de lucro consistente e distribuição regular de dividendos." },
+      { ticker: "WEGE3", nome: "WEG", tipo: "Ação", motivo: "Fabricante de motores e equipamentos com um dos históricos de crescimento mais estáveis da bolsa brasileira." },
+      { ticker: "MXRF11", nome: "Maxi Renda", tipo: "FII de papel", motivo: "Um dos FIIs mais populares do país, com pagamento mensal de rendimentos isentos de IR para pessoa física." },
+      { ticker: "KNRI11", nome: "Kinea Renda Imobiliária", tipo: "FII de tijolo", motivo: "Um dos maiores FIIs de tijolo do Brasil, com portfólio diversificado de imóveis comerciais e logísticos." },
+    ],
+  },
+  atencao: {
+    titulo: "Setores cíclicos — maior volatilidade histórica",
+    desc: "Setores cuja receita e lucro variam bastante com o preço de commodities, câmbio ou decisões de política pública — historicamente mais sujeitos a oscilações fortes, pra cima e pra baixo.",
+    itens: [
+      { ticker: "VALE3", nome: "Vale", tipo: "Ação", motivo: "Mineradora muito sensível ao preço internacional do minério de ferro e à demanda da China." },
+      { ticker: "PETR4", nome: "Petrobras", tipo: "Ação", motivo: "Sensível ao preço internacional do petróleo e a decisões de política de preços/dividendos ligadas ao controle estatal." },
+      { ticker: "CSNA3", nome: "CSN", tipo: "Ação", motivo: "Siderúrgica exposta ao ciclo de commodities e à concorrência do aço importado." },
+    ],
+  },
+  neutro: {
+    titulo: "Exposição ampla e diversificada",
+    desc: "Em vez de apostar numa empresa específica, esses ativos replicam um índice inteiro — diluindo o peso de qualquer componente individual.",
+    itens: [
+      { ticker: "BOVA11", nome: "ETF Ibovespa", tipo: "ETF", motivo: "Replica o Ibovespa — exposição ampla às maiores empresas da bolsa brasileira numa única cota." },
+      { ticker: "IVVB11", nome: "ETF S&P 500 (BRL)", tipo: "ETF", motivo: "Replica o S&P 500 em reais — diversificação internacional sem precisar de conta no exterior." },
+    ],
+  },
+};
+
+/* -------------------------------------------------------------------------
    6) TABELA DE IR REGRESSIVO — RENDA FIXA (CDB, Tesouro, fundos de RF)
    Usada no comparador de tributação (aba Avançado).
    ------------------------------------------------------------------------- */

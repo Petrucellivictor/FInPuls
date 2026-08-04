@@ -14,6 +14,7 @@ const Market = {
 
   init() {
     this.refresh();
+    this.renderStockHighlights();
     setInterval(() => this.refresh(), this.refreshIntervalMs);
   },
 
@@ -124,6 +125,16 @@ const Market = {
       .join("");
   },
 
+  /* Explicação simples ("para uma criança de 10 anos") de cada indicador
+     oficial, usada no ícone de dica ao lado do nome. */
+  bcbTip(nome) {
+    if (nome.includes("Selic")) return "A 'taxa básica' de juros do Brasil. Pense nela como o preço do dinheiro emprestado por um dia — quase tudo no mercado financeiro usa essa taxa como referência.";
+    if (nome.includes("CDI")) return "Uma taxa que segue a Selic bem de pertinho — é a referência mais usada para comparar o rendimento de CDBs, fundos e outros investimentos de renda fixa.";
+    if (nome.includes("IPCA")) return "O índice oficial de inflação do Brasil — mede o quanto os preços de uma 'cesta' de produtos e serviços subiram no período.";
+    if (nome.includes("Dólar")) return "Quantos reais são necessários para comprar 1 dólar americano hoje — sobe e desce o dia inteiro, conforme a oferta e a procura por dólares.";
+    return "";
+  },
+
   renderBcbGrid() {
     const grid = document.getElementById("bcbGrid");
     if (!this.data.bcb.length) {
@@ -134,7 +145,7 @@ const Market = {
       .map(
         (s) => `
       <div class="card market-card">
-        <div class="text-soft text-sm">${s.nome}</div>
+        <div class="text-soft text-sm">${s.nome}${Tooltip.icon(this.bcbTip(s.nome))}</div>
         <div class="value">${s.valor !== null ? s.valor.toLocaleString("pt-BR", { maximumFractionDigits: 4 }) : "—"}</div>
         <div class="text-soft" style="font-size:11px">${s.data ? "ref. " + s.data : "sem dados"}</div>
       </div>`
@@ -169,5 +180,40 @@ const Market = {
       </table></div>
       <p class="text-sm text-soft mt-8">Estimativas com base nas taxas oficiais mais recentes disponíveis, apenas para fins educativos.</p>
     `;
+  },
+
+  /* Painel educativo de ações/FIIs (ver STOCK_HIGHLIGHTS em data.js) — não é
+     uma cotação em tempo real, é uma categorização didática de exemplos
+     reais e conhecidos da bolsa brasileira, renderizada uma única vez. */
+  renderStockHighlights() {
+    const container = document.getElementById("stockHighlights");
+    if (!container) return;
+    const cats = [
+      { key: "positivo", icon: "✅" },
+      { key: "atencao", icon: "⚠️" },
+      { key: "neutro", icon: "➖" },
+    ];
+    container.innerHTML = cats
+      .map(({ key, icon }) => {
+        const cat = STOCK_HIGHLIGHTS[key];
+        return `
+        <div class="mt-16">
+          <h4 style="margin-bottom:2px">${icon} ${cat.titulo}</h4>
+          <p class="text-soft text-sm" style="margin-bottom:10px">${cat.desc}</p>
+          <div class="grid grid-2">
+            ${cat.itens
+              .map(
+                (it) => `
+              <div class="card" style="padding:14px">
+                <div class="flex-between"><b class="mono">${it.ticker}</b><span class="badge badge-ref">${it.tipo}</span></div>
+                <div class="text-sm" style="margin:2px 0 6px">${it.nome}</div>
+                <div class="text-soft text-sm">${it.motivo}</div>
+              </div>`
+              )
+              .join("")}
+          </div>
+        </div>`;
+      })
+      .join("");
   },
 };
