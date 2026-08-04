@@ -3,21 +3,34 @@
 
    Preencha as duas constantes abaixo com os dados do seu projeto, em
    Project Settings → API no painel do Supabase:
-     - SUPABASE_URL      → "Project URL"      (ex.: https://xxxx.supabase.co)
-     - SUPABASE_ANON_KEY → "anon public" key
+     - SUPABASE_URL      → "Project URL"        (ex.: https://xxxx.supabase.co)
+     - SUPABASE_ANON_KEY → a chave PÚBLICA:
+         · projetos novos: "sb_publishable_..." (aba "API Keys")
+         · projetos antigos: "anon public" (JWT longo, aba "Legacy API Keys")
 
-   A anon key é feita para ser pública no navegador — quem protege os
+   Essa chave pública é feita para ficar no navegador — quem protege os
    dados de verdade são as políticas de RLS (Row Level Security) do
    arquivo supabase/schema.sql, que garantem que cada pessoa só lê/escreve
    as próprias linhas.
+
+   NUNCA use aqui a chave secreta ("sb_secret_..." ou, em projetos
+   antigos, "service_role"): ela tem acesso total ao banco e ignora o
+   RLS — colocá-la no navegador equivale a publicar a senha mestra do
+   banco de dados.
 
    Se deixar os dois valores em branco, o Fin+ continua funcionando 100%
    normalmente no modo local (localStorage), exatamente como antes — a
    sincronização na nuvem só fica indisponível.
    ========================================================================= */
 
-const SUPABASE_URL = "";
-const SUPABASE_ANON_KEY = "";
+const SUPABASE_URL = ""; // cole aqui a "Project URL" (https://xxxx.supabase.co) — Project Settings → API
+const SUPABASE_ANON_KEY = "sb_publishable_-iqp9-voacIiyxNz3AGYAw_gDCHjAXM"; // chave publishable/anon — segura para o navegador
+
+/* NUNCA cole aqui uma chave "sb_secret_..." (ou a antiga "service_role").
+   Essa chave tem acesso total ao banco, ignorando o RLS — se for exposta
+   no navegador, qualquer visitante consegue ler/alterar os dados de
+   qualquer usuário. Se você colou uma chave secreta aqui antes, gere uma
+   nova em Project Settings → API Keys → Secret keys → Regenerate. */
 
 const sb =
   typeof supabase !== "undefined" && SUPABASE_URL && SUPABASE_ANON_KEY

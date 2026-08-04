@@ -221,12 +221,12 @@ const ONBOARDING_QUESTIONS = [
   },
   {
     id: "q5",
-    pergunta: "Quanto tempo por semana você dedica a aprender sobre finanças?",
+    pergunta: "Quanto tempo por dia você pretende dedicar a aprender sobre finanças?",
     opcoes: [
-      { texto: "Nenhum — estou começando agora, do zero", pontos: 1, tag: "zero_tempo" },
-      { texto: "Menos de 1 hora por semana", pontos: 2, tag: "pouco_tempo" },
-      { texto: "Algumas horas por semana, leio conteúdos e notícias", pontos: 3, tag: "medio_tempo" },
-      { texto: "Acompanho o mercado quase todos os dias", pontos: 4, tag: "muito_tempo" },
+      { texto: "5 min por dia", pontos: 1, tag: "5min_dia" },
+      { texto: "10 min por dia", pontos: 2, tag: "10min_dia" },
+      { texto: "15 min por dia", pontos: 3, tag: "15min_dia" },
+      { texto: "30 min por dia", pontos: 4, tag: "30min_dia" },
     ],
   },
 ];

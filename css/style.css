@@ -662,7 +662,7 @@ input:focus, select:focus, textarea:focus {
 
 .alert-box {
   border-radius: 10px; padding: 12px 14px; font-size: 13px; margin-bottom: 10px;
-  display: flex; gap: 8px; align-items: flex-start;
+  line-height: 1.5;
 }
 .alert-box.warn { background: #fdf3e3; color: #7a5514; border: 1px solid #f0d9a3; }
 .alert-box.danger { background: #fbe8e7; color: #8c2a27; border: 1px solid #f0bcba; }
