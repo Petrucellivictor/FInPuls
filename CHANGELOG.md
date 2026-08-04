@@ -4,6 +4,23 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.7.1] - 2026-08-04
+
+### Corrigido
+- `.alert-box` usava `display: flex`, que quebra qualquer conteúdo
+  misturando texto com tags `<b>`/`<span>` em vários "itens flex"
+  anônimos (um por trecho de texto) — isso fragmentava o layout em
+  colunas estreitas na tela de resultado do onboarding, nas calculadoras
+  (`js/advanced.js`), no simulador (`js/simulator.js`) e no aviso de
+  Ligas. Trocado para bloco normal, corrigindo todos os casos de uma vez.
+- Chave pública do Supabase que havia sido colada no campo errado de
+  `js/supabase-config.js`.
+
+### Alterado
+- Pergunta "quanto tempo você dedica" do onboarding agora pergunta a
+  intenção diária em minutos (5, 10, 15 ou 30 min/dia), em vez de horas
+  semanais retrospectivas.
+
 ## [1.7.0] - 2026-08-04
 
 ### Adicionado
