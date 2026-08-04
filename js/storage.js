@@ -74,6 +74,7 @@ const Store = {
     }
     try {
       localStorage.setItem(key, JSON.stringify(value));
+      if (typeof Cloud !== "undefined") Cloud.schedulePush(key, value);
       return true;
     } catch (e) {
       console.warn("Erro ao salvar storage:", key, e);
@@ -88,11 +89,13 @@ const Store = {
       return;
     }
     localStorage.removeItem(key);
+    if (typeof Cloud !== "undefined") Cloud.removeKey(key);
   },
 
   clearAll() {
     Object.values(STORAGE_KEYS).forEach((k) => localStorage.removeItem(k));
     if (typeof Vault !== "undefined") Vault.reset();
+    if (typeof Cloud !== "undefined") Cloud.deleteAll();
   },
 
   /* ---------- backup manual (exportar/importar JSON) ---------- */

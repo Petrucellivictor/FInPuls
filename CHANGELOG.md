@@ -4,6 +4,31 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.7.0] - 2026-08-04
+
+### Adicionado
+- **Sincronização multiusuário via Supabase** (opcional): `js/cloud.js` +
+  `js/supabase-config.js` + `supabase/schema.sql`. Com um projeto Supabase
+  configurado, contas reais (e-mail/senha, ou Google validado pelo
+  Supabase) passam a ter os dados sincronizados entre dispositivos, numa
+  tabela genérica chave/valor (`user_data`) protegida por Row Level
+  Security — cada conta só acessa as próprias linhas. Sem configurar
+  nada, o app continua 100% local, exatamente como antes.
+- `js/auth.js` reescrito: quando o Supabase está configurado, o modal de
+  conta ganha abas "Entrar"/"Criar conta" com e-mail e senha reais, e o
+  botão do Google passa a criar uma sessão Supabase de verdade (via
+  `signInWithIdToken`) em vez de só decorar a saudação.
+- Compatibilidade entre o cofre local (`js/vault.js`) e a nuvem: quando o
+  cofre está ativo, o que sincroniza para as chaves sensíveis é sempre o
+  blob já cifrado — o Supabase nunca recebe esse conteúdo em texto puro.
+- Favicon do site usando a arte do POLVIn (`Polvin-logo.png`).
+- Seções "Sincronização multiusuário com Supabase" e "Hospedagem
+  (Vercel)" no README, com o passo a passo completo de configuração.
+
+### Corrigido
+- Texto do rodapé, que afirmava categoricamente que os dados só ficam no
+  navegador — agora reflete corretamente o modo de sincronização opcional.
+
 ## [1.6.0] - 2026-08-04
 
 ### Adicionado

@@ -4,6 +4,8 @@
 
 const App = {
   async init() {
+    if (typeof Cloud !== "undefined") await Cloud.init(); // restaura sessão e sincroniza antes de decidir o que renderizar
+
     const desbloqueado = await this.ensureVaultUnlocked();
     if (!desbloqueado) return; // usuário fechou a aba na tela de bloqueio; nada mais deve rodar
 

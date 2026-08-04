@@ -6,6 +6,9 @@
 <title>Fin+ — Aprenda, controle e invista</title>
 <meta name="description" content="Ferramenta educativa e gamificada para aprender finanças, controlar gastos e entender investimentos no Brasil." />
 
+<link rel="icon" type="image/png" href="Polvin-logo.png" />
+<link rel="apple-touch-icon" href="Polvin-logo.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css" />
@@ -647,14 +650,19 @@
   </main>
 
   <footer class="app-footer">
-    Fin+ — Ferramenta educativa. Não constitui recomendação de investimento personalizada. Dados de mercado fornecidos por fontes públicas (Banco Central do Brasil, AwesomeAPI, CoinGecko). Todos os seus dados ficam salvos só neste navegador — <button class="link-btn" id="privacyPolicyBtn">Política de Privacidade (LGPD)</button>.
+    Fin+ — Ferramenta educativa. Não constitui recomendação de investimento personalizada. Dados de mercado fornecidos por fontes públicas (Banco Central do Brasil, AwesomeAPI, CoinGecko). Seus dados ficam salvos neste navegador, e também na nuvem de forma protegida se você criar uma conta — <button class="link-btn" id="privacyPolicyBtn">Política de Privacidade (LGPD)</button>.
   </footer>
 </div>
+
+<!-- Cliente do Supabase (opcional — ver js/supabase-config.js) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- Módulos JS -->
 <script src="js/data.js"></script>
 <script src="js/storage.js"></script>
 <script src="js/vault.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/cloud.js"></script>
 <script src="js/fx.js"></script>
 <script src="js/polvin.js"></script>
 <script src="js/tabs.js"></script>

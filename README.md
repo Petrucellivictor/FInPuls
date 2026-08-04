@@ -4,16 +4,24 @@
 > educação financeira, controle de gastos e variedade de conteúdos — do
 > zero ao avançado.
 
-Ferramenta web (HTML + CSS + JavaScript puro, sem frameworks e sem backend)
+Ferramenta web (HTML + CSS + JavaScript puro, sem frameworks e sem build)
 para ajudar qualquer pessoa — do zero absoluto ao investidor experiente —
 a entender o mercado financeiro, controlar gastos e aprender investimentos
 de forma gamificada.
 
+Funciona 100% localmente (dados salvos em `localStorage`, sem nenhuma
+conta) e, **opcionalmente**, pode sincronizar os dados na nuvem via
+**Supabase** (Postgres + autenticação), o que permite hospedar o site
+publicamente (ex.: **Vercel**) e ter múltiplas pessoas usando com contas e
+dados isolados de verdade. Sem configurar o Supabase, tudo continua
+funcionando exatamente como um app 100% local.
+
 ## Como usar
 
-Basta abrir `index.html` em um navegador. Não há build, servidor ou
-instalação de dependências — tudo roda no navegador, com dados salvos em
-`localStorage` (ou seja, ficam salvos no seu próprio computador/navegador).
+Basta abrir `index.html` em um navegador. Não há build nem instalação de
+dependências — tudo roda no navegador. Sem o Supabase configurado (ver
+seção abaixo), os dados ficam só em `localStorage` (no seu próprio
+computador/navegador).
 
 > Para os indicadores de mercado e as cotações de cripto funcionarem, o
 > navegador precisa de acesso à internet (os dados vêm de APIs públicas
@@ -21,9 +29,9 @@ instalação de dependências — tudo roda no navegador, com dados salvos em
 
 ### Habilitar o login com Google (opcional)
 
-O cadastro por e-mail (perfil local, sem senha) funciona sempre. Já o
-"Entrar com Google" só funciona depois de dois passos, porque depende de
-infraestrutura do Google que este projeto não controla:
+O login com Google usa o **Google Identity Services** para obter um token
+de identidade; o que o Fin+ faz com esse token depende de o Supabase estar
+configurado ou não (ver seção "Sincronização multiusuário" abaixo):
 
 1. Crie um **OAuth Client ID gratuito** em
    [console.cloud.google.com](https://console.cloud.google.com/) → APIs e
@@ -32,48 +40,116 @@ infraestrutura do Google que este projeto não controla:
 2. Substitua o valor de `GOOGLE_CLIENT_ID` no topo de `js/auth.js` pelo
    Client ID gerado.
 3. Abra o Fin+ por um **servidor local ou remoto (http/https)** — por
-   exemplo, a extensão "Live Server" do VS Code, ou hospedando no GitHub
-   Pages (ver seção "Hospedagem" abaixo). O login do Google **não
-   funciona** abrindo o `index.html` direto (protocolo `file://`); o app
-   detecta isso e avisa na tela em vez de mostrar um botão quebrado.
+   exemplo, a extensão "Live Server" do VS Code, ou hospedando (ver
+   "Hospedagem" abaixo). O login do Google **não funciona** abrindo o
+   `index.html` direto (protocolo `file://`); o app detecta isso e avisa
+   na tela em vez de mostrar um botão quebrado.
+
+## Sincronização multiusuário com Supabase (opcional)
+
+Por padrão o Fin+ não tem banco de dados nem servidor — é esse o motivo de
+não existirem "credenciais de acesso" a um banco para te passar quando
+ninguém configurou nada. Se você quer publicar o site para vários usuários
+testarem com contas e dados próprios, o Fin+ já vem com a integração
+pronta para o **Supabase** (Postgres gerenciado + autenticação, com plano
+gratuito). Veja como ativar:
+
+1. **Crie um projeto gratuito** em [supabase.com](https://supabase.com/) →
+   New Project (guarde a senha do banco que você definir ali, não é
+   usada pelo app, mas pode ser útil para você mesmo administrar o banco).
+2. **Rode o schema**: no painel do projeto, abra **SQL Editor** → New
+   query, cole todo o conteúdo de [`supabase/schema.sql`](supabase/schema.sql)
+   deste repositório e clique em **Run**. Isso cria a tabela `user_data`
+   (uma linha por chave de dado, por usuário) já com as políticas de
+   **Row Level Security** que garantem que cada pessoa só acessa os
+   próprios dados.
+3. **Copie as credenciais**: em **Project Settings → API**, copie a
+   **Project URL** e a chave **anon public**.
+4. **Cole no código**: abra [`js/supabase-config.js`](js/supabase-config.js)
+   e preencha `SUPABASE_URL` e `SUPABASE_ANON_KEY` com os valores copiados.
+   A anon key é feita para ser pública no navegador — quem protege os
+   dados de verdade são as políticas de RLS do passo 2, não o segredo
+   dessa chave.
+5. **(Opcional, recomendado para testes)** Em **Authentication → Providers
+   → Email**, desative "Confirm email" para que novas contas já entrem
+   direto, sem precisar clicar num link de confirmação por e-mail.
+6. **(Opcional)** Para o botão "Entrar com Google" criar uma conta real
+   sincronizada (em vez de só decorar a saudação), habilite o provedor
+   Google em **Authentication → Providers → Google**, usando o mesmo
+   Client ID/Secret do OAuth criado na seção anterior.
+
+A partir daí, qualquer pessoa que criar uma conta (e-mail/senha ou Google)
+pelo botão "👤 Entrar" passa a ter transações, orçamentos, cofrinhos,
+investimentos, progresso e conquistas sincronizados entre dispositivos —
+protegidos por login, e nunca visíveis para outra conta. Se o cofre local
+de criptografia (Perfil → Segurança) estiver ativo, o Supabase nunca chega
+a receber o conteúdo em texto puro dos dados sensíveis — só a versão já
+cifrada (ver seção "Segurança e privacidade" abaixo).
+
+> **Limitação atual, por ser uma fase de testes**: a sincronização não faz
+> merge inteligente entre dispositivos. Ao entrar com uma conta, os dados
+> da nuvem substituem os locais deste navegador (a não ser na primeira vez,
+> quando a nuvem ainda está vazia — nesse caso os dados locais são
+> enviados para a nuvem). Use um dispositivo por vez com a mesma conta.
 
 ## Hospedagem
 
-**Não existe banco de dados nem servidor no Fin+** — não há credenciais de
-acesso a fornecer, porque nenhuma infraestrutura desse tipo existe. Todo o
-"backend" do app é o próprio navegador de cada visitante (`localStorage`).
-Hospedar o Fin+ significa apenas publicar os arquivos estáticos (HTML/CSS/
-JS) em algum lugar acessível por HTTPS. A forma mais simples, já que o
-código vive neste repositório no GitHub, é o **GitHub Pages** (gratuito):
+Hospedar o Fin+ significa publicar os arquivos estáticos (HTML/CSS/JS) em
+algum lugar acessível por HTTPS — com ou sem o Supabase configurado, isso
+não muda. Duas opções simples:
 
+**GitHub Pages** (mais simples, já que o código está aqui no GitHub):
 1. No GitHub, vá em **Settings → Pages** do repositório.
 2. Em "Source", selecione o branch `main` e a pasta raiz (`/`).
 3. Salve — em alguns minutos o GitHub publica o site em uma URL do tipo
    `https://petrucellivictor.github.io/FInPuls/`.
 
-Isso também resolve, de graça, a limitação do login com Google citada
-acima (que exige `http`/`https`, não `file://`). Cada visitante continua
-com seus próprios dados isolados no próprio navegador — publicar o site
-não cria um banco de dados compartilhado nem sincroniza usuários entre si.
+**Vercel** (também gratuito, e é a que combina melhor com o Supabase para
+testes com vários usuários):
+1. Em [vercel.com](https://vercel.com/), **Add New → Project** e importe
+   este repositório do GitHub.
+2. Como não há build, use **Framework Preset: "Other"**, deixe **Build
+   Command** e **Output Directory** em branco, e clique em **Deploy**.
+3. Em alguns segundos o Vercel publica o site em uma URL do tipo
+   `https://fin-plus-seu-usuario.vercel.app`.
+4. Se você já preencheu `js/supabase-config.js` com URL/chave reais antes
+   de fazer o commit, a sincronização já funciona nessa URL — não é
+   preciso configurar nenhuma variável de ambiente no Vercel, porque a
+   anon key do Supabase é destinada a ficar no código do cliente (a
+   segurança vem das políticas de RLS, não do sigilo dessa chave).
+
+Publicar o site (em qualquer uma das duas opções) também resolve, de
+graça, a limitação do login com Google que exige `http`/`https` (não
+`file://`).
 
 ## Segurança e privacidade (LGPD)
 
-- **Sem servidor, sem coleta remota**: como não há backend, nenhum dado
-  financeiro seu é transmitido ou armazenado fora do seu navegador. Ver o
-  texto completo em **Política de Privacidade** (link no rodapé do site,
-  implementado em `js/privacy.js`).
+- **Sem Supabase configurado**: nenhum dado financeiro seu é transmitido
+  ou armazenado fora do seu navegador — comportamento padrão do projeto.
+- **Com Supabase configurado** (sincronização multiusuário, seção acima):
+  seus dados passam a ser armazenados também no banco Postgres do seu
+  projeto Supabase, protegidos por autenticação e por políticas de Row
+  Level Security (cada conta só lê/escreve as próprias linhas — ver
+  `supabase/schema.sql`). Isso é uma transmissão de dados pessoais que
+  passa a existir só a partir do momento em que a própria pessoa cria uma
+  conta — quem não criar conta continua 100% local. Ver o texto completo
+  em **Política de Privacidade** (link no rodapé do site, `js/privacy.js`).
 - **Cofre de criptografia opcional** (`js/vault.js`, aba **Perfil →
   Segurança**): cifra com AES-256 (chave derivada por PBKDF2, 150.000
   iterações) os dados sensíveis — perfil, conta, transações, orçamentos,
   cofrinhos, investimentos, ações/FIIs, parcelamentos e ligas — usando uma
-  senha local que nunca é enviada a lugar nenhum. Isso protege contra
-  alguém que copie os arquivos do seu navegador sem essa senha (dado em
-  repouso). **Isso não protege**, e nenhuma criptografia no navegador de
-  nenhum app protegeria, contra uma vulnerabilidade de execução de código
-  (XSS) enquanto o cofre está desbloqueado — o próprio app precisa
-  conseguir ler os dados para funcionar, a mesma limitação de qualquer
-  gerenciador de senhas local. **Não há recuperação de senha**: se
-  esquecida, os dados cifrados não podem ser restaurados por ninguém.
+  senha local que nunca é enviada a lugar nenhum, nem para o Supabase.
+  Quando o cofre está ativo, o que sincroniza com a nuvem para essas
+  chaves sensíveis é só o blob já cifrado — o banco de dados nunca recebe
+  o conteúdo em texto puro delas, mesmo com a sincronização ativada. Isso
+  protege contra alguém que copie os arquivos do seu navegador, ou tenha
+  acesso ao banco de dados, sem essa senha (dado em repouso). **Isso não
+  protege**, e nenhuma criptografia no navegador de nenhum app protegeria,
+  contra uma vulnerabilidade de execução de código (XSS) enquanto o cofre
+  está desbloqueado — o próprio app precisa conseguir ler os dados para
+  funcionar, a mesma limitação de qualquer gerenciador de senhas local.
+  **Não há recuperação de senha**: se esquecida, os dados cifrados não
+  podem ser restaurados por ninguém.
 - **Direitos do titular já cobertos pelas ferramentas existentes**:
   acesso/portabilidade (⬇️ Exportar), correção (edição direta ou
   ⬆️ Importar) e eliminação (Reiniciar).
@@ -88,9 +164,10 @@ não cria um banco de dados compartilhado nem sincroniza usuários entre si.
 - **Dourado, coral e azul** seguem como cores de apoio para gamificação (XP),
   alertas/saídas e informações neutras, respectivamente.
 - **POLVIn**, o mascote, usa a arte 3D real (`Polvin-logo.png`) em todos os
-  lugares — logotipo do cabeçalho, telas de boas-vindas, balões de fala e
-  assistente — com um selo de acessório/bandeira/moldura sobreposto quando
-  você equipa algo na Loja (aba Perfil).
+  lugares — logotipo do cabeçalho, telas de boas-vindas, balões de fala,
+  assistente e também como **favicon da aba do navegador** — com um selo
+  de acessório/bandeira/moldura sobreposto quando você equipa algo na
+  Loja (aba Perfil).
 
 ## O mascote POLVIn como personagem interativo
 
@@ -141,13 +218,15 @@ fin-plus/
 │   ├── leagues.js                        → aba Desafios: seu placar e Ligas locais manuais
 │   ├── storage.js                     → camada de persistência (localStorage) + exportar/importar backup
 │   ├── vault.js                        → cofre opcional de criptografia local (AES-256) dos dados sensíveis
+│   ├── supabase-config.js               → credenciais do Supabase (opcional, em branco por padrão)
+│   ├── cloud.js                          → sincronização multiusuário via Supabase (opcional)
 │   ├── privacy.js                       → modal da Política de Privacidade (LGPD)
 │   ├── fx.js                           → efeitos visuais compartilhados (confete, toast de subida de nível)
 │   ├── polvin.js                        → mascote interativo: avatar SVG animado em 3D (CSS), fala com
 │   │                                       efeito de digitação + voz nativa do navegador, e o assistente
 │   │                                       flutuante "Pergunte ao POLVIn" (busca por palavras-chave)
 │   ├── tabs.js                            → navegação entre abas
-│   ├── auth.js                       → login com Google ou perfil local por e-mail
+│   ├── auth.js                       → login (Supabase real quando configurado, ou perfil local por e-mail/Google)
 │   ├── onboarding.js                  → diagnóstico inicial: "sobre você" + 5 perguntas de perfil de risco
 │   ├── investments.js                  → guia de investimentos com filtros e modal
 │   ├── simulator.js                     → simulador de juros compostos (investir x não investir)
@@ -167,16 +246,20 @@ fin-plus/
 │   ├── advanced.js                                             → aba Avançado: carteiras-modelo, calculadoras, dicionário
 │   ├── books.js                                                  → aba Biblioteca Fin+: recomendações de livros
 │   └── app.js                                                      → orquestrador geral / dashboard
+├── supabase/
+│   └── schema.sql                  → script SQL (tabela + Row Level Security) para o Supabase opcional
 └── README.md
 ```
 
 ## O que já funciona (v7 — com moedas, loja, medalhas, ligas e perfil)
 
 ### Conta e personalização
-- **Login com Google ou perfil local por e-mail** (sem senha): personaliza
-  a saudação com nome/foto. Sem backend, não há sincronização entre
-  dispositivos — é só identificação local neste navegador (ver seção
-  "Habilitar o login com Google" acima).
+- **Login com Google ou e-mail**: por padrão, é só um perfil local (sem
+  senha) que personaliza a saudação com nome/foto, sem sincronização entre
+  dispositivos. Com o Supabase configurado (nova! ver seção "Sincronização
+  multiusuário" acima), o mesmo botão passa a criar uma conta real
+  (e-mail+senha, ou Google validado pelo Supabase), com dados sincronizados
+  entre dispositivos e isolados por conta via Row Level Security.
 - **Onboarding em duas etapas**: "sobre você" (idade, situação
   profissional, faixa de renda e objetivo principal com ícones) + o
   diagnóstico de 5 perguntas que calcula nível, objetivo e tolerância a
@@ -307,10 +390,12 @@ não tem, e não deveria simular de forma enganosa:
   navegador. O "Pergunte ao POLVIn" existe, mas é busca por palavras-chave
   sobre o conteúdo do site (ver seção "O mascote POLVIn como personagem
   interativo"), não uma IA generativa.
-- **Ranking global automático entre usuários**: exigiria múltiplos
-  usuários sincronizados em um backend; hoje cada navegador guarda dados
-  isolados. Por isso as **Ligas** (aba Desafios) são manuais e locais —
-  ótimas para competir com amigos reais, mas não um ranking ao vivo.
+- **Ranking global automático entre usuários**: com o Supabase configurado
+  (seção "Sincronização multiusuário" acima) já existe uma base de dados
+  compartilhada, então isso deixou de ser tecnicamente impossível — mas
+  ainda não foi implementado (as **Ligas**, aba Desafios, continuam
+  manuais e locais por enquanto). Um próximo passo natural seria uma view
+  pública só de XP/moedas/streak para montar um ranking ao vivo.
 - **Login com Google 100% "pronto de fábrica"**: tecnicamente depende de
   um Client ID vinculado a um domínio/origem específico — algo que só
   quem hospeda o app pode gerar (não é possível deixar pré-configurado de
@@ -322,21 +407,24 @@ não tem, e não deveria simular de forma enganosa:
 
 ## Roadmap sugerido (próximas etapas)
 
-1. **Conta e sincronização real** — um backend simples (ex.: Node/Firebase)
-   permitiria acessar os dados de qualquer dispositivo com o mesmo login.
-2. **Notícias ao vivo** — plugar uma News API real na função
+1. **Ranking/Ligas ao vivo** — agora que existe um backend (Supabase),
+   dá para expor um ranking público de XP/moedas/streak e ligas
+   sincronizadas de verdade, em vez de manuais/locais.
+2. **Merge inteligente entre dispositivos** — hoje a sincronização
+   (seção "Sincronização multiusuário") sempre faz a nuvem sobrescrever o
+   local ao entrar; um merge por campo/timestamp evitaria perda de dados
+   ao usar dois dispositivos offline com a mesma conta.
+3. **Notícias ao vivo** — plugar uma News API real na função
    `fetchLiveNews()` em `js/news.js`.
-3. **Gráficos de evolução de patrimônio** — histórico mensal do saldo e
+4. **Gráficos de evolução de patrimônio** — histórico mensal do saldo e
    dos investimentos, usando um `<canvas>` dedicado.
-4. **Indicadores adicionais** — Ibovespa, IFIX e curva de juros (DI
+5. **Indicadores adicionais** — Ibovespa, IFIX e curva de juros (DI
    futuro) na aba Mercado, quando houver fonte pública gratuita estável.
-5. **Cotação automática opcional para ações/FIIs** — permitir que quem
+6. **Cotação automática opcional para ações/FIIs** — permitir que quem
    tiver um token gratuito do brapi.dev conecte para atualizar preços
    automaticamente, mantendo a atualização manual como padrão.
-6. **Temas visuais na Loja** — trocar moedas por temas de cor além dos
+7. **Temas visuais na Loja** — trocar moedas por temas de cor além dos
    acessórios/molduras já disponíveis.
-7. **Exportar/importar liga** — permitir compartilhar uma liga via
-   arquivo (hoje ela vive só neste navegador, como o resto dos dados).
 8. **Modo escuro** e mais opções de acessibilidade (tamanho de fonte,
    alto contraste).
 
