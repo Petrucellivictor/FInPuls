@@ -4,6 +4,19 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.4.0] - 2026-08-04
+
+### Adicionado
+- Trilha "Empreender" (`js/business.js` + `BUSINESS_COURSE`): 5 níveis, 15
+  mini aulas + quiz sobre empreender x ser empresário, MEI, Simples
+  Nacional, Lucro Presumido, Lucro Real, obrigações fiscais/contábeis e
+  gestão de pessoas e finanças. Acessível via subnav na aba Aprender.
+- Comparador de Investimentos no Simulador: ranking das 3 melhores opções
+  de renda fixa (Poupança, CDB, LCI/LCA, Tesouro Selic) líquidas de IR,
+  usando a Selic atual do Banco Central, mais comparação com 1 opção de
+  renda variável (FII via dividend yield estimado).
+- 2 novas conquistas (primeiro passo empreendedor, mestre empreendedor).
+
 ## [1.3.0] - 2026-08-04
 
 ### Adicionado
