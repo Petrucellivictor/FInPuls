@@ -300,11 +300,14 @@ fin-plus/
 
 ### Gamificação ("Academia Fin+")
 - **Trilha única e intercalada**: a trilha financeira "Do Zero ao
-  Avançado" (6 níveis, 50 lições — o Nível 1 "Fundamentos e Comportamento
+  Avançado" (6 níveis, 67 lições — o Nível 1 "Fundamentos e Comportamento
   Financeiro" foi expandido de 5 para 35 lições, cobrindo desde receita
   e despesa até score de crédito, INSS e viés comportamental, com perfil
   de investidor e juros compostos nos fundamentos, antes de qualquer
-  produto específico) e a trilha "Brasil: História & Economia" (4 níveis, 9
+  produto específico; o Nível 2 "Renda Fixa" foi expandido de 3 para 20
+  lições, cobrindo Tesouro, CDB/LCI/LCA/CRI/CRA, debêntures, rating,
+  duration, marcação a mercado, curva de juros e fundos DI) e a trilha
+  "Brasil: História & Economia" (4 níveis, 9
   lições, cada uma com um pequeno conto — moedas do Réis ao Real, ciclos
   econômicos, Vargas, milagre econômico, Plano Real, desigualdade e o
   papel do Estado) não são abas separadas: os níveis se alternam em **um

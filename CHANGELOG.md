@@ -4,6 +4,38 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.12.0] - 2026-08-04
+
+### Adicionado
+- **Onda 2 da expansão para 300 lições**: o Módulo 03 da trilha financeira
+  ("Nível 2 · Renda Fixa") saiu de 3 para 20 lições — 17 lições novas,
+  cobrindo debêntures (comuns e incentivadas), CRI/CRA, rating de
+  crédito, FGC em detalhe, marcação a mercado, duration, curva de
+  juros, Tesouro Prefixado e IPCA+ na prática, CDB pós-fixado x
+  prefixado x híbrido, fundos de renda fixa e fundos DI, come-cotas,
+  comparação de renda fixa "de verdade" (taxa, prazo, liquidez, IR,
+  garantia) e os erros mais comuns na escolha. A trilha financeira
+  (COURSE) foi de 50 para 67 lições no total.
+- Blueprint das trilhas atualizado registrando o Módulo 03 como quase
+  concluído (20/25 lições).
+
+### Corrigido
+- Aba Mercado: removida a duplicidade do card de Bitcoin — a cotação
+  BTC-BRL vinha tanto da AwesomeAPI (moedas) quanto da CoinGecko
+  (criptoativos), aparecendo duas vezes no ticker e na grade do
+  Mercado. Mantida apenas a fonte da CoinGecko, que já traz variação
+  em 24h.
+
+### Alterado
+- Textos de apoio simplificados em várias abas (Investimentos,
+  Simulador, Carteira Digital, Aprender, Notícias, Educação
+  Financeira, Avançado, Ações & FIIs): frases mais curtas, linguagem
+  do dia a dia em vez de termos técnicos, mantendo o significado.
+- Redesign visual com mais uso da cor roxa da marca: títulos de card,
+  barra de destaque nos títulos de seção, KPIs com borda lateral e
+  fundo tonalizado, valores do Mercado e itens do glossário — usando
+  as variáveis de cor já existentes, sem introduzir novas cores.
+
 ## [1.11.0] - 2026-08-04
 
 ### Adicionado

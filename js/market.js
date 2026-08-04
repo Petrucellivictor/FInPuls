@@ -31,7 +31,7 @@ const Market = {
 
   async fetchMoedas() {
     try {
-      const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL");
+      const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL");
       const json = await res.json();
       this.data.moedas = Object.values(json).map((m) => ({
         nome: `${m.code}/${m.codein}`,
