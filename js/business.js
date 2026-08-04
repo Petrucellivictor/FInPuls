@@ -241,7 +241,10 @@ const Business = {
       const alreadyDone = !!progress[lesson.id];
       progress[lesson.id] = true;
       Store.set(STORAGE_KEYS.BUSINESS_PROGRESS, progress);
-      if (!alreadyDone) Learn.addXp(lesson.xp);
+      if (!alreadyDone) {
+        Learn.addXp(lesson.xp);
+        Learn.addCoins(5);
+      }
 
       const log = Store.get(STORAGE_KEYS.LESSON_LOG, []);
       log.push({ lessonId: lesson.id, fonte: "empreender", data: new Date().toISOString() });

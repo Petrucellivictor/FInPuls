@@ -45,22 +45,22 @@ infraestrutura do Google que este projeto não controla:
   e o "+" do logotipo **Fin+**.
 - **Dourado, coral e azul** seguem como cores de apoio para gamificação (XP),
   alertas/saídas e informações neutras, respectivamente.
-- **POLVIn**, o mascote, existe em três formatos: a arte 3D completa
-  (`Polvin-logo.png`, usada no logotipo do cabeçalho e nas telas de
-  boas-vindas do diagnóstico) e um SVG inline animável (`js/polvin.js`),
-  usado sempre que ele "fala" — dica do dia, aviso de gastos, dica de
-  investimento, contos da trilha e o assistente flutuante.
+- **POLVIn**, o mascote, usa a arte 3D real (`Polvin-logo.png`) em todos os
+  lugares — logotipo do cabeçalho, telas de boas-vindas, balões de fala e
+  assistente — com um selo de acessório/bandeira/moldura sobreposto quando
+  você equipa algo na Loja (aba Perfil).
 
 ## O mascote POLVIn como personagem interativo
 
 O POLVIn não é só uma imagem — ele fala, "conta" as histórias da trilha e
 responde dúvidas sobre o site, com uma animação 3D em CSS puro (nada de
-biblioteca externa: `perspective` + `rotateX/Y` + `translateZ`, tentáculos
-e olhos animados dentro de um SVG inline).
+biblioteca externa: `perspective` + `rotateX/Y` + `translateZ` sobre a
+própria arte do mascote).
 
 - **Fala com efeito de digitação**: toda vez que o POLVIn dá uma dica —
-  na Home, na Carteira (avisos de gasto por impulso) e nos Investimentos —
-  o texto aparece "digitando" e a boca dele se move.
+  na Home (dica do dia e insights financeiros sobre você), na Carteira
+  (avisos de gasto por impulso) e nos Investimentos — o texto aparece
+  "digitando".
 - **Leitura em voz alta de verdade**: o botão "🔊 Ouvir" usa a Web Speech
   API nativa do navegador (`speechSynthesis`) para narrar a dica ou o
   conto da trilha — sem nenhuma chave de API, sem custo, e sem depender de
@@ -74,12 +74,16 @@ e olhos animados dentro de um SVG inline).
   `ASSISTANT_FAQ`, o glossário, o guia de investimentos e a biblioteca de
   livros). O próprio POLVIn explica isso na primeira mensagem do chat,
   para não gerar uma expectativa que a ferramenta não cumpre.
+- **Insights sobre sua vida financeira real**: na Home, o POLVIn lê seus
+  próprios dados (cofrinhos, investimentos, gastos do mês) e conta fatos
+  como "você já guardou R$X em cofrinhos" ou "faltam R$Y para sua meta" —
+  sempre com números reais, nunca inventados.
 
 ## Estrutura do projeto
 
 ```
 fin-plus/
-├── index.html                 → estrutura da página e das 11 abas
+├── index.html                 → estrutura da página e das 13 abas
 ├── Polvin-logo.png             → arte 3D do POLVIn (logotipo do cabeçalho, telas de boas-vindas)
 ├── PolvIN.png                    → mood board/identidade visual do mascote (referência de marca)
 ├── assets/
@@ -89,7 +93,10 @@ fin-plus/
 ├── js/
 │   ├── data.js                       → conteúdo: investimentos, trilhas, glossário, carteiras-modelo,
 │   │                                     tabela de IR, níveis nomeados, desafios, eventos, conquistas,
-│   │                                     livros, dicas e a base de conhecimento do assistente POLVIn
+│   │                                     livros, dicas, base de conhecimento do assistente, itens da
+│   │                                     Loja e faixas de medalha
+│   ├── profile.js                       → aba Perfil: avatar, estatísticas, medalha atual e a Loja
+│   ├── leagues.js                        → aba Desafios: seu placar e Ligas locais manuais
 │   ├── storage.js                     → camada de persistência (localStorage) + exportar/importar backup
 │   ├── fx.js                           → efeitos visuais compartilhados (confete, toast de subida de nível)
 │   ├── polvin.js                        → mascote interativo: avatar SVG animado em 3D (CSS), fala com
@@ -105,7 +112,7 @@ fin-plus/
 │   ├── goals.js                              → cofrinhos virtuais (metas de economia)
 │   ├── portfolio.js                            → carteira de investimentos: alocação real x carteira-modelo
 │   ├── stocks.js                                 → aba Ações & FIIs: posições, dividendos, cripto fracionada
-│   ├── learn.js                                    → utilitários de gamificação (XP, streak, nível de jogador)
+│   ├── learn.js                                    → utilitários de gamificação (XP, moedas, streak, pontuação total, nível de jogador)
 │   ├── trail.js                                      → trilha única intercalada (financeira + Brasil: História), caminho sinuoso
 │   ├── business.js                                     → trilha "Empreender" (independente): regimes tributários,
 │   │                                                      obrigações fiscais/contábeis e gestão de pessoas/finanças
@@ -119,7 +126,7 @@ fin-plus/
 └── README.md
 ```
 
-## O que já funciona (v6 — do bolso à empresa própria, com o POLVIn interativo)
+## O que já funciona (v7 — com moedas, loja, medalhas, ligas e perfil)
 
 ### Conta e personalização
 - **Login com Google ou perfil local por e-mail** (sem senha): personaliza
@@ -139,6 +146,28 @@ fin-plus/
 - **"Pergunte ao POLVIn"**: botão flutuante em qualquer aba, abre um chat
   com busca por palavras-chave sobre todo o conteúdo do site — transparente
   sobre não ser uma IA generativa de verdade.
+
+### Perfil, Loja e Desafios (novo!)
+- **Moedas**: uma segunda moeda de troca, separada do XP — ganhe
+  completando lições (+5), desafios diários (+2), missões da semana
+  (+10) e cofrinhos (+15), mais um **bônus de login diário** (como os
+  "foguinhos" do Duolingo: só por abrir o app hoje, escalando de 5 a 30
+  moedas conforme sua ofensiva).
+- **Aba Perfil**: seu avatar (com os itens equipados), XP, moedas,
+  ofensiva, pontuação total, medalha atual e a **Loja** — compre
+  acessórios (chapéus), insígnias/bandeiras e molduras com moedas, e
+  equipe no POLVIn. Como o avatar agora é a arte real do mascote (não um
+  SVG editável), os itens aparecem como selos sobrepostos — uma
+  simplificação visual, não uma re-ilustração do personagem.
+- **Aba Desafios**: seu placar (pontuação = XP + moedas×2 +
+  conquistas×20 + streak×5), a tabela de medalhas por faixa de pontuação
+  (Bronze → Prata → Ouro → Platina → Diamante), e **Ligas** — crie um
+  grupo, adicione o nome de amigos e atualize a pontuação deles
+  manualmente para competir. **Importante:** o Fin+ não tem servidor, então
+  isso é um placar local e manual (como uma "tabela de placar" que vocês
+  atualizam comparando o que cada um vê na própria aba Perfil) — não é um
+  ranking automático sincronizado entre instalações diferentes. Sua
+  própria linha na tabela é sempre calculada automaticamente.
 
 ### Gamificação ("Academia Fin+")
 - **Trilha única e intercalada** (nova!): a trilha financeira "Do Zero ao
@@ -234,8 +263,10 @@ não tem, e não deveria simular de forma enganosa:
   navegador. O "Pergunte ao POLVIn" existe, mas é busca por palavras-chave
   sobre o conteúdo do site (ver seção "O mascote POLVIn como personagem
   interativo"), não uma IA generativa.
-- **Comunidade/ranking entre usuários**: exige múltiplos usuários
-  sincronizados em um backend; hoje cada navegador guarda dados isolados.
+- **Ranking global automático entre usuários**: exigiria múltiplos
+  usuários sincronizados em um backend; hoje cada navegador guarda dados
+  isolados. Por isso as **Ligas** (aba Desafios) são manuais e locais —
+  ótimas para competir com amigos reais, mas não um ranking ao vivo.
 - **Login com Google 100% "pronto de fábrica"**: tecnicamente depende de
   um Client ID vinculado a um domínio/origem específico — algo que só
   quem hospeda o app pode gerar (não é possível deixar pré-configurado de
@@ -258,9 +289,11 @@ não tem, e não deveria simular de forma enganosa:
 5. **Cotação automática opcional para ações/FIIs** — permitir que quem
    tiver um token gratuito do brapi.dev conecte para atualizar preços
    automaticamente, mantendo a atualização manual como padrão.
-6. **Loja de recompensas e temas visuais** — trocar XP/moedas por temas de
-   cor e acessórios extras do POLVIn.
-7. **Modo escuro** e mais opções de acessibilidade (tamanho de fonte,
+6. **Temas visuais na Loja** — trocar moedas por temas de cor além dos
+   acessórios/molduras já disponíveis.
+7. **Exportar/importar liga** — permitir compartilhar uma liga via
+   arquivo (hoje ela vive só neste navegador, como o resto dos dados).
+8. **Modo escuro** e mais opções de acessibilidade (tamanho de fonte,
    alto contraste).
 
 ---

@@ -1368,6 +1368,46 @@ const ACHIEVEMENTS = [
 ];
 
 /* -------------------------------------------------------------------------
+   20) LOJA — acessórios, insígnias/bandeiras e molduras para o POLVIn
+   Compradas com moedas (ganhas em lições, desafios, missões e cofrinhos)
+   e equipadas na aba Perfil. Como o avatar é uma imagem real (não SVG
+   editável), os itens aparecem como selos sobrepostos ao avatar — uma
+   simplificação visual, não uma re-ilustração do mascote.
+   ------------------------------------------------------------------------- */
+const SHOP_ITEMS = [
+  { id: "hat_party", tipo: "acessorio", emoji: "🎉", nome: "Chapéu de festa", preco: 25, desc: "Para celebrar uma meta batida." },
+  { id: "hat_grad", tipo: "acessorio", emoji: "🎓", nome: "Capelo de formatura", preco: 40, desc: "Para quem já dominou várias lições." },
+  { id: "hat_top", tipo: "acessorio", emoji: "🎩", nome: "Cartola", preco: 60, desc: "Um clássico elegante." },
+  { id: "hat_crown", tipo: "acessorio", emoji: "👑", nome: "Coroa", preco: 150, desc: "Para o Mestre Fin+." },
+  { id: "flag_star", tipo: "bandeira", emoji: "⭐", nome: "Insígnia de estrela", preco: 30, desc: "Brilha em qualquer liga." },
+  { id: "flag_fire", tipo: "bandeira", emoji: "🔥", nome: "Insígnia de ofensiva", preco: 50, desc: "Para quem nunca perde a sequência." },
+  { id: "flag_br", tipo: "bandeira", emoji: "🇧🇷", nome: "Bandeira do Brasil", preco: 30, desc: "Para quem terminou a trilha de história." },
+  { id: "flag_trophy", tipo: "bandeira", emoji: "🏆", nome: "Insígnia de campeão", preco: 100, desc: "Para vencedores de liga." },
+  { id: "frame_green", tipo: "moldura", emoji: "🟢", cor: "#4FAE4A", nome: "Moldura verde", preco: 50, desc: "Cor de crescimento." },
+  { id: "frame_blue", tipo: "moldura", emoji: "🔵", cor: "#3B6E8F", nome: "Moldura azul", preco: 50, desc: "Clássica e discreta." },
+  { id: "frame_gold", tipo: "moldura", emoji: "🟡", cor: "#E8A33D", nome: "Moldura dourada", preco: 80, desc: "Um brilho de campeão." },
+];
+
+/* -------------------------------------------------------------------------
+   21) MEDALHAS POR PONTUAÇÃO — faixas de Learn.totalScore()
+   ------------------------------------------------------------------------- */
+const MEDAL_TIERS = [
+  { id: "bronze", min: 0, emoji: "🥉", nome: "Bronze" },
+  { id: "prata", min: 300, emoji: "🥈", nome: "Prata" },
+  { id: "ouro", min: 1000, emoji: "🥇", nome: "Ouro" },
+  { id: "platina", min: 2500, emoji: "💎", nome: "Platina" },
+  { id: "diamante", min: 6000, emoji: "👑", nome: "Diamante" },
+];
+
+function medalForScore(score) {
+  let atual = MEDAL_TIERS[0];
+  for (const tier of MEDAL_TIERS) {
+    if (score >= tier.min) atual = tier;
+  }
+  return atual;
+}
+
+/* -------------------------------------------------------------------------
    17) ASSISTENTE POLVIN — base de conhecimento para o "Pergunte ao POLVIn"
    Não é uma IA generativa: é busca por palavras-chave sobre o conteúdo do
    próprio site (dúvidas de uso) + o glossário/investimentos/livros já

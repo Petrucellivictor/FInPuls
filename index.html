@@ -39,6 +39,7 @@
       <div class="header-stats">
         <button class="stat-chip account-chip" id="accountBtn" title="Entrar / minha conta">👤 Entrar</button>
         <div class="stat-chip xp"><span class="ico">⭐</span><span id="headerXp">0 XP</span></div>
+        <div class="stat-chip coins"><span class="ico">🪙</span><span id="headerCoins">0</span></div>
         <div class="stat-chip streak"><span class="ico">🔥</span><span id="headerStreak">0 dias</span></div>
         <div class="stat-chip"><span class="ico">🎯</span><span id="headerLevel">Iniciante</span></div>
         <button class="btn btn-outline btn-sm" style="color:#fff;border-color:rgba(255,255,255,0.4)" id="exportBtn" title="Baixar backup dos seus dados em JSON">⬇️ Exportar</button>
@@ -66,6 +67,8 @@
     <button class="tab-btn" data-tab="carteira">💳 Carteira</button>
     <button class="tab-btn" data-tab="acoesfiis">📈 Ações & FIIs</button>
     <button class="tab-btn" data-tab="aprender">🎓 Aprender</button>
+    <button class="tab-btn" data-tab="desafios">🏆 Desafios</button>
+    <button class="tab-btn" data-tab="perfil">👤 Perfil</button>
     <button class="tab-btn" data-tab="mercado">📊 Mercado</button>
     <button class="tab-btn" data-tab="noticias">📰 Notícias</button>
     <button class="tab-btn" data-tab="educacao">💡 Educação</button>
@@ -148,6 +151,8 @@
         <h3>🎲 Evento do dia</h3>
         <div id="homeRandomEvent"></div>
       </div>
+
+      <div class="card mt-16" id="polvinInsights"></div>
     </section>
 
     <!-- ---------- INVESTIMENTOS ---------- -->
@@ -373,6 +378,54 @@
         <p class="text-soft text-sm">Uma trilha própria para quem quer empreender ou já é empresário: a diferença entre os dois, regimes tributários (MEI, Simples, Presumido, Real), obrigações fiscais/contábeis e gestão de pessoas e finanças — em mini aulas didáticas, no mesmo estilo Duolingo. Conteúdo educativo, não é consultoria contábil ou tributária.</p>
         <div id="businessTrailContainer"></div>
       </div>
+    </section>
+
+    <!-- ---------- DESAFIOS (placar + ligas locais) ---------- -->
+    <section class="tab-panel hidden" id="tab-desafios">
+      <div class="section-title">
+        <div>
+          <h2>Desafios</h2>
+          <div class="subtitle">Seu placar, medalhas por pontuação e ligas para desafiar amigos.</div>
+        </div>
+      </div>
+
+      <div class="alert-box info">ℹ️ O Fin+ não tem servidor — não existe um ranking automático entre instalações diferentes de outras pessoas. As <b>Ligas</b> abaixo são um placar local e manual: você cria o grupo, adiciona o nome dos seus amigos e atualiza a pontuação deles de vez em quando (cada um vê a própria pontuação na aba Perfil). Sua linha na tabela é sempre automática.</div>
+
+      <div id="myScoreboard"></div>
+
+      <div class="card mt-16">
+        <h3>🥇 Medalhas por pontuação</h3>
+        <div class="medal-tiers-row" id="medalTiersRow"></div>
+      </div>
+
+      <div class="card mt-16">
+        <h3>Criar uma liga</h3>
+        <div class="flex gap-8">
+          <input type="text" id="leagueNomeInput" placeholder="Nome da liga (ex: Amigos da faculdade)" style="flex:1" />
+          <button class="btn btn-primary" id="leagueCreateBtn">Criar liga</button>
+        </div>
+      </div>
+
+      <div id="leaguesList"></div>
+    </section>
+
+    <!-- ---------- PERFIL (avatar, stats, medalha, loja, conquistas) ---------- -->
+    <section class="tab-panel hidden" id="tab-perfil">
+      <div class="section-title">
+        <div>
+          <h2>Perfil</h2>
+          <div class="subtitle">Seu avatar, estatísticas e a Loja de acessórios do POLVIn.</div>
+        </div>
+      </div>
+
+      <div id="profileAvatarArea"></div>
+      <div id="profileStats" class="mt-16"></div>
+
+      <div class="card mt-16">
+        <h3>🛍️ Loja</h3>
+        <p class="text-soft text-sm">Compre acessórios, insígnias e molduras com suas moedas, e equipe no seu POLVIn.</p>
+        <div class="shop-grid" id="profileShop"></div>
+      </div>
 
       <div class="card mt-16">
         <h3>🏆 Conquistas</h3>
@@ -590,6 +643,8 @@
 <script src="js/business.js"></script>
 <script src="js/engagement.js"></script>
 <script src="js/achievements.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/leagues.js"></script>
 <script src="js/market.js"></script>
 <script src="js/news.js"></script>
 <script src="js/advanced.js"></script>

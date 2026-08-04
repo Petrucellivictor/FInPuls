@@ -19,6 +19,8 @@ const App = {
     Business.init();
     Engagement.init();
     Achievements.init();
+    Profile.init();
+    Leagues.init();
     Market.init();
     News.init();
     Advanced.init();
@@ -36,6 +38,7 @@ const App = {
       this.renderHome();
     });
     document.addEventListener("xp:updated", () => this.renderHeaderStats());
+    document.addEventListener("coins:updated", () => this.renderHeaderStats());
     document.addEventListener("wallet:updated", () => {
       this.renderHome();
       Achievements.checkAll();
@@ -83,6 +86,7 @@ const App = {
 
   renderHeaderStats() {
     const xp = Learn.getXp();
+    const coins = Learn.getCoins();
     const streak = Store.get(STORAGE_KEYS.STREAK, { dias: 0 });
     const profile = Store.get(STORAGE_KEYS.PROFILE, null);
 
@@ -90,6 +94,12 @@ const App = {
     const displayed = parseInt(xpEl.textContent) || 0;
     if (typeof Fx !== "undefined") Fx.countUp(xpEl, displayed, xp);
     else xpEl.textContent = `${xp} XP`;
+
+    const coinsEl = document.getElementById("headerCoins");
+    const coinsDisplayed = parseInt(coinsEl.textContent) || 0;
+    if (typeof Fx !== "undefined") Fx.countUp(coinsEl, coinsDisplayed, coins, 650, "");
+    else coinsEl.textContent = `${coins}`;
+
     document.getElementById("headerStreak").textContent = `${streak.dias} dia${streak.dias === 1 ? "" : "s"}`;
 
     const nivelLabels = { iniciante: "Iniciante", intermediario: "Intermediário", avancado: "Avançado" };
@@ -137,6 +147,52 @@ const App = {
 
     // Missões diárias/semanais e evento do dia
     Engagement.renderHome();
+
+    // O que o POLVIn percebeu sobre sua vida financeira (dados reais)
+    this.renderPolvinInsights();
+  },
+
+  /* Lê dados reais (cofrinhos, investimentos, gastos do mês) e monta um
+     "recado" do POLVIn sobre a jornada financeira da própria pessoa. */
+  buildFinancialInsights() {
+    const facts = [];
+
+    const totalGoals = Goals.getGoals().reduce((s, g) => s + (g.historico || []).reduce((s2, h) => s2 + h.valor, 0), 0);
+    if (totalGoals > 0) facts.push(`Você já guardou ${this.fmt(totalGoals)} em cofrinhos desde que começou.`);
+
+    const investido = Portfolio.totalsByClass().total + Stocks.totals().valorInvestido;
+    if (investido > 0) facts.push(`Você tem ${this.fmt(investido)} investidos entre a Carteira de Investimentos e Ações & FIIs.`);
+
+    const emAndamento = Goals.getGoals().filter((g) => !g.concluido);
+    if (emAndamento.length) {
+      const proxima = emAndamento.sort((a, b) => (a.meta - a.acumulado) - (b.meta - b.acumulado))[0];
+      facts.push(`Faltam ${this.fmt(proxima.meta - proxima.acumulado)} para completar seu cofrinho "${proxima.nome}".`);
+    }
+
+    const saidas = Wallet.currentMonthTransactions().filter((t) => t.tipo === "saida");
+    if (saidas.length >= 3) {
+      const porCategoria = {};
+      saidas.forEach((t) => (porCategoria[t.categoria] = (porCategoria[t.categoria] || 0) + t.valor));
+      const [categoria, valor] = Object.entries(porCategoria).sort((a, b) => b[1] - a[1])[0];
+      facts.push(`Sua maior categoria de gastos este mês é "${categoria}", com ${this.fmt(valor)}.`);
+    }
+
+    return facts;
+  },
+
+  renderPolvinInsights() {
+    const container = document.getElementById("polvinInsights");
+    if (!container) return;
+    const facts = this.buildFinancialInsights();
+    const todayKey = new Date().toDateString();
+    if (container.dataset.day === todayKey) return; // já mostrado hoje
+
+    if (!facts.length) {
+      container.innerHTML = `<div class="empty-state"><span class="emoji">🐙</span>Continue usando o Fin+ — quanto mais você registrar (cofrinhos, investimentos, transações), mais o POLVIn vai te contar sobre sua própria jornada financeira aqui.</div>`;
+      return;
+    }
+    container.dataset.day = todayKey;
+    Polvin.renderBubble(container, facts.slice(0, 3).join(" "), { title: "O que o POLVIn percebeu sobre você" });
   },
 };
 

@@ -6,11 +6,31 @@
 
 const Engagement = {
   init() {
+    this.checkDailyLoginBonus();
     this.renderHome();
   },
 
   todayStr() {
     return new Date().toDateString();
+  },
+
+  /* Bônus por abrir o app hoje (independente de completar qualquer lição) —
+     como os "foguinhos" do Duolingo, mas com moedas escalando pela ofensiva. */
+  checkDailyLoginBonus() {
+    const today = this.todayStr();
+    const last = Store.get(STORAGE_KEYS.LAST_LOGIN_BONUS, null);
+    if (last === today) return;
+    Store.set(STORAGE_KEYS.LAST_LOGIN_BONUS, today);
+
+    const jaTinhaPerfil = !!Store.get(STORAGE_KEYS.PROFILE, null);
+    Learn.addXp(5);
+    const streak = Store.get(STORAGE_KEYS.STREAK, { dias: 0 }).dias;
+    const coinBonus = streak >= 30 ? 30 : streak >= 14 ? 20 : streak >= 7 ? 15 : streak >= 3 ? 10 : 5;
+    Learn.addCoins(coinBonus);
+
+    if (jaTinhaPerfil && typeof Fx !== "undefined") {
+      Fx.dailyBonusToast(streak, coinBonus);
+    }
   },
 
   weekKey() {
@@ -124,7 +144,10 @@ const Engagement = {
     const opt = event.opcoes[optIdx];
     state.eventAnswerIdx = optIdx;
     this.setState(state);
-    if (opt.xp) Learn.addXp(opt.xp);
+    if (opt.xp) {
+      Learn.addXp(opt.xp);
+      Learn.addCoins(3);
+    }
     this.renderHome();
   },
 
@@ -140,6 +163,7 @@ const Engagement = {
       const done = this.isDailyChallengeDone(state, challenge);
       if (done && !state.xpAwardedToday.includes(id)) {
         Learn.addXp(challenge.xp);
+        Learn.addCoins(2);
         state.xpAwardedToday.push(id);
         state.totalCompleted++;
         changed = true;
@@ -151,6 +175,7 @@ const Engagement = {
       const progress = this.weeklyProgress(mission);
       if (progress >= mission.meta) {
         Learn.addXp(mission.xp);
+        Learn.addCoins(10);
         state.weeklyAwarded = true;
         state.totalCompleted++;
         changed = true;

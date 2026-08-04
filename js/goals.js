@@ -68,7 +68,9 @@ const Goals = {
     goal.historico.push({ valor, data: new Date().toISOString() });
     if (goal.acumulado >= goal.meta && !goal.concluido) {
       goal.concluido = true;
-      setTimeout(() => alert(`🎉 Parabéns! Você completou o cofrinho "${goal.nome}"!`), 50);
+      Learn.addXp(30);
+      Learn.addCoins(15);
+      setTimeout(() => alert(`🎉 Parabéns! Você completou o cofrinho "${goal.nome}"! (+30 XP, +15 moedas)`), 50);
     }
     this.setGoals(goals);
     this.renderAll();

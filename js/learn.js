@@ -44,4 +44,35 @@ const Learn = {
     // cada 100xp = 1 nível de jogador
     return Math.floor(xp / 100) + 1;
   },
+
+  /* ---------- Moedas (moeda de troca da Loja, separada do XP) ---------- */
+
+  getCoins() {
+    return Store.get(STORAGE_KEYS.COINS, 0);
+  },
+
+  addCoins(amount) {
+    const coins = this.getCoins() + amount;
+    Store.set(STORAGE_KEYS.COINS, coins);
+    document.dispatchEvent(new CustomEvent("coins:updated"));
+    return coins;
+  },
+
+  spendCoins(amount) {
+    const coins = this.getCoins();
+    if (coins < amount) return false;
+    Store.set(STORAGE_KEYS.COINS, coins - amount);
+    document.dispatchEvent(new CustomEvent("coins:updated"));
+    return true;
+  },
+
+  /* Pontuação total: combina XP, moedas, conquistas e streak num único
+     número usado para o ranking e as medalhas por faixa. */
+  totalScore() {
+    const xp = this.getXp();
+    const coins = this.getCoins();
+    const streak = Store.get(STORAGE_KEYS.STREAK, { dias: 0 }).dias;
+    const achievements = Store.get(STORAGE_KEYS.ACHIEVEMENTS_UNLOCKED, []).length;
+    return xp + coins * 2 + achievements * 20 + streak * 5;
+  },
 };

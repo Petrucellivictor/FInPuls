@@ -1,7 +1,8 @@
 /* =========================================================================
    POLVIN.JS — O mascote como personagem interativo
-   - Avatar SVG inline (para poder animar tentáculos/olhos/boca com CSS,
-     o que não é possível num <img src="...svg">).
+   - Avatar com a arte 3D real do POLVIn (Polvin-logo.png), flutuando em 3D
+     via CSS (perspective + rotate + translateZ), com acessórios/bandeiras/
+     molduras da Loja sobrepostos como selos (ver js/profile.js).
    - "Fala" com efeito de máquina de escrever + leitura em voz alta via
      Web Speech API nativa do navegador (sem nenhuma API externa/paga).
    - Assistente flutuante "Pergunte ao POLVIn": busca por palavras-chave
@@ -23,31 +24,32 @@ const Polvin = {
 
   init() {
     this.initAssistant();
+    document.addEventListener("equipped:updated", () => {
+      const fab = document.getElementById("polvinFab");
+      if (fab) fab.innerHTML = this.avatarHtml("sm");
+    });
   },
 
-  /* ---------- Avatar SVG animável ---------- */
+  /* ---------- Avatar (arte 3D real do POLVIn + acessórios equipados) ---------- */
 
-  svgMarkup() {
-    return `
-      <svg viewBox="0 0 120 120" class="polvin-svg" role="img" aria-label="POLVIn">
-        <path class="polvin-tentacle t1" d="M28 78 Q14 92 22 108 Q26 100 32 96" fill="#6C4FCF"/>
-        <path class="polvin-tentacle t2" d="M42 86 Q34 102 40 116 Q45 106 48 100" fill="#6C4FCF"/>
-        <path class="polvin-tentacle t3" d="M60 90 Q58 106 64 118 Q68 108 68 100" fill="#6C4FCF"/>
-        <path class="polvin-tentacle t4" d="M78 86 Q84 102 78 116 Q73 106 70 100" fill="#6C4FCF"/>
-        <path class="polvin-tentacle t5" d="M92 78 Q106 92 98 108 Q94 100 88 96" fill="#6C4FCF"/>
-        <ellipse cx="60" cy="55" rx="42" ry="38" fill="#7C5CE0"/>
-        <ellipse cx="60" cy="50" rx="42" ry="34" fill="#8A70E0"/>
-        <circle cx="42" cy="52" r="14" fill="#fff" stroke="#201235" stroke-width="3"/>
-        <circle cx="78" cy="52" r="14" fill="#fff" stroke="#201235" stroke-width="3"/>
-        <line x1="56" y1="50" x2="64" y2="50" stroke="#201235" stroke-width="3"/>
-        <circle class="polvin-eye" cx="42" cy="52" r="5" fill="#201235"/>
-        <circle class="polvin-eye" cx="78" cy="52" r="5" fill="#201235"/>
-        <path class="polvin-mouth" d="M48 70 Q60 78 72 70" stroke="#201235" stroke-width="3" fill="none" stroke-linecap="round"/>
-      </svg>`;
+  getEquipped() {
+    return Store.get(STORAGE_KEYS.EQUIPPED, {});
   },
 
   avatarHtml(size) {
-    return `<div class="polvin-3d polvin-${size || "md"}"><div class="polvin-3d-inner">${this.svgMarkup()}</div></div>`;
+    const equipped = this.getEquipped();
+    const acessorio = equipped.acessorio && SHOP_ITEMS.find((i) => i.id === equipped.acessorio);
+    const bandeira = equipped.bandeira && SHOP_ITEMS.find((i) => i.id === equipped.bandeira);
+    const moldura = equipped.moldura && SHOP_ITEMS.find((i) => i.id === equipped.moldura);
+
+    return `
+      <div class="polvin-3d polvin-${size || "md"}">
+        <div class="polvin-3d-inner">
+          <img src="Polvin-logo.png" alt="POLVIn" class="polvin-avatar-img" style="${moldura ? `border-color:${moldura.cor}` : ""}" />
+          ${acessorio ? `<span class="polvin-accessory-hat">${acessorio.emoji}</span>` : ""}
+          ${bandeira ? `<span class="polvin-accessory-flag">${bandeira.emoji}</span>` : ""}
+        </div>
+      </div>`;
   },
 
   /* ---------- Fala: máquina de escrever + voz nativa do navegador ---------- */

@@ -171,6 +171,7 @@ button {
 
 .stat-chip .ico { font-size: 14px; }
 .stat-chip.xp { background: rgba(232, 163, 61, 0.25); color: #ffe3b0; }
+.stat-chip.coins { background: rgba(255, 215, 64, 0.2); color: #fff2c2; }
 .stat-chip.streak { background: rgba(217, 83, 79, 0.25); color: #ffd0ce; }
 
 /* ---------- ticker de mercado (elemento de assinatura) ---------- */
@@ -1225,7 +1226,7 @@ tr.row-best td {
 @media (prefers-reduced-motion: reduce) {
   .quiz-box, .quiz-option, .quiz-option.correct, .quiz-option.wrong, .quiz-result-emoji,
   .story-box, .confetti-piece, .trail-node.current, .trail-level,
-  .polvin-3d-inner, .polvin-tentacle, .polvin-eye, .talking .polvin-mouth,
+  .polvin-3d-inner, .talking .polvin-avatar-img,
   .polvin-fab, .polvin-chat-panel {
     animation: none !important;
     opacity: 1 !important;
@@ -1238,6 +1239,7 @@ tr.row-best td {
    ========================================================================= */
 .polvin-3d { display: inline-block; perspective: 700px; flex-shrink: 0; }
 .polvin-3d-inner {
+  position: relative;
   width: 100%; height: 100%;
   transform-style: preserve-3d;
   animation: polvinFloat 4.5s ease-in-out infinite;
@@ -1248,43 +1250,41 @@ tr.row-best td {
   50% { transform: rotateY(9deg) rotateX(2deg) translateZ(2px) translateY(0); }
   75% { transform: rotateY(-4deg) rotateX(-3deg) translateZ(6px) translateY(-2px); }
 }
-.polvin-svg { width: 100%; height: 100%; display: block; }
+.polvin-avatar-img {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover; object-position: 50% 28%;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  transition: transform 0.15s ease, border-color 0.2s;
+}
+.talking .polvin-avatar-img { animation: polvinTalkPulse 0.5s ease-in-out infinite; }
+@keyframes polvinTalkPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
 
 .polvin-xs { width: 28px; height: 28px; }
 .polvin-sm { width: 44px; height: 44px; }
 .polvin-md { width: 72px; height: 72px; }
 .polvin-lg { width: 120px; height: 120px; }
 
-.polvin-tentacle {
-  transform-box: fill-box;
-  transform-origin: center top;
-  animation: polvinTentacleWiggle 2.4s ease-in-out infinite;
+.polvin-accessory-hat {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-8deg);
+  font-size: 1.1em;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.25));
 }
-.polvin-tentacle.t1 { animation-delay: 0s; }
-.polvin-tentacle.t2 { animation-delay: 0.18s; }
-.polvin-tentacle.t3 { animation-delay: 0.36s; }
-.polvin-tentacle.t4 { animation-delay: 0.54s; }
-.polvin-tentacle.t5 { animation-delay: 0.72s; }
-@keyframes polvinTentacleWiggle {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(5deg); }
-}
-
-.polvin-eye {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: polvinBlink 5.5s ease-in-out infinite;
-}
-@keyframes polvinBlink {
-  0%, 92%, 100% { transform: scaleY(1); }
-  95% { transform: scaleY(0.15); }
-}
-
-.polvin-mouth { transform-box: fill-box; transform-origin: center; }
-.talking .polvin-mouth { animation: polvinTalk 0.32s ease-in-out infinite; }
-@keyframes polvinTalk {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(1.9) translateY(1px); }
+.polvin-accessory-flag {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  font-size: 0.75em;
+  background: var(--surface);
+  border-radius: 50%;
+  padding: 1px;
+  box-shadow: var(--shadow);
 }
 
 /* ---------- balão de fala (dicas, contos) ---------- */
@@ -1403,6 +1403,45 @@ tr.row-best td {
 @media (max-width: 640px) {
   .polvin-chat-panel { right: 10px; left: 10px; width: auto; bottom: 84px; }
 }
+
+/* =========================================================================
+   PERFIL — avatar, estatísticas e Loja
+   ========================================================================= */
+.profile-header { display: flex; align-items: center; gap: 18px; }
+.profile-header h2 { margin-bottom: 2px; }
+.profile-score { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-top: 4px; }
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+}
+.shop-item { text-align: center; padding: 16px 10px; }
+.shop-item.equipped { border-color: var(--green); background: #eef8ec; }
+.shop-item-emoji { font-size: 30px; margin-bottom: 6px; }
+.shop-item-name { font-size: 12.5px; font-weight: 700; margin-bottom: 2px; }
+
+/* =========================================================================
+   DESAFIOS — medalhas e ligas locais
+   ========================================================================= */
+.medal-tiers-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+}
+.medal-tile {
+  text-align: center;
+  padding: 14px 8px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  opacity: 0.5;
+}
+.medal-tile.reached { opacity: 1; border-color: var(--gold); background: #fdf3e3; }
+.medal-emoji { font-size: 26px; margin-bottom: 4px; }
+.medal-name { font-size: 12px; font-weight: 700; }
+
+.league-card table.compare-table input[type="number"] { text-align: right; }
 
 /* ---------- rodapé ---------- */
 .app-footer {

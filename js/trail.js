@@ -273,7 +273,10 @@ const Trail = {
       const alreadyDone = !!progress[lesson.id];
       progress[lesson.id] = true;
       Store.set(this.progressKey(level.fonte), progress);
-      if (!alreadyDone) Learn.addXp(lesson.xp);
+      if (!alreadyDone) {
+        Learn.addXp(lesson.xp);
+        Learn.addCoins(5);
+      }
 
       const log = Store.get(STORAGE_KEYS.LESSON_LOG, []);
       log.push({ lessonId: lesson.id, fonte: level.fonte, data: new Date().toISOString() });

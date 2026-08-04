@@ -33,6 +33,18 @@ const Fx = {
     }, 4500);
   },
 
+  dailyBonusToast(streak, coinBonus) {
+    const toast = document.createElement("div");
+    toast.className = "achievement-toast level-toast";
+    toast.innerHTML = `<span class="emoji">🔥</span><div><b>Ofensiva de ${streak} dia${streak === 1 ? "" : "s"}!</b><br/>Bônus de login: +${coinBonus} moedas</div>`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add("show"), 10);
+    setTimeout(() => {
+      toast.classList.remove("show");
+      setTimeout(() => toast.remove(), 400);
+    }, 4500);
+  },
+
   /* Ondulação (ripple) a partir do ponto de clique — dá feedback tátil a
      botões e nós clicáveis. O elemento precisa de position:relative e
      overflow:hidden para conter o efeito. */
