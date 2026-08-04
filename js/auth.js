@@ -280,6 +280,9 @@ const Auth = {
       client_id: GOOGLE_CLIENT_ID,
       callback: (response) => this.handleGoogleCredential(response),
     });
-    google.accounts.id.renderButton(area, { theme: "outline", size: "large", width: 280, locale: "pt-BR" });
+    // O parâmetro "width" do botão do Google é em pixels fixos (min. 200) —
+    // medimos o espaço real disponível para não vazar da tela em celulares.
+    const buttonWidth = Math.max(200, Math.min(280, area.clientWidth || 280));
+    google.accounts.id.renderButton(area, { theme: "outline", size: "large", width: buttonWidth, locale: "pt-BR" });
   },
 };

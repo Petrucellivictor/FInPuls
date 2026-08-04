@@ -123,7 +123,7 @@ const Portfolio = {
 
     compareContainer.innerHTML = `
       <div class="text-sm text-soft mt-8">Comparando com a carteira-modelo <b>${model.emoji} ${model.nome}</b>, com base na sua reação a quedas no diagnóstico inicial.</div>
-      <table class="compare-table mt-8">
+      <div class="table-scroll"><table class="compare-table mt-8">
         <thead><tr><th>Classe de ativo</th><th>Sua carteira</th><th>Modelo ${model.nome}</th><th>Diferença</th></tr></thead>
         <tbody>
           ${ASSET_CLASSES.map((c) => {
@@ -140,7 +140,7 @@ const Portfolio = {
             </tr>`;
           }).join("")}
         </tbody>
-      </table>
+      </table></div>
       <p class="text-sm text-soft mt-8">Diferenças acima de ±10 pontos percentuais aparecem destacadas — considere se fazem sentido para os seus objetivos ou se é hora de rebalancear. Referência educativa, não é recomendação personalizada.</p>
     `;
   },

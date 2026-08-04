@@ -4,6 +4,39 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.8.0] - 2026-08-04
+
+### Corrigido
+- Responsividade mobile revisada de ponta a ponta. Testado com Playwright
+  em 320px, 360px, 375px e 768px de largura, nas 13 abas — sem overflow
+  horizontal em nenhum cenário.
+- Tabelas (`compare-table`/`stock-table`, usadas em Simulador, Avançado,
+  Carteira, Ações & FIIs, Desafios/Ligas e Mercado) agora ficam dentro de
+  um contêiner com rolagem horizontal própria (`.table-scroll`), em vez de
+  espremer colunas ou vazar da tela em telas estreitas.
+- Bug real (não só cosmético): o ticker de cotações no topo, animado via
+  `transform`, inflava ocasionalmente a largura rolável de toda a página
+  em telas pequenas (`document.documentElement.scrollWidth` maior que o
+  viewport), permitindo um scroll horizontal indesejado da página inteira
+  em alguns momentos da animação. Corrigido com `position: relative` no
+  contêiner do ticker e uma proteção global (`overflow-x: hidden` em
+  `html`/`body`) contra qualquer recorrência do mesmo tipo de problema.
+- Campos de formulário (`input`/`select`/`textarea`) usavam `font-size:
+  14px`, abaixo do limite de 16px que evita o zoom automático do Safari
+  no iOS ao focar um campo — ajustado para 16px em telas pequenas.
+- Botão "Entrar com Google" tinha largura fixa de 280px, podendo vazar do
+  modal em telas bem estreitas — agora se ajusta ao espaço disponível.
+- `.pros-cons` (vantagens/desvantagens, no modal de Investimentos) e um
+  campo de busca do Dicionário com `min-width` fixo agora se adaptam a
+  telas pequenas em vez de espremer ou forçar overflow.
+- Cabeçalho, abas, modais, tela de onboarding e tela de quiz com menos
+  espaçamento em telas pequenas (mais conteúdo visível, menos rolagem
+  desnecessária); subtítulo da marca oculto no cabeçalho em telas muito
+  estreitas para dar espaço aos indicadores.
+- Aba ativa agora rola automaticamente para dentro da área visível do
+  menu de abas (`Tabs.go`), relevante porque esse menu rola
+  horizontalmente em telas pequenas.
+
 ## [1.7.1] - 2026-08-04
 
 ### Corrigido

@@ -48,6 +48,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -58,6 +59,8 @@ body {
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 h1, h2, h3, h4 {
@@ -180,6 +183,8 @@ button {
   overflow: hidden;
   white-space: nowrap;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  max-width: 100vw;
 }
 
 .ticker-track {
@@ -352,9 +357,13 @@ input, select, textarea {
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 16px;
   background: var(--surface);
   color: var(--ink);
+}
+
+@media (min-width: 640px) {
+  input, select, textarea { font-size: 14px; }
 }
 
 input:focus, select:focus, textarea:focus {
@@ -576,6 +585,7 @@ input:focus, select:focus, textarea:focus {
 .pros-cons ul { margin: 0; padding-left: 18px; font-size: 13px; }
 .pros-cons .prós h4 { color: var(--green-dark); }
 .pros-cons .contras h4 { color: var(--coral-dark); }
+@media (max-width: 480px) { .pros-cons { grid-template-columns: 1fr; } }
 
 /* modal */
 .modal-overlay {
@@ -864,8 +874,10 @@ input:focus, select:focus, textarea:focus {
   color: var(--ink);
 }
 
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -1px; }
 .compare-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
 .compare-table th, .compare-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+.stock-table { min-width: 760px; }
 .compare-table th { font-size: 11.5px; text-transform: uppercase; color: var(--ink-soft); }
 .compare-table td.good { color: var(--green-dark); font-weight: 700; }
 .compare-table td.bad { color: var(--coral-dark); font-weight: 700; }
@@ -1467,6 +1479,43 @@ tr.row-best td {
 .text-sm { font-size: 12.5px; }
 .empty-state { text-align: center; padding: 30px 10px; color: var(--ink-soft); }
 .empty-state .emoji { font-size: 32px; display: block; margin-bottom: 8px; }
+
+/* =========================================================================
+   RESPONSIVIDADE MOBILE
+   Ajustes gerais de espaçamento/tamanho para telas pequenas. Grids,
+   tabelas e larguras específicas de cada componente já têm seus próprios
+   breakpoints ao lado da respectiva regra, ao longo do arquivo — este
+   bloco cobre o "esqueleto" (cabeçalho, abas, cartões, modais, telas
+   cheias) que é compartilhado por todas as páginas.
+   ========================================================================= */
+@media (max-width: 640px) {
+  .app-header { padding: 10px 14px 0; }
+  .header-top { gap: 10px; }
+  .brand-tag { display: none; }
+  .header-stats { gap: 6px; }
+  .stat-chip { padding: 5px 9px; font-size: 12px; }
+
+  .tabs-nav { padding: 0 10px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .tabs-nav::-webkit-scrollbar { display: none; }
+
+  .main-content { padding: 16px 14px 48px; }
+  .section-title h2 { font-size: 20px; }
+
+  .card { padding: 16px; }
+
+  .modal-overlay { padding: 10px; }
+  .modal-box { padding: 18px; max-height: 92vh; }
+
+  .onboarding-screen { padding: 10px; }
+  .onboarding-card { padding: 20px; }
+
+  .quiz-overlay { padding: 10px; }
+  .quiz-box { padding: 18px; }
+
+  .hero-card { padding: 18px; }
+
+  .polvin-bubble-row { gap: 10px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; }

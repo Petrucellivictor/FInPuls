@@ -12,7 +12,9 @@ const Tabs = {
 
   go(tabId) {
     document.querySelectorAll(".tab-btn").forEach((b) => {
-      b.classList.toggle("active", b.dataset.tab === tabId);
+      const isActive = b.dataset.tab === tabId;
+      b.classList.toggle("active", isActive);
+      if (isActive) b.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
     });
     document.querySelectorAll(".tab-panel").forEach((p) => {
       p.classList.toggle("hidden", p.id !== `tab-${tabId}`);

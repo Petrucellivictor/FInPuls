@@ -136,7 +136,7 @@ const Leagues = {
             <h3 style="margin:0">🏆 ${league.nome}</h3>
             <button class="btn btn-outline btn-sm" data-remove-league="${league.id}">Remover liga</button>
           </div>
-          <table class="compare-table mt-8">
+          <div class="table-scroll"><table class="compare-table mt-8">
             <thead><tr><th>#</th><th>Participante</th><th>Pontos</th><th></th></tr></thead>
             <tbody>
               ${todos
@@ -157,7 +157,7 @@ const Leagues = {
                 )
                 .join("")}
             </tbody>
-          </table>
+          </table></div>
           <div class="flex gap-8 mt-8">
             <input type="text" placeholder="Nome do amigo" data-participant-input="${league.id}" style="flex:1" />
             <button class="btn btn-primary btn-sm" data-add-participant="${league.id}">Adicionar amigo</button>

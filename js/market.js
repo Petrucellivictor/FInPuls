@@ -157,7 +157,7 @@ const Market = {
     ];
 
     container.innerHTML = `
-      <table class="compare-table">
+      <div class="table-scroll"><table class="compare-table">
         <thead><tr><th>Opção</th><th>Risco</th><th>Estimativa</th><th>Perfil indicado</th></tr></thead>
         <tbody>
           ${ranking
@@ -166,7 +166,7 @@ const Market = {
             )
             .join("")}
         </tbody>
-      </table>
+      </table></div>
       <p class="text-sm text-soft mt-8">Estimativas com base nas taxas oficiais mais recentes disponíveis, apenas para fins educativos.</p>
     `;
   },

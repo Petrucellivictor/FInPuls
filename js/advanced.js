@@ -148,7 +148,7 @@ const Advanced = {
     const melhor = resultados.reduce((a, b) => (b.liquido > a.liquido ? b : a));
 
     document.getElementById("calcTaxResult").innerHTML = `
-      <table class="compare-table">
+      <div class="table-scroll"><table class="compare-table">
         <thead><tr><th>Produto</th><th>Bruto</th><th>IR (${(aliquota * 100).toFixed(1)}%)</th><th>Líquido</th><th>Líq. % a.a.</th></tr></thead>
         <tbody>
           ${resultados
@@ -163,7 +163,7 @@ const Advanced = {
             )
             .join("")}
         </tbody>
-      </table>
+      </table></div>
       <p class="text-sm text-soft mt-8">Cálculo aproximado (juros compostos sobre a taxa anual informada, prazo em dias/365). IR regressivo aplicado conforme a tabela vigente para renda fixa. Estimativa educativa — não considera custódia, taxas de corretora ou come-cotas de fundos.</p>
     `;
   },
@@ -228,7 +228,7 @@ const Advanced = {
     const container = document.getElementById("advGlossarioContent");
     container.innerHTML = `
       <div class="flex gap-8" style="flex-wrap:wrap;margin-bottom:12px">
-        <input type="text" id="glossarioBusca" placeholder="Buscar termo (ex: duration, ROE, hedge...)" style="flex:2;min-width:220px" />
+        <input type="text" id="glossarioBusca" placeholder="Buscar termo (ex: duration, ROE, hedge...)" style="flex:2" />
       </div>
       <div class="invest-filters" id="glossarioFiltros">
         <button class="filter-chip active" data-nivel="todos">Todos</button>

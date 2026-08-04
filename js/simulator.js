@@ -155,7 +155,7 @@ const Simulator = {
       <div class="alert-box info">📌 Selic/CDI de referência usada: <b>${(selic * 100).toFixed(2)}% a.a.</b> (Banco Central — confira a aba Mercado para o valor mais recente). Prazo simulado: <b>${dias} dias</b> · Valor: <b>${this.fmt(valor)}</b>.</div>
 
       <h4 class="mt-16">🏆 Top 3 opções de Renda Fixa (das 4 simuladas)</h4>
-      <table class="compare-table">
+      <div class="table-scroll"><table class="compare-table">
         <thead><tr><th>Opção</th><th>Bruto</th><th>IR</th><th>Líquido</th><th>Líq. % a.a.</th></tr></thead>
         <tbody>
           ${resultados
@@ -171,7 +171,7 @@ const Simulator = {
             )
             .join("")}
         </tbody>
-      </table>
+      </table></div>
       <p class="text-sm text-soft">${motivoVencedor}</p>
 
       <h4 class="mt-16">📈 E a renda variável? Comparando com 1 FII (via dividendos)</h4>

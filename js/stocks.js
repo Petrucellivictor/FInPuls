@@ -283,7 +283,7 @@ const Stocks = {
       return;
     }
     container.innerHTML = `
-      <table class="compare-table stock-table">
+      <div class="table-scroll"><table class="compare-table stock-table">
         <thead>
           <tr><th>Ticker</th><th>Qtd.</th><th>Preço médio</th><th>Preço atual</th><th>Valor investido</th><th>Valor atual</th><th>Variação</th><th>Dividendos</th><th></th></tr>
         </thead>
@@ -308,7 +308,7 @@ const Stocks = {
             )
             .join("")}
         </tbody>
-      </table>
+      </table></div>
       <p class="text-sm text-soft mt-8">Atualize manualmente o "preço atual" de cada ticker sempre que quiser recalcular sua valorização — não há cotação automática em tempo real para todas as ações/FIIs sem uma chave de API paga.</p>
     `;
 
