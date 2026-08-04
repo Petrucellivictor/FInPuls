@@ -4,6 +4,25 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.11.0] - 2026-08-04
+
+### Adicionado
+- **Onda 1 da expansão para 300 lições**: o Módulo 01 da trilha financeira
+  ("Fundamentos e Comportamento Financeiro") saiu de 5 para 35 lições —
+  30 lições novas, cada uma com introdução didática (analogia do dia a
+  dia) e pergunta de reforço após erro, cobrindo: contabilidade básica
+  pessoal (receita/despesa, ativo/passivo, patrimônio líquido, custo de
+  oportunidade), juros simples x compostos e Regra dos 72, liquidez e
+  seguro, metas SMART e planejamento familiar, viés comportamental
+  (contabilidade mental, gatilhos de consumo, compra por impulso,
+  ancoragem de preço), crédito e dívida (score de crédito, rotativo,
+  cheque especial, consignado, negociação de dívidas) e planejamento de
+  vida (INSS, previdência privada, alugar x financiar, educação
+  financeira para crianças, independência dos pais). A trilha financeira
+  (COURSE) foi de 20 para 50 lições no total.
+- Blueprint das trilhas atualizado registrando o Módulo 01 como
+  concluído (35/35), rumo à meta de ~300 lições por trilha.
+
 ## [1.10.0] - 2026-08-04
 
 ### Adicionado

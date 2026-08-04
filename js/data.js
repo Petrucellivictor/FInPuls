@@ -239,9 +239,233 @@ const ONBOARDING_QUESTIONS = [
 const COURSE = [
   {
     id: "nivel1",
-    titulo: "Nível 1 · Fundamentos",
+    titulo: "Nível 1 · Fundamentos e Comportamento Financeiro",
     cor: "#1F8A73",
     licoes: [
+      {
+        id: "f1_01",
+        titulo: "O que é receita e despesa",
+        xp: 20,
+        aula: [
+          "Pense em uma caixinha com duas aberturas: uma por onde o dinheiro ENTRA (sua receita — salário, freela, mesada, o que for) e outra por onde ele SAI (sua despesa — aluguel, comida, transporte, lazer). Parece simples, mas a maioria das pessoas nunca parou pra desenhar essa caixinha de verdade.",
+          "Receita é todo dinheiro que entra no seu bolso num período (geralmente um mês). Despesa é todo dinheiro que sai. A diferença entre as duas — receita menos despesa — é o que sobra (ou falta) no fim do mês. Se sobra, você pode guardar ou investir; se falta, você está gastando mais do que ganha, e algo precisa mudar.",
+          "O primeiro passo de qualquer vida financeira organizada não é 'ganhar mais' — é simplesmente saber, com números reais, quanto entra e quanto sai. Sem isso, é impossível saber se você está no controle ou só sobrevivendo mês a mês.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual a diferença entre receita e despesa?",
+            opcoes: [
+              "Receita é o que sai, despesa é o que entra",
+              "Receita é o que entra, despesa é o que sai",
+              "São a mesma coisa",
+              "Receita só existe para empresas",
+            ],
+            correta: 1,
+            explicacao: "Receita é todo dinheiro que entra (salário, renda extra); despesa é todo dinheiro que sai (contas, compras).",
+            variante: {
+              pergunta: "Se Marcos recebeu R$ 3.000 de salário e gastou R$ 2.600 em contas e compras no mês, qual desses valores é a receita dele?",
+              opcoes: [
+                "R$ 2.600",
+                "R$ 3.000",
+                "R$ 400",
+                "R$ 5.600",
+              ],
+              correta: 1,
+              explicacao: "Receita é o total que ENTROU no mês — os R$3.000 do salário. Os R$2.600 são a despesa.",
+            },
+          },
+          {
+            pergunta: "Se a receita do mês foi menor que a despesa, o que isso significa?",
+            opcoes: [
+              "Sobrou dinheiro no fim do mês",
+              "A pessoa gastou mais do que ganhou nesse mês",
+              "Não é possível calcular isso",
+              "Significa que ela investiu bem",
+            ],
+            correta: 1,
+            explicacao: "Quando a despesa supera a receita, o resultado do mês é negativo — a pessoa gastou mais do que recebeu, e precisa usar reservas ou entrar em dívida para cobrir a diferença.",
+            variante: {
+              pergunta: "Juliana ganhou R$ 2.200 em um mês e gastou R$ 2.500. Qual foi o resultado desse mês?",
+              opcoes: [
+                "Sobra de R$ 300",
+                "Falta de R$ 300",
+                "Ela ficou exatamente no zero a zero",
+                "Não é possível saber sem mais informações",
+              ],
+              correta: 1,
+              explicacao: "R$2.200 (receita) menos R$2.500 (despesa) = -R$300 — ela gastou R$300 além do que ganhou, um resultado negativo no mês.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_02",
+        titulo: "Ativo x passivo: o que realmente aumenta seu patrimônio",
+        xp: 20,
+        aula: [
+          "Imagine duas caixinhas: uma cheia de coisas que colocam dinheiro no seu bolso (um apartamento alugado, uma aplicação que rende juros) e outra cheia de coisas que tiram dinheiro do seu bolso todo mês (a parcela do financiamento, a fatura do cartão). A primeira caixinha é o que chamamos de ativo. A segunda é o passivo.",
+          "Ativo é um bem ou direito que gera renda ou pode ser convertido em dinheiro sem grande perda de valor — dinheiro guardado, investimentos, um imóvel alugado. Passivo é uma dívida ou obrigação que gera saída de dinheiro do seu bolso com o tempo — um financiamento, um empréstimo, uma dívida no cartão.",
+          "Aumentar patrimônio de verdade não é só 'ter coisas' — é acumular mais ativos (que trazem dinheiro) do que passivos (que tiram dinheiro). Um carro de uso pessoal comprado à vista não é um passivo, mas também não constrói patrimônio da mesma forma que um ativo que rende ou se valoriza.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que diferencia um ativo de um passivo, em termos simples?",
+            opcoes: [
+              "Ativo é caro, passivo é barato",
+              "Ativo coloca dinheiro no seu bolso (ou pode ser convertido em dinheiro); passivo tira dinheiro do seu bolso",
+              "Ativo é dinheiro guardado no banco, passivo é dinheiro gasto no cartão",
+              "Não existe diferença, os dois termos significam a mesma coisa",
+            ],
+            correta: 1,
+            explicacao: "Ativo é tudo que gera renda ou pode ser convertido em dinheiro; passivo é uma dívida ou obrigação que gera saída de dinheiro todo mês.",
+            variante: {
+              pergunta: "Pedro tem um apartamento alugado que rende R$1.200 por mês e um carro financiado cuja parcela é R$800 por mês. Qual desses dois é o ativo?",
+              opcoes: [
+                "O apartamento alugado",
+                "O carro financiado",
+                "Os dois são ativos",
+                "Os dois são passivos",
+              ],
+              correta: 0,
+              explicacao: "O apartamento gera renda mensal (R$1.200) — é um ativo. O carro financiado tira dinheiro do bolso todo mês (a parcela) — é um passivo.",
+            },
+          },
+          {
+            pergunta: "Marina tem R$10.000 aplicados que rendem juros e também uma dívida de R$3.000 no cartão de crédito que cobra juros dela todo mês. O que faz essa dívida no cartão ser um passivo?",
+            opcoes: [
+              "Porque ela pode usar o cartão para comprar coisas",
+              "Porque essa dívida gera saída de dinheiro (juros) do bolso dela todo mês",
+              "Porque cartão de crédito é sempre um ativo",
+              "Porque R$3.000 é um valor pequeno",
+            ],
+            correta: 1,
+            explicacao: "Passivo é o que tira dinheiro do seu bolso com o tempo — nesse caso, os juros da dívida no cartão.",
+            variante: {
+              pergunta: "Roberto tem um empréstimo consignado de R$5.000 e paga R$300 por mês de parcela, incluindo juros. Isso é um ativo ou um passivo para ele, e por quê?",
+              opcoes: [
+                "É um ativo, porque ele recebeu o dinheiro do empréstimo",
+                "É um passivo, porque a parcela mensal tira dinheiro do bolso dele",
+                "É neutro, não afeta o patrimônio dele",
+                "É um ativo, porque bancos são confiáveis",
+              ],
+              correta: 1,
+              explicacao: "Mesmo tendo recebido o dinheiro à vista, o empréstimo é um passivo porque agora gera uma saída mensal de dinheiro (a parcela com juros).",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_03",
+        titulo: "Patrimônio líquido: sua \"nota\" financeira pessoal",
+        xp: 20,
+        aula: [
+          "Pegue duas listas: numa, escreva tudo que você tem — dinheiro, investimentos, carro, imóvel. Na outra, escreva tudo que você deve — financiamento, empréstimo, cartão. Agora subtraia a segunda lista da primeira. O número que sobra é o seu patrimônio líquido — sua 'nota' financeira real, muito mais honesta do que o salário que você recebe.",
+          "Patrimônio líquido é a soma de todos os seus bens e direitos menos a soma de todas as suas dívidas. Ele pode ser positivo (você tem mais bens do que deve) ou negativo (você deve mais do que tem).",
+          "Por isso, patrimônio líquido é um retrato melhor da saúde financeira de alguém do que apenas o salário: uma pessoa pode ganhar muito e gastar tudo financiado, tendo um patrimônio baixo ou negativo, enquanto outra ganha pouco, não deve nada e vai construindo patrimônio positivo aos poucos.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Como se calcula o patrimônio líquido de uma pessoa?",
+            opcoes: [
+              "Somando apenas o salário mensal",
+              "Somando tudo que a pessoa tem (bens e investimentos) e subtraindo tudo que ela deve (dívidas)",
+              "Somando todas as dívidas da pessoa",
+              "Multiplicando o salário por 12",
+            ],
+            correta: 1,
+            explicacao: "Patrimônio líquido é o total de bens e direitos menos o total de dívidas — o que realmente 'sobraria' se a pessoa pagasse tudo que deve.",
+            variante: {
+              pergunta: "Camila tem R$8.000 guardados e um carro que vale R$20.000. Ela deve R$5.000 no financiamento do carro e R$1.000 no cartão. Qual é o patrimônio líquido de Camila?",
+              opcoes: [
+                "R$28.000",
+                "R$6.000",
+                "R$22.000",
+                "R$34.000",
+              ],
+              correta: 2,
+              explicacao: "Bens (R$8.000 + R$20.000 = R$28.000) menos dívidas (R$5.000 + R$1.000 = R$6.000) = R$22.000 de patrimônio líquido.",
+            },
+          },
+          {
+            pergunta: "Por que uma pessoa pode ter um salário alto e, ainda assim, ter um patrimônio líquido baixo ou até negativo?",
+            opcoes: [
+              "Porque salário alto sempre significa patrimônio alto",
+              "Porque ela pode ter acumulado muitas dívidas que superam o que possui em bens",
+              "Porque patrimônio líquido não existe para quem tem salário alto",
+              "Porque isso é matematicamente impossível",
+            ],
+            correta: 1,
+            explicacao: "Patrimônio líquido depende do que a pessoa tem menos o que ela deve — um salário alto gasto e financiado em dívidas pode resultar em patrimônio baixo ou negativo.",
+            variante: {
+              pergunta: "Rafael ganha R$15.000 por mês, mas tem R$80.000 em dívidas e só R$20.000 em bens. Beatriz ganha R$4.000 por mês, não tem nenhuma dívida e tem R$30.000 guardados. Quem tem o patrimônio líquido mais alto?",
+              opcoes: [
+                "Rafael, porque ganha mais",
+                "Beatriz, porque seu patrimônio líquido (R$30.000) é maior que o de Rafael (-R$60.000)",
+                "Os dois têm o mesmo patrimônio líquido",
+                "Não é possível comparar patrimônio líquido entre pessoas diferentes",
+              ],
+              correta: 1,
+              explicacao: "O patrimônio líquido de Rafael é negativo (20.000 - 80.000 = -60.000); o de Beatriz é positivo (30.000 - 0 = 30.000) — renda alta não garante patrimônio alto.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_04",
+        titulo: "Custo de oportunidade: o que você abre mão ao escolher algo",
+        xp: 20,
+        aula: [
+          "Imagine um bufê onde você só tem um prato: cada comida que você coloca nele significa menos espaço para outra. Dinheiro e tempo funcionam parecido — toda escolha que você faz significa abrir mão de outra opção que existia. Esse 'o que eu deixei na travessa' é o custo de oportunidade.",
+          "Custo de oportunidade é o valor ou benefício da melhor alternativa que você deixou de escolher ao tomar uma decisão. Ele não aparece em nenhum extrato bancário, mas existe: se você gasta R$1.000 num celular novo em vez de investir, o custo de oportunidade é o quanto esse dinheiro teria rendido se tivesse sido investido.",
+          "Pensar em custo de oportunidade não significa nunca gastar com o que você quer — significa decidir de olhos abertos, sabendo o que está sendo trocado por aquilo, e não só pelo preço que está na etiqueta.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que é 'custo de oportunidade'?",
+            opcoes: [
+              "O valor que você pagou por um produto",
+              "O valor ou benefício da melhor alternativa que você deixou de escolher",
+              "O imposto cobrado sobre uma compra",
+              "O lucro que uma empresa teve",
+            ],
+            correta: 1,
+            explicacao: "Custo de oportunidade é o que você abre mão (o benefício da segunda melhor opção) quando escolhe uma alternativa em vez de outra.",
+            variante: {
+              pergunta: "Beto tinha R$2.000 e duas opções: deixar na poupança (que rendeu R$40 no ano) ou investir em um CDB (que renderia R$180 no ano). Ele escolheu a poupança. Qual foi o custo de oportunidade dessa escolha?",
+              opcoes: [
+                "R$2.000",
+                "R$40",
+                "R$140 (a diferença entre o que o CDB renderia e o que a poupança rendeu)",
+                "R$180",
+              ],
+              correta: 2,
+              explicacao: "O custo de oportunidade é o quanto ele deixou de ganhar ao não escolher a melhor alternativa: R$180 (CDB) - R$40 (poupança) = R$140.",
+            },
+          },
+          {
+            pergunta: "Larissa usou R$3.000 guardados para comprar um videogame em vez de investir. Um ano depois, se tivesse investido, o dinheiro teria rendido R$300 de juros que ela não recebeu. Qual conceito explica esse valor que ela deixou de ganhar?",
+            opcoes: [
+              "Inflação",
+              "Custo de oportunidade",
+              "Patrimônio líquido",
+              "Taxa de juros",
+            ],
+            correta: 1,
+            explicacao: "O custo de oportunidade é justamente esse valor que se deixa de ganhar (os R$300 de juros) ao escolher gastar em vez de investir.",
+            variante: {
+              pergunta: "Diego fez um bico nas férias que pagou R$800, em vez de um segundo bico que pagaria R$1.200. Qual foi o custo de oportunidade da escolha de Diego?",
+              opcoes: [
+                "R$800",
+                "R$2.000",
+                "R$400",
+                "R$1.200",
+              ],
+              correta: 2,
+              explicacao: "O custo de oportunidade é a diferença entre o que ele ganhou (R$800) e o que teria ganhado na melhor alternativa (R$1.200): R$400.",
+            },
+          },
+        ],
+      },
       {
         id: "l1_1",
         titulo: "O que é dinheiro e inflação",
@@ -321,6 +545,118 @@ const COURSE = [
         ],
       },
       {
+        id: "f1_05",
+        titulo: "Inflação percebida x inflação oficial",
+        xp: 20,
+        aula: [
+          "Imagine que o governo mede a inflação observando um 'carrinho de compras médio' nacional, cheio de centenas de itens diferentes — do aluguel ao avião, do arroz ao plano de saúde — e calcula quanto esse carrinho ficou mais caro num mês. Esse número é o IPCA, a inflação oficial.",
+          "O problema é que o seu carrinho pessoal provavelmente não é igual ao carrinho médio nacional. Se boa parte da sua renda vai para itens que subiram mais que a média (como aluguel e comida), sua 'inflação percebida' pode ser bem maior que o IPCA divulgado. Se você gasta pouco com esses itens, pode acontecer o contrário.",
+          "É por isso que muita gente reclama que 'a inflação está muito maior do que dizem' — não é necessariamente uma mentira do governo, é que a cesta de consumo de cada pessoa é diferente da cesta usada para calcular a média nacional.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que a inflação que uma pessoa 'sente' no dia a dia pode ser diferente do IPCA divulgado pelo governo?",
+            opcoes: [
+              "Porque o IPCA é sempre uma mentira",
+              "Porque o IPCA mede uma cesta média de consumo nacional, que pode ser diferente da cesta de consumo pessoal de cada um",
+              "Porque a inflação percebida não tem nenhuma relação com preços reais",
+              "Porque o IPCA só é calculado uma vez por ano",
+            ],
+            correta: 1,
+            explicacao: "O IPCA usa uma cesta média de itens consumidos pela população; se os gastos pessoais têm um peso diferente de itens que subiram mais ou menos que a média, a inflação percebida diverge do número oficial.",
+            variante: {
+              pergunta: "O IPCA de um mês veio em 0,5%. Mas Fernanda gasta a maior parte da renda com aluguel e comida, itens que subiram 2% nesse mês, bem mais que a média nacional. O que é mais provável de acontecer com a inflação percebida por Fernanda?",
+              opcoes: [
+                "Ela vai perceber uma inflação menor que 0,5%",
+                "Ela vai perceber uma inflação maior que 0,5%, porque os itens que mais pesam no seu orçamento subiram mais que a média",
+                "A inflação percebida por ela será exatamente 0,5%",
+                "Isso não tem relação com o que ela consome",
+              ],
+              correta: 1,
+              explicacao: "Como os itens que pesam mais no orçamento de Fernanda (aluguel, comida) subiram mais que a média (2% vs 0,5%), ela vai perceber uma inflação bem maior que o IPCA oficial.",
+            },
+          },
+          {
+            pergunta: "O IPCA inclui itens como passagem aérea internacional e automóveis novos, que pesam pouco no orçamento da maioria das famílias de baixa renda. O que isso pode causar?",
+            opcoes: [
+              "Faz o IPCA ficar sempre subestimado para todo mundo",
+              "Pode fazer o IPCA não refletir bem a realidade de quem gasta quase tudo com aluguel, comida e transporte",
+              "Não tem nenhum efeito, pois todos os itens têm o mesmo peso no cálculo",
+              "Faz o IPCA ser calculado só para quem tem carro e viaja de avião",
+            ],
+            correta: 1,
+            explicacao: "Como o IPCA usa pesos médios nacionais, itens pouco relevantes para famílias de baixa renda (como avião) diluem o peso de itens que pesam muito mais no orçamento delas (como aluguel e comida).",
+            variante: {
+              pergunta: "Marcelo gasta 60% da renda com aluguel e comida (que subiram 8% no ano) e 5% com lazer e viagens (que subiram 1%). Aline gasta apenas 20% com aluguel e comida e 30% com viagens e lazer. Se o IPCA oficial do ano foi 5%, quem provavelmente vai sentir uma inflação bem mais alta que os 5% oficiais?",
+              opcoes: [
+                "Aline, porque ela viaja mais",
+                "Marcelo, porque a maior parte do seu orçamento está em itens que subiram bem mais que a média (8%)",
+                "Os dois vão sentir exatamente 5%, igual ao IPCA",
+                "Isso depende só da renda de cada um, não da composição dos gastos",
+              ],
+              correta: 1,
+              explicacao: "Marcelo concentra o orçamento em itens que subiram 8% (bem acima do IPCA de 5%), então sua inflação pessoal percebida tende a ser maior que a oficial.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_06",
+        titulo: "Poder de compra ao longo do tempo no Brasil",
+        xp: 20,
+        aula: [
+          "Pense numa nota de R$100 como uma mochila para carregar compras no mercado. Há 10 anos, essa mochila cabia uma cesta cheia de itens. Hoje, com a mesma nota de R$100, a mochila 'encolheu' — cabe bem menos coisa, porque os preços subiram enquanto o valor escrito na nota ficou o mesmo.",
+          "Isso acontece pela inflação acumulada ano após ano. Mesmo taxas 'baixas' (como 4% ao ano) se acumulam e, ao longo de uma década, podem reduzir bastante o poder de compra de uma mesma quantia — no Brasil, com inflação historicamente mais alta que em países desenvolvidos, esse efeito costuma ser ainda mais forte.",
+          "É por isso que 'guardar dinheiro debaixo do colchão' é uma armadilha: o número na nota não muda, mas o que ela compra vai diminuindo ano a ano. Investir pelo menos para acompanhar a inflação é o mínimo para manter o poder de compra do seu dinheiro no tempo.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que significa dizer que 'o poder de compra do dinheiro caiu' ao longo dos anos?",
+            opcoes: [
+              "Que as notas de dinheiro ficaram fisicamente menores",
+              "Que a mesma quantia em dinheiro compra menos coisas do que comprava antes, por causa da inflação acumulada",
+              "Que o governo reduziu o valor impresso nas notas",
+              "Que os bancos cobram mais juros a cada ano",
+            ],
+            correta: 1,
+            explicacao: "Com a inflação acumulada, a mesma quantia em reais compra uma quantidade menor de bens e serviços do que comprava anos atrás.",
+            variante: {
+              pergunta: "Um produto custava R$50 há 10 anos e hoje custa R$100 (o preço dobrou). Uma pessoa guardou R$50 'debaixo do colchão' sem investir nesse período. O que aconteceu com o poder de compra desses R$50?",
+              opcoes: [
+                "Continua o mesmo, R$50 ainda compra o mesmo produto",
+                "Caiu à metade — os R$50 agora só compram a metade do produto que comprava antes",
+                "Aumentou, porque o dinheiro guardado sempre valoriza",
+                "Não é possível saber sem outras informações",
+              ],
+              correta: 1,
+              explicacao: "Como o preço do produto dobrou e o dinheiro guardado não foi corrigido, os mesmos R$50 hoje compram só a metade do que comprava há 10 anos.",
+            },
+          },
+          {
+            pergunta: "Por que 'guardar dinheiro debaixo do colchão' (sem investir) é considerado uma armadilha financeira no longo prazo?",
+            opcoes: [
+              "Porque o dinheiro físico pode ser roubado com mais facilidade",
+              "Porque a inflação reduz o poder de compra desse dinheiro com o tempo, mesmo que o valor numérico não mude",
+              "Porque é proibido por lei guardar dinheiro em casa",
+              "Porque o dinheiro guardado em casa perde o valor de face automaticamente",
+            ],
+            correta: 1,
+            explicacao: "O valor numérico (R$100, por exemplo) não muda, mas com a inflação, o que esse valor compra vai diminuindo ano após ano.",
+            variante: {
+              pergunta: "Se a inflação acumulada de um período foi de 40% e uma pessoa manteve R$10.000 parados numa conta que não rende nada, aproximadamente quanto ela precisaria ter hoje para manter o mesmo poder de compra que os R$10.000 tinham no início do período?",
+              opcoes: [
+                "R$10.000",
+                "R$14.000",
+                "R$4.000",
+                "R$40.000",
+              ],
+              correta: 1,
+              explicacao: "Para manter o mesmo poder de compra após 40% de inflação acumulada, seria preciso ter R$14.000 (R$10.000 + 40% de R$10.000).",
+            },
+          },
+        ],
+      },
+      {
         id: "l5_1",
         titulo: "Juros compostos e o poder do tempo",
         xp: 40,
@@ -374,6 +710,118 @@ const COURSE = [
           "Pense numa bola de neve rolando morro abaixo. No começo, ela é pequena e cresce devagar. Mas a cada volta, ela pega mais neve — e o tamanho que ela ACABOU de ganhar também vira parte da bola, pegando ainda mais neve na volta seguinte. Ela cresce cada vez mais rápido, não numa linha reta.",
           "Juros compostos funcionam assim: você ganha juros sobre o valor que investiu, e no período seguinte, ganha juros sobre o valor investido MAIS os juros que já recebeu. É 'juro sobre juro' — por isso o crescimento acelera com o tempo.",
           "Isso também significa que TEMPO é o ingrediente mais importante da fórmula — muitas vezes mais importante do que o valor investido por mês. Por isso quem começa mais tarde precisa investir bem mais para chegar ao mesmo lugar.",
+        ],
+      },
+      {
+        id: "f1_07",
+        titulo: "Juros simples x juros compostos: a diferença que muda tudo",
+        xp: 20,
+        aula: [
+          "Imagine que seu dinheiro é uma árvore. No juro simples, ela dá sempre o mesmo número fixo de frutas por ano, contando só o tronco original. No juro composto, cada fruta que nasce também se transforma numa nova arvorezinha que vai dar frutos no ano seguinte — o crescimento vai acelerando com o tempo.",
+          "No juro simples, o cálculo é sempre feito sobre o valor inicial (o principal). Se você investe R$1.000 a 10% simples ao ano, ganha R$100 todo ano, sempre sobre os R$1.000 originais. No juro composto, os juros de um período passam a fazer parte do valor que rende no período seguinte — 'juros sobre juros' — e o crescimento acelera.",
+          "No Brasil, quase todo investimento e toda dívida (cartão de crédito, financiamento, cheque especial) usa juros compostos. É por isso que uma dívida no cartão pode 'explodir' rapidamente se não for paga, e também por isso que investir por muitos anos, mesmo com valores pequenos, pode gerar um resultado surpreendente no longo prazo.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual a principal diferença entre juros simples e juros compostos?",
+            opcoes: [
+              "Juros simples rendem mais que compostos",
+              "Juros simples incidem sempre sobre o valor original; juros compostos incidem também sobre os juros já acumulados ('juros sobre juros')",
+              "Não existe diferença na prática",
+              "Juros compostos só existem em investimentos, nunca em dívidas",
+            ],
+            correta: 1,
+            explicacao: "No juro simples, o cálculo é sempre sobre o valor inicial; no juro composto, os juros de um período passam a compor a base de cálculo do período seguinte, acelerando o crescimento.",
+            variante: {
+              pergunta: "R$1.000 são aplicados a 10% ao ano. Qual o montante final ao fim de 2 anos no juro simples e no juro composto, respectivamente?",
+              opcoes: [
+                "R$1.200 no simples e R$1.210 no composto",
+                "R$1.210 no simples e R$1.200 no composto",
+                "Os dois dão exatamente R$1.200",
+                "Os dois dão exatamente R$1.210",
+              ],
+              correta: 0,
+              explicacao: "No simples, os juros são sempre 10% de R$1.000 (R$100/ano): 1.000+100+100=1.200. No composto, o segundo ano rende 10% sobre R$1.100: 1.000 x 1,1 x 1,1 = 1.210.",
+            },
+          },
+          {
+            pergunta: "Por que uma dívida de cartão de crédito não paga pode crescer tão rápido com o tempo?",
+            opcoes: [
+              "Porque o banco aumenta a dívida manualmente todo mês",
+              "Porque os juros do cartão são compostos: os juros de um mês passam a integrar a dívida do mês seguinte, que também gera juros",
+              "Porque cartões de crédito usam juros simples, que sempre crescem rápido",
+              "Porque a inflação é responsável por todo o crescimento da dívida",
+            ],
+            correta: 1,
+            explicacao: "Os juros do cartão de crédito são compostos — a dívida de um mês (já com juros) passa a ser a base de cálculo dos juros do mês seguinte, fazendo o valor crescer de forma acelerada.",
+            variante: {
+              pergunta: "Uma dívida de R$500 no cartão de crédito, com juros de 15% ao mês (juros compostos), não é paga por 3 meses. Aproximadamente quanto ela estará valendo depois desses 3 meses?",
+              opcoes: [
+                "R$500 (os juros não afetam cartão de crédito)",
+                "R$725 (500 + 15% x 3 meses, como se fosse juros simples)",
+                "Aproximadamente R$760, porque os juros incidem também sobre os juros acumulados dos meses anteriores",
+                "R$515, porque os juros são de apenas 15% no total",
+              ],
+              correta: 2,
+              explicacao: "Com juros compostos de 15% ao mês: 500 x 1,15 x 1,15 x 1,15 ≈ R$760 — bem mais que o cálculo simples (R$725), porque os juros incidem também sobre os juros dos meses anteriores.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_08",
+        titulo: "A regra dos 72: estimando de cabeça em quantos anos seu dinheiro dobra",
+        xp: 20,
+        aula: [
+          "Imagine que você quer saber, sem calculadora científica, em quantos anos seu dinheiro vai dobrar de valor num investimento com juros compostos. Existe um truque de bolso usado por investidores há décadas para isso: a Regra dos 72.",
+          "A regra é simples: divida 72 pela taxa de juros anual (só o número, sem o sinal de %) e o resultado é aproximadamente o número de anos para o dinheiro dobrar. Exemplo: a uma taxa de 8% ao ano, 72 ÷ 8 = 9 — o dinheiro dobra em aproximadamente 9 anos.",
+          "É uma estimativa, não uma conta exata (o cálculo exato usa logaritmos), mas é surpreendentemente precisa para taxas entre 6% e 10% ao ano, e ajuda a comparar rapidamente investimentos diferentes de cabeça, sem precisar de planilha.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Usando a Regra dos 72, em quantos anos aproximadamente um investimento que rende 6% ao ano vai dobrar de valor?",
+            opcoes: [
+              "6 anos",
+              "12 anos",
+              "18 anos",
+              "36 anos",
+            ],
+            correta: 1,
+            explicacao: "Pela Regra dos 72: 72 ÷ 6 = 12 anos, aproximadamente, para o valor dobrar.",
+            variante: {
+              pergunta: "Um investimento rende 9% ao ano. Pela Regra dos 72, em quantos anos aproximadamente esse investimento dobra de valor?",
+              opcoes: [
+                "8 anos",
+                "9 anos",
+                "16 anos",
+                "24 anos",
+              ],
+              correta: 0,
+              explicacao: "72 ÷ 9 = 8 — em aproximadamente 8 anos o investimento dobra de valor, usando a Regra dos 72.",
+            },
+          },
+          {
+            pergunta: "Qual é a fórmula (aproximada) da Regra dos 72?",
+            opcoes: [
+              "Multiplique 72 pela taxa de juros anual para saber os anos",
+              "Divida 72 pela taxa de juros anual (sem o sinal %) para estimar em quantos anos o dinheiro dobra",
+              "Some 72 à taxa de juros anual",
+              "Divida a taxa de juros anual por 72",
+            ],
+            correta: 1,
+            explicacao: "A Regra dos 72 consiste em dividir 72 pela taxa de juros anual para estimar, de forma rápida, em quantos anos o valor investido dobra.",
+            variante: {
+              pergunta: "Alguém quer que seu dinheiro dobre em aproximadamente 4 anos. Usando a Regra dos 72, a que taxa de juros anual (aproximada) esse investimento precisaria render?",
+              opcoes: [
+                "4% ao ano",
+                "8% ao ano",
+                "18% ao ano",
+                "72% ao ano",
+              ],
+              correta: 2,
+              explicacao: "Pela Regra dos 72: 72 ÷ 4 anos = 18% ao ano é a taxa aproximada necessária para dobrar o valor nesse prazo.",
+            },
+          },
         ],
       },
       {
@@ -455,6 +903,118 @@ const COURSE = [
         ],
       },
       {
+        id: "f1_09",
+        titulo: "O que é liquidez e por que ela importa mesmo fora de investimentos",
+        xp: 20,
+        aula: [
+          "Pense em como o gelo derrete até virar água que você pode beber na hora. Dinheiro na carteira ou na conta corrente é como um cubo de gelo que já é água — está pronto para usar agora. Um imóvel, por outro lado, é como um bloco de gelo gigante congelado no freezer: tem valor, mas demora (meses) para 'descongelar' em dinheiro na mão, e às vezes você precisa vender rápido e perder valor no processo.",
+          "Liquidez é a facilidade e a velocidade com que um bem pode ser convertido em dinheiro, sem perder muito do seu valor nesse processo. Dinheiro em conta e alguns investimentos (como Tesouro Selic ou fundos de liquidez diária) têm alta liquidez. Imóveis, carros e investimentos com prazo de carência têm baixa liquidez.",
+          "Isso importa até fora de investimentos: se você só tem patrimônio 'engessado' (imóvel, carro, joias) e nenhuma reserva líquida, um imprevisto — um problema de saúde, a perda de um emprego — pode te obrigar a vender algo rápido, com desconto, ou pedir um empréstimo caro, só porque não havia dinheiro disponível na hora certa.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que significa 'liquidez' de um bem ou investimento?",
+            opcoes: [
+              "O quanto esse bem rende de juros por ano",
+              "A facilidade e velocidade com que ele pode ser convertido em dinheiro, sem perder muito valor no processo",
+              "O valor total desse bem no mercado",
+              "O risco de perder dinheiro com esse bem",
+            ],
+            correta: 1,
+            explicacao: "Liquidez é sobre velocidade e facilidade de conversão em dinheiro — não é a mesma coisa que rentabilidade ou risco.",
+            variante: {
+              pergunta: "Entre um imóvel avaliado em R$300.000 e uma reserva de R$5.000 numa conta que pode ser resgatada hoje, qual tem maior liquidez?",
+              opcoes: [
+                "O imóvel, porque vale mais",
+                "A reserva de R$5.000, porque pode ser transformada em dinheiro na hora, enquanto o imóvel pode levar meses para ser vendido",
+                "Os dois têm a mesma liquidez, pois ambos têm valor",
+                "Não é possível comparar liquidez entre bens diferentes",
+              ],
+              correta: 1,
+              explicacao: "Liquidez não depende do valor do bem, e sim da velocidade de conversão em dinheiro — por isso os R$5.000 disponíveis na hora são mais líquidos que o imóvel, mesmo valendo muito menos.",
+            },
+          },
+          {
+            pergunta: "Por que ter liquidez (dinheiro disponível rapidamente) é importante mesmo para quem não tem investimentos sofisticados?",
+            opcoes: [
+              "Porque ajuda a evitar ter que vender bens com desconto ou pegar empréstimos caros diante de um imprevisto",
+              "Porque liquidez sempre aumenta o valor total do patrimônio",
+              "Porque só quem investe em ações precisa se preocupar com liquidez",
+              "Porque isso é uma exigência legal do governo",
+            ],
+            correta: 0,
+            explicacao: "Sem dinheiro disponível na hora certa, um imprevisto pode forçar a venda de bens com desconto ou o uso de crédito caro — ter liquidez evita essa armadilha.",
+            variante: {
+              pergunta: "Cláudio perdeu o emprego e precisa de R$4.000 rápido para uma emergência. Ele só tem um carro (que vale R$25.000, mas demoraria semanas para vender bem) e nenhuma reserva em dinheiro. O que a falta de liquidez provavelmente vai obrigar Cláudio a fazer?",
+              opcoes: [
+                "Esperar tranquilamente a venda ideal do carro",
+                "Vender o carro rapidamente por um preço abaixo do valor real, ou recorrer a um empréstimo com juros altos",
+                "Não fazer nada, pois patrimônio alto sempre resolve emergências instantaneamente",
+                "Aumentar seu patrimônio líquido imediatamente",
+              ],
+              correta: 1,
+              explicacao: "Sem um bem líquido disponível, Cláudio provavelmente terá que vender o carro com desconto (por pressa) ou pegar um empréstimo caro — o problema não é falta de patrimônio, é falta de liquidez.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_10",
+        titulo: "Seguro: quando vale a pena e quando é desperdício de dinheiro",
+        xp: 20,
+        aula: [
+          "Imagine um grupo de 100 pessoas que juntam R$50 cada uma (total R$5.000) num pote comum. Se o carro de uma dessas pessoas for roubado nesse mês, ela usa o pote para cobrir o prejuízo. As outras 99 'perderam' os R$50, mas ganharam a tranquilidade de saber que, se fosse com elas, estariam cobertas. Isso é, na essência, como funciona um seguro.",
+          "Seguro faz sentido para proteger contra prejuízos grandes que você não teria como pagar do próprio bolso sem se desestruturar financeiramente — como um carro batido, uma casa incendiada ou um tratamento médico caro. Você paga um valor pequeno e previsível (o prêmio) para se proteger de um valor grande e imprevisível.",
+          "Já vale menos a pena pagar seguro (ou garantia estendida) para itens baratos que você conseguiria substituir sem grandes problemas — como um seguro caro para um fone de ouvido de R$100. Nesses casos, guardar o próprio dinheiro equivalente ao prêmio ao longo do tempo normalmente compensa mais do que pagar para uma seguradora assumir um risco pequeno.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Em que situação um seguro geralmente faz sentido financeiro?",
+            opcoes: [
+              "Quando o prejuízo possível é pequeno e fácil de pagar do próprio bolso",
+              "Quando o prejuízo possível é grande e desestruturaria as finanças da pessoa se acontecesse",
+              "Sempre, para qualquer bem, independente do valor",
+              "Nunca, porque seguro é sempre desperdício de dinheiro",
+            ],
+            correta: 1,
+            explicacao: "Seguro compensa quando protege contra prejuízos grandes e imprevisíveis, que a pessoa não teria como cobrir facilmente sozinha.",
+            variante: {
+              pergunta: "Entre segurar um carro de R$60.000 (que a família não teria como substituir do bolso se fosse roubado) e comprar garantia estendida para um liquidificador de R$150, em qual caso o seguro tende a fazer mais sentido financeiro?",
+              opcoes: [
+                "No liquidificador, porque é mais barato de segurar",
+                "No carro, porque um prejuízo de R$60.000 desestruturaria as finanças da família, enquanto R$150 é fácil de repor",
+                "Nos dois casos igualmente, pois todo bem deveria ser segurado",
+                "Em nenhum dos dois, seguro nunca vale a pena",
+              ],
+              correta: 1,
+              explicacao: "O carro representa um prejuízo grande e difícil de absorver sem seguro; já o liquidificador é barato o suficiente para ser substituído do próprio bolso, sem necessidade de proteção extra.",
+            },
+          },
+          {
+            pergunta: "Por que garantias estendidas para itens baratos (como um fone de ouvido ou uma torradeira) costumam ser um mau negócio financeiro?",
+            opcoes: [
+              "Porque esses itens nunca quebram",
+              "Porque o valor cobrado pela garantia costuma ser alto em relação ao risco real, e o prejuízo de substituir o item do próprio bolso é pequeno",
+              "Porque garantias estendidas são ilegais no Brasil",
+              "Porque só produtos caros podem ter garantia estendida",
+            ],
+            correta: 1,
+            explicacao: "A garantia estendida embute uma margem de lucro para quem vende, e o prejuízo de comprar um item novo (barato) é pequeno — por isso, na maioria dos casos, não compensa pagar por essa proteção extra.",
+            variante: {
+              pergunta: "Uma loja oferece um 'seguro' de R$40 para proteger uma caixa de som de R$120 contra qualquer defeito por 1 ano. A caixa de som já tem garantia de fábrica de 1 ano contra defeitos. Esse seguro extra da loja tende a valer a pena?",
+              opcoes: [
+                "Sim, porque quanto mais proteção, melhor",
+                "Não, porque a garantia de fábrica já cobre o mesmo risco, tornando o seguro extra pago redundante e um gasto evitável",
+                "Sim, porque R$40 é um valor insignificante",
+                "Não é possível avaliar sem saber a cor da caixa de som",
+              ],
+              correta: 1,
+              explicacao: "Como o produto já tem garantia de fábrica cobrindo defeitos pelo mesmo período, pagar mais R$40 por uma proteção redundante tende a ser desperdício de dinheiro.",
+            },
+          },
+        ],
+      },
+      {
         id: "l1_3",
         titulo: "Orçamento pessoal",
         xp: 20,
@@ -530,6 +1090,1126 @@ const COURSE = [
           "Pense num balde com um furo pequeno embaixo. Mesmo que você continue enchendo o balde, se não souber por onde a água está escapando (os gastos), ele nunca vai ficar cheio — e você nem vai entender por quê.",
           "Fazer um orçamento pessoal é identificar esses furos: anotar quanto entra e quanto sai, e para onde vai cada parte. Não é sobre se privar de tudo — é sobre saber, com números reais, para onde seu dinheiro está indo.",
           "Muita gente que começa a anotar os gastos se surpreende ao descobrir quanto pequenos gastos recorrentes (apps de delivery, assinaturas esquecidas) somam no fim do mês — coisas que passavam despercebidas até serem colocadas no papel.",
+        ],
+      },
+      {
+        id: "f1_11",
+        titulo: "A regra 50-30-20 na prática, com salários reais diferentes",
+        xp: 20,
+        aula: [
+          "Imagine seu salário como uma pizza cortada em 10 pedaços iguais. A regra 50-30-20 sugere dividir essa pizza assim: 5 pedaços (50%) para NECESSIDADES (aluguel, comida, contas essenciais, transporte), 3 pedaços (30%) para DESEJOS (lazer, roupas, streaming, restaurante) e 2 pedaços (20%) para POUPANÇA, investimento ou pagamento de dívidas.",
+          "A pizza pode ser pequena ou grande — o salário pode ser de R$2.000 ou de R$15.000 — mas a proporção das fatias segue a mesma lógica. Alguém que ganha R$4.000, na teoria, usaria até R$2.000 com necessidades, R$1.200 com desejos e R$800 com poupança ou dívidas.",
+          "Na prática brasileira, quem ganha perto do salário mínimo muitas vezes não consegue manter as necessidades em apenas 50% da renda — aluguel e comida já consomem 70%, 80% ou mais. Nesses casos, a regra funciona como referência e objetivo a perseguir (reduzindo desejos, buscando aumentar renda), e não como uma trava rígida obrigatória.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Marcelo ganha R$5.000 por mês. Seguindo a regra 50-30-20, quanto ele deveria reservar por mês para poupança, investimentos ou pagamento de dívidas (os 20%)?",
+            opcoes: [
+              "R$500",
+              "R$1.000",
+              "R$1.500",
+              "R$2.500",
+            ],
+            correta: 1,
+            explicacao: "20% de R$5.000 = R$1.000 é a fatia recomendada pela regra para poupança, investimentos ou pagamento de dívidas.",
+            variante: {
+              pergunta: "Renata ganha R$3.200 por mês. Seguindo a regra 50-30-20, quanto ela deveria destinar para necessidades essenciais (os 50%)?",
+              opcoes: [
+                "R$960",
+                "R$1.600",
+                "R$2.240",
+                "R$640",
+              ],
+              correta: 1,
+              explicacao: "50% de R$3.200 = R$1.600 é o valor recomendado pela regra para necessidades essenciais como aluguel, comida e contas.",
+            },
+          },
+          {
+            pergunta: "Por que a regra 50-30-20 pode ser difícil de seguir 'à risca' para quem ganha perto de um salário mínimo no Brasil?",
+            opcoes: [
+              "Porque a regra só se aplica a quem ganha mais de R$10.000",
+              "Porque, muitas vezes, o custo com necessidades básicas (aluguel, comida, contas) já consome bem mais de 50% de uma renda baixa, sobrando pouco ou nada para desejos e poupança",
+              "Porque salários baixos não têm despesas com necessidades",
+              "Porque a regra é ilegal para salários mínimos",
+            ],
+            correta: 1,
+            explicacao: "Com uma renda baixa, itens essenciais como aluguel e comida costumam consumir uma fatia bem maior que 50%, tornando difícil seguir a proporção da regra de forma exata.",
+            variante: {
+              pergunta: "Uma pessoa ganha R$1.600 por mês (perto do salário mínimo) e gasta R$1.300 só com aluguel, comida e contas essenciais. Que porcentagem da renda já está sendo usada com necessidades — bem mais ou bem menos que os 50% recomendados pela regra?",
+              opcoes: [
+                "Cerca de 50%, exatamente como recomenda a regra",
+                "Cerca de 81%, bem mais que os 50% recomendados, sobrando pouco espaço para desejos e poupança",
+                "Cerca de 20%, bem menos que o recomendado",
+                "Não é possível calcular essa porcentagem",
+              ],
+              correta: 1,
+              explicacao: "R$1.300 ÷ R$1.600 ≈ 81% da renda já vai para necessidades — bem acima dos 50% recomendados, o que deixa pouco espaço para desejos e poupança nesse caso.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_12",
+        titulo: "Metas SMART: como transformar 'quero guardar dinheiro' em um plano real",
+        xp: 20,
+        aula: [
+          "Você já tentou usar um aplicativo de mapa digitando só 'quero ir para algum lugar bom'? Não funciona — o GPS precisa de um endereço exato para traçar a rota. Com dinheiro é a mesma coisa: dizer 'quero guardar dinheiro' é como não digitar endereço nenhum. Metas SMART são a forma de digitar o endereço certo para o seu dinheiro chegar a algum lugar.",
+          "SMART é a sigla, em inglês, para cinco perguntas que toda meta boa responde: o quê exatamente (specific), quanto (measurable), é possível de verdade (attainable), faz sentido pra sua vida (relevant) e até quando (time-bound). Em vez de 'quero guardar dinheiro', uma meta SMART é algo como 'guardar R$150 por mês, durante 8 meses, para juntar R$1.200 e trocar meu celular quebrado em dezembro' — dá pra medir, dá pra checar, e tem prazo.",
+          "É como planejar uma viagem de carro em etapas: em vez de só sonhar com o destino, você marca em quais cidades vai parar e quando. Assim, todo mês você sabe se está adiantado, atrasado ou no ritmo certo — e pode ajustar o percurso antes de descobrir, tarde demais, que não vai chegar lá.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual das opções abaixo é um exemplo de meta financeira SMART?",
+            opcoes: [
+              "Quero ficar rico um dia",
+              "Quero guardar R$200 por mês durante 10 meses para juntar R$2.000 e pagar um curso em outubro",
+              "Quero gastar menos",
+              "Quero ter mais dinheiro no fim do ano, se der",
+            ],
+            correta: 1,
+            explicacao: "Uma meta SMART tem valor definido, prazo claro e um motivo específico — como 'guardar R$200/mês por 10 meses para pagar um curso em outubro' — em vez de um desejo vago.",
+            variante: {
+              pergunta: "Marcos quer comprar uma bicicleta de R$900. Qual versão dessa meta está no formato SMART?",
+              opcoes: [
+                "Quero comprar uma bicicleta um dia",
+                "Vou guardar R$150 por mês durante 6 meses para comprar a bicicleta de R$900 em fevereiro",
+                "Bicicleta é importante pra mim",
+                "Vou ver se sobra dinheiro pra bicicleta no fim do mês",
+              ],
+              correta: 1,
+              explicacao: "A meta SMART transforma o desejo 'comprar uma bicicleta' em um plano com valor mensal, prazo e valor final definidos.",
+            },
+          },
+          {
+            pergunta: "Por que a parte 'Atingível' (o A de SMART) é importante em uma meta financeira?",
+            opcoes: [
+              "Porque toda meta precisa ser fácil e sem esforço",
+              "Porque uma meta impossível de cumprir com a renda atual só gera frustração e desistência",
+              "Porque só metas de curto prazo funcionam",
+              "Porque metas atingíveis não precisam de prazo",
+            ],
+            correta: 1,
+            explicacao: "Se a meta exige guardar mais dinheiro do que a pessoa realmente consegue, ela tende a desistir rápido — por isso a meta precisa ser desafiadora, mas possível dentro da renda real.",
+            variante: {
+              pergunta: "Juliana ganha R$1.800 por mês e tenta guardar R$1.500 todo mês para uma viagem. Depois de duas tentativas, ela desiste. O que provavelmente deu errado com essa meta?",
+              opcoes: [
+                "A meta não tinha prazo definido",
+                "A meta não era atingível: o valor era incompatível com a renda dela, então ela não conseguiu sustentar o plano",
+                "Viagens nunca podem ser meta financeira",
+                "Ela deveria ter guardado ainda mais dinheiro",
+              ],
+              correta: 1,
+              explicacao: "Uma meta que ignora a renda real da pessoa vira uma armadilha: por isso o 'A' de Atingível existe, para garantir que a meta seja desafiadora mas possível.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_13",
+        titulo: "Planejamento financeiro familiar: como dividir contas e sonhos sem brigar",
+        xp: 20,
+        aula: [
+          "Imagina um casal que vai num restaurante e, na hora de pagar, cada um começa a discutir quem comeu o quê, sem terem combinado nada antes. Dá bagunça, né? Com as finanças de uma família é a mesma coisa: se ninguém combina antes quem paga o quê e quais são os planos em comum, toda conversa sobre dinheiro vira discussão.",
+          "Planejamento financeiro familiar é simplesmente combinar essas regras antes: como as contas da casa serão divididas (proporcional ao que cada um ganha, meio a meio, ou por tipo de conta), e quais são os objetivos que os dois querem alcançar juntos, como trocar de carro ou fazer uma viagem. É como duas pessoas cozinhando o mesmo jantar: funciona melhor quando uma corta os legumes e a outra cuida da carne, em vez de as duas tentarem fazer tudo ao mesmo tempo, do jeito que acham certo.",
+          "O segredo não é ter uma planilha perfeita, mas ter uma conversa recorrente e sem julgamento sobre dinheiro — tipo uma reunião rápida de time, uma vez por mês, para checar se o combinado está funcionando e ajustar o que for preciso. Família que conversa sobre dinheiro antes do problema aparecer discute muito menos depois.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual é uma vantagem de dividir as contas da casa de forma proporcional à renda de cada um, em vez de sempre dividir 'meio a meio'?",
+            opcoes: [
+              "Proporcional é sempre mais caro no total",
+              "Quem ganha menos não fica com um peso desproporcional no orçamento, tornando a divisão mais justa",
+              "Divisão proporcional é proibida por lei",
+              "Meio a meio é sempre a única forma correta de dividir contas",
+            ],
+            correta: 1,
+            explicacao: "Quando um dos dois ganha bem menos, dividir tudo igualmente pode sobrecarregar essa pessoa; dividir proporcionalmente à renda mantém o esforço equilibrado para os dois.",
+            variante: {
+              pergunta: "Pedro ganha R$5.000 e Ana ganha R$2.500 por mês. Se as contas da casa somam R$1.500 e eles dividem proporcionalmente à renda, quem paga mais e por quê?",
+              opcoes: [
+                "Ana paga mais, porque ganha menos",
+                "Pedro paga mais, porque ganha o dobro da renda de Ana, então assume uma parcela maior das contas",
+                "Os dois pagam exatamente R$750 cada",
+                "Isso não pode ser calculado sem saber o aluguel",
+              ],
+              correta: 1,
+              explicacao: "Na divisão proporcional à renda, quem ganha mais contribui com uma parte maior do valor total, mantendo o esforço relativo parecido para os dois.",
+            },
+          },
+          {
+            pergunta: "Qual é o principal benefício de ter conversas regulares (por exemplo, mensais) sobre dinheiro dentro de uma família ou casal?",
+            opcoes: [
+              "Evitar completamente qualquer gasto extra",
+              "Identificar cedo se o combinado não está funcionando e ajustar antes que vire uma dívida ou uma briga",
+              "Garantir que os dois gastem exatamente o mesmo valor",
+              "Conversas sobre dinheiro não trazem benefício real",
+            ],
+            correta: 1,
+            explicacao: "Revisar o planejamento com frequência permite corrigir o rumo rapidinho, em vez de só descobrir o problema quando ele já virou uma dívida grande ou uma discussão.",
+            variante: {
+              pergunta: "Um casal combinou guardar R$400 por mês para a reforma da cozinha, mas há três meses um deles não consegue cumprir a parte dele. Qual é a atitude mais alinhada com um bom planejamento financeiro familiar?",
+              opcoes: [
+                "Fingir que está tudo bem e não falar sobre isso",
+                "Conversar sobre o motivo e ajustar o valor ou o prazo da meta em conjunto",
+                "Cancelar a meta sem avisar o outro",
+                "Um dos dois assumir a dívida em silêncio",
+              ],
+              correta: 1,
+              explicacao: "O planejamento familiar funciona como um combinado vivo: quando algo não está dando certo, o caminho é revisar juntos, e não ignorar ou decidir sozinho.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_14",
+        titulo: "Primeiro salário: por onde começar a organizar o dinheiro",
+        xp: 20,
+        aula: [
+          "Lembra a sensação de arrumar a mochila pra uma viagem importante? Se você joga tudo dentro sem pensar, na hora de precisar de um documento ou de um remédio, vira um caos. O primeiro salário é parecido: se o dinheiro simplesmente 'sai por aí' sem nenhuma organização, no fim do mês ninguém sabe pra onde ele foi.",
+          "O primeiro passo simples é separar o salário em 'compartimentos', tipo bolsos diferentes da mochila: um bolso para as contas que você TEM que pagar (transporte, celular, eventual aluguel), um bolso pequeno que vira reserva (guardado, sem tocar) e só o que resta é o bolso livre, pra gastar com o que quiser sem culpa. Fazer essa separação já no dia em que o salário cai evita que o dinheiro 'evapore' nos primeiros dez dias do mês.",
+          "Não precisa de planilha complicada nem de curso avançado pra começar: pode ser até em papel, ou em duas contas de banco diferentes. O importante é criar o hábito, desde o primeiro salário, de decidir para onde o dinheiro vai antes de ele simplesmente ir sozinho — porque hábito criado no primeiro emprego tende a seguir a pessoa pela vida inteira.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual é a ideia central por trás de separar o salário em 'compartimentos' logo que ele cai na conta?",
+            opcoes: [
+              "Gastar tudo rápido para não perder o dinheiro",
+              "Decidir de forma consciente para onde cada parte do dinheiro vai, em vez de deixá-lo sair sem controle",
+              "Guardar o salário inteiro sem gastar nada",
+              "Transformar todo o salário em investimentos de risco",
+            ],
+            correta: 1,
+            explicacao: "Separar o dinheiro em partes (contas fixas, reserva, gastos livres) logo no início do mês é uma forma simples de decidir com intenção para onde ele vai, evitando que 'suma' sem explicação.",
+            variante: {
+              pergunta: "Camila recebeu seu primeiro salário de R$1.600 e, sem separar nada, gastou R$1.200 nos primeiros 12 dias do mês. O que ela deixou de fazer que poderia ter evitado isso?",
+              opcoes: [
+                "Ela deveria ter gasto tudo ainda mais rápido",
+                "Separar o salário em compartimentos (contas fixas, reserva, gastos livres) assim que ele caiu na conta",
+                "Pedir um empréstimo antes do salário cair",
+                "Nada poderia ter evitado isso, faz parte do primeiro emprego",
+              ],
+              correta: 1,
+              explicacao: "Sem separar o dinheiro em partes desde o início, é fácil gastar rápido demais nas primeiras semanas do mês; organizar por compartimentos ajuda a distribuir o gasto ao longo do tempo.",
+            },
+          },
+          {
+            pergunta: "Por que criar o hábito de organizar o dinheiro já no primeiro emprego é especialmente importante?",
+            opcoes: [
+              "Porque o primeiro salário é sempre menor e por isso não importa",
+              "Porque hábitos financeiros criados no início tendem a se repetir ao longo da vida, para o bem ou para o mal",
+              "Porque depois do primeiro emprego não é mais possível mudar de hábito",
+              "Porque só quem ganha muito precisa se organizar",
+            ],
+            correta: 1,
+            explicacao: "Os primeiros hábitos com dinheiro tendem a se repetir nos empregos seguintes; começar organizado facilita manter esse padrão quando a renda aumentar.",
+            variante: {
+              pergunta: "Dois amigos começam a trabalhar no mesmo mês. Rafael separa o salário em compartimentos desde o primeiro pagamento; Bruno decide 'começar a se organizar quando ganhar mais'. Cinco anos depois, qual resultado é mais provável?",
+              opcoes: [
+                "Bruno estará automaticamente mais organizado, porque ganha mais",
+                "Rafael terá mais chance de manter controle do dinheiro, porque o hábito de organizar foi criado desde o início",
+                "O salário mais alto de Bruno garante organização financeira sozinho",
+                "Não há relação entre hábito inicial e organização futura",
+              ],
+              correta: 1,
+              explicacao: "Organização financeira é um hábito: quem começa a praticar desde o primeiro salário tem mais chance de manter esse controle mesmo quando a renda mudar.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_15",
+        titulo: "Metas de curto, médio e longo prazo: por que o prazo muda a estratégia",
+        xp: 20,
+        aula: [
+          "Nem toda meta financeira pede o mesmo tipo de preparo — assim como uma caminhada até a padaria, uma viagem de fim de semana e uma mudança para outro país exigem bagagens completamente diferentes. Metas de curto prazo (até 1 ano, como trocar de celular ou uma viagem de fim de ano), médio prazo (1 a 5 anos, como dar entrada num carro ou fazer uma pós-graduação) e longo prazo (mais de 5 anos, como se aposentar bem ou comprar uma casa) precisam de estratégias diferentes, principalmente por causa do tempo disponível.",
+          "Para metas de curto prazo, o dinheiro precisa estar seguro e disponível quando você precisar dele — como levar uma garrafa de água numa caminhada de 1 hora: você não vai guardar essa água num lugar difícil de alcançar, porque vai precisar dela em breve. Já para metas de longo prazo, existe mais tempo para atravessar altos e baixos, parecido com plantar uma árvore que vai enfrentar tempestades ao longo dos anos, mas ainda assim tem tempo de se recuperar e crescer — por isso, dá pra aceitar um pouco mais de risco em troca de um retorno potencialmente maior.",
+          "O problema aparece quando se usa a estratégia errada para o prazo errado: colocar o dinheiro de uma viagem que vai acontecer em 3 meses em algo que pode perder valor rapidamente é como levar uma mala enorme para uma caminhada rápida até a padaria — o instrumento não combina com o objetivo. Do mesmo jeito, deixar o dinheiro da aposentadoria (que só vai ser usado em décadas) parado onde praticamente não cresce é como fazer uma viagem de milhares de quilômetros numa patinete: tecnicamente chega lá, mas desperdiça um potencial enorme pelo caminho.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que o prazo de uma meta financeira deve influenciar onde guardar o dinheiro?",
+            opcoes: [
+              "O prazo não tem nenhuma relação com a escolha de onde guardar o dinheiro",
+              "Porque metas de curto prazo exigem dinheiro seguro e disponível, enquanto metas de longo prazo têm mais tempo para se recuperar de oscilações e podem aceitar mais risco",
+              "Porque todo dinheiro deve ser guardado sempre do mesmo jeito, independente do prazo",
+              "Porque metas de longo prazo nunca podem envolver nenhum risco",
+            ],
+            correta: 1,
+            explicacao: "O tempo disponível até usar o dinheiro define quanto risco é razoável assumir: prazos curtos pedem segurança e liquidez, enquanto prazos longos têm tempo de se recuperar de oscilações.",
+            variante: {
+              pergunta: "Camila vai precisar do dinheiro em 6 meses para pagar um curso, enquanto Rodrigo está guardando dinheiro para usar só em 20 anos, na aposentadoria. Por que a estratégia mais adequada para os dois deveria ser diferente?",
+              opcoes: [
+                "Não deveria ser diferente, os dois deveriam guardar o dinheiro exatamente da mesma forma",
+                "Camila precisa de algo seguro e disponível em pouco tempo, enquanto Rodrigo tem tempo suficiente para atravessar oscilações e buscar um retorno maior",
+                "Rodrigo deveria escolher algo tão seguro e líquido quanto Camila, já que 20 anos é pouco tempo",
+                "Camila deveria assumir mais risco, já que precisa do dinheiro rápido",
+              ],
+              correta: 1,
+              explicacao: "Quem precisa do dinheiro em pouco tempo, como Camila, deve priorizar segurança e disponibilidade; quem tem décadas de prazo, como Rodrigo, tem espaço para buscar retornos maiores assumindo mais oscilação no caminho.",
+            },
+          },
+          {
+            pergunta: "O que pode acontecer se o dinheiro de uma meta de curto prazo for colocado em uma opção de alto risco e muita oscilação?",
+            opcoes: [
+              "Nada, dinheiro de curto prazo nunca é afetado por oscilações",
+              "O valor pode cair bem na hora em que a pessoa precisar usá-lo, comprometendo a meta",
+              "O dinheiro vai automaticamente dobrar antes do prazo",
+              "Isso sempre garante um retorno maior sem nenhum risco adicional",
+            ],
+            correta: 1,
+            explicacao: "Investimentos de alto risco podem oscilar bastante no curto prazo, e se a queda acontecer justamente quando o dinheiro precisa ser usado, a meta fica comprometida.",
+            variante: {
+              pergunta: "Felipe colocou o dinheiro que ia usar em 4 meses, para dar entrada num carro, numa aplicação de alto risco. Uma semana antes de comprar o carro, o valor da aplicação caiu 15%. O que esse exemplo mostra sobre usar estratégias de longo prazo para metas de curto prazo?",
+              opcoes: [
+                "Que isso é sempre uma boa ideia, pois toda aplicação de risco sempre sobe no final",
+                "Que usar uma aplicação de alto risco para uma meta de curto prazo pode fazer a pessoa perder dinheiro justamente na hora de usá-lo",
+                "Que o valor perdido sempre volta antes do prazo final",
+                "Que metas de curto prazo não deveriam ter prazo definido",
+              ],
+              correta: 1,
+              explicacao: "Aplicações de alto risco podem cair de valor em pouco tempo, e usar esse tipo de estratégia para dinheiro que será usado em breve pode comprometer a meta, como aconteceu com Felipe.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_16",
+        titulo: "Contabilidade mental: por que 'dinheiro do 13º' parece diferente",
+        xp: 20,
+        aula: [
+          "Você já notou que o dinheiro do 13º salário, de um bônus ou de um Pix inesperado parece 'mais fácil de gastar' do que o dinheiro do salário normal? Isso tem nome: contabilidade mental — a tendência de tratar reais iguais como se fossem de 'potes' diferentes, dependendo de onde vieram.",
+          "Na prática, R$500 do 13º e R$500 do salário compram exatamente a mesma coisa. Mas o cérebro trata o dinheiro 'extra' como menos 'sério', e por isso é mais fácil gastar sem culpa — mesmo que isso comprometa metas financeiras maiores.",
+          "Perceber esse padrão é o primeiro passo para tratar todo real da mesma forma, independente de 'qual pote' ele veio, e decidir com mais intenção o que fazer com dinheiro extra.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que é 'contabilidade mental' em finanças pessoais?",
+            opcoes: [
+              "Um método de contabilidade usado por empresas",
+              "A tendência de tratar dinheiro de origens diferentes como se fosse de 'potes' separados, mesmo tendo o mesmo valor",
+              "Um tipo de imposto sobre bônus",
+              "Uma técnica de investimento avançada",
+            ],
+            correta: 1,
+            explicacao: "Contabilidade mental é o viés de separar mentalmente dinheiro por origem (salário x bônus x presente), tratando-os com regras diferentes mesmo valendo o mesmo.",
+            variante: {
+              pergunta: "Fernanda recebeu R$800 de reembolso do plano de saúde e gastou tudo em uma viagem de fim de semana, algo que ela nunca faria com o salário normal. Que padrão isso ilustra?",
+              opcoes: [
+                "Planejamento financeiro cuidadoso",
+                "Contabilidade mental — tratar esse dinheiro como 'menos sério' por ter vindo de outra origem",
+                "Diversificação de investimentos",
+                "Análise de custo-benefício",
+              ],
+              correta: 1,
+              explicacao: "Tratar dinheiro 'inesperado' com regras diferentes do salário normal, mesmo valendo o mesmo, é o padrão clássico da contabilidade mental.",
+            },
+          },
+          {
+            pergunta: "Qual é o risco prático de tratar 'dinheiro extra' como menos importante?",
+            opcoes: [
+              "Nenhum risco, dinheiro extra não conta para metas financeiras",
+              "Gastar sem intenção esse dinheiro, mesmo podendo usá-lo para acelerar metas importantes",
+              "O dinheiro extra sempre perde valor mais rápido",
+              "É proibido investir dinheiro de bônus",
+            ],
+            correta: 1,
+            explicacao: "Ao tratar dinheiro extra como 'menos sério', a pessoa perde a chance de usá-lo estrategicamente — para uma meta, dívida ou investimento.",
+            variante: {
+              pergunta: "Se em vez de gastar o 13º inteiro em compras, uma pessoa decide colocar metade em sua reserva de emergência, o que ela está fazendo?",
+              opcoes: [
+                "Cometendo um erro financeiro",
+                "Superando a contabilidade mental e tratando esse dinheiro com a mesma intenção do salário normal",
+                "Isso não tem nome específico",
+                "Perdendo dinheiro",
+              ],
+              correta: 1,
+              explicacao: "Decidir com intenção o que fazer com dinheiro 'extra', em vez de gastá-lo automaticamente, é justamente driblar o viés da contabilidade mental.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_17",
+        titulo: "Gatilhos de consumo: como o marketing ativa sua vontade de comprar",
+        xp: 20,
+        aula: [
+          "Já notou que a padaria do supermercado quase sempre fica na entrada, bem onde você começa as compras? Não é coincidência: o cheiro de pão quentinho ativa a fome, e uma pessoa com fome compra mais do que precisa. Isso é um gatilho de consumo — um estímulo pensado para ativar um desejo ou uma emoção antes de você parar pra pensar racionalmente.",
+          "O marketing usa vários desses gatilhos. Um muito comum é a urgência: 'restam só 2 unidades', 'promoção acaba em 10 minutos', um contador correndo na tela. Isso ativa o medo de perder algo e faz o cérebro pular direto para 'compra agora' sem passar pela pergunta 'eu realmente preciso disso?'. Outro gatilho comum é a prova social: '350 pessoas compraram isso hoje', que faz parecer que todo mundo está comprando, então deve ser bom.",
+          "Saber que esses gatilhos existem não significa que você vai parar de sentir vontade de comprar — mas te dá uma pausa. Antes de finalizar uma compra que parecia urgente, vale perguntar: 'isso ainda vai parecer uma boa ideia amanhã, sem o contador correndo?'. Se a resposta for sim, ótimo. Se for 'só porque tinha pressa', é sinal de que o gatilho funcionou em você.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que é um 'gatilho de consumo', segundo o exemplo da padaria na entrada do supermercado?",
+            opcoes: [
+              "Uma promoção que sempre economiza dinheiro do cliente",
+              "Um estímulo (como cheiro, som ou aviso de urgência) criado para ativar um desejo ou emoção antes de você pensar racionalmente sobre a compra",
+              "Uma lei que obriga lojas a colocar padarias na entrada",
+              "Um tipo de cartão de crédito",
+            ],
+            correta: 1,
+            explicacao: "Gatilhos de consumo são estímulos planejados — como o cheiro de pão ou um contador de tempo — para ativar desejo ou emoção antes da pessoa avaliar se realmente precisa da compra.",
+            variante: {
+              pergunta: "Um site de viagens mostra 'Apenas 1 quarto restante neste preço!' assim que você abre a página do hotel. Que tipo de gatilho de consumo é esse?",
+              opcoes: [
+                "Prova social",
+                "Gatilho de urgência/escassez, feito para ativar o medo de perder a oportunidade e apressar a decisão",
+                "Um erro do sistema do site",
+                "Uma garantia de reembolso",
+              ],
+              correta: 1,
+              explicacao: "Avisos de 'restam poucas unidades' ou tempo limitado são gatilhos de urgência/escassez, criados para fazer você decidir rápido, sem pensar demais.",
+            },
+          },
+          {
+            pergunta: "Qual é uma boa forma prática de se proteger de um gatilho de urgência (tipo 'promoção acaba em 10 minutos')?",
+            opcoes: [
+              "Comprar imediatamente, sem pensar, para não perder a promoção",
+              "Fazer uma pausa e perguntar se compraria a mesma coisa sem o senso de urgência artificial",
+              "Nunca mais entrar em nenhum site de compras",
+              "Aumentar o limite do cartão de crédito para garantir a compra",
+            ],
+            correta: 1,
+            explicacao: "Perguntar 'eu compraria isso mesmo sem a pressa?' ajuda a separar uma necessidade real de uma decisão tomada só por causa do gatilho de urgência.",
+            variante: {
+              pergunta: "Enquanto navega em um app de compras, Rodrigo vê '12 pessoas estão vendo este produto agora' e sente mais confiança para comprar na hora. Qual gatilho está sendo usado, e qual seria uma reação mais protegida?",
+              opcoes: [
+                "É prova social; uma reação mais protegida é lembrar que isso não muda se o produto é útil pra você, e avaliar a compra com calma",
+                "É um erro técnico do aplicativo sem nenhuma intenção",
+                "É uma garantia de qualidade do produto",
+                "É prova social; a reação correta é comprar imediatamente para acompanhar as outras pessoas",
+              ],
+              correta: 0,
+              explicacao: "Mostrar quantas pessoas estão vendo ou comprando é um gatilho de prova social; ele não indica se o produto é útil pra você, então vale avaliar a compra com calma mesmo assim.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_18",
+        titulo: "Compra por impulso: como identificar o padrão antes de comprar",
+        xp: 20,
+        aula: [
+          "Você já abriu a geladeira sem fome nenhuma, só porque teve um dia ruim, e comeu alguma coisa só pra se sentir melhor por um instante? Compra por impulso funciona parecido: não é uma necessidade real, é uma tentativa rápida de aliviar uma emoção — tédio, estresse, tristeza, até euforia — usando uma compra.",
+          "O padrão costuma ter uma sequência parecida: primeiro vem um gatilho emocional (um dia cansativo, uma notificação de promoção, um scroll no celular à noite), depois um impulso forte de 'eu mereço isso agora', e a compra acontece antes de qualquer reflexão. É diferente de uma compra planejada, em que você já sabia que precisava daquilo e pesquisou antes.",
+          "O truque simples para identificar o padrão é notar o contexto da vontade: se ela surgiu de repente, à noite, depois de um momento emocional forte, e sem nenhum plano anterior, é bem provável que seja impulso. Uma pausa de algumas horas (ou até um dia) antes de finalizar a compra costuma ser suficiente para a vontade baixar — e se ela realmente baixar, isso já é uma resposta.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual é a principal diferença entre uma compra por impulso e uma compra planejada?",
+            opcoes: [
+              "Compra por impulso é sempre mais barata",
+              "Compra por impulso nasce de uma emoção do momento, sem reflexão prévia; a planejada já tinha uma necessidade e um pensamento antes",
+              "Compra planejada só existe para itens caros",
+              "Não existe diferença real entre as duas",
+            ],
+            correta: 1,
+            explicacao: "A compra por impulso surge de uma emoção momentânea e é decidida rápido, sem pesquisa; a compra planejada já vinha sendo pensada e avaliada antes.",
+            variante: {
+              pergunta: "Depois de uma discussão no trabalho, Larissa abre um aplicativo de roupas 'só para ver' e compra uma peça em 5 minutos, sem ter planejado comprar nada naquele dia. O que esse comportamento sugere?",
+              opcoes: [
+                "Uma compra planejada com antecedência",
+                "Um padrão de compra por impulso, provavelmente ligado a aliviar a emoção da discussão",
+                "Uma decisão puramente racional sobre necessidade de roupas",
+                "Um erro do aplicativo",
+              ],
+              correta: 1,
+              explicacao: "Comprar rápido, sem plano anterior, logo depois de um momento emocional forte, é um padrão clássico de compra por impulso — buscando alívio emocional, não suprir uma necessidade.",
+            },
+          },
+          {
+            pergunta: "Qual estratégia prática ajuda a diferenciar um desejo real de uma compra por impulso?",
+            opcoes: [
+              "Comprar imediatamente para não se arrepender depois",
+              "Esperar algumas horas ou um dia antes de finalizar a compra e ver se a vontade continua igual",
+              "Nunca mais usar aplicativos de compra",
+              "Perguntar para o vendedor se é uma boa compra",
+            ],
+            correta: 1,
+            explicacao: "Dar um intervalo de tempo antes de comprar permite que a emoção do momento passe; se a vontade continuar forte depois, é mais provável que seja um desejo real.",
+            variante: {
+              pergunta: "Tiago quase comprou um videogame às 23h, num momento de tédio, mas decidiu esperar até o dia seguinte para decidir. De manhã, ele percebeu que não estava mais tão interessado. O que esse resultado indica?",
+              opcoes: [
+                "Que ele definitivamente deveria ter comprado à noite",
+                "Que a vontade da noite anterior era provavelmente um impulso ligado ao tédio, não um desejo real e duradouro",
+                "Que videogames nunca são uma boa compra",
+                "Que esperar um dia sempre faz a pessoa perder boas promoções",
+              ],
+              correta: 1,
+              explicacao: "Quando a vontade de comprar desaparece depois de um intervalo, isso é um forte sinal de que era um impulso emocional do momento, e não uma necessidade real.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_19",
+        titulo: "Ancoragem de preço: por que o 'de R$X por R$Y' funciona tanto",
+        xp: 20,
+        aula: [
+          "Imagina que alguém te apresenta um jogador de basquete de 2,10m de altura, e na sequência te apresenta outra pessoa de 1,80m. Essa segunda pessoa vai parecer 'baixinha' — mesmo sendo mais alta que a grande maioria da população. Isso aconteceu porque a primeira informação (2,10m) virou uma 'âncora' que mudou sua percepção da segunda. Com preços, a loja faz exatamente isso de propósito.",
+          "Quando uma etiqueta mostra 'de R$300 por R$150', o R$300 tachado é a âncora: ele entra primeiro na sua cabeça e faz o R$150 parecer uma pechincha incrível — mesmo que o produto, sozinho, no mercado, valesse de verdade R$120. Seu cérebro não está comparando o preço com o valor real do produto, está comparando com o número que a loja escolheu te mostrar primeiro.",
+          "Isso não quer dizer que toda promoção é mentira, mas que o desconto por si só não é motivo suficiente para comprar. Uma forma simples de furar essa armadilha é ignorar o preço 'de' e perguntar direto: 'eu pagaria R$150 por isso, hoje, mesmo se não existisse nenhum preço tachado ao lado?'. Se a resposta for sim, a compra faz sentido pelo valor real, não pela ilusão da âncora.",
+        ],
+        perguntas: [
+          {
+            pergunta: "No exemplo de uma etiqueta com 'de R$300 por R$150', qual é o papel do valor 'R$300'?",
+            opcoes: [
+              "É sempre o preço de custo do produto para a loja",
+              "É a âncora: o primeiro número que entra na sua cabeça e faz o preço final parecer mais baixo por comparação, independente do valor real do produto",
+              "É uma exigência do governo em toda promoção",
+              "É o valor que a loja vai cobrar de imposto",
+            ],
+            correta: 1,
+            explicacao: "O preço 'de' funciona como âncora: ele define um ponto de comparação alto, fazendo o preço final parecer uma pechincha, mesmo sem relação direta com o valor real do produto.",
+            variante: {
+              pergunta: "Uma loja de eletrônicos anuncia um fone de ouvido 'de R$800 por R$400', mas o mesmo modelo é vendido por outras lojas, sem promoção, a R$350. O que está acontecendo nesse caso?",
+              opcoes: [
+                "O fone realmente vale R$800 e está com desconto real de 50%",
+                "O valor de R$800 provavelmente foi usado como âncora para fazer R$400 parecer uma ótima oferta, mesmo sendo mais caro que o preço normal de mercado (R$350)",
+                "É obrigatório por lei vender pelo preço 'de'",
+                "Isso significa que a loja está no prejuízo",
+              ],
+              correta: 1,
+              explicacao: "Quando o preço 'de' é bem mais alto que o valor real de mercado do produto, ele funciona só como âncora para criar a sensação de desconto — mesmo sendo, na prática, mais caro que o preço normal.",
+            },
+          },
+          {
+            pergunta: "Qual pergunta ajuda a driblar o efeito da ancoragem de preço antes de decidir comprar algo em promoção?",
+            opcoes: [
+              "Quanto tempo falta para a promoção acabar?",
+              "Eu pagaria esse valor final por isso hoje, mesmo sem o preço tachado ao lado?",
+              "Quantas pessoas já compraram esse produto hoje?",
+              "Qual é a cor mais popular desse produto?",
+            ],
+            correta: 1,
+            explicacao: "Avaliar o preço final isoladamente, sem olhar para o valor tachado, ajuda a decidir com base no valor real do produto, e não na comparação artificial criada pela âncora.",
+            variante: {
+              pergunta: "Beatriz vê um vestido 'de R$250 por R$120' e pensa: 'isso é mais da metade de desconto, preciso comprar'. Qual seria uma pergunta mais útil antes de decidir?",
+              opcoes: [
+                "Quantos por cento de desconto é isso, exatamente?",
+                "Eu compraria esse vestido por R$120 se ele estivesse etiquetado direto nesse valor, sem nenhum preço tachado ao lado?",
+                "O R$250 é um número redondo?",
+                "Esse desconto vai se repetir no próximo mês?",
+              ],
+              correta: 1,
+              explicacao: "Perguntar se pagaria o preço final sem o valor tachado ajuda a avaliar a compra pelo valor real do produto, em vez de reagir automaticamente ao tamanho do desconto anunciado.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_20",
+        titulo: "Score de crédito: o que é e como é calculado",
+        xp: 20,
+        aula: [
+          "Imagine uma nota de 0 a 1000 que várias empresas (bancos, financeiras, até operadoras de celular) consultam antes de decidir se confiam em você para pagar depois. Essa nota existe: é o seu score de crédito, calculado por empresas como Serasa e Boa Vista a partir do seu histórico financeiro.",
+          "O score sobe quando você paga contas em dia, usa crédito com moderação e tem um histórico consistente ao longo do tempo. Ele cai quando há atrasos, nome negativado (dívida não paga registrada) ou uso excessivo do limite disponível — como um cartão sempre no limite máximo.",
+          "Um score mais alto não é só um número de vaidade: ele pode significar juros mais baixos num empréstimo, aprovação mais fácil de financiamento e até mais poder de negociação com credores. É basicamente sua 'reputação financeira' resumida em um número.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que é o score de crédito?",
+            opcoes: [
+              "Uma taxa cobrada pelo banco",
+              "Uma nota que resume seu histórico e comportamento financeiro, usada por empresas para avaliar risco",
+              "Um tipo de investimento",
+              "Um imposto sobre o uso do cartão",
+            ],
+            correta: 1,
+            explicacao: "O score resume, numa nota, o quanto seu histórico financeiro indica que você paga suas contas em dia.",
+            variante: {
+              pergunta: "Duas pessoas pedem um empréstimo no mesmo banco. Uma tem score 850, a outra tem score 320. O que provavelmente é diferente entre as duas propostas de empréstimo?",
+              opcoes: [
+                "Nada, o score não influencia nada",
+                "A pessoa com score mais alto tende a conseguir juros menores e aprovação mais fácil",
+                "A pessoa com score mais baixo sempre paga menos juros",
+                "O score só importa para cartão de crédito",
+              ],
+              correta: 1,
+              explicacao: "Score mais alto costuma abrir portas para condições melhores — juros menores e aprovação mais rápida — porque indica menor risco para quem está emprestando.",
+            },
+          },
+          {
+            pergunta: "O que tende a FAZER O SCORE CAIR?",
+            opcoes: [
+              "Pagar contas sempre em dia",
+              "Ter o nome negativado por dívida não paga",
+              "Usar pouco o limite do cartão",
+              "Ter um histórico financeiro longo e consistente",
+            ],
+            correta: 1,
+            explicacao: "Negativação (dívida registrada como não paga) é um dos fatores que mais pesa negativamente no score de crédito.",
+            variante: {
+              pergunta: "Pedro usa sempre 95% do limite do cartão de crédito e já atrasou duas faturas este ano. O que é provável que aconteça com o score dele?",
+              opcoes: [
+                "Vai subir bastante",
+                "Tende a cair, pela combinação de uso alto do limite e atrasos",
+                "Não muda nada, o score não considera isso",
+                "Só sobe se ele pedir mais cartões",
+              ],
+              correta: 1,
+              explicacao: "Uso excessivo do limite disponível e atrasos no pagamento são dois fatores que reduzem o score de crédito.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_21",
+        titulo: "Cartão de crédito sem rotativo: como não pagar juros que nunca acabam",
+        xp: 20,
+        aula: [
+          "Imagina que você faz uma dívida com um amigo, mas em vez de cobrar juros normais, ele decide cobrar 15% por mês sobre o que você ainda deve — e esse valor vai aumentando todo mês enquanto não for pago. Isso, mais ou menos, é o que se chama de 'rotativo do cartão de crédito': quando você paga só uma parte da fatura, o banco cobra um dos juros mais altos do mercado sobre o restante que ficou em aberto.",
+          "O rotativo é ativado automaticamente sempre que a fatura não é paga por completo — pagar só o 'mínimo' já é suficiente pra entrar nele. E como os juros do rotativo costumam ser bem mais altos que os de outros tipos de empréstimo, uma dívida que parecia pequena pode praticamente dobrar em poucos meses, tipo uma bola de neve rolando morro abaixo e ficando cada vez maior sem você fazer nada.",
+          "A forma mais segura de nunca cair no rotativo é simples de dizer (mesmo que nem sempre fácil de fazer): só gastar no cartão o que você já teria dinheiro pra pagar à vista, e sempre pagar a fatura inteira, não o mínimo. Se em algum mês isso não for possível, geralmente vale mais buscar outra linha de crédito com juros bem menores para cobrir a diferença do que deixar o valor rolar no rotativo do cartão.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que é o 'rotativo' do cartão de crédito?",
+            opcoes: [
+              "Um bônus que o banco dá para quem usa muito o cartão",
+              "Os juros altíssimos cobrados sobre a parte da fatura que não foi paga quando você paga menos que o valor total",
+              "Uma taxa fixa mensal cobrada de todo cliente com cartão",
+              "Um limite extra de crédito liberado automaticamente",
+            ],
+            correta: 1,
+            explicacao: "O rotativo é ativado quando a fatura não é paga por completo; o valor que ficou em aberto passa a ser cobrado com um dos juros mais altos do mercado.",
+            variante: {
+              pergunta: "Se a fatura do cartão de Marcelo é R$1.000 e ele paga apenas R$300, o que acontece com os R$700 restantes?",
+              opcoes: [
+                "Eles ficam sem nenhum juro até o próximo mês",
+                "Eles entram no rotativo do cartão e passam a ser cobrados com juros muito altos até serem pagos",
+                "O banco perdoa automaticamente esse valor",
+                "Eles são convertidos em pontos de milhagem",
+              ],
+              correta: 1,
+              explicacao: "Qualquer valor da fatura que não é pago no vencimento entra no rotativo, sujeito a um dos juros mais altos do mercado, até ser totalmente pago.",
+            },
+          },
+          {
+            pergunta: "Qual é a atitude mais eficaz para nunca cair no rotativo do cartão de crédito?",
+            opcoes: [
+              "Sempre pagar exatamente o valor mínimo da fatura",
+              "Gastar no cartão apenas o que já se teria dinheiro para pagar à vista, e pagar a fatura inteira todo mês",
+              "Aumentar o limite do cartão sempre que possível",
+              "Usar vários cartões diferentes para dividir a fatura",
+            ],
+            correta: 1,
+            explicacao: "Tratar o limite do cartão como se fosse dinheiro que você já tem, e pagar a fatura sempre inteira, é a forma mais segura de nunca precisar entrar no rotativo.",
+            variante: {
+              pergunta: "Fernanda percebe que só vai conseguir pagar R$600 dos R$1.200 da fatura deste mês. Em vez de deixar o restante no rotativo, uma alternativa financeiramente mais barata costuma ser:",
+              opcoes: [
+                "Deixar os R$600 restantes no rotativo do cartão mesmo assim",
+                "Buscar outra linha de crédito com juros bem menores (como um empréstimo pessoal) para pagar a fatura inteira e evitar o rotativo",
+                "Pagar só R$100 e deixar o resto acumular por mais tempo",
+                "Cancelar o cartão sem pagar a fatura",
+              ],
+              correta: 1,
+              explicacao: "Como o rotativo costuma ter os juros mais altos do mercado, buscar outra forma de crédito mais barata para cobrir a diferença normalmente sai mais econômico do que deixar a dívida rolar no cartão.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_22",
+        titulo: "Cheque especial: a dívida mais cara do dia a dia",
+        xp: 20,
+        aula: [
+          "Imagine pedir um empréstimo tão caro que, se você deixar rolar por um ano, o valor original quase dobra. Isso não é exagero — é literalmente como funciona o cheque especial, um dos créditos mais caros disponíveis no Brasil, com taxas que costumam passar de 8% ao MÊS.",
+          "O cheque especial existe pra cobrir um imprevisto de poucos dias, não pra ser usado todo mês. Como um extintor de incêndio: ótimo pra emergência, péssima ideia como fonte de renda mensal.",
+          "Se você está usando o cheque especial com frequência, isso é um sinal de que o orçamento (ou a reserva de emergência) precisa de atenção — continuar usando só adia o problema e o encarece.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que o cheque especial é considerado uma das dívidas mais caras do Brasil?",
+            opcoes: [
+              "Porque tem taxas de juros muito baixas",
+              "Porque cobra taxas de juros muito altas, geralmente acima de 8% ao mês",
+              "Porque é gratuito para o cliente",
+              "Porque só bancos públicos oferecem",
+            ],
+            correta: 1,
+            explicacao: "O cheque especial tem uma das taxas de juros mais altas do mercado de crédito brasileiro, frequentemente acima de 8% ao mês.",
+            variante: {
+              pergunta: "Se alguém usa R$1.000 do cheque especial e deixa por vários meses sem pagar, o que tende a acontecer com essa dívida?",
+              opcoes: [
+                "Ela permanece exatamente em R$1.000",
+                "Ela cresce rapidamente, por causa dos juros altos cobrados mês a mês",
+                "Ela diminui automaticamente",
+                "O banco perdoa a dívida após 30 dias",
+              ],
+              correta: 1,
+              explicacao: "Como os juros do cheque especial são altíssimos, uma dívida não paga cresce rapidamente mês após mês.",
+            },
+          },
+          {
+            pergunta: "Para que tipo de situação o cheque especial é mais adequado?",
+            opcoes: [
+              "Para ser usado todo mês, cobrindo despesas fixas",
+              "Para cobrir um imprevisto pontual e de curtíssimo prazo, sendo pago o mais rápido possível",
+              "Para investir em ações",
+              "Para financiar um imóvel",
+            ],
+            correta: 1,
+            explicacao: "O cheque especial deveria ser usado só em emergências de curtíssimo prazo, e pago rapidamente — não como uma fonte de crédito recorrente.",
+            variante: {
+              pergunta: "Roberto usa o cheque especial todo mês para 'fechar a conta', sem nunca pagar a dívida por completo. O que isso indica?",
+              opcoes: [
+                "Que ele está usando o produto exatamente como recomendado",
+                "Que provavelmente há um problema estrutural no orçamento dele que precisa ser resolvido, já que o cheque especial não deveria ser recorrente",
+                "Que ele está investindo bem",
+                "Que isso não tem custo nenhum",
+              ],
+              correta: 1,
+              explicacao: "Usar o cheque especial de forma recorrente é sinal de que o orçamento não está fechando, e a solução real está em ajustar receitas/despesas, não em manter essa dívida cara.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_23",
+        titulo: "Empréstimo consignado x empréstimo pessoal: diferenças e riscos",
+        xp: 20,
+        aula: [
+          "Imagine duas academias cobrando a mesma mensalidade, mas uma delas te garante que o dinheiro sai direto da sua conta no dia do pagamento, sem chance de esquecer ou atrasar. Essa segunda academia, por ter menos risco de não receber, poderia cobrar mais barato. É exatamente essa a lógica do empréstimo consignado: a parcela é descontada automaticamente do salário ou benefício (INSS, por exemplo) antes mesmo do dinheiro cair na sua conta, o que reduz o risco para o banco e, por isso, os juros costumam ser bem menores.",
+          "Já o empréstimo pessoal é como emprestar dinheiro para um conhecido sem nenhuma garantia de que ele vai pagar em dia — o banco não tem nenhum desconto automático te obrigando a pagar, só a sua promessa. Como o risco de não receber é maior, o banco cobra juros mais altos para compensar esse risco, tornando o empréstimo pessoal geralmente bem mais caro que o consignado.",
+          "Mas o consignado tem uma armadilha: como a parcela sai automaticamente, é fácil pedir mais um, e mais outro, até uma boa parte do salário já estar comprometida antes mesmo de chegar na sua mão — como um assinante que vai acumulando serviços mensais até perceber que quase todo o cartão está tomado por mensalidades. Existe até um limite legal (a chamada margem consignável) que impede descontar mais que um percentual do salário, justamente para evitar esse efeito bola de neve.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que o empréstimo consignado costuma ter juros mais baixos que o empréstimo pessoal?",
+            opcoes: [
+              "Porque o consignado não precisa ser pago",
+              "Porque a parcela é descontada automaticamente do salário ou benefício, reduzindo o risco do banco",
+              "Porque só existe para funcionários públicos",
+              "Porque o valor máximo é sempre menor",
+            ],
+            correta: 1,
+            explicacao: "Como o consignado desconta a parcela direto na folha de pagamento ou benefício, o risco de inadimplência é menor para o banco, o que permite cobrar juros mais baixos.",
+            variante: {
+              pergunta: "Maria pode pegar um empréstimo pessoal a 8% ao mês ou um consignado a 1,8% ao mês para o mesmo valor. Por que essa diferença tão grande existe?",
+              opcoes: [
+                "Porque o consignado é ilegal em alguns estados",
+                "Porque o desconto automático em folha reduz o risco do banco de não receber, permitindo taxa menor",
+                "Porque o empréstimo pessoal sempre tem prazo mais curto",
+                "Porque o consignado exige um fiador",
+              ],
+              correta: 1,
+              explicacao: "A garantia de recebimento automático do consignado reduz o risco do credor, e por isso a taxa de juros pode ser muito menor do que no empréstimo pessoal comum.",
+            },
+          },
+          {
+            pergunta: "Qual é um risco importante do empréstimo consignado?",
+            opcoes: [
+              "Ele nunca pode ser contratado por aposentados",
+              "É fácil acumular vários consignados e comprometer boa parte do salário antes mesmo de recebê-lo",
+              "Ele aumenta automaticamente o salário do trabalhador",
+              "Não tem nenhum risco, pois os juros são sempre baixos",
+            ],
+            correta: 1,
+            explicacao: "Como o desconto é automático, é comum contratar vários consignados seguidos até comprometer uma parte grande do salário, por isso existe um limite legal chamado margem consignável.",
+            variante: {
+              pergunta: "João tem margem consignável de 35% do salário. Se ele já usou 30% contratando consignados anteriores, o que isso significa na prática?",
+              opcoes: [
+                "Que ele pode contratar quantos consignados quiser sem limite",
+                "Que ele só pode comprometer mais 5% do salário em novos consignados, pois já está perto do limite legal",
+                "Que o banco vai dobrar seu salário",
+                "Que ele precisa devolver todo o dinheiro imediatamente",
+              ],
+              correta: 1,
+              explicacao: "A margem consignável é o limite total que pode ser descontado do salário; se 30% já está comprometido dentro de um limite de 35%, resta apenas 5% de espaço para novos descontos.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_24",
+        titulo: "Como negociar dívidas com bancos e credores",
+        xp: 20,
+        aula: [
+          "Pense numa banca de feira no fim do dia: as frutas que sobraram estão perto de estragar, e o vendedor prefere vender mais barato agora do que perder tudo depois. Bancos e credores pensam de forma parecida com dívidas atrasadas: uma dívida vencida há meses, sem sinal de pagamento, vale menos para eles do que dinheiro na mão agora — por isso muitas vezes aceitam dar desconto ou parcelar para garantir que recebam alguma coisa.",
+          "Negociar começa por organizar a bagunça: liste todas as suas dívidas, com valor, juros e credor, como quem separa a roupa do guarda-roupa por prioridade antes de arrumar o armário. Comece pelas dívidas com juros mais altos (geralmente cartão de crédito e cheque especial) e ligue direto para o credor perguntando por desconto para pagamento à vista ou um parcelamento com juros menores — muitas empresas têm um setor específico só para isso, às vezes chamado de 'recuperação de crédito'.",
+          "Depois de fechar um acordo, guarde tudo por escrito — print de e-mail, protocolo de atendimento, contrato assinado — assim como você guardaria a nota fiscal de um conserto caro, para não ter surpresa depois. E desconfie de promessas boas demais, como 'quitar tudo com 90% de desconto sem comprovação nenhuma': negociação real deixa rastro documentado dos dois lados.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que muitos bancos e credores aceitam dar desconto em dívidas atrasadas?",
+            opcoes: [
+              "Porque são obrigados por lei a dar desconto sempre",
+              "Porque uma dívida muito atrasada vale menos para eles do que receber uma parte à vista agora",
+              "Porque eles preferem nunca receber o dinheiro",
+              "Porque isso aumenta os juros automaticamente",
+            ],
+            correta: 1,
+            explicacao: "Para o credor, uma dívida antiga e sem pagamento tem alto risco de nunca ser recebida, então muitas vezes vale mais a pena aceitar uma parte à vista com desconto do que arriscar não receber nada.",
+            variante: {
+              pergunta: "Ana deve R$5.000 no cartão, atrasados há 8 meses. O banco oferece pagar R$2.000 à vista para encerrar a dívida. Por que esse tipo de oferta é comum nesses casos?",
+              opcoes: [
+                "Porque o banco está proibido de cobrar o valor total",
+                "Porque, para o banco, receber uma parte à vista de uma dívida antiga é melhor do que continuar sem receber nada",
+                "Porque toda dívida vencida vira automaticamente metade do valor",
+                "Porque isso é uma armadilha sem nenhuma vantagem para o banco",
+              ],
+              correta: 1,
+              explicacao: "Dívidas muito atrasadas têm alto risco de nunca serem pagas, então bancos frequentemente preferem negociar um valor menor à vista do que insistir no valor total e não receber nada.",
+            },
+          },
+          {
+            pergunta: "Ao organizar dívidas para negociar, qual costuma ser a estratégia mais eficiente?",
+            opcoes: [
+              "Negociar todas ao mesmo tempo sem nenhuma ordem",
+              "Priorizar primeiro as dívidas com os juros mais altos, como cartão de crédito e cheque especial",
+              "Esperar o máximo possível sem contato com o credor",
+              "Pagar sempre a dívida mais antiga, independente da taxa de juros",
+            ],
+            correta: 1,
+            explicacao: "Dívidas com juros mais altos crescem mais rápido, então priorizar a negociação delas evita que o problema fique ainda maior enquanto se resolve o resto.",
+            variante: {
+              pergunta: "Pedro tem uma dívida de cartão de crédito a 15% ao mês e um financiamento de celular a 3% ao mês, ambos em atraso. Qual ele deveria priorizar na negociação?",
+              opcoes: [
+                "O financiamento do celular, porque é mais recente",
+                "A dívida do cartão de crédito, porque os juros mais altos fazem o valor crescer muito mais rápido",
+                "Nenhum dos dois, pois atraso não importa",
+                "Deve dividir igualmente o dinheiro disponível entre os dois, sem prioridade",
+              ],
+              correta: 1,
+              explicacao: "Como os juros do cartão são muito mais altos, essa dívida cresce mais rápido e deve ser priorizada para evitar que o problema fique maior.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_25",
+        titulo: "Saindo do rotativo do cartão de crédito: um plano prático passo a passo",
+        xp: 20,
+        aula: [
+          "O rotativo do cartão é como uma bola de neve rolando morro abaixo: a cada mês que você paga só o mínimo da fatura, o resto vira uma nova dívida com juros gigantes por cima — e essa bola só cresce, porque os juros do rotativo estão entre os mais altos do país, muitas vezes passando de 10% ao mês.",
+          "O primeiro passo prático é parar de usar o cartão imediatamente, mesmo que doa: é como fechar a torneira antes de tentar secar o chão molhado — enquanto você continua comprando no cartão, qualquer esforço de pagamento é anulado por novas compras. Depois, pegue o valor exato da dívida (com todos os juros já incluídos) para saber o tamanho real do problema, sem se enganar olhando só o valor mínimo da fatura.",
+          "Com o valor total em mãos, o próximo passo é trocar essa dívida cara por uma mais barata sempre que possível — como transferir uma água que vaza de um balde furado para um balde inteiro. Um empréstimo pessoal com juros menores, ou até um consignado (se disponível), pode custar uma fração dos juros do rotativo. Depois disso, é hora de cortar gastos temporariamente e jogar esse dinheiro extra direto na dívida, como uma dieta curta e intensa — não pra sempre, mas até o problema ser resolvido.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual deve ser o primeiro passo prático para sair do rotativo do cartão de crédito?",
+            opcoes: [
+              "Aumentar o limite do cartão para folga financeira",
+              "Parar de fazer novas compras no cartão imediatamente",
+              "Trocar de banco sem pagar a dívida atual",
+              "Esperar o valor da dívida diminuir naturalmente",
+            ],
+            correta: 1,
+            explicacao: "Enquanto novas compras continuam sendo feitas no cartão, qualquer pagamento fica anulado pelo crescimento da dívida — por isso parar de usar o cartão é o primeiro passo.",
+            variante: {
+              pergunta: "Carlos está no rotativo do cartão, paga o valor mínimo todo mês, mas continua fazendo compras novas no mesmo cartão. O que provavelmente vai acontecer com a dívida dele?",
+              opcoes: [
+                "Ela vai diminuir naturalmente com o tempo",
+                "Ela vai continuar crescendo, porque os juros do rotativo somados às novas compras superam o pagamento mínimo",
+                "Ela vai zerar automaticamente após 6 meses",
+                "O banco vai cancelar os juros depois de um ano",
+              ],
+              correta: 1,
+              explicacao: "Pagar só o mínimo enquanto continua comprando no cartão faz a dívida crescer, já que os juros altíssimos do rotativo somados às novas compras costumam superar o valor pago.",
+            },
+          },
+          {
+            pergunta: "Por que trocar a dívida do rotativo do cartão por um empréstimo pessoal ou consignado costuma ser uma boa estratégia?",
+            opcoes: [
+              "Porque esses empréstimos nunca precisam ser pagos",
+              "Porque geralmente têm juros muito menores que o rotativo do cartão, reduzindo o custo total da dívida",
+              "Porque eliminam a dívida sem precisar pagar nada",
+              "Porque aumentam o limite do cartão automaticamente",
+            ],
+            correta: 1,
+            explicacao: "Como o rotativo do cartão tem juros extremamente altos, substituir essa dívida por um crédito com taxa menor reduz o custo total e ajuda a sair do problema mais rápido.",
+            variante: {
+              pergunta: "Fernanda deve R$3.000 no rotativo do cartão, com juros de 12% ao mês. Ela encontra um empréstimo pessoal para pagar essa dívida com juros de 4% ao mês. O que essa troca representa?",
+              opcoes: [
+                "Um prejuízo, pois ela vai pagar duas dívidas ao mesmo tempo",
+                "Uma redução significativa do custo mensal da dívida, já que 4% ao mês é muito menor que 12% ao mês",
+                "Nenhuma diferença, pois todo crédito tem o mesmo custo",
+                "Um aumento da dívida original",
+              ],
+              correta: 1,
+              explicacao: "Trocar uma dívida com juros de 12% ao mês por outra com 4% ao mês reduz muito o custo mensal, fazendo a dívida ser paga mais rápido e mais barato.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_26",
+        titulo: "Previdência social (INSS): o básico que todo trabalhador deveria saber",
+        xp: 20,
+        aula: [
+          "Imagine um grupo de vizinhos que decide juntar uma pequena quantia todo mês num cofre coletivo, para que, se algum deles tiver um imprevisto — um acidente, uma doença, ou simplesmente chegar numa certa idade —, esse cofre ajude a pagar as contas. O INSS funciona de um jeito parecido: é um sistema onde todo trabalhador contribui mensalmente, formando um fundo coletivo que paga benefícios para quem precisa, não só na aposentadoria.",
+          "Muita gente associa o INSS só à aposentadoria, mas ele também paga, por exemplo, auxílio-doença (quando você fica temporariamente incapaz de trabalhar por problema de saúde), salário-maternidade e pensão por morte para a família de quem contribuía. É como um seguro guarda-chuva: cobre vários riscos diferentes da vida, não apenas o de envelhecer.",
+          "Para quem trabalha com carteira assinada (CLT), a contribuição é descontada automaticamente do salário, então é como uma assinatura que já vem cobrada sem você precisar fazer nada. Mas quem é autônomo, freelancer ou tem um MEI precisa contribuir por conta própria, ativamente — como preencher manualmente o cartão de fidelidade de uma cafeteria: se você não carimbar, ninguém carimba por você, e sem os carimbos (contribuições) o benefício no futuro pode ser menor ou nem existir.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Além da aposentadoria, quais outros riscos o INSS pode cobrir?",
+            opcoes: [
+              "Nenhum, o INSS só paga aposentadoria",
+              "Auxílio-doença, salário-maternidade e pensão por morte, entre outros benefícios",
+              "Apenas despesas com viagens",
+              "Somente dívidas bancárias",
+            ],
+            correta: 1,
+            explicacao: "O INSS funciona como um seguro social amplo, cobrindo diversos riscos da vida do trabalhador, como doença, maternidade e morte, e não apenas a aposentadoria.",
+            variante: {
+              pergunta: "Um trabalhador sofre um acidente e fica temporariamente incapaz de trabalhar. Supondo que ele tenha contribuído regularmente para o INSS, que tipo de benefício ele pode ter direito a receber enquanto se recupera?",
+              opcoes: [
+                "Nenhum, o INSS não cobre acidentes",
+                "Auxílio-doença, já que o INSS cobre a incapacidade temporária para o trabalho",
+                "Somente um desconto em remédios",
+                "Um empréstimo obrigatório do banco",
+              ],
+              correta: 1,
+              explicacao: "O auxílio-doença é um benefício do INSS pago a quem contribui e fica temporariamente incapaz de trabalhar por motivo de saúde, incluindo acidentes.",
+            },
+          },
+          {
+            pergunta: "Qual a diferença entre a contribuição ao INSS de um funcionário CLT e de um autônomo/freelancer?",
+            opcoes: [
+              "Não existe diferença, ambos são descontados automaticamente",
+              "No funcionário CLT, a contribuição é descontada automaticamente do salário; o autônomo precisa contribuir por conta própria, de forma ativa",
+              "Autônomos nunca podem contribuir para o INSS",
+              "CLT nunca contribui para o INSS",
+            ],
+            correta: 1,
+            explicacao: "Empregados CLT têm a contribuição descontada automaticamente da folha de pagamento, enquanto autônomos e MEIs precisam se organizar para pagar o INSS por conta própria todo mês.",
+            variante: {
+              pergunta: "Duas pessoas têm 40 anos: uma é CLT e contribui automaticamente há 15 anos; outra é freelancer e nunca se preocupou em contribuir por conta própria. Qual a consequência mais provável para a segunda pessoa, se ela continuar assim?",
+              opcoes: [
+                "Nenhuma, o INSS contribui automaticamente por ela mesmo sem pagamento",
+                "Ela pode ter dificuldade para se aposentar ou receber benefícios do INSS no futuro, por falta de tempo de contribuição",
+                "Ela vai receber uma aposentadoria maior que a da pessoa CLT",
+                "O governo vai descontar retroativamente sem aviso",
+              ],
+              correta: 1,
+              explicacao: "Sem contribuições registradas, o tempo de contribuição fica menor ou inexistente, o que pode reduzir ou até impedir o acesso a benefícios futuros do INSS, incluindo a aposentadoria.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_27",
+        titulo: "Aposentadoria: INSS x previdência privada, uma primeira visão",
+        xp: 20,
+        aula: [
+          "Já vimos que o INSS funciona como um cofre coletivo, onde todo mundo contribui e quem precisa recebe. A previdência privada é diferente: é como um cofrinho individual, que só você enche com o seu próprio dinheiro, mês a mês, e que ninguém mais tem acesso — nem para tirar, nem para completar. O dinheiro que está lá é resultado só das suas próprias contribuições (e dos rendimentos que elas geram ao longo do tempo).",
+          "Por que ter os dois, então? Porque o INSS tem um valor máximo de benefício (o chamado 'teto'), então quem ganha bem durante a vida profissional pode se aposentar recebendo bem menos do que ganhava — como um balde que só enche até uma certa marca, não importa quanto você despeje nele. A previdência privada serve justamente para complementar essa diferença, funcionando como uma segunda rede de proteção para manter um padrão de vida parecido com o que a pessoa tinha antes de se aposentar.",
+          "Só que a previdência privada não é de graça: existem taxas de administração (e, em alguns casos, taxas de carregamento) cobradas ao longo dos anos, que funcionam como um furo pequeno num galão de água numa viagem longa — parece pouco a cada mês, mas ao longo de décadas pode consumir uma parte relevante do dinheiro guardado. Por isso, antes de escolher um plano, vale sempre comparar as taxas cobradas por diferentes instituições.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Qual é a principal diferença entre o INSS e a previdência privada?",
+            opcoes: [
+              "Não existe diferença, os dois são exatamente iguais",
+              "O INSS é um sistema coletivo obrigatório com valor máximo de benefício; a previdência privada é individual, formada só pelo que a pessoa contribui por conta própria",
+              "A previdência privada é obrigatória para todos os trabalhadores",
+              "O INSS só existe para autônomos",
+            ],
+            correta: 1,
+            explicacao: "O INSS é um sistema coletivo e obrigatório com teto de benefício, enquanto a previdência privada é uma poupança individual e voluntária, formada pelas contribuições da própria pessoa.",
+            variante: {
+              pergunta: "Renata ganha um salário alto e sabe que o INSS pagará bem menos do que ela ganha hoje quando se aposentar, por causa do teto do benefício. O que ela pode fazer para tentar manter um padrão de vida parecido na aposentadoria?",
+              opcoes: [
+                "Nada, o teto do INSS não pode ser compensado de nenhuma forma",
+                "Contribuir também para uma previdência privada, que serve como complemento individual ao benefício do INSS",
+                "Parar de contribuir para o INSS",
+                "Pedir ao INSS para remover o teto no caso dela",
+              ],
+              correta: 1,
+              explicacao: "Como o INSS tem um valor máximo de benefício, quem quer manter um padrão de vida mais alto na aposentadoria costuma complementar a renda com uma previdência privada.",
+            },
+          },
+          {
+            pergunta: "Por que é importante comparar as taxas de administração antes de escolher um plano de previdência privada?",
+            opcoes: [
+              "Porque taxas não afetam o valor final acumulado",
+              "Porque, ao longo de muitos anos, taxas mais altas podem consumir uma parte relevante do valor acumulado",
+              "Porque todos os planos cobram exatamente a mesma taxa",
+              "Porque a taxa é cobrada só uma vez, no início",
+            ],
+            correta: 1,
+            explicacao: "Taxas de administração são cobradas continuamente e, ao longo de décadas, mesmo pequenas diferenças percentuais podem representar uma parte significativa do valor final acumulado.",
+            variante: {
+              pergunta: "Dois planos de previdência privada rendem o mesmo antes das taxas, mas o Plano A cobra 0,5% de taxa de administração ao ano e o Plano B cobra 2,5% ao ano. Depois de 30 anos guardando dinheiro, o que é mais provável?",
+              opcoes: [
+                "Os dois planos terão exatamente o mesmo valor final",
+                "O Plano A provavelmente terá acumulado um valor final maior, já que consome menos do rendimento em taxas ao longo do tempo",
+                "O Plano B sempre será melhor, pois taxas maiores significam melhor gestão",
+                "A taxa de administração não influencia o valor final",
+              ],
+              correta: 1,
+              explicacao: "Taxas mais altas consomem parte do rendimento todos os anos, e esse efeito se acumula ao longo do tempo, resultando normalmente em um valor final menor no plano com taxa mais alta.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_28",
+        titulo: "Alugar x financiar um imóvel: como pensar na decisão",
+        xp: 20,
+        aula: [
+          "Financiar um imóvel é como assinar um compromisso de longuíssimo prazo: você paga uma parcela pequena todo mês, por 20, 30 anos, mas os juros acumulados ao longo de tanto tempo fazem o valor total pago ficar bem maior que o preço original do imóvel — parecido com comprar um produto em 60 parcelas, só que na escala de uma casa inteira. Não é errado financiar, mas é importante entender que o 'preço de tabela' do imóvel é bem menor do que a soma de todas as parcelas que você vai pagar até o fim.",
+          "Alugar, por outro lado, é como alugar uma fantasia para uma festa em vez de comprar uma que você só vai usar uma vez: você paga pelo uso, sem se comprometer a longo prazo, e sem travar uma quantia enorme de dinheiro (a entrada do financiamento) de uma vez só. Além disso, quem aluga não precisa se preocupar com reformas estruturais grandes nem fica 'presa' a uma cidade ou bairro caso a vida mude de direção.",
+          "A decisão entre alugar e financiar depende muito do horizonte de tempo: comprar e vender um imóvel tem custos altos no meio do caminho (documentação, impostos, corretagem), então essa conta só costuma valer a pena se a pessoa for morar ali por bastante tempo — como comprar um equipamento caro que só compensa se você for usá-lo por anos, e não só por alguns meses.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que é importante considerar o total pago ao longo de um financiamento imobiliário, e não só o valor da parcela mensal?",
+            opcoes: [
+              "Porque o valor da parcela é a única informação que importa",
+              "Porque, com os juros somados por muitos anos, o valor total pago costuma ser significativamente maior que o preço original do imóvel",
+              "Porque financiamentos de imóveis nunca cobram juros",
+              "Porque o preço do imóvel aumenta automaticamente com o tempo",
+            ],
+            correta: 1,
+            explicacao: "Como o financiamento se estende por muitos anos, os juros acumulados fazem o valor total pago ficar bem mais alto do que o preço original do imóvel.",
+            variante: {
+              pergunta: "Um imóvel custa R$300.000 e é financiado em 30 anos. Somando todas as parcelas com os juros, o valor total pago chega a R$550.000. O que esse exemplo ilustra?",
+              opcoes: [
+                "Que o valor do imóvel dobrou magicamente",
+                "Que, por causa dos juros ao longo de muitos anos, o valor total pago em um financiamento costuma ser bem maior que o preço original do imóvel",
+                "Que houve um erro de cálculo do banco",
+                "Que financiar sempre custa exatamente o preço de tabela",
+              ],
+              correta: 1,
+              explicacao: "Esse exemplo mostra como os juros acumulados durante um financiamento longo fazem o valor total pago superar bastante o preço original do imóvel.",
+            },
+          },
+          {
+            pergunta: "Para alguém que não sabe se vai continuar morando na mesma cidade nos próximos anos, por que alugar pode ser uma escolha mais sensata do que financiar um imóvel agora?",
+            opcoes: [
+              "Porque alugar é sempre mais caro em qualquer situação",
+              "Porque alugar dá mais flexibilidade e evita os altos custos de comprar e vender um imóvel em pouco tempo",
+              "Porque financiar nunca tem juros",
+              "Porque alugar impede a pessoa de guardar dinheiro",
+            ],
+            correta: 1,
+            explicacao: "Comprar e vender um imóvel em pouco tempo envolve custos altos (impostos, documentação, corretagem), então alugar costuma ser mais vantajoso para quem tem incerteza sobre onde vai morar no médio prazo.",
+            variante: {
+              pergunta: "Bruno provavelmente vai ser transferido de cidade pelo trabalho em 2 anos, mas está pensando em financiar um imóvel para morar até essa mudança. O que ele deveria considerar antes de decidir?",
+              opcoes: [
+                "Que financiar é sempre a melhor opção, independente do tempo de permanência",
+                "Que os altos custos de comprar e depois vender o imóvel em pouco tempo podem tornar o aluguel uma opção mais vantajosa nesse caso",
+                "Que ele não pode alugar um imóvel por apenas 2 anos",
+                "Que o valor do financiamento não é afetado pelo tempo de permanência",
+              ],
+              correta: 1,
+              explicacao: "Como comprar e vender um imóvel em curto prazo envolve custos altos, para quem tem uma mudança prevista em poucos anos o aluguel costuma ser financeiramente mais vantajoso.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_29",
+        titulo: "Educação financeira para crianças e adolescentes (mesada com propósito)",
+        xp: 20,
+        aula: [
+          "Dar dinheiro a uma criança sem nenhuma orientação é como entregar as chaves do carro a um adolescente que nunca dirigiu: cedo ou tarde, vai dar problema, só que os erros ficam mais caros quanto mais tarde eles aparecem. A mesada, quando usada com propósito, funciona como as rodinhas de treino de uma bicicleta — um espaço seguro para errar e aprender com valores pequenos, antes que os erros de dinheiro apareçam em decisões muito mais caras na vida adulta.",
+          "Uma forma prática de dar propósito à mesada é dividi-la em potes (ou envelopes): uma parte para gastar agora, uma parte para guardar (juntando para algo maior, como um brinquedo mais caro) e uma parte para compartilhar (ajudar alguém ou doar). É como separar as caixinhas de brinquedo por categoria: ajuda a criança a visualizar que o dinheiro também precisa ser 'organizado em caixinhas' antes de ser usado, e que cada escolha tem uma consequência.",
+          "O mais importante é deixar a criança sentir a consequência das próprias escolhas: se ela gastar tudo do pote de 'gastar' numa semana e não sobrar nada para o passeio da semana seguinte, essa experiência ensina muito mais do que qualquer sermão. E vale lembrar: crianças costumam copiar o comportamento financeiro dos adultos ao redor, como um espelho — então o exemplo em casa pesa tanto quanto a mesada em si.",
+        ],
+        perguntas: [
+          {
+            pergunta: "Por que dar mesada de forma regular e estruturada é útil para o aprendizado financeiro de uma criança?",
+            opcoes: [
+              "Porque garante que a criança nunca vai cometer erros com dinheiro",
+              "Porque permite que ela pratique tomar decisões financeiras e sinta as consequências em pequena escala, antes de decisões maiores na vida adulta",
+              "Porque aumenta automaticamente a inteligência financeira sem nenhuma prática",
+              "Porque substitui qualquer conversa sobre dinheiro em casa",
+            ],
+            correta: 1,
+            explicacao: "A mesada dá à criança a chance de praticar decisões financeiras reais, sentindo as consequências em pequena escala, o que ajuda a formar bons hábitos antes que os erros custem mais caro na vida adulta.",
+            variante: {
+              pergunta: "Lucas gastou toda a mesada da semana em doces no primeiro dia e ficou sem dinheiro para o resto da semana. O que essa experiência pode ensinar a ele?",
+              opcoes: [
+                "Que ele deveria receber mais mesada para compensar",
+                "Que gastar tudo de uma vez tem consequências, o que ajuda a aprender sobre planejamento financeiro na prática",
+                "Que dinheiro não tem nenhum limite",
+                "Que ele nunca mais deve receber mesada",
+              ],
+              correta: 1,
+              explicacao: "Sentir na prática a falta de dinheiro depois de gastar tudo de uma vez ensina sobre planejamento e consequências de forma mais eficaz do que apenas ouvir conselhos.",
+            },
+          },
+          {
+            pergunta: "Qual é o benefício de dividir a mesada em potes, como 'gastar', 'guardar' e 'compartilhar'?",
+            opcoes: [
+              "Não existe benefício real, é apenas uma forma de complicar as coisas",
+              "Ajuda a criança a entender que o dinheiro precisa ser organizado por propósito, e a praticar escolhas entre gastar agora ou guardar para algo maior",
+              "Faz a criança receber mais dinheiro no total",
+              "Elimina a necessidade de qualquer supervisão dos pais",
+            ],
+            correta: 1,
+            explicacao: "Dividir a mesada em potes com propósitos diferentes ensina a criança a organizar o dinheiro e a praticar decisões entre gastar imediatamente ou guardar para um objetivo maior.",
+            variante: {
+              pergunta: "Beatriz quer um brinquedo que custa 4 vezes o valor da sua mesada semanal. Se ela guardar toda semana apenas o pote de 'guardar', que corresponde a 1/4 da mesada, em quantas semanas, aproximadamente, ela conseguirá comprar o brinquedo?",
+              opcoes: [
+                "Em 1 semana",
+                "Em cerca de 16 semanas, já que ela guarda apenas 1/4 da mesada por semana para juntar 4 vezes o valor semanal total",
+                "Nunca vai conseguir juntar o valor",
+                "Em exatamente 4 semanas, sem precisar calcular a proporção guardada",
+              ],
+              correta: 1,
+              explicacao: "Se o pote de guardar corresponde a 1/4 da mesada semanal, e o brinquedo custa 4 vezes a mesada semanal total, ela precisa de cerca de 16 semanas guardando nesse ritmo — mostrando na prática como metas maiores exigem paciência.",
+            },
+          },
+        ],
+      },
+      {
+        id: "f1_30",
+        titulo: "Independência financeira dos pais: por que começar jovem importa",
+        xp: 20,
+        aula: [
+          "Ficar financeiramente independente dos pais é como aprender a nadar sem boia: enquanto alguém sempre socorre e paga as contas, os 'músculos' de administrar o próprio dinheiro nunca se desenvolvem de verdade. Não significa que ajuda da família seja errada — significa que, em algum momento, a pessoa precisa passar a sustentar as próprias despesas (moradia, contas, transporte) com o próprio esforço, para realmente aprender a se equilibrar sozinha.",
+          "Começar esse processo jovem faz muita diferença, pelo mesmo motivo que plantar uma árvore mais cedo faz ela dar frutos mais cedo: hábitos financeiros — como guardar parte do que ganha, ou planejar gastos — levam tempo para virar rotina, e quanto antes a pessoa pratica, mais natural e automático isso se torna com os anos. É bem mais fácil aprender a nadar aos 10 anos do que aos 40, e o mesmo vale para aprender a administrar dinheiro.",
+          "Na prática, a independência não precisa (e nem deve) acontecer de um dia para o outro: pode começar com pequenas responsabilidades, como pagar a própria conta de celular ou o próprio transporte, mesmo ainda morando com os pais. É como tirar as rodinhas da bicicleta gradualmente — primeiro com alguém segurando o banco, depois soltando pouco a pouco — até a pessoa conseguir pedalar (e se sustentar) sozinha com confiança.",
+        ],
+        perguntas: [
+          {
+            pergunta: "O que significa, na prática, buscar independência financeira dos pais?",
+            opcoes: [
+              "Nunca mais falar com os pais sobre dinheiro",
+              "Passar a sustentar as próprias despesas com o próprio esforço, em vez de depender do dinheiro da família",
+              "Pedir para os pais aumentarem a mesada indefinidamente",
+              "Guardar dinheiro sem nunca gastar com nada",
+            ],
+            correta: 1,
+            explicacao: "Independência financeira dos pais significa assumir progressivamente a responsabilidade pelas próprias despesas, deixando de depender do sustento da família.",
+            variante: {
+              pergunta: "Dois jovens de 22 anos: um já paga suas próprias contas de celular e transporte há 2 anos; outro nunca pagou nenhuma conta própria, sempre coberta pelos pais. Qual deles provavelmente terá mais facilidade para se sustentar totalmente sozinho quando precisar?",
+              opcoes: [
+                "O que nunca pagou nenhuma conta, pois terá mais dinheiro guardado",
+                "Os dois terão a mesma facilidade, pois isso não depende de prática",
+                "O que já vem pagando suas próprias contas, pois já praticou administrar despesas por conta própria",
+                "Nenhum dos dois, pois isso é impossível de aprender",
+              ],
+              correta: 2,
+              explicacao: "Quem já pratica pagar as próprias contas desenvolve mais familiaridade e confiança para administrar despesas, o que facilita a transição para a independência financeira total.",
+            },
+          },
+          {
+            pergunta: "Por que começar a praticar hábitos financeiros ainda jovem tende a facilitar a vida financeira no futuro?",
+            opcoes: [
+              "Porque hábitos não têm nenhuma relação com a idade em que são formados",
+              "Porque hábitos praticados por mais tempo tendem a se tornar mais naturais e automáticos, além de haver mais tempo para os benefícios (como guardar dinheiro) se acumularem",
+              "Porque jovens sempre ganham mais dinheiro que adultos",
+              "Porque começar jovem elimina a necessidade de qualquer planejamento depois",
+            ],
+            correta: 1,
+            explicacao: "Assim como aprender uma habilidade é mais fácil com mais tempo de prática, hábitos financeiros formados na juventude tendem a virar rotina com mais naturalidade, e o tempo extra também ajuda o dinheiro guardado a crescer mais.",
+            variante: {
+              pergunta: "Duas pessoas guardam R$100 por mês: uma começa aos 20 anos, outra aos 30 anos, e ambas guardam até os 60. Considerando o efeito dos juros compostos ao longo do tempo, o que é mais provável?",
+              opcoes: [
+                "As duas terão exatamente o mesmo valor acumulado, pois guardam o mesmo valor mensal",
+                "Quem começou aos 20 anos provavelmente terá acumulado bem mais dinheiro, já que teve 10 anos extras de rendimento acumulado",
+                "Quem começou aos 30 anos terá mais dinheiro, pois começou com mais maturidade",
+                "O valor acumulado não depende de quando a pessoa começa a guardar",
+              ],
+              correta: 1,
+              explicacao: "Por causa dos juros compostos, os 10 anos extras de quem começa mais jovem fazem uma diferença enorme no valor final acumulado, mesmo guardando o mesmo valor mensal que a outra pessoa.",
+            },
+          },
         ],
       },
       {
