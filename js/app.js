@@ -3,7 +3,10 @@
    ========================================================================= */
 
 const App = {
-  init() {
+  async init() {
+    const desbloqueado = await this.ensureVaultUnlocked();
+    if (!desbloqueado) return; // usuário fechou a aba na tela de bloqueio; nada mais deve rodar
+
     Tabs.init();
     Polvin.init();
     Auth.init();
@@ -25,11 +28,58 @@ const App = {
     News.init();
     Advanced.init();
     Books.init();
+    Privacy.init();
 
     this.renderHeaderStats();
     this.renderHome();
     this.bindGlobalEvents();
     this.bindBackupButtons();
+  },
+
+  /* Se o cofre (js/vault.js) estiver ativado, trava a inicialização do app
+     na tela de bloqueio até a senha local correta ser digitada. Se o cofre
+     nunca foi ativado, resolve true imediatamente e nada muda para o usuário. */
+  ensureVaultUnlocked() {
+    if (typeof Vault === "undefined" || !Vault.isEnabled()) return Promise.resolve(true);
+
+    return new Promise((resolve) => {
+      const screen = document.getElementById("vaultLockScreen");
+      const input = document.getElementById("vaultUnlockInput");
+      const errorBox = document.getElementById("vaultUnlockError");
+      const btn = document.getElementById("vaultUnlockBtn");
+      const forgotBtn = document.getElementById("vaultForgotBtn");
+      screen.classList.remove("hidden");
+      input.focus();
+
+      let checking = false;
+      const tryUnlock = async () => {
+        if (checking) return;
+        checking = true;
+        errorBox.classList.add("hidden");
+        const ok = await Vault.unlock(input.value);
+        checking = false;
+        if (ok) {
+          screen.classList.add("hidden");
+          resolve(true);
+        } else {
+          errorBox.textContent = "Senha incorreta. Tente novamente.";
+          errorBox.classList.remove("hidden");
+          input.value = "";
+          input.focus();
+        }
+      };
+
+      btn.addEventListener("click", tryUnlock);
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") tryUnlock();
+      });
+      forgotBtn.addEventListener("click", () => {
+        if (confirm("Isso vai apagar TODOS os dados salvos neste navegador (perfil, transações, progresso e o cofre) e não pode ser desfeito. Continuar?")) {
+          Store.clearAll();
+          location.reload();
+        }
+      });
+    });
   },
 
   bindGlobalEvents() {

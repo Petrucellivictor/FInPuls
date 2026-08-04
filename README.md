@@ -32,9 +32,51 @@ infraestrutura do Google que este projeto não controla:
 2. Substitua o valor de `GOOGLE_CLIENT_ID` no topo de `js/auth.js` pelo
    Client ID gerado.
 3. Abra o Fin+ por um **servidor local ou remoto (http/https)** — por
-   exemplo, a extensão "Live Server" do VS Code. O login do Google **não
+   exemplo, a extensão "Live Server" do VS Code, ou hospedando no GitHub
+   Pages (ver seção "Hospedagem" abaixo). O login do Google **não
    funciona** abrindo o `index.html` direto (protocolo `file://`); o app
    detecta isso e avisa na tela em vez de mostrar um botão quebrado.
+
+## Hospedagem
+
+**Não existe banco de dados nem servidor no Fin+** — não há credenciais de
+acesso a fornecer, porque nenhuma infraestrutura desse tipo existe. Todo o
+"backend" do app é o próprio navegador de cada visitante (`localStorage`).
+Hospedar o Fin+ significa apenas publicar os arquivos estáticos (HTML/CSS/
+JS) em algum lugar acessível por HTTPS. A forma mais simples, já que o
+código vive neste repositório no GitHub, é o **GitHub Pages** (gratuito):
+
+1. No GitHub, vá em **Settings → Pages** do repositório.
+2. Em "Source", selecione o branch `main` e a pasta raiz (`/`).
+3. Salve — em alguns minutos o GitHub publica o site em uma URL do tipo
+   `https://petrucellivictor.github.io/FInPuls/`.
+
+Isso também resolve, de graça, a limitação do login com Google citada
+acima (que exige `http`/`https`, não `file://`). Cada visitante continua
+com seus próprios dados isolados no próprio navegador — publicar o site
+não cria um banco de dados compartilhado nem sincroniza usuários entre si.
+
+## Segurança e privacidade (LGPD)
+
+- **Sem servidor, sem coleta remota**: como não há backend, nenhum dado
+  financeiro seu é transmitido ou armazenado fora do seu navegador. Ver o
+  texto completo em **Política de Privacidade** (link no rodapé do site,
+  implementado em `js/privacy.js`).
+- **Cofre de criptografia opcional** (`js/vault.js`, aba **Perfil →
+  Segurança**): cifra com AES-256 (chave derivada por PBKDF2, 150.000
+  iterações) os dados sensíveis — perfil, conta, transações, orçamentos,
+  cofrinhos, investimentos, ações/FIIs, parcelamentos e ligas — usando uma
+  senha local que nunca é enviada a lugar nenhum. Isso protege contra
+  alguém que copie os arquivos do seu navegador sem essa senha (dado em
+  repouso). **Isso não protege**, e nenhuma criptografia no navegador de
+  nenhum app protegeria, contra uma vulnerabilidade de execução de código
+  (XSS) enquanto o cofre está desbloqueado — o próprio app precisa
+  conseguir ler os dados para funcionar, a mesma limitação de qualquer
+  gerenciador de senhas local. **Não há recuperação de senha**: se
+  esquecida, os dados cifrados não podem ser restaurados por ninguém.
+- **Direitos do titular já cobertos pelas ferramentas existentes**:
+  acesso/portabilidade (⬇️ Exportar), correção (edição direta ou
+  ⬆️ Importar) e eliminação (Reiniciar).
 
 ## Identidade visual
 
@@ -98,6 +140,8 @@ fin-plus/
 │   ├── profile.js                       → aba Perfil: avatar, estatísticas, medalha atual e a Loja
 │   ├── leagues.js                        → aba Desafios: seu placar e Ligas locais manuais
 │   ├── storage.js                     → camada de persistência (localStorage) + exportar/importar backup
+│   ├── vault.js                        → cofre opcional de criptografia local (AES-256) dos dados sensíveis
+│   ├── privacy.js                       → modal da Política de Privacidade (LGPD)
 │   ├── fx.js                           → efeitos visuais compartilhados (confete, toast de subida de nível)
 │   ├── polvin.js                        → mascote interativo: avatar SVG animado em 3D (CSS), fala com
 │   │                                       efeito de digitação + voz nativa do navegador, e o assistente

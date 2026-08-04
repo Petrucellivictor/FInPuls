@@ -4,6 +4,39 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.6.0] - 2026-08-04
+
+### Adicionado
+- **Cofre de criptografia local** (`js/vault.js`), opcional, ativável na
+  aba Perfil → Segurança: cifra com AES-GCM 256 bits (chave derivada por
+  PBKDF2, 150.000 iterações) os dados sensíveis — perfil, conta,
+  transações, orçamentos, cofrinhos, investimentos, ações/FIIs,
+  parcelamentos e ligas — usando uma senha local que nunca é enviada a
+  lugar nenhum. Inclui migração automática de dados já existentes, tela de
+  bloqueio no boot do app (`App.ensureVaultUnlocked`), troca de senha,
+  desativação (reversível, volta para texto puro) e uma opção de
+  "esqueci a senha" que limpa tudo. Documentado com o alcance real da
+  proteção (dado em repouso) e sua limitação honesta (não protege contra
+  XSS enquanto o cofre está desbloqueado, nem permite recuperação de senha
+  perdida).
+- Seção "Segurança" na aba Perfil, com o fluxo completo de ativar,
+  bloquear, trocar senha e desativar o cofre.
+- Política de Privacidade (LGPD) em modal (`js/privacy.js`, link no
+  rodapé): explica a ausência de servidor/banco de dados, os dois casos
+  em que algo trafega pela internet (login Google e cotações públicas de
+  mercado), os dados tratados e os direitos do titular (acesso,
+  portabilidade, correção, eliminação, revogação).
+- Seção "Hospedagem" no README, esclarecendo que não existe banco de
+  dados/servidor no projeto e orientando a publicação real via GitHub
+  Pages (o que também resolve a limitação de login Google via `file://`).
+
+### Alterado
+- Fonte do menu de abas (`.tab-btn`) aumentada de 13.5px para 16px, a
+  pedido do usuário, sem alterar nenhum outro conteúdo das páginas.
+- `Store.get/set/remove/clearAll/exportAll/importAll` agora roteiam
+  chaves sensíveis pelo cofre quando ativado, de forma transparente para
+  todo o restante do app.
+
 ## [1.5.0] - 2026-08-04
 
 ### Adicionado

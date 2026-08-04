@@ -25,6 +25,28 @@
   </div>
 
   <!-- =========================================================
+       TELA DE BLOQUEIO DO COFRE (só aparece se a proteção por
+       senha local estiver ativada — ver js/vault.js)
+       ========================================================= -->
+  <div id="vaultLockScreen" class="onboarding-screen hidden">
+    <div class="onboarding-card">
+      <div style="text-align:center">
+        <div style="font-size:48px">🔒</div>
+        <h2>Cofre bloqueado</h2>
+        <p class="text-soft">Seus dados sensíveis estão cifrados neste navegador. Digite sua senha local para desbloquear.</p>
+      </div>
+      <div class="field">
+        <label for="vaultUnlockInput">Senha do cofre</label>
+        <input type="password" id="vaultUnlockInput" placeholder="Sua senha local" />
+      </div>
+      <div class="alert-box danger hidden" id="vaultUnlockError"></div>
+      <button class="btn btn-primary btn-block mt-16" id="vaultUnlockBtn">Desbloquear</button>
+      <p class="text-sm text-soft mt-16">Esqueceu a senha? Não há como recuperar os dados cifrados sem ela — nenhum servidor guarda uma cópia.</p>
+      <button class="btn btn-outline btn-block btn-sm" id="vaultForgotBtn">Esqueci a senha — apagar tudo e recomeçar do zero</button>
+    </div>
+  </div>
+
+  <!-- =========================================================
        CABEÇALHO
        ========================================================= -->
   <header class="app-header">
@@ -431,6 +453,12 @@
         <h3>🏆 Conquistas</h3>
         <div class="achievements-grid" id="achievementsGrid"></div>
       </div>
+
+      <div class="card mt-16">
+        <h3>🔒 Segurança e privacidade</h3>
+        <p class="text-soft text-sm">Todos os seus dados ficam só neste navegador. Aqui você pode cifrar os dados sensíveis com uma senha local e ver como o Fin+ trata sua privacidade (LGPD).</p>
+        <div id="profileSecurity" class="mt-16"></div>
+      </div>
     </section>
 
     <!-- ---------- MERCADO / INDICADORES ---------- -->
@@ -619,13 +647,14 @@
   </main>
 
   <footer class="app-footer">
-    Fin+ — Ferramenta educativa. Não constitui recomendação de investimento personalizada. Dados de mercado fornecidos por fontes públicas (Banco Central do Brasil, AwesomeAPI, CoinGecko).
+    Fin+ — Ferramenta educativa. Não constitui recomendação de investimento personalizada. Dados de mercado fornecidos por fontes públicas (Banco Central do Brasil, AwesomeAPI, CoinGecko). Todos os seus dados ficam salvos só neste navegador — <button class="link-btn" id="privacyPolicyBtn">Política de Privacidade (LGPD)</button>.
   </footer>
 </div>
 
 <!-- Módulos JS -->
 <script src="js/data.js"></script>
 <script src="js/storage.js"></script>
+<script src="js/vault.js"></script>
 <script src="js/fx.js"></script>
 <script src="js/polvin.js"></script>
 <script src="js/tabs.js"></script>
@@ -649,6 +678,7 @@
 <script src="js/news.js"></script>
 <script src="js/advanced.js"></script>
 <script src="js/books.js"></script>
+<script src="js/privacy.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

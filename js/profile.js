@@ -17,6 +17,7 @@ const Profile = {
     this.renderHeader();
     this.renderStats();
     this.renderShop();
+    this.renderSecurity();
   },
 
   renderHeader() {
@@ -126,5 +127,120 @@ const Profile = {
     equipped[item.tipo] = id;
     Store.set(STORAGE_KEYS.EQUIPPED, equipped);
     document.dispatchEvent(new CustomEvent("equipped:updated"));
+  },
+
+  /* ---------- Segurança: cofre local de criptografia (js/vault.js) ---------- */
+
+  renderSecurity() {
+    const container = document.getElementById("profileSecurity");
+    if (!container) return;
+
+    if (typeof Vault === "undefined" || !Vault.isAvailable()) {
+      container.innerHTML = `<div class="alert-box danger">Seu navegador não é compatível com criptografia local (Web Crypto API). Seus dados continuam salvos normalmente neste dispositivo, apenas sem essa cifra extra — considere atualizar o navegador.</div>`;
+      return;
+    }
+
+    if (!Vault.isEnabled()) {
+      container.innerHTML = `
+        <div class="alert-box info">O cofre cifra perfil, transações, orçamentos, cofrinhos, investimentos, ações/FIIs, parcelamentos e ligas com AES-256, usando uma senha que existe só neste navegador.</div>
+        <p class="text-sm text-soft"><b>Atenção:</b> se você esquecer essa senha, não há como recuperar os dados cifrados depois — nenhum servidor guarda uma cópia dela. Exporte um backup (⬇️ Exportar, no topo da tela) antes de ativar, por segurança.</p>
+        <div class="field">
+          <label for="vaultSetupPass">Criar senha do cofre</label>
+          <input type="password" id="vaultSetupPass" placeholder="Mínimo 6 caracteres" />
+        </div>
+        <div class="field">
+          <label for="vaultSetupPass2">Confirmar senha</label>
+          <input type="password" id="vaultSetupPass2" placeholder="Repita a senha" />
+        </div>
+        <div class="alert-box danger hidden" id="vaultSetupError"></div>
+        <button class="btn btn-primary" id="vaultSetupBtn">Ativar cofre e cifrar meus dados</button>
+      `;
+      document.getElementById("vaultSetupBtn").addEventListener("click", () => this.setupVault());
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="alert-box info">Cofre ativo ✅ — seus dados sensíveis estão cifrados em repouso neste navegador.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap" class="mt-16">
+        <button class="btn btn-outline btn-sm" id="vaultLockNowBtn">Bloquear agora</button>
+        <button class="btn btn-outline btn-sm" id="vaultChangePassBtn">Trocar senha</button>
+        <button class="btn btn-outline btn-sm" id="vaultDisableBtn" style="color:#8c2a27;border-color:#f0bcba">Desativar proteção</button>
+      </div>
+      <div id="vaultChangePassForm" class="hidden mt-16">
+        <div class="field">
+          <label for="vaultOldPass">Senha atual</label>
+          <input type="password" id="vaultOldPass" />
+        </div>
+        <div class="field">
+          <label for="vaultNewPass">Nova senha</label>
+          <input type="password" id="vaultNewPass" placeholder="Mínimo 6 caracteres" />
+        </div>
+        <div class="alert-box danger hidden" id="vaultChangePassError"></div>
+        <button class="btn btn-primary btn-sm" id="vaultConfirmChangeBtn">Confirmar troca</button>
+      </div>
+    `;
+    document.getElementById("vaultLockNowBtn").addEventListener("click", () => this.lockVaultNow());
+    document.getElementById("vaultChangePassBtn").addEventListener("click", () => {
+      document.getElementById("vaultChangePassForm").classList.toggle("hidden");
+    });
+    document.getElementById("vaultConfirmChangeBtn").addEventListener("click", () => this.changeVaultPassphrase());
+    document.getElementById("vaultDisableBtn").addEventListener("click", () => this.disableVault());
+  },
+
+  async setupVault() {
+    const pass1 = document.getElementById("vaultSetupPass").value;
+    const pass2 = document.getElementById("vaultSetupPass2").value;
+    const errorBox = document.getElementById("vaultSetupError");
+    errorBox.classList.add("hidden");
+
+    if (pass1.length < 6) {
+      errorBox.textContent = "Use uma senha com pelo menos 6 caracteres.";
+      errorBox.classList.remove("hidden");
+      return;
+    }
+    if (pass1 !== pass2) {
+      errorBox.textContent = "As senhas digitadas não são iguais.";
+      errorBox.classList.remove("hidden");
+      return;
+    }
+
+    await Vault.setup(pass1);
+    alert("Cofre ativado! Seus dados sensíveis agora estão cifrados neste navegador.");
+    this.renderSecurity();
+  },
+
+  lockVaultNow() {
+    if (!confirm("Isso vai bloquear o cofre agora e recarregar a página — você precisará digitar a senha para continuar usando o Fin+. Continuar?")) return;
+    Vault.lock();
+    location.reload();
+  },
+
+  async changeVaultPassphrase() {
+    const oldPass = document.getElementById("vaultOldPass").value;
+    const newPass = document.getElementById("vaultNewPass").value;
+    const errorBox = document.getElementById("vaultChangePassError");
+    errorBox.classList.add("hidden");
+
+    if (newPass.length < 6) {
+      errorBox.textContent = "A nova senha precisa ter pelo menos 6 caracteres.";
+      errorBox.classList.remove("hidden");
+      return;
+    }
+
+    const ok = await Vault.changePassphrase(oldPass, newPass);
+    if (!ok) {
+      errorBox.textContent = "Senha atual incorreta.";
+      errorBox.classList.remove("hidden");
+      return;
+    }
+    alert("Senha do cofre alterada com sucesso!");
+    this.renderSecurity();
+  },
+
+  disableVault() {
+    if (!confirm("Isso vai descriptografar seus dados e voltar a salvá-los em texto puro neste navegador, removendo a proteção extra do cofre. Continuar?")) return;
+    Vault.disable();
+    alert("Proteção do cofre desativada.");
+    this.renderSecurity();
   },
 };
