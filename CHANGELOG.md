@@ -4,6 +4,24 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.2.0] - 2026-08-04
+
+### Alterado
+- A trilha financeira e a trilha "Brasil: História & Economia" deixaram de
+  ser abas/seções separadas e passaram a ser **uma única trilha
+  intercalada**: os níveis se alternam (financeira → história →
+  financeira → ...) em um só caminho sequencial de desbloqueio.
+- Redesign visual completo da Academia Fin+: caminho sinuoso com espinha
+  de progresso animada, nós de lição em zigue-zague, aros de progresso
+  por nível, entrada animada por scroll, nó atual com pulso, ripple ao
+  clicar, contador de XP com count-up, overlay de quiz com blur e dots de
+  progresso por pergunta.
+- `js/learn.js` reduzido a utilitários de gamificação; `js/history.js`
+  removido (lógica migrada para o novo `js/trail.js`).
+
+### Adicionado
+- Conquista "Mestre da trilha completa" por concluir as duas trilhas.
+
 ## [1.1.0] - 2026-08-04
 
 ### Adicionado
