@@ -4,6 +4,26 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.3.0] - 2026-08-04
+
+### Adicionado
+- Logo real do POLVIn (`Polvin-logo.png`) no cabeçalho e nas telas de
+  boas-vindas/resultado do onboarding.
+- `js/polvin.js`: avatar SVG inline com animação 3D em CSS puro
+  (tentáculos e olhos animados, boca que se move ao "falar").
+- Fala com efeito de digitação e leitura em voz alta via Web Speech API
+  nativa do navegador (sem API externa/paga).
+- Dica de investimento do POLVIn na aba Investimentos (`INVESTMENT_TIPS`).
+- POLVIn narra os contos da trilha de história (antes só texto).
+- Assistente flutuante "Pergunte ao POLVIn": busca por palavras-chave
+  sobre todo o conteúdo do site (`ASSISTANT_FAQ` + glossário +
+  investimentos + livros), com aviso explícito de que não é uma IA
+  generativa.
+
+### Removido
+- Selo de acessório do mascote na Home (redundante com o título de nível
+  já exibido no hero card) e CSS morta de tamanhos antigos do mascote.
+
 ## [1.2.0] - 2026-08-04
 
 ### Alterado
