@@ -32,4 +32,38 @@ const Fx = {
       setTimeout(() => toast.remove(), 400);
     }, 4500);
   },
+
+  /* Ondulação (ripple) a partir do ponto de clique — dá feedback tátil a
+     botões e nós clicáveis. O elemento precisa de position:relative e
+     overflow:hidden para conter o efeito. */
+  ripple(el, event) {
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const span = document.createElement("span");
+    span.className = "ripple-effect";
+    const size = Math.max(rect.width, rect.height) * 1.4;
+    span.style.width = span.style.height = size + "px";
+    span.style.left = (event.clientX - rect.left - size / 2) + "px";
+    span.style.top = (event.clientY - rect.top - size / 2) + "px";
+    el.appendChild(span);
+    setTimeout(() => span.remove(), 650);
+  },
+
+  /* Anima um número subindo de `from` até `to` dentro do elemento,
+     usado no contador de XP para dar sensação de progresso "ao vivo". */
+  countUp(el, from, to, duration = 650, suffix = " XP") {
+    if (!el || from === to) {
+      if (el) el.textContent = `${to}${suffix}`;
+      return;
+    }
+    const start = performance.now();
+    const step = (now) => {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const val = Math.round(from + (to - from) * eased);
+      el.textContent = `${val}${suffix}`;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  },
 };

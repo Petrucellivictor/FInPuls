@@ -14,8 +14,7 @@ const App = {
     Goals.init();
     Portfolio.init();
     Stocks.init();
-    Learn.init();
-    History.init();
+    Trail.init();
     Engagement.init();
     Achievements.init();
     Market.init();
@@ -85,7 +84,10 @@ const App = {
     const streak = Store.get(STORAGE_KEYS.STREAK, { dias: 0 });
     const profile = Store.get(STORAGE_KEYS.PROFILE, null);
 
-    document.getElementById("headerXp").textContent = `${xp} XP`;
+    const xpEl = document.getElementById("headerXp");
+    const displayed = parseInt(xpEl.textContent) || 0;
+    if (typeof Fx !== "undefined") Fx.countUp(xpEl, displayed, xp);
+    else xpEl.textContent = `${xp} XP`;
     document.getElementById("headerStreak").textContent = `${streak.dias} dia${streak.dias === 1 ? "" : "s"}`;
 
     const nivelLabels = { iniciante: "Iniciante", intermediario: "Intermediário", avancado: "Avançado" };
@@ -126,8 +128,8 @@ const App = {
     const tip = SPENDING_TIPS[dayIndex];
     document.getElementById("tipOfDayText").innerHTML = `<b>${tip.titulo}:</b> ${tip.texto}`;
 
-    // Snippet da trilha de aprendizado
-    Learn.renderHomeSnippet();
+    // Snippet da trilha de aprendizado (financeira + história intercaladas)
+    Trail.renderHomeSnippet();
 
     // Missões diárias/semanais e evento do dia
     Engagement.renderHome();

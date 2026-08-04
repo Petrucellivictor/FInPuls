@@ -31,6 +31,13 @@ const Achievements = {
       return HISTORY_COURSE.every((lvl) => lvl.licoes.every((l) => !!progress[l.id]));
     },
     primeira_compra_parcelada: () => (typeof Installments !== "undefined" ? Installments.getAll().length > 0 : false),
+    trilha_unificada_completa: () => {
+      const courseProgress = Learn.getProgress();
+      const historyProgress = Store.get(STORAGE_KEYS.HISTORY_PROGRESS, {});
+      const courseDone = COURSE.every((lvl) => lvl.licoes.every((l) => !!courseProgress[l.id]));
+      const historyDone = HISTORY_COURSE.every((lvl) => lvl.licoes.every((l) => !!historyProgress[l.id]));
+      return courseDone && historyDone;
+    },
   },
 
   getUnlocked() {

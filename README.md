@@ -74,8 +74,8 @@ fin-plus/
 │   ├── goals.js                              → cofrinhos virtuais (metas de economia)
 │   ├── portfolio.js                            → carteira de investimentos: alocação real x carteira-modelo
 │   ├── stocks.js                                 → aba Ações & FIIs: posições, dividendos, cripto fracionada
-│   ├── learn.js                                    → trilha gamificada financeira ("Duolingo das finanças")
-│   ├── history.js                                    → trilha "Brasil: História & Economia" (contos + quiz)
+│   ├── learn.js                                    → utilitários de gamificação (XP, streak, nível de jogador)
+│   ├── trail.js                                      → trilha única intercalada (financeira + Brasil: História), caminho sinuoso
 │   ├── engagement.js                                   → desafios diários, missão da semana e evento do dia
 │   ├── achievements.js                                   → conquistas desbloqueadas pelo uso real do app
 │   ├── market.js                                           → indicadores em tempo real (moedas, cripto, BCB)
@@ -99,24 +99,30 @@ fin-plus/
   risco. O objetivo escolhido já cria automaticamente um cofrinho sugerido.
 
 ### Gamificação ("Academia Fin+")
-- **Trilha financeira "Do Zero ao Avançado"**: 6 níveis, 19 lições, ~54
-  perguntas, XP, streak diário e bloqueio sequencial de lições.
-- **Trilha "Brasil: História & Economia"** (nova!): 4 níveis, 9 lições,
-  cada uma abrindo com um pequeno conto — as moedas que o Brasil já teve
-  (Réis ao Real), os ciclos econômicos (açúcar, ouro, café), a
-  industrialização de Vargas, o "milagre econômico" e a década perdida, o
-  Plano Real, desigualdade de renda e o papel do Estado — antes do quiz.
-  Compartilha o mesmo XP da trilha financeira.
-- **Interface mais animada**: lições aparecem com entrada escalonada,
-  respostas certas/erradas têm animação de pulso/tremor, conclusão de
-  lição solta confete, e subir de "nível de jogador" dispara um toast
-  comemorativo.
+- **Trilha única e intercalada** (nova!): a trilha financeira "Do Zero ao
+  Avançado" (6 níveis, 20 lições) e a trilha "Brasil: História & Economia"
+  (4 níveis, 9 lições, cada uma com um pequeno conto — moedas do Réis ao
+  Real, ciclos econômicos, Vargas, milagre econômico, Plano Real,
+  desigualdade e o papel do Estado) não são mais abas separadas: os níveis
+  se alternam em **um único caminho sequencial** (financeira → história →
+  financeira → história...), como capítulos de uma mesma jornada. Uma
+  lição só destrava a próxima depois de concluída, seja ela de qual das
+  duas trilhas for. Ambas compartilham o mesmo XP.
+- **Caminho sinuoso e animado**: os níveis aparecem como estações de um
+  trajeto vertical, com nós de lição em zigue-zague conectados por uma
+  "espinha" que se preenche de cor conforme seu progresso avança. A lição
+  atual pulsa suavemente para indicar o próximo passo; nós, banners e
+  respostas do quiz têm animações de entrada, ondulação ao toque (ripple),
+  confete na conclusão e um toast comemorativo ao subir de "nível de
+  jogador" — tudo respeitando `prefers-reduced-motion`.
 - **Níveis de jogador nomeados**: Iniciante → Aprendiz Financeiro →
   Planejador → Investidor → Construtor de Patrimônio → Mestre Fin+, com o
-  mascote POLVIn ganhando um selo/acessório visual a cada nova fase.
+  mascote POLVIn ganhando um selo/acessório visual a cada nova fase, e o
+  contador de XP no cabeçalho "sobe" com animação ao ganhar pontos.
 - **Desafios diários**, **missão da semana** e **evento aleatório do dia**
   (cenários educativos), com detecção automática de progresso.
-- **Conquistas**: 16 badges desbloqueadas pelo uso real do app.
+- **Conquistas**: 17 badges desbloqueadas pelo uso real do app, incluindo
+  completar a trilha unificada por completo.
 
 ### Dinheiro e investimentos
 - **Guia de investimentos** com 9 tipos, risco, liquidez, tributação,
