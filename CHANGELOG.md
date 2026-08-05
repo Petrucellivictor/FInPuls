@@ -4,6 +4,27 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.16.0] - 2026-08-05
+
+### Corrigido
+- **Trilha invisível/lenta para aparecer na aba Aprender**: a aba
+  começa com `display:none` até o usuário clicar nela, então o
+  `IntersectionObserver` que revela cada nível ao rolar a tela (efeito
+  fade-in) era configurado contra elementos sem geometria nenhuma —
+  ele nunca disparava, deixando a trilha (e a subaba Empreender)
+  travada em `opacity:0`. Agora `observeReveal()` não tenta observar
+  enquanto o container ainda está escondido, e é chamado de novo
+  quando a aba/subaba realmente fica visível (`tab:changed` e
+  `goSection`). O limiar de revelação também caiu de 12% para 1% da
+  área do nível, para não demorar tanto em níveis muito longos.
+
+### Alterado
+- **Zigue-zague na trilha**: os nós de cada nível agora alternam
+  esquerda/direita (`nth-child(odd/even)`) em vez do padrão anterior a
+  cada 4 nós, com deslocamento maior (±84px no desktop, ±38px no
+  mobile) — quebra a descida reta agora que os níveis têm muito mais
+  lições.
+
 ## [1.15.0] - 2026-08-05
 
 ### Adicionado

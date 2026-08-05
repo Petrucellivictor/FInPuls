@@ -144,7 +144,19 @@ const Trail = {
       </div>`;
   },
 
+  /* A aba "Aprender" começa com display:none (só fica visível quando o
+     usuário clica na aba — ver Tabs.go), e o container pode ainda estar
+     escondido quando isso é chamado pela primeira vez (App.init roda antes
+     de qualquer clique). Um elemento escondido não tem geometria alguma,
+     então o IntersectionObserver nunca dispara para ele — a lição ficava
+     travada em opacity:0 (invisível) mesmo depois de a aba abrir. Por
+     isso: se ainda estiver escondido, não tenta observar agora (quem
+     chamou de novo ao abrir a aba resolve); só usa o observer quando o
+     container já está de fato visível/com layout real. */
   observeReveal() {
+    const container = document.getElementById("trailContainer");
+    if (!container || container.getClientRects().length === 0) return;
+
     const els = document.querySelectorAll(".trail-level:not(.visible)");
     if (!("IntersectionObserver" in window)) {
       els.forEach((el) => el.classList.add("visible"));
@@ -159,7 +171,7 @@ const Trail = {
           }
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.01 }
     );
     els.forEach((el) => obs.observe(el));
   },

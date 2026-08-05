@@ -25,6 +25,9 @@ const Business = {
     document.querySelectorAll("#academiaSubnav .filter-chip").forEach((c) => c.classList.toggle("active", c.dataset.academia === section));
     document.getElementById("academiaTrilhaContent")?.classList.toggle("hidden", section !== "trilha");
     document.getElementById("academiaEmpreenderContent")?.classList.toggle("hidden", section !== "empreender");
+    // Uma das duas seções acabou de virar visível — reobserva agora que tem geometria real.
+    if (typeof Trail !== "undefined") Trail.observeReveal();
+    this.observeReveal(document.getElementById("businessTrailContainer"));
   },
 
   flatLessons() {
@@ -117,7 +120,14 @@ const Business = {
       </div>`;
   },
 
+  /* Mesma ressalva de trail.js: o container pode estar escondido (aba
+     "Aprender" ainda não aberta, ou subaba "Empreender" ainda não
+     selecionada) quando isso é chamado — um elemento sem geometria nunca
+     dispara o IntersectionObserver. Se ainda estiver escondido, não
+     observa agora; quem reabrir a seção (goSection) chama de novo. */
   observeReveal(container) {
+    if (!container || container.getClientRects().length === 0) return;
+
     const els = container.querySelectorAll(".trail-level:not(.visible)");
     if (!("IntersectionObserver" in window)) {
       els.forEach((el) => el.classList.add("visible"));
@@ -132,7 +142,7 @@ const Business = {
           }
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.01 }
     );
     els.forEach((el) => obs.observe(el));
   },

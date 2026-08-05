@@ -793,11 +793,11 @@ input:focus, select:focus, textarea:focus {
   transform: translateX(var(--zig));
   transition: transform 0.18s ease;
 }
-.trail-nodes .trail-node:nth-child(4n+2) { --zig: 74px; }
-.trail-nodes .trail-node:nth-child(4n+4) { --zig: -74px; }
+.trail-nodes .trail-node:nth-child(odd) { --zig: -84px; }
+.trail-nodes .trail-node:nth-child(even) { --zig: 84px; }
 @media (max-width: 640px) {
-  .trail-nodes .trail-node:nth-child(4n+2) { --zig: 26px; }
-  .trail-nodes .trail-node:nth-child(4n+4) { --zig: -26px; }
+  .trail-nodes .trail-node:nth-child(odd) { --zig: -38px; }
+  .trail-nodes .trail-node:nth-child(even) { --zig: 38px; }
 }
 .trail-node:hover:not(.locked) { transform: translateX(var(--zig)) translateY(-4px) scale(1.05); }
 .trail-node:active:not(.locked) { transform: translateX(var(--zig)) translateY(-1px) scale(0.97); }

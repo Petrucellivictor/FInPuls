@@ -108,6 +108,12 @@ const App = {
     document.addEventListener("lesson:passed", () => Achievements.checkAll());
     document.addEventListener("tab:changed", (e) => {
       if (e.detail.tabId === "home") this.renderHome();
+      if (e.detail.tabId === "aprender") {
+        // A aba estava com display:none até agora — os containers da trilha
+        // não tinham geometria nenhuma, então o reveal-on-scroll nunca disparou.
+        Trail.observeReveal();
+        Business.observeReveal(document.getElementById("businessTrailContainer"));
+      }
     });
   },
 
