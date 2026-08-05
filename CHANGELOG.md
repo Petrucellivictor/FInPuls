@@ -4,6 +4,23 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.17.1] - 2026-08-05
+
+### Adicionado
+- **Equipe de 12 agentes especializados** (`.claude/agents/*.md`) para o
+  desenvolvimento do Fin+ com Claude Code: Product Owner, UX/UI &
+  Design Lead, Front-end Engineer, Back-end Engineer, QA Engineer,
+  Cyber Security Specialist, Database Engineer, Gamification Designer,
+  Financial Education Specialist, AI Prompt Engineer, DevOps Engineer
+  e Documentation Specialist. Cada um tem contexto real do projeto
+  (arquivos, convenções, arquitetura atual) e limites explícitos do
+  que pode/não pode fazer, documentados no README ("Equipe de agentes
+  especializados").
+
+### Corrigido
+- README: árvore de `Estrutura do projeto` estava sem `js/energy.js`
+  (adicionado na v1.14.0) — corrigido.
+
 ## [1.17.0] - 2026-08-05
 
 ### Adicionado

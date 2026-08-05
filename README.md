@@ -236,6 +236,8 @@ fin-plus/
 │   ├── portfolio.js                            → carteira de investimentos: alocação real x carteira-modelo
 │   ├── stocks.js                                 → aba Ações & FIIs: posições, dividendos, cripto fracionada
 │   ├── learn.js                                    → utilitários de gamificação (XP, moedas, streak, pontuação total, nível de jogador)
+│   ├── energy.js                                    → sistema de energia (estilo Duolingo): 3/dia, gasta por lição iniciada,
+│   │                                                    renova por dia, +1 por combo de 3 acertos seguidos numa lição
 │   ├── trail.js                                      → trilha única intercalada (financeira + Brasil: História), caminho sinuoso
 │   ├── business.js                                     → trilha "Empreender" (independente): regimes tributários,
 │   │                                                      obrigações fiscais/contábeis e gestão de pessoas/finanças
@@ -248,8 +250,30 @@ fin-plus/
 │   └── app.js                                                      → orquestrador geral / dashboard
 ├── supabase/
 │   └── schema.sql                  → script SQL (tabela + Row Level Security) para o Supabase opcional
+├── .claude/agents/                 → definições dos 12 agentes especializados (ver seção abaixo)
 └── README.md
 ```
+
+## Equipe de agentes especializados (`.claude/agents/`)
+
+O desenvolvimento do Fin+ com Claude Code é organizado como um time profissional, com 12 papéis definidos em `.claude/agents/*.md`, cada um com contexto real do projeto (não descrições genéricas) e limites claros do que pode e não pode fazer:
+
+| Agente | Papel |
+| --- | --- |
+| `product-owner` | Define/prioriza funcionalidades, roadmap, user stories — nunca escreve código |
+| `ux-ui-design-lead` | UX/UI, design system, acessibilidade, responsividade |
+| `frontend-engineer` | Implementa telas e interatividade (HTML/CSS/JS puro) |
+| `backend-engineer` | Regras de negócio, gamificação, integração com Supabase |
+| `qa-engineer` | Testa e reporta bugs — não corrige código |
+| `security-specialist` | Auditoria OWASP, RLS do Supabase, XSS, exposição de segredos |
+| `database-engineer` | Modelagem de dados (`STORAGE_KEYS`, schema/RLS do Supabase) |
+| `gamification-designer` | XP, energia, streak, conquistas, ligas, loja — só especifica, não codifica |
+| `financial-education-specialist` | Cria/valida todo o conteúdo da trilha (lições, quizzes, simuladores) |
+| `ai-prompt-engineer` | Personalidade do POLVIn e o assistente por palavras-chave |
+| `devops-engineer` | Git/GitHub, deploy, infraestrutura do Supabase, segredos |
+| `documentation-specialist` | Mantém README e CHANGELOG atualizados a cada mudança |
+
+Fluxo sugerido para uma funcionalidade nova: Product Owner → UX/UI Lead → Gamification Designer → Financial Education Specialist → Back-end → Database → Front-end → Security → QA → DevOps → Documentation.
 
 ## O que já funciona (v7 — com moedas, loja, medalhas, ligas e perfil)
 
