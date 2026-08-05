@@ -68,10 +68,6 @@
         <div class="stat-chip streak"><span class="ico">🔥</span><span id="headerStreak">0 dias</span></div>
         <div class="stat-chip energy" title="Energia: cada lição iniciada gasta 1. Renova todo dia; acerte 3 seguidas para ganhar +1."><span class="ico">⚡</span><span id="headerEnergy">3/3</span></div>
         <div class="stat-chip"><span class="ico">🎯</span><span id="headerLevel">Iniciante</span></div>
-        <button class="btn btn-outline btn-sm" style="color:#fff;border-color:rgba(255,255,255,0.4)" id="exportBtn" title="Baixar backup dos seus dados em JSON">⬇️ Exportar</button>
-        <button class="btn btn-outline btn-sm" style="color:#fff;border-color:rgba(255,255,255,0.4)" id="importBtn" title="Restaurar dados de um backup JSON">⬆️ Importar</button>
-        <input type="file" id="importFileInput" accept="application/json" class="hidden" />
-        <button class="btn btn-outline btn-sm" style="color:#fff;border-color:rgba(255,255,255,0.4)" id="resetBtn" title="Refazer diagnóstico e limpar dados de teste">Reiniciar</button>
       </div>
     </div>
   </header>
@@ -318,8 +314,8 @@
           <h3 class="mt-16">Orçamento por categoria</h3>
           <div id="budgetList"></div>
           <div class="flex gap-8 mt-8">
-            <select id="budgetCategoriaSelect" style="flex:2"></select>
-            <input type="number" id="budgetValorInput" placeholder="Limite R$" style="flex:1" min="0" />
+            <select id="budgetCategoriaSelect" style="flex:2" aria-label="Categoria do orçamento"></select>
+            <input type="number" id="budgetValorInput" placeholder="Limite R$" aria-label="Limite do orçamento em reais" style="flex:1" min="0" />
             <button class="btn btn-outline btn-sm" id="budgetAddBtn">Definir</button>
           </div>
         </div>
@@ -356,8 +352,8 @@
         </div>
         <p class="text-soft text-sm">Crie metas com nome e valor — cada aporte te aproxima da conclusão. Ao bater 100%, é festa.</p>
         <div class="flex gap-8" style="flex-wrap:wrap">
-          <input type="text" id="goalNomeInput" placeholder="Nome do cofrinho (ex: Viagem)" style="flex:2;min-width:180px" />
-          <input type="number" id="goalMetaInput" placeholder="Meta R$" style="flex:1;min-width:120px" min="0" step="0.01" />
+          <input type="text" id="goalNomeInput" placeholder="Nome do cofrinho (ex: Viagem)" aria-label="Nome do cofrinho" style="flex:2;min-width:180px" />
+          <input type="number" id="goalMetaInput" placeholder="Meta R$" aria-label="Valor da meta em reais" style="flex:1;min-width:120px" min="0" step="0.01" />
           <button class="btn btn-primary" id="goalAddBtn">Criar cofrinho</button>
         </div>
         <div class="grid grid-2 mt-16" id="goalsList"></div>
@@ -369,8 +365,8 @@
         </div>
         <p class="text-soft text-sm">Registre onde seu patrimônio investido está hoje, por classe de ativo, e compare com a carteira-modelo do seu perfil de risco.</p>
         <div class="flex gap-8" style="flex-wrap:wrap">
-          <select id="holdingClasseSelect" style="flex:2;min-width:180px"></select>
-          <input type="number" id="holdingValorInput" placeholder="Valor investido R$" style="flex:1;min-width:140px" min="0" step="0.01" />
+          <select id="holdingClasseSelect" style="flex:2;min-width:180px" aria-label="Classe do ativo investido"></select>
+          <input type="number" id="holdingValorInput" placeholder="Valor investido R$" aria-label="Valor investido em reais" style="flex:1;min-width:140px" min="0" step="0.01" />
           <button class="btn btn-primary" id="holdingAddBtn">Adicionar posição</button>
         </div>
         <div class="flex-between mt-16">
@@ -388,8 +384,8 @@
         </div>
         <p class="text-soft text-sm">Quer comprar algo não essencial? Adicione aqui. Você só poderá marcar como "comprado" depois de 7 dias — na maioria das vezes, o desejo passa antes disso.</p>
         <div class="flex gap-8">
-          <input type="text" id="wishItemInput" placeholder="O que você quer comprar?" style="flex:2" />
-          <input type="number" id="wishValorInput" placeholder="Valor R$" style="flex:1" min="0" />
+          <input type="text" id="wishItemInput" placeholder="O que você quer comprar?" aria-label="Item desejado" style="flex:2" />
+          <input type="number" id="wishValorInput" placeholder="Valor R$" aria-label="Valor do item em reais" style="flex:1" min="0" />
           <button class="btn btn-gold" id="wishAddBtn">Adicionar</button>
         </div>
         <div id="wishList" class="mt-16"></div>
@@ -445,7 +441,7 @@
       <div class="card mt-16">
         <h3>Criar uma liga</h3>
         <div class="flex gap-8">
-          <input type="text" id="leagueNomeInput" placeholder="Nome da liga (ex: Amigos da faculdade)" style="flex:1" />
+          <input type="text" id="leagueNomeInput" placeholder="Nome da liga (ex: Amigos da faculdade)" aria-label="Nome da liga" style="flex:1" />
           <button class="btn btn-primary" id="leagueCreateBtn">Criar liga</button>
         </div>
       </div>
@@ -499,6 +495,17 @@
         <h3>🔒 Segurança e privacidade</h3>
         <p class="text-soft text-sm">Todos os seus dados ficam só neste navegador. Aqui você pode cifrar os dados sensíveis com uma senha local e ver como o Fin+ trata sua privacidade (LGPD).</p>
         <div id="profileSecurity" class="mt-16"></div>
+      </div>
+
+      <div class="card mt-16">
+        <h3>💾 Conta e dados</h3>
+        <p class="text-soft text-sm">Baixe um backup de tudo que você já preencheu, restaure de um arquivo, ou refaça o diagnóstico inicial do zero.</p>
+        <div class="flex gap-8 mt-8" style="flex-wrap:wrap">
+          <button class="btn btn-outline btn-sm" id="exportBtn" title="Baixar backup dos seus dados em JSON">⬇️ Exportar</button>
+          <button class="btn btn-outline btn-sm" id="importBtn" title="Restaurar dados de um backup JSON">⬆️ Importar</button>
+          <input type="file" id="importFileInput" accept="application/json" class="hidden" aria-label="Selecionar arquivo de backup para importar" />
+          <button class="btn btn-outline btn-sm" id="resetBtn" title="Refazer diagnóstico e limpar dados de teste">Reiniciar</button>
+        </div>
       </div>
     </section>
 

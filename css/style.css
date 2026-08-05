@@ -231,6 +231,31 @@ button {
   z-index: 20;
 }
 
+/* Indica visualmente que há mais abas fora da tela (comum em telas
+   pequenas, onde nem todas as 14 abas cabem sem rolar) — "sombra" de
+   scroll fixa nas bordas via pseudo-elementos sticky dentro do próprio
+   nav, técnica sem JS e sem depender de saber se está no fim do scroll. */
+.tabs-nav::before,
+.tabs-nav::after {
+  content: "";
+  position: sticky;
+  top: 0;
+  width: 22px;
+  flex-shrink: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.tabs-nav::before {
+  left: 0;
+  margin-right: -22px;
+  background: linear-gradient(90deg, var(--surface), transparent);
+}
+.tabs-nav::after {
+  right: 0;
+  margin-left: -22px;
+  background: linear-gradient(270deg, var(--surface), transparent);
+}
+
 .tab-btn {
   border: none;
   background: transparent;
@@ -357,7 +382,9 @@ button {
 .btn-danger:hover { background: var(--coral-dark); }
 
 .btn-block { width: 100%; }
-.btn-sm { padding: 6px 12px; font-size: 12px; }
+/* min-height (não só padding) garante ~40px de alvo de toque mesmo em
+   botões de texto curto — recomendação WCAG 2.5.5/Apple HIG. */
+.btn-sm { padding: 6px 12px; font-size: 12px; min-height: 40px; }
 
 /* ---------- formulários ---------- */
 label {
@@ -585,7 +612,7 @@ input:focus, select:focus, textarea:focus {
   font-family: var(--font-display);
 }
 .level-ring-inner .n { font-size: 20px; font-weight: 700; }
-.level-ring-inner .l { font-size: 9px; color: #bcd8cf; }
+.level-ring-inner .l { font-size: 11px; color: #bcd8cf; }
 
 .kpi-row { margin-bottom: 20px; }
 
@@ -695,7 +722,7 @@ input:focus, select:focus, textarea:focus {
 .sim-bar { width: 100%; border-radius: 6px 6px 0 0; }
 .sim-bar.invest { background: var(--green); }
 .sim-bar.noinvest { background: var(--border-strong); }
-.sim-bar-label { font-size: 10.5px; color: var(--ink-soft); }
+.sim-bar-label { font-size: 11px; color: var(--ink-soft); }
 
 /* =========================================================================
    CARTEIRA / GASTOS
@@ -815,7 +842,7 @@ input:focus, select:focus, textarea:focus {
   box-shadow: var(--shadow);
 }
 .trail-level-info { flex: 1; min-width: 0; }
-.trail-level-tag { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--level-color, var(--primary)); }
+.trail-level-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--level-color, var(--primary)); }
 .trail-level-info h3 { margin: 2px 0 0; font-size: 15.5px; }
 
 .trail-level-ring {
@@ -826,7 +853,7 @@ input:focus, select:focus, textarea:focus {
 .trail-level-ring span {
   width: 36px; height: 36px; border-radius: 50%; background: var(--surface);
   display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 700; color: var(--ink-soft); font-family: var(--font-mono);
+  font-size: 11px; font-weight: 700; color: var(--ink-soft); font-family: var(--font-mono);
 }
 
 .trail-nodes {
@@ -880,7 +907,7 @@ input:focus, select:focus, textarea:focus {
 .trail-node.current { animation: nodeBreathe 1.8s ease-in-out infinite; }
 
 .trail-node-label { font-size: 11.5px; font-weight: 700; margin-top: 8px; line-height: 1.25; max-width: 120px; }
-.trail-node-xp { font-size: 10px; font-weight: 700; color: var(--gold-dark); margin-top: 3px; }
+.trail-node-xp { font-size: 11px; font-weight: 700; color: var(--gold-dark); margin-top: 3px; }
 
 .quiz-overlay {
   position: fixed; inset: 0;
@@ -935,7 +962,7 @@ input:focus, select:focus, textarea:focus {
 .news-item .news-date { font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.03em; }
 .news-item h4 { font-size: 15px; margin: 4px 0; }
 .news-item p { font-size: 13px; color: var(--ink-soft); margin: 0; }
-.news-tag { font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: var(--surface-2); color: var(--ink-soft); }
+.news-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: var(--surface-2); color: var(--ink-soft); }
 
 /* =========================================================================
    EDUCAÇÃO / CONSCIÊNCIA FINANCEIRA
@@ -1009,7 +1036,7 @@ tr.row-best td {
   right: 16px;
   background: var(--primary);
   color: #fff;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   padding: 3px 10px;
   border-radius: 20px;
@@ -1192,6 +1219,15 @@ tr.row-best td {
   border: none;
   cursor: pointer;
   font-family: inherit;
+  position: relative;
+}
+/* Área de toque estendida (~40px) sem inflar o tamanho visual do chip —
+   ele fica lado a lado com outros stat-chips do mesmo tamanho no header,
+   então crescer visualmente destoaria dos vizinhos. */
+.account-chip::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
 }
 .account-avatar, .account-avatar-fallback {
   width: 18px; height: 18px; border-radius: 50%; object-fit: cover;
@@ -1677,6 +1713,15 @@ tr.row-best td {
 .link-btn {
   background: none; border: none; padding: 0; font-size: 12px;
   color: var(--ink-soft); text-decoration: underline; cursor: pointer;
+  position: relative;
+}
+/* Mesmo padrão do .account-chip/.tip-trigger: link inline num bloco de
+   texto (exceção de alvo de toque do WCAG 2.5.5) — a área de clique
+   fica maior sem inflar visualmente o texto sublinhado. */
+.link-btn::before {
+  content: "";
+  position: absolute;
+  inset: -13px;
 }
 
 /* ---------- utilitários ---------- */
@@ -1696,7 +1741,7 @@ tr.row-best td {
   display: inline-flex; align-items: center; justify-content: center;
   width: 16px; height: 16px; border-radius: 50%;
   background: var(--surface-2); color: var(--ink-soft);
-  font-size: 10.5px; font-weight: 700; cursor: help;
+  font-size: 11px; font-weight: 700; cursor: help;
   margin-left: 4px; flex-shrink: 0; border: 1px solid var(--border);
   vertical-align: middle;
 }
@@ -1726,6 +1771,7 @@ tr.row-best td {
 
   .tabs-nav { padding: 0 10px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .tabs-nav::-webkit-scrollbar { display: none; }
+  .tab-btn { padding: 12px 10px; font-size: 13.5px; gap: 4px; }
 
   .main-content { padding: 16px 14px 48px; }
   .section-title h2 { font-size: 20px; }

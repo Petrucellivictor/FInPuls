@@ -91,6 +91,8 @@ const Achievements = {
   notify(achievement) {
     const toast = document.createElement("div");
     toast.className = "achievement-toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
     toast.innerHTML = `<span class="emoji">${achievement.emoji}</span><div><b>Conquista desbloqueada!</b><br/>${achievement.titulo}</div>`;
     document.body.appendChild(toast);
     setTimeout(() => toast.classList.add("show"), 10);

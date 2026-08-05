@@ -4,6 +4,36 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.28.0] - 2026-08-05
+
+### Corrigido
+- **RFC-009 — Responsividade e acessibilidade**
+  (`rfcs/RFC-009-responsividade-acessibilidade.md`): revisão orientada a
+  evidências (testada com Playwright/Chromium em 320-1440px, não só lida
+  no código), corrigindo os problemas reais encontrados:
+  - **Cabeçalho** caía em 3 linhas em celulares — os botões Exportar/
+    Importar/Reiniciar saíram do header e agora vivem num novo card
+    "Conta e dados" na aba Perfil (mesmo lugar de "Segurança e
+    privacidade"). Cabeçalho agora cabe em 2 linhas.
+  - **Navegação por abas**: só 2 das 14 abas apareciam sem rolar em
+    celulares, sem nenhum indicativo visual de que havia mais abas.
+    Adicionado um fade nas bordas do `.tabs-nav` (indicador de scroll)
+    e reduzido o padding das abas em telas pequenas.
+  - **10 alvos de toque abaixo de 40px** (botões pequenos, chip de
+    conta) corrigidos — `min-height` nos botões, e área de toque
+    estendida via `::before` nos elementos que precisavam ficar
+    visualmente pequenos por design (chip de conta, link de política de
+    privacidade), sem inflar o visual deles.
+  - **8 textos abaixo de 11px** (rótulo "NÍVEL", tags da trilha, do
+    simulador, de notícias etc.) subiram para 11px.
+  - **10 campos de formulário sem rótulo acessível** (orçamento,
+    cofrinhos, carteira de investimentos, lista de desejos, liga,
+    glossário) ganharam `aria-label`.
+  - **Notificações (toasts)** — conquista desbloqueada, subida de
+    nível, bônus diário, avisos do POLVIn, energia — ganharam
+    `role="status"`/`aria-live="polite"`, para leitores de tela
+    anunciarem essas mensagens (antes, nenhuma era anunciada).
+
 ## [1.27.0] - 2026-08-05
 
 ### Adicionado

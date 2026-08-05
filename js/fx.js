@@ -24,6 +24,8 @@ const Fx = {
   levelUpToast(tier) {
     const toast = document.createElement("div");
     toast.className = "achievement-toast level-toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
     toast.innerHTML = `<span class="emoji">${tier.emoji}</span><div><b>Subiu de nível!</b><br/>Agora você é: ${tier.titulo}</div>`;
     document.body.appendChild(toast);
     setTimeout(() => toast.classList.add("show"), 10);
@@ -36,6 +38,8 @@ const Fx = {
   dailyBonusToast(streak, coinBonus) {
     const toast = document.createElement("div");
     toast.className = "achievement-toast level-toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
     toast.innerHTML = `<span class="emoji">🔥</span><div><b>Ofensiva de ${streak} dia${streak === 1 ? "" : "s"}!</b><br/>Bônus de login: +${coinBonus} moedas</div>`;
     document.body.appendChild(toast);
     setTimeout(() => toast.classList.add("show"), 10);
@@ -50,6 +54,8 @@ const Fx = {
   polvinNoticeToast(message) {
     const toast = document.createElement("div");
     toast.className = "achievement-toast level-toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
     toast.innerHTML = `<div>${message}</div>`;
     document.body.appendChild(toast);
     setTimeout(() => toast.classList.add("show"), 10);
@@ -62,6 +68,8 @@ const Fx = {
   energyToast(amount, combo) {
     const toast = document.createElement("div");
     toast.className = "achievement-toast level-toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
     toast.innerHTML = `<span class="emoji">⚡</span><div><b>+${amount} energia!</b><br/>Você acertou ${combo} perguntas seguidas.</div>`;
     document.body.appendChild(toast);
     setTimeout(() => toast.classList.add("show"), 10);

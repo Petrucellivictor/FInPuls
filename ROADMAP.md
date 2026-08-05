@@ -38,6 +38,10 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 - ✅ **Fase 1 — biblioteca de animações + celebração de lição + Início** (v1.27.0, RFC-008): primeira aplicação da nova filosofia de design (`.claude/agents/ux-ui-design-lead.md`). Biblioteca de animações reutilizável (`js/fx.js`/`css/style.css`), celebração de lição reconstruída (POLVIn comemorando, moedas voando, confete, brilho), botões elásticos em todo o app, e o card da Início virou uma cena com o POLVIn mergulhando trazendo uma moeda e uma fala dinâmica sobre o progresso real do jogador.
 - **Fases futuras**: redesenho das demais ~19 abas do app, uma leva por vez — ainda não escopado em nenhuma RFC.
 
+## Qualidade — responsividade e acessibilidade
+
+- ✅ **RFC-009** (v1.28.0): revisão orientada a evidências (testada em 320-1440px com Playwright, não só lida no código) — cabeçalho compactado (3→2 linhas em celular, botões de backup movidos pro Perfil), indicador de scroll nas abas, 10 alvos de toque e 8 fontes pequenas corrigidos, 10 campos de formulário sem rótulo corrigidos, toasts com `aria-live`. Navegação por abas com 14 itens continua exigindo scroll horizontal em celulares (mitigado com um indicador visual, não eliminado) — uma reestruturação da navegação (menu "mais", reordenar por uso) ficaria para uma RFC própria se o usuário priorizar.
+
 ## Ideias futuras (fora do backlog original das 13 ideias)
 
 - **Gating de conteúdo por nível**: níveis desbloqueando aulas/simulações/roupas/temas específicos (não só o título) — ideia adicionada pelo Product Owner durante a triagem, não fazia parte do pedido original. Depende de repensar `Trail.isUnlocked`/a Loja para considerar nível do jogador, não só progresso sequencial. Sem RFC aberta — só entra em uma próxima etapa se o usuário priorizar.

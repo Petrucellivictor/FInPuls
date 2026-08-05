@@ -228,7 +228,7 @@ const Advanced = {
     const container = document.getElementById("advGlossarioContent");
     container.innerHTML = `
       <div class="flex gap-8" style="flex-wrap:wrap;margin-bottom:12px">
-        <input type="text" id="glossarioBusca" placeholder="Buscar termo (ex: duration, ROE, hedge...)" style="flex:2" />
+        <input type="text" id="glossarioBusca" placeholder="Buscar termo (ex: duration, ROE, hedge...)" aria-label="Buscar termo no glossário" style="flex:2" />
       </div>
       <div class="invest-filters" id="glossarioFiltros">
         <button class="filter-chip active" data-nivel="todos">Todos</button>
