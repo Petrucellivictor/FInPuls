@@ -4,6 +4,24 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.30.0] - 2026-08-05
+
+### Adicionado
+- **RFC-011 — Guarda-roupa do POLVIn (Fase 2B)**
+  (`rfcs/RFC-011-guarda-roupa-do-polvin.md`): o POLVIn agora muda de
+  cor — 6 cores novas na Loja (Verde Esmeralda, Azul Oceano, Rosa
+  Choque, Vermelho Fogo, Dourado Lendário, Ciano Neon), aplicadas via
+  filtro CSS sobre a arte já existente do mascote (sem gerar nenhum
+  asset novo). Cor é só mais uma categoria dentro do mesmo sistema de
+  equipar já usado por acessórios/bandeiras/molduras — pode combinar
+  todas ao mesmo tempo.
+  - **Guarda-roupa**: a Loja do Perfil ganhou um preview grande ao
+    vivo do POLVIn no topo (mostra o efeito de cada troca na hora) e
+    os itens agora aparecem agrupados por categoria, em vez de uma
+    vitrine única misturada.
+- Fecha a **Fase 2B** do plano de redesign registrado no RFC-010.
+  Restam as Fases 2C+ (demais abas do app), ainda não escopadas.
+
 ## [1.29.0] - 2026-08-05
 
 ### Adicionado

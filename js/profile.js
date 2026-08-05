@@ -68,6 +68,18 @@ const Profile = {
     `;
   },
 
+  SHOP_CATEGORIES: [
+    { tipo: "cor", titulo: "🎨 Cor" },
+    { tipo: "acessorio", titulo: "🎩 Acessórios" },
+    { tipo: "bandeira", titulo: "🚩 Bandeiras" },
+    { tipo: "moldura", titulo: "🖼️ Molduras" },
+  ],
+
+  /* Guarda-roupa do POLVIn (RFC-011): preview grande ao vivo no topo,
+     itens agrupados por categoria (cor/acessório/bandeira/moldura) em
+     vez de uma vitrine única misturada. Comprar/equipar continua sendo
+     exatamente o mesmo fluxo de sempre (buy/toggleEquip), só a
+     apresentação mudou. */
   renderShop() {
     const container = document.getElementById("profileShop");
     if (!container) return;
@@ -75,6 +87,9 @@ const Profile = {
     const equipped = Store.get(STORAGE_KEYS.EQUIPPED, {});
     const coins = Learn.getCoins();
     const activeEvent = typeof Events !== "undefined" ? Events.getActiveEvent() : null;
+
+    const previewEl = document.getElementById("profileWardrobePreview");
+    if (previewEl) previewEl.innerHTML = Polvin.avatarHtml("lg");
 
     /* Itens de evento (eventoExclusivo) só aparecem na vitrine enquanto o
        evento correspondente está ativo, ou se o jogador já os possui —
@@ -84,7 +99,7 @@ const Profile = {
       (item) => !item.eventoExclusivo || owned.includes(item.id) || (activeEvent && activeEvent.id === item.eventoExclusivo)
     );
 
-    container.innerHTML = visibleItems.map((item) => {
+    const itemCardHtml = (item) => {
       const isOwned = owned.includes(item.id);
       const isEquipped = equipped[item.tipo] === item.id;
       return `
@@ -97,6 +112,16 @@ const Profile = {
               ? `<button class="btn btn-sm btn-block ${isEquipped ? "btn-outline" : "btn-primary"}" data-equip="${item.id}">${isEquipped ? "Equipado ✓" : "Equipar"}</button>`
               : `<button class="btn btn-gold btn-sm btn-block" data-buy="${item.id}" ${coins < item.preco ? "disabled" : ""}>🪙 ${item.preco}</button>`
           }
+        </div>`;
+    };
+
+    container.innerHTML = this.SHOP_CATEGORIES.map((cat) => {
+      const itemsInCat = visibleItems.filter((item) => item.tipo === cat.tipo);
+      if (!itemsInCat.length) return "";
+      return `
+        <div class="shop-category">
+          <h4 class="shop-category-title">${cat.titulo}</h4>
+          <div class="shop-grid">${itemsInCat.map(itemCardHtml).join("")}</div>
         </div>`;
     }).join("");
 

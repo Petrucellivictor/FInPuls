@@ -9585,6 +9585,16 @@ const SHOP_ITEMS = [
   { id: "frame_ferias", tipo: "moldura", emoji: "🏖️", cor: "#2DB6A3", nome: "Moldura Férias", preco: 60, desc: "Exclusiva das Férias Fin+.", eventoExclusivo: "ferias" },
   { id: "frame_blackfriday", tipo: "moldura", emoji: "🛍️", cor: "#1A1A1A", nome: "Moldura Black Friday", preco: 60, desc: "Exclusiva da Black Friday Fin+.", eventoExclusivo: "black_friday" },
   { id: "frame_natal", tipo: "moldura", emoji: "🎄", cor: "#B23B3B", nome: "Moldura Natal", preco: 60, desc: "Exclusiva do Natal Fin+.", eventoExclusivo: "natal" },
+
+  /* Cores do POLVIn (RFC-011) — aplicadas via filtro CSS sobre a arte já
+     existente (Polvin-logo.png), sem re-ilustrar o mascote. `filtro` é o
+     valor de `filter` calibrado visualmente (ver js/polvin.js). */
+  { id: "cor_esmeralda", tipo: "cor", emoji: "🟩", nome: "Verde Esmeralda", preco: 70, desc: "Um verde vibrante, cor de crescimento.", filtro: "hue-rotate(243deg) saturate(1.3)" },
+  { id: "cor_oceano", tipo: "cor", emoji: "🟦", nome: "Azul Oceano", preco: 70, desc: "Combina com o fundo do mar da Cidade.", filtro: "hue-rotate(303deg) saturate(1.15)" },
+  { id: "cor_rosa", tipo: "cor", emoji: "🟪", nome: "Rosa Choque", preco: 70, desc: "Pra ninguém passar despercebido.", filtro: "hue-rotate(68deg) saturate(1.4)" },
+  { id: "cor_fogo", tipo: "cor", emoji: "🟥", nome: "Vermelho Fogo", preco: 80, desc: "Tão intenso quanto sua ofensiva.", filtro: "hue-rotate(103deg) saturate(1.5)" },
+  { id: "cor_dourada", tipo: "cor", emoji: "🟨", nome: "Dourado Lendário", preco: 100, desc: "Pra quem chegou a Lenda Financeira.", filtro: "hue-rotate(143deg) saturate(1.5) brightness(1.15)" },
+  { id: "cor_neon", tipo: "cor", emoji: "🩵", nome: "Ciano Neon", preco: 90, desc: "Um brilho elétrico e moderno.", filtro: "hue-rotate(283deg) saturate(2) brightness(1.1)" },
 ];
 
 /* -------------------------------------------------------------------------

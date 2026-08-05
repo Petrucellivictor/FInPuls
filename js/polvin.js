@@ -41,11 +41,14 @@ const Polvin = {
     const acessorio = equipped.acessorio && SHOP_ITEMS.find((i) => i.id === equipped.acessorio);
     const bandeira = equipped.bandeira && SHOP_ITEMS.find((i) => i.id === equipped.bandeira);
     const moldura = equipped.moldura && SHOP_ITEMS.find((i) => i.id === equipped.moldura);
+    const cor = equipped.cor && SHOP_ITEMS.find((i) => i.id === equipped.cor);
+
+    const imgStyle = [moldura ? `border-color:${moldura.cor}` : "", cor ? `filter:${cor.filtro}` : ""].filter(Boolean).join(";");
 
     return `
       <div class="polvin-3d polvin-${size || "md"}">
         <div class="polvin-3d-inner">
-          <img src="Polvin-logo.png" alt="POLVIn" class="polvin-avatar-img" style="${moldura ? `border-color:${moldura.cor}` : ""}" />
+          <img src="Polvin-logo.png" alt="POLVIn" class="polvin-avatar-img" style="${imgStyle}" />
           ${acessorio ? `<span class="polvin-accessory-hat">${acessorio.emoji}</span>` : ""}
           ${bandeira ? `<span class="polvin-accessory-flag">${bandeira.emoji}</span>` : ""}
         </div>

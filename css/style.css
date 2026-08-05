@@ -1822,6 +1822,19 @@ tr.row-best td {
 .shop-item-emoji { font-size: 30px; margin-bottom: 6px; }
 .shop-item-name { font-size: 12.5px; font-weight: 700; margin-bottom: 2px; }
 
+/* ---------- guarda-roupa do POLVIn (RFC-011) ---------- */
+.wardrobe-preview {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  margin-bottom: 8px;
+  background: radial-gradient(circle, var(--surface-2), transparent 70%);
+  border-radius: var(--radius);
+}
+.shop-category { margin-top: 18px; }
+.shop-category:first-of-type { margin-top: 8px; }
+.shop-category-title { font-size: 13.5px; font-weight: 700; color: var(--ink-soft); margin-bottom: 10px; }
+
 /* =========================================================================
    DESAFIOS — medalhas e ligas locais
    ========================================================================= */
