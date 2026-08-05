@@ -4,6 +4,26 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.17.0] - 2026-08-05
+
+### Adicionado
+- **Onda 6 da expansão para 300 lições**: as 6 lições do Módulo 06 da
+  trilha financeira ("Nível 6 · Mercado Avançado (Pro)") foram
+  retrofitadas de 3 para 10 perguntas cada (60 perguntas no total),
+  completando o padrão de 10 perguntas/lição em toda a trilha
+  financeira. Novos conceitos cobertos: desvio padrão, taxa livre de
+  risco, Beta, fronteira eficiente e alocação estratégica x tática
+  (l6_1); yield to maturity, risco de mercado x crédito, spread de
+  crédito e laddering (l6_2); ROIC, margem EBITDA, Dívida Líquida/
+  EBITDA, fluxo de caixa livre, payout ratio e PEG ratio (l6_3); ITCMD,
+  doação com reserva de usufruto, testamento, seguro de vida e IOF
+  regressivo (l6_4); calls e puts, contratos futuros, ancoragem,
+  excesso de confiança, contabilidade mental e viés de confirmação
+  (l6_5); variantes do FIRE, risco de sequência de retornos,
+  diversificação de fontes de renda e glide path (l6_6). A trilha
+  financeira (COURSE) chegou a 342 perguntas no total, com todos os 6
+  níveis agora no padrão de 10 perguntas/lição.
+
 ## [1.16.0] - 2026-08-05
 
 ### Corrigido
