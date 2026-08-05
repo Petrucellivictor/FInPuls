@@ -4,6 +4,24 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.17.2] - 2026-08-05
+
+### Corrigido
+- **XP ganho ao refazer uma lição já concluída**: `finishLesson()` (em
+  `js/trail.js` e `js/business.js`) registrava uma entrada nova em
+  `LESSON_LOG` a cada conclusão, mesmo em uma repetição — isso não
+  duplicava o XP direto da lição (que já tinha proteção), mas inflava
+  a contagem da missão semanal "Complete 3 lições esta semana"
+  (que conta entradas no log, não lições distintas), permitindo
+  completar essa missão e ganhar XP/moedas de bônus só repetindo a
+  mesma lição 3 vezes. Agora o registro no log só acontece na
+  primeira conclusão, igual ao XP e às moedas.
+- **Mensagem enganosa na tela de conclusão**: ao refazer uma lição já
+  concluída, a tela sempre mostrava "+X XP adicionados à sua conta",
+  mesmo quando nenhum XP era de fato creditado. Agora mostra uma
+  mensagem diferente ("revisar não dá XP de novo, mas ajuda a fixar o
+  conteúdo") quando a lição já estava concluída antes.
+
 ## [1.17.1] - 2026-08-05
 
 ### Adicionado

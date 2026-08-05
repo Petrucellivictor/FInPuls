@@ -266,20 +266,25 @@ const Business = {
     const total = lesson.perguntas.length;
     const pct = Math.round((correctCount / total) * 100);
     const passed = pct >= 60;
+    let alreadyDone = false;
 
     if (passed) {
       const progress = this.getProgress();
-      const alreadyDone = !!progress[lesson.id];
+      alreadyDone = !!progress[lesson.id];
       progress[lesson.id] = true;
       Store.set(STORAGE_KEYS.BUSINESS_PROGRESS, progress);
+      /* XP, moedas e o registro no LESSON_LOG só valem na PRIMEIRA conclusão —
+         sem esse guard, refazer a mesma lição infla o LESSON_LOG e engana a
+         missão semanal "complete 3 lições" (que conta entradas no log, não
+         lições distintas), concedendo recompensa sem trabalho novo real. */
       if (!alreadyDone) {
         Learn.addXp(lesson.xp);
         Learn.addCoins(5);
-      }
 
-      const log = Store.get(STORAGE_KEYS.LESSON_LOG, []);
-      log.push({ lessonId: lesson.id, fonte: "empreender", data: new Date().toISOString() });
-      Store.set(STORAGE_KEYS.LESSON_LOG, log);
+        const log = Store.get(STORAGE_KEYS.LESSON_LOG, []);
+        log.push({ lessonId: lesson.id, fonte: "empreender", data: new Date().toISOString() });
+        Store.set(STORAGE_KEYS.LESSON_LOG, log);
+      }
       document.dispatchEvent(new CustomEvent("lesson:passed"));
     }
 
@@ -289,7 +294,13 @@ const Business = {
         <div class="quiz-result-emoji">${passed ? "🎉" : "🔁"}</div>
         <h2>${passed ? "Lição concluída!" : "Quase lá!"}</h2>
         <p class="text-soft">Você acertou ${correctCount} de ${total} perguntas (${pct}%).</p>
-        ${passed ? `<p><b>+${lesson.xp} XP</b> adicionados à sua conta.</p>` : `<p>Você precisa de pelo menos 60% de acertos para concluir. Tente de novo!</p>`}
+        ${
+          passed
+            ? alreadyDone
+              ? `<p class="text-soft">✅ Você já tinha concluído essa lição — revisar não dá XP de novo, mas ajuda a fixar o conteúdo!</p>`
+              : `<p><b>+${lesson.xp} XP</b> adicionados à sua conta.</p>`
+            : `<p>Você precisa de pelo menos 60% de acertos para concluir. Tente de novo!</p>`
+        }
         <button class="btn btn-primary btn-block mt-16" id="businessQuizCloseBtn">${passed ? "Continuar" : "Tentar novamente"}</button>
       </div>
     `;
