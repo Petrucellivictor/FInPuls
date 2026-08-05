@@ -7,7 +7,37 @@
 const Engagement = {
   init() {
     this.checkDailyLoginBonus();
+    this.checkPolvinNotice();
     this.renderHome();
+  },
+
+  /* Aviso leve do POLVIn — sem push notification (exigiria backend, fora do
+     escopo atual, ver ROADMAP.md Etapa 0): só um toast mostrado no máximo
+     1x por dia, ao abrir o app, com o aviso mais relevante no momento.
+     Prioridade: sentiu sua falta (2+ dias sem atividade) > streak em risco
+     (nada feito hoje, mas tem streak ativo) > perto de subir de nível. */
+  checkPolvinNotice() {
+    if (typeof Fx === "undefined" || !Fx.polvinNoticeToast) return;
+    const today = this.todayStr();
+    if (Store.get(STORAGE_KEYS.POLVIN_NOTICE_SHOWN, null) === today) return;
+
+    const streak = Store.get(STORAGE_KEYS.STREAK, { dias: 0, ultimoDia: null });
+    const daysSince = streak.ultimoDia ? Math.round((new Date(today) - new Date(streak.ultimoDia)) / 86400000) : null;
+
+    let message = null;
+    if (streak.dias > 0 && daysSince >= 2) {
+      message = "🐙 Seu dinheiro sentiu sua falta! Bora continuar de onde parou?";
+    } else if (streak.dias > 0 && daysSince >= 1) {
+      message = "🐙 Sua sequência está em risco hoje! Complete algo na Academia Fin+ para não perder o streak.";
+    } else {
+      const faltam = 100 - (Learn.getXp() % 100);
+      if (faltam <= 20) message = `🐙 Faltam só ${faltam} XP para você subir de nível!`;
+    }
+
+    if (message) {
+      Fx.polvinNoticeToast(message);
+      Store.set(STORAGE_KEYS.POLVIN_NOTICE_SHOWN, today);
+    }
   },
 
   todayStr() {
@@ -57,6 +87,21 @@ const Engagement = {
     Store.set(STORAGE_KEYS.CHALLENGES_STATE, state);
   },
 
+  /* Embaralhamento determinístico (mesmo "seed" = mesmo resultado o dia
+     inteiro, mas sem o padrão fixo de deslocamento — "amanhã muda tudo",
+     não só desliza 1 posição). LCG simples, suficiente para variar a
+     seleção diária sem precisar de nada além de Math. */
+  seededShuffle(array, seed) {
+    const arr = array.slice();
+    let s = seed % 233280 || 1;
+    for (let i = arr.length - 1; i > 0; i--) {
+      s = (s * 9301 + 49297) % 233280;
+      const j = Math.floor((s / 233280) * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  },
+
   /* Garante que o pacote de hoje/semana está gerado, sem repetir a cada render. */
   ensureFreshState() {
     const state = this.getState();
@@ -64,13 +109,9 @@ const Engagement = {
     const wk = this.weekKey();
 
     if (state.date !== today) {
-      const dayIndex = new Date().getDate() + new Date().getMonth() * 31;
-      const pool = DAILY_CHALLENGES;
-      const ids = [];
-      for (let i = 0; i < 3 && i < pool.length; i++) {
-        const idx = (dayIndex + i * 3) % pool.length;
-        if (!ids.includes(pool[idx].id)) ids.push(pool[idx].id);
-      }
+      const dayIndex = new Date().getDate() + new Date().getMonth() * 31 + new Date().getFullYear() * 372;
+      const embaralhado = this.seededShuffle(DAILY_CHALLENGES, dayIndex);
+      const ids = embaralhado.slice(0, 3).map((c) => c.id);
       state.date = today;
       state.dailyIds = ids;
       state.dailyCompletedManual = [];
@@ -103,6 +144,10 @@ const Engagement = {
         return Store.get(STORAGE_KEYS.LESSON_LOG, []).some((l) => new Date(l.data).toDateString() === today);
       case "save_goal":
         return Goals.contributedToday();
+      case "run_simulation":
+        return Store.get(STORAGE_KEYS.SIMULATOR_LOG, []).some((l) => new Date(l.data).toDateString() === today);
+      case "ask_polvin":
+        return Store.get(STORAGE_KEYS.POLVIN_LOG, []).some((l) => new Date(l.data).toDateString() === today);
       default:
         return false;
     }

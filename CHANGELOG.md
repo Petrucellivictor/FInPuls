@@ -4,6 +4,29 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.20.0] - 2026-08-05
+
+### Adicionado
+- **RFC-001** (primeira RFC formal sob o protocolo do Orchestrator AI,
+  `rfcs/RFC-001-etapa1-missoes-mercado-avisos.md`): fecha a Etapa 1 do
+  `ROADMAP.md` com 3 entregas.
+- **Missões diárias mais variadas**: pool de `DAILY_CHALLENGES` de 7
+  para 12 itens (novos: fazer uma simulação, perguntar ao POLVIn,
+  conferir nível/conquistas/carteira). A seleção diária trocou o
+  deslocamento fixo por um embaralhamento determinístico por dia
+  (`Engagement.seededShuffle`) — mesmo dia sempre gera o mesmo pacote,
+  mas dia para dia a variedade é real (27 combinações distintas em 30
+  dias simulados, contra um padrão previsível antes).
+- **Aba Mercado expandida**: mais pares de moeda (GBP/BRL, ARS/BRL) e
+  mais criptomoedas (BNB, XRP), usando as mesmas duas APIs públicas já
+  auditadas (AwesomeAPI, CoinGecko) — sem nenhuma chamada nova.
+- **Avisos leves do POLVIn**: toast único por dia ao abrir o app, com
+  o aviso mais relevante — "sentiu sua falta" (2+ dias sem atividade),
+  "streak em risco" (nada feito hoje) ou "faltam X XP para o próximo
+  nível" — sem depender de push notification (que exigiria backend).
+- Novas chaves `SIMULATOR_LOG`, `POLVIN_LOG` e `POLVIN_NOTICE_SHOWN`
+  em `STORAGE_KEYS`.
+
 ## [1.19.0] - 2026-08-05
 
 ### Adicionado

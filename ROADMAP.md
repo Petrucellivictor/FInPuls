@@ -9,15 +9,15 @@ Dois itens do pedido original não podem ser implementados como descrito sem mud
 - **IA financeira conversacional** ("Tenho R$300/mês, onde investir?"): exigiria uma chave de API de LLM guardada em servidor — nunca pode ficar exposta no client. Não implementado agora. Versão intermediária viável na Etapa 1: expandir a base de palavras-chave do POLVIn (`ASSISTANT_FAQ`) para cobrir perguntas desse tipo com respostas educativas genéricas (não personalizadas). IA real fica condicionada a uma futura função serverless (Vercel/Supabase Edge Function), a ser avaliada com o DevOps Engineer.
 - **Notificações inteligentes** enquanto o app está fechado: exigem um push server (Web Push). Versão viável sem infraestrutura nova, na Etapa 1: avisos do POLVIn (toast/banner) baseados em eventos reais, mostrados enquanto o app está aberto — "faltam 20 XP para o próximo nível", "sua sequência está em risco hoje". Push de verdade fica registrado aqui como item futuro.
 
-## Etapa 1 — melhorar o que já existe (maior impacto, menor risco)
+## Etapa 1 — melhorar o que já existe (maior impacto, menor risco) — ✅ concluída (v1.18.0 + v1.20.0, RFC-001)
 
-| Item pedido | Status hoje | O que muda |
+| Item pedido | Status hoje | O que mudou |
 | --- | --- | --- |
-| Sistema de níveis | Existe (`PLAYER_LEVEL_TITLES`, 6 títulos genéricos) | Trocar por progressão temática de investidor (Iniciante → Poupador → Investidor → Estrategista → Trader → Mestre das Finanças → Lenda Financeira) — **implementado nesta etapa**, ver `js/data.js` |
-| Conquistas | Existe (19 conquistas) | Adicionar as citadas pelo usuário que ainda não existem: 50 simulações, "Amigo do POLVIn", Renda Fixa/Variável concluídas isoladamente, 10 livros lidos |
-| Missões diárias "nunca iguais" | Existe (pool de 7 desafios, seleção determinística por dia) | Ampliar o pool e melhorar a seleção para reduzir a sensação de repetição |
-| Mercado em tempo real | Existe (`js/market.js`, ticker de moedas/cripto) | Adicionar mais itens ao painel (ações específicas, Selic, IPCA) reaproveitando fontes já usadas em `BCB_SERIES` |
-| Notificações do POLVIn (versão client-side) | Não existe | Toasts contextuais baseados em XP faltante / streak em risco, sem infraestrutura nova |
+| Sistema de níveis | ✅ Feito (v1.18.0) | `PLAYER_LEVEL_TITLES` trocado pela progressão temática de investidor (Iniciante → Poupador → Investidor → Estrategista → Trader → Mestre das Finanças → Lenda Financeira) |
+| Conquistas | ✅ Feito (v1.18.0) | 4 conquistas novas: Renda Fixa completa, 50 simulações, 10 livros lidos, Amigo do POLVIn |
+| Missões diárias "nunca iguais" | ✅ Feito (v1.20.0, RFC-001) | Pool de 7 → 12 desafios; seleção trocada por embaralhamento determinístico por dia (27 combinações distintas em 30 dias simulados, contra um padrão fixo antes) |
+| Mercado em tempo real | ✅ Feito (v1.20.0, RFC-001) | Mais pares de moeda (GBP, ARS) e criptomoedas (BNB, XRP) — cotação de ações individuais continua fora do escopo (ver Etapa 0 do README, exige API paga) |
+| Notificações do POLVIn (versão client-side) | ✅ Feito (v1.20.0, RFC-001) | Toast único por dia — "sentiu sua falta" (2+ dias sem atividade) > "streak em risco" (nada feito hoje) > "faltam X XP para o próximo nível" |
 
 ## Etapa 2 — novas mecânicas de conteúdo (esforço médio)
 

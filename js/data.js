@@ -9294,6 +9294,11 @@ const DAILY_CHALLENGES = [
   { id: "review_wishlist", titulo: "Revise sua lista de espera de desejos", descricao: "Abra a lista de espera na Carteira e decida sobre algum item.", xp: 10, tipo: "manual" },
   { id: "check_market", titulo: "Confira os indicadores do mercado", descricao: "Dê uma olhada na aba Mercado hoje.", xp: 5, tipo: "manual" },
   { id: "check_glossary", titulo: "Aprenda 1 termo novo", descricao: "Abra o Dicionário do Mercado na aba Avançado e leia um termo que não conhece.", xp: 5, tipo: "manual" },
+  { id: "run_simulation", titulo: "Faça uma simulação", descricao: "Use o Simulador para testar um cenário de investimento.", xp: 10, tipo: "auto" },
+  { id: "ask_polvin", titulo: "Peça uma dica ao POLVIn", descricao: "Pergunte algo para o assistente flutuante, no canto da tela.", xp: 5, tipo: "auto" },
+  { id: "check_profile", titulo: "Confira seu nível de investidor", descricao: "Veja seu nível e progresso atual na aba Perfil.", xp: 5, tipo: "manual" },
+  { id: "check_achievements", titulo: "Reveja suas conquistas", descricao: "Abra a aba Perfil e veja quais conquistas você já desbloqueou.", xp: 5, tipo: "manual" },
+  { id: "check_portfolio", titulo: "Revise sua Carteira de Investimentos", descricao: "Dê uma olhada em como está sua alocação de ativos na Carteira.", xp: 10, tipo: "manual" },
 ];
 
 const WEEKLY_MISSIONS = [

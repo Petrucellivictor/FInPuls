@@ -19,11 +19,15 @@ const Simulator = {
 
   /* Conta só simulações feitas de propósito (clique no botão), não o
      cálculo automático de exibição inicial — usado pela conquista
-     "Fez 50 simulações". */
+     "Fez 50 simulações" e pelo desafio diário "Faça uma simulação". */
   logRun() {
     const runs = Store.get(STORAGE_KEYS.SIMULATOR_RUNS, 0) + 1;
     Store.set(STORAGE_KEYS.SIMULATOR_RUNS, runs);
+    const log = Store.get(STORAGE_KEYS.SIMULATOR_LOG, []);
+    log.push({ data: new Date().toISOString() });
+    Store.set(STORAGE_KEYS.SIMULATOR_LOG, log);
     if (typeof Achievements !== "undefined") Achievements.checkAll();
+    if (typeof Engagement !== "undefined") Engagement.checkAwards();
   },
 
   fmt(v) {

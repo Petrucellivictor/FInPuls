@@ -45,6 +45,20 @@ const Fx = {
     }, 4500);
   },
 
+  /* Aviso leve do POLVIn (streak em risco, perto de subir de nível, etc.) —
+     texto já vem com o emoji 🐙 embutido em Engagement.checkPolvinNotice(). */
+  polvinNoticeToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "achievement-toast level-toast";
+    toast.innerHTML = `<div>${message}</div>`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add("show"), 10);
+    setTimeout(() => {
+      toast.classList.remove("show");
+      setTimeout(() => toast.remove(), 400);
+    }, 5500);
+  },
+
   energyToast(amount, combo) {
     const toast = document.createElement("div");
     toast.className = "achievement-toast level-toast";

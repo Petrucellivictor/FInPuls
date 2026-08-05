@@ -31,7 +31,7 @@ const Market = {
 
   async fetchMoedas() {
     try {
-      const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL");
+      const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,GBP-BRL,ARS-BRL");
       const json = await res.json();
       this.data.moedas = Object.values(json).map((m) => ({
         nome: `${m.code}/${m.codein}`,
@@ -47,10 +47,17 @@ const Market = {
   async fetchCriptos() {
     try {
       const res = await fetch(
-        "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,cardano&vs_currencies=brl&include_24hr_change=true"
+        "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,cardano,binancecoin,ripple&vs_currencies=brl&include_24hr_change=true"
       );
       const json = await res.json();
-      const labels = { bitcoin: "Bitcoin (BTC)", ethereum: "Ethereum (ETH)", solana: "Solana (SOL)", cardano: "Cardano (ADA)" };
+      const labels = {
+        bitcoin: "Bitcoin (BTC)",
+        ethereum: "Ethereum (ETH)",
+        solana: "Solana (SOL)",
+        cardano: "Cardano (ADA)",
+        binancecoin: "BNB (BNB)",
+        ripple: "XRP (XRP)",
+      };
       this.data.criptos = Object.entries(json).map(([id, v]) => ({
         nome: labels[id] || id,
         valor: v.brl,

@@ -324,6 +324,10 @@ const Polvin = {
 
     const asked = Store.get(STORAGE_KEYS.POLVIN_QUESTIONS_ASKED, 0) + 1;
     Store.set(STORAGE_KEYS.POLVIN_QUESTIONS_ASKED, asked);
+    const log = Store.get(STORAGE_KEYS.POLVIN_LOG, []);
+    log.push({ data: new Date().toISOString() });
+    Store.set(STORAGE_KEYS.POLVIN_LOG, log);
     if (typeof Achievements !== "undefined") Achievements.checkAll();
+    if (typeof Engagement !== "undefined") Engagement.checkAwards();
   },
 };
