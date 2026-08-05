@@ -44,9 +44,13 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 
 - ✅ **RFC-009** (v1.28.0): revisão orientada a evidências (testada em 320-1440px com Playwright, não só lida no código) — cabeçalho compactado (3→2 linhas em celular, botões de backup movidos pro Perfil), indicador de scroll nas abas, 10 alvos de toque e 8 fontes pequenas corrigidos, 10 campos de formulário sem rótulo corrigidos, toasts com `aria-live`. Navegação por abas com 14 itens continua exigindo scroll horizontal em celulares (mitigado com um indicador visual, não eliminado) — uma reestruturação da navegação (menu "mais", reordenar por uso) ficaria para uma RFC própria se o usuário priorizar.
 
+## Desbloqueio progressivo por nível
+
+- ✅ **RFC-012** (v1.31.0): a aba Ações & FIIs (registro de posições/dividendos) fica bloqueada até concluir a trilha de Renda Variável (Nível 3), e a aba Avançado (carteiras-modelo, calculadoras, glossário avançado) até concluir o Nível 1 · Fundamentos — ou já nascem destravadas se o diagnóstico inicial classificou a pessoa como intermediária/avançada. Abas nunca somem do menu, só ficam marcadas (🔒) com uma prévia explicando o requisito; ao desbloquear, um aviso específico da ferramenta aparece na hora ("Parabéns! Você concluiu Renda Variável e desbloqueou o rastreador de Ações & FIIs."). Mais ferramentas/abas podem entrar nessa lista depois, uma leva por vez.
+
 ## Ideias futuras (fora do backlog original das 13 ideias)
 
-- **Gating de conteúdo por nível**: níveis desbloqueando aulas/simulações/roupas/temas específicos (não só o título) — ideia adicionada pelo Product Owner durante a triagem, não fazia parte do pedido original. Depende de repensar `Trail.isUnlocked`/a Loja para considerar nível do jogador, não só progresso sequencial. Sem RFC aberta — só entra em uma próxima etapa se o usuário priorizar.
+(nenhuma pendente no momento — "Gating de conteúdo por nível" foi implementado como RFC-012)
 
 ## Como este roadmap é usado
 

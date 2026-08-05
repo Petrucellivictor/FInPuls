@@ -4,6 +4,31 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.31.0] - 2026-08-05
+
+### Adicionado
+- **RFC-012 — Desbloqueio progressivo de ferramentas por nível**
+  (`rfcs/RFC-012-desbloqueio-progressivo-por-nivel.md`): o app agora
+  começa mais simples pra quem está aprendendo, e libera ferramentas
+  conforme o progresso real (ou o nível já indicado no diagnóstico
+  inicial):
+  - **Ações & FIIs** fica bloqueada até concluir a trilha de Renda
+    Variável (Nível 3) — ou já vem destravada se o diagnóstico inicial
+    classificou a pessoa como avançada.
+  - **Avançado** (carteiras-modelo, calculadoras, glossário) fica
+    bloqueada até concluir o Nível 1 · Fundamentos — ou já vem
+    destravada pra quem se autoavaliou intermediário/avançado.
+  - As abas nunca desaparecem do menu — ficam marcadas com 🔒 e mostram
+    uma prévia explicando o que falta. Ao desbloquear de verdade
+    (sem precisar recarregar a página), aparece um aviso específico:
+    "Parabéns! Você concluiu Renda Variável e desbloqueou o rastreador
+    de Ações & FIIs."
+  - `profile.nivel` (calculado no diagnóstico inicial) deixa de ser
+    só decorativo e passa a ter um efeito real na experiência.
+- Módulo novo `js/progression.js`, mesmo padrão de
+  `js/achievements.js` — nenhuma mudança em `js/stocks.js`/
+  `js/advanced.js` (o bloqueio é inteiramente visual/externo a eles).
+
 ## [1.30.0] - 2026-08-05
 
 ### Adicionado

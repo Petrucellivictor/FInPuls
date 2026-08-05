@@ -28,6 +28,7 @@ const App = {
     Engagement.init();
     Events.init();
     Achievements.init();
+    Progression.init();
     City.init();
     Profile.init();
     Leagues.init();
@@ -94,22 +95,29 @@ const App = {
     document.addEventListener("profile:updated", () => {
       this.renderHeaderStats();
       this.renderHome();
+      Progression.checkAll();
     });
     document.addEventListener("xp:updated", () => this.renderHeaderStats());
     document.addEventListener("coins:updated", () => this.renderHeaderStats());
     document.addEventListener("wallet:updated", () => {
       this.renderHome();
       Achievements.checkAll();
+      Progression.checkAll();
     });
     document.addEventListener("course:updated", () => {
       this.renderHome();
       Achievements.checkAll();
+      Progression.checkAll();
     });
     document.addEventListener("goals:updated", () => {
       this.renderHome();
       Achievements.checkAll();
+      Progression.checkAll();
     });
-    document.addEventListener("lesson:passed", () => Achievements.checkAll());
+    document.addEventListener("lesson:passed", () => {
+      Achievements.checkAll();
+      Progression.checkAll();
+    });
     document.addEventListener("tab:changed", (e) => {
       if (e.detail.tabId === "home") this.renderHome();
       if (e.detail.tabId === "aprender") {

@@ -278,6 +278,14 @@ button {
   border-bottom-color: var(--primary);
 }
 
+/* ---------- desbloqueio progressivo por nível (RFC-012) ---------- */
+.tab-btn.tab-locked { opacity: 0.55; }
+.tab-btn.tab-locked::after { content: " 🔒"; }
+
+.gate-lock-overlay:empty { display: none; }
+.tab-panel.gate-locked > *:not(.gate-lock-overlay) { display: none !important; }
+.gate-lock-card { padding: 40px 24px; }
+
 /* ---------- conteúdo principal ---------- */
 .main-content {
   flex: 1;

@@ -9711,6 +9711,32 @@ const CITY_DECORATIONS = [
 ];
 
 /* -------------------------------------------------------------------------
+   20.1.2) DESBLOQUEIO PROGRESSIVO DE FERRAMENTAS (RFC-012) — abas que só
+   ficam totalmente utilizáveis depois de um marco de aprendizado (ou já
+   nascem destravadas se o diagnóstico inicial classificou a pessoa como
+   experiente). A checagem de cada `id` mora em Progression.CHECKERS
+   (js/progression.js), mesmo padrão de ACHIEVEMENTS/Achievements.CHECKERS.
+   ------------------------------------------------------------------------- */
+const FEATURE_GATES = [
+  {
+    id: "acoesfiis",
+    tab: "acoesfiis",
+    nome: "Ações & FIIs",
+    emoji: "📈",
+    requisito: "Concluir a trilha de Renda Variável (Nível 3)",
+    mensagemDesbloqueio: "Parabéns! Você concluiu Renda Variável e desbloqueou o rastreador de Ações & FIIs.",
+  },
+  {
+    id: "avancado",
+    tab: "avancado",
+    nome: "Avançado",
+    emoji: "🧠",
+    requisito: "Concluir o Nível 1 · Fundamentos",
+    mensagemDesbloqueio: "Parabéns! Você concluiu os Fundamentos e desbloqueou carteiras-modelo, calculadoras e o glossário avançado.",
+  },
+];
+
+/* -------------------------------------------------------------------------
    21) MEDALHAS POR PONTUAÇÃO — faixas de Learn.totalScore()
    ------------------------------------------------------------------------- */
 const MEDAL_TIERS = [
