@@ -33,6 +33,11 @@ Dois itens do pedido original não podem ser implementados como descrito sem mud
 
 Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 2026-08-05 estão todas endereçadas** — 11 implementadas de ponta a ponta, e 2 (IA financeira conversacional, notificações push de verdade) com uma versão client-side viável já entregue na Etapa 1 e a versão completa formalmente registrada na Etapa 0 como dependente de backend.
 
+## Identidade visual e motion design (trilha separada, fora do backlog das 13 ideias)
+
+- ✅ **Fase 1 — biblioteca de animações + celebração de lição + Início** (v1.27.0, RFC-008): primeira aplicação da nova filosofia de design (`.claude/agents/ux-ui-design-lead.md`). Biblioteca de animações reutilizável (`js/fx.js`/`css/style.css`), celebração de lição reconstruída (POLVIn comemorando, moedas voando, confete, brilho), botões elásticos em todo o app, e o card da Início virou uma cena com o POLVIn mergulhando trazendo uma moeda e uma fala dinâmica sobre o progresso real do jogador.
+- **Fases futuras**: redesenho das demais ~19 abas do app, uma leva por vez — ainda não escopado em nenhuma RFC.
+
 ## Ideias futuras (fora do backlog original das 13 ideias)
 
 - **Gating de conteúdo por nível**: níveis desbloqueando aulas/simulações/roupas/temas específicos (não só o título) — ideia adicionada pelo Product Owner durante a triagem, não fazia parte do pedido original. Depende de repensar `Trail.isUnlocked`/a Loja para considerar nível do jogador, não só progresso sequencial. Sem RFC aberta — só entra em uma próxima etapa se o usuário priorizar.

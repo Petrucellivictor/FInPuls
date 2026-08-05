@@ -334,23 +334,36 @@ const Trail = {
       document.dispatchEvent(new CustomEvent("lesson:passed"));
     }
 
+    const celebrar = passed && !alreadyDone;
     const overlay = document.getElementById("trailQuizOverlay");
     overlay.innerHTML = `
       <div class="quiz-box" style="text-align:center">
-        <div class="quiz-result-emoji">${passed ? "🎉" : "🔁"}</div>
+        ${
+          celebrar && typeof Polvin !== "undefined"
+            ? `<div class="quiz-result-mascot">${Polvin.avatarHtml("md")}</div>`
+            : `<div class="quiz-result-emoji">${passed ? "🎉" : "🔁"}</div>`
+        }
         <h2>${passed ? (level.fonte === "historia" ? "Capítulo concluído!" : "Lição concluída!") : "Quase lá!"}</h2>
         <p class="text-soft">Você acertou ${correctCount} de ${total} perguntas (${pct}%).</p>
         ${
           passed
             ? alreadyDone
               ? `<p class="text-soft">✅ Você já tinha concluído essa lição — revisar não dá XP de novo, mas ajuda a fixar o conteúdo!</p>`
-              : `<p><b>+${xpGanho} XP</b> adicionados à sua conta.</p>`
+              : `<p><b>+${xpGanho} XP</b> e <b>+5 moedas</b> adicionadas à sua conta.</p>`
             : `<p>Você precisa de pelo menos 60% de acertos para concluir. Tente de novo!</p>`
         }
         <button class="btn btn-primary btn-block mt-16" id="trailQuizCloseBtn">${passed ? "Continuar" : "Tentar novamente"}</button>
       </div>
     `;
-    if (passed && typeof Fx !== "undefined") Fx.confetti(overlay.querySelector(".quiz-box"));
+    if (celebrar && typeof Fx !== "undefined") {
+      const box = overlay.querySelector(".quiz-box");
+      Fx.confetti(box);
+      Fx.successGlow(box);
+      Fx.xpPop(`+${xpGanho} XP`, box);
+      Fx.mascotCelebrate(box);
+      const coinsHeaderEl = document.getElementById("headerCoins");
+      if (coinsHeaderEl) Fx.coinBurst(box, coinsHeaderEl);
+    }
 
     document.getElementById("trailQuizCloseBtn").addEventListener("click", () => {
       this.activeQuiz = null;

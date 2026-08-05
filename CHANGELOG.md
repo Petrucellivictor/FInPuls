@@ -4,6 +4,35 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.27.0] - 2026-08-05
+
+### Adicionado
+- **RFC-008 — Identidade visual e motion design, Fase 1**
+  (`rfcs/RFC-008-identidade-visual-motion-design.md`): primeira aplicação
+  prática da nova filosofia de design (`.claude/agents/ux-ui-design-lead.md`)
+  — nunca genérico, todo componente com identidade própria, "Wow Moment"
+  em cada tela.
+  - **Biblioteca de animações reutilizável** em `js/fx.js`/`css/style.css`:
+    `Fx.coinBurst` (moedas voando até o header via Web Animations API),
+    `Fx.xpPop`, `Fx.successGlow`, `Fx.badgeUnlock`, `Fx.screenEnter`,
+    `Fx.loadingOrbitHtml`, `Fx.mascotCelebrate`. Sem nenhuma dependência
+    externa (nada de GSAP/CDN) — só mecânicas nativas do navegador.
+  - **Celebração de lição concluída reconstruída**: na primeira conclusão
+    real, o POLVIn aparece comemorando (em vez do emoji genérico 🎉),
+    com confete, brilho, "+X XP" flutuante e moedas voando até o
+    contador do header — só quando há recompensa de verdade (replay e
+    reprovação continuam simples, sem fogos de artifício).
+  - **Botões elásticos** em todo o app — `:active` ganhou um efeito de
+    "spring" com overshoot na soltura, no lugar de um simples
+    `translateY(1px)`.
+  - **"Wow Moment" da Início**: o card de boas-vindas virou uma cena —
+    o POLVIn mergulha na tela trazendo uma moeda, com partículas
+    douradas e um balão de fala estilo HQ, dizendo algo real sobre o
+    progresso do jogador (patrimônio virtual investido, sequência de
+    dias, ou XP faltante pro próximo nível — sempre dados reais, nunca
+    texto decorativo). Anel de nível ganhou um brilho dourado. Conceito
+    escolhido entre 3 alternativas apresentadas ao usuário.
+
 ## [1.25.0] - 2026-08-05
 
 ### Adicionado

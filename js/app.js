@@ -39,6 +39,7 @@ const App = {
 
     this.renderHeaderStats();
     this.renderHome();
+    this.playHeroEntrance();
     this.bindGlobalEvents();
     this.bindBackupButtons();
   },
@@ -170,13 +171,55 @@ const App = {
     document.getElementById("headerLevel").textContent = profile ? nivelLabels[profile.nivel] : "Sem perfil";
   },
 
+  /* Mensagem dinâmica do "Wow Moment" da Início (RFC-008/Conceito B) —
+     prioridade: patrimônio virtual em investimentos > ofensiva ativa >
+     perto de subir de nível > boas-vindas genéricas. Sempre computada
+     a partir de dados reais já existentes, nunca um texto decorativo. */
+  pickWowMessage() {
+    const totalInvestido = Portfolio.totalsByClass().total;
+    if (totalInvestido > 0) {
+      return `Seu patrimônio virtual em investimentos já soma ${this.fmt(totalInvestido)}! 📈`;
+    }
+    const streak = Store.get(STORAGE_KEYS.STREAK, { dias: 0 }).dias;
+    if (streak >= 3) {
+      return `Você está numa sequência de ${streak} dias! 🔥 Continue assim.`;
+    }
+    const faltam = 100 - (Learn.getXp() % 100);
+    if (faltam <= 20) {
+      return `Faltam só ${faltam} XP pra você subir de nível! ⚡`;
+    }
+    return `Bem-vindo(a) de volta! Vamos organizar sua vida financeira? 🐙`;
+  },
+
+  /* Toca a entrada do POLVIn (mergulho + moeda) uma única vez por sessão —
+     chamado pelo init(), não pelo renderHome() (que roda a cada mudança
+     de XP/moedas/carteira e não deve repetir a coreografia toda vez). */
+  playHeroEntrance() {
+    const wrap = document.getElementById("homeMascotWrap");
+    if (!wrap || typeof Polvin === "undefined") return;
+    wrap.classList.remove("diving");
+    void wrap.offsetWidth;
+    wrap.classList.add("diving");
+    const msgEl = document.getElementById("homeWowMessage");
+    setTimeout(() => {
+      if (msgEl) Polvin.typewrite(msgEl, this.pickWowMessage(), null, 18);
+    }, 650);
+  },
+
   renderHome() {
     const profile = Store.get(STORAGE_KEYS.PROFILE, null);
     const nivelLabels = { iniciante: "Iniciante 🌱", intermediario: "Intermediário 📈", avancado: "Avançado 🚀" };
 
-    // Saudação e perfil
+    // Wow Moment: POLVIn + mensagem dinâmica sobre o progresso real
+    const mascotWrap = document.getElementById("homeMascotWrap");
+    if (mascotWrap && !mascotWrap.innerHTML && typeof Polvin !== "undefined") {
+      mascotWrap.innerHTML = `${Polvin.avatarHtml("md")}<span class="hero-mascot-coin">🪙</span>`;
+    }
+    const wowMsgEl = document.getElementById("homeWowMessage");
+    if (wowMsgEl) wowMsgEl.textContent = this.pickWowMessage();
+
+    // Perfil
     if (profile) {
-      document.getElementById("homeGreeting").textContent = `Bem-vindo(a) de volta!`;
       document.getElementById("profileSummaryText").innerHTML = `Seu perfil atual: <b>${nivelLabels[profile.nivel]}</b>. Continue evoluindo na trilha de aprendizado para destravar novos conteúdos.`;
     }
 
