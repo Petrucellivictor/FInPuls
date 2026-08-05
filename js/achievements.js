@@ -43,6 +43,14 @@ const Achievements = {
       const progress = Store.get(STORAGE_KEYS.BUSINESS_PROGRESS, {});
       return BUSINESS_COURSE.every((lvl) => lvl.licoes.every((l) => !!progress[l.id]));
     },
+    renda_fixa_completa: () => {
+      const progress = Learn.getProgress();
+      const nivel2 = COURSE.find((lvl) => lvl.id === "nivel2");
+      return !!nivel2 && nivel2.licoes.every((l) => !!progress[l.id]);
+    },
+    simulador_50x: () => Store.get(STORAGE_KEYS.SIMULATOR_RUNS, 0) >= 50,
+    leu_10_livros: () => Store.get(STORAGE_KEYS.BOOKS_SEEN, []).length >= 10,
+    amigo_polvin: () => Store.get(STORAGE_KEYS.POLVIN_QUESTIONS_ASKED, 0) >= 10,
   },
 
   getUnlocked() {

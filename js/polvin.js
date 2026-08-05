@@ -321,5 +321,9 @@ const Polvin = {
     this.pushMessage("user", text);
     document.getElementById("polvinChatInput").value = "";
     setTimeout(() => this.pushMessage("polvin", this.answer(text)), 350);
+
+    const asked = Store.get(STORAGE_KEYS.POLVIN_QUESTIONS_ASKED, 0) + 1;
+    Store.set(STORAGE_KEYS.POLVIN_QUESTIONS_ASKED, asked);
+    if (typeof Achievements !== "undefined") Achievements.checkAll();
   },
 };

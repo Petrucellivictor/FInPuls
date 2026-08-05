@@ -31,6 +31,8 @@ const STORAGE_KEYS = {
   SHOP_OWNED: "if_shop_owned",
   EQUIPPED: "if_equipped",
   LEAGUES: "if_leagues",
+  SIMULATOR_RUNS: "if_simulator_runs",
+  POLVIN_QUESTIONS_ASKED: "if_polvin_questions_asked",
   VAULT_ENABLED: "if_vault_enabled",
   VAULT_SALT: "if_vault_salt",
   VAULT_CANARY: "if_vault_canary",

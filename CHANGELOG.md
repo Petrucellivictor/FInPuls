@@ -4,6 +4,27 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.18.0] - 2026-08-05
+
+### Adicionado
+- **`ROADMAP.md`**: triagem em etapas de 13 ideias de melhoria trazidas
+  pelo usuário (sistema de níveis, Cidade Financeira, missões nunca
+  iguais, simulador estilo jogo, mercado em tempo real, histórias
+  interativas, mais conquistas, estante de livros, eventos temporários,
+  IA financeira, notificações inteligentes, certificados, modo
+  carreira). Duas decisões de arquitetura registradas na Etapa 0 (IA
+  financeira e notificações push exigem backend, que o projeto não
+  tem hoje) antes de qualquer código.
+- **Sistema de níveis narrativo (Etapa 1)**: `PLAYER_LEVEL_TITLES`
+  trocou os títulos genéricos por uma progressão de investidor —
+  🥉 Iniciante → 🥈 Poupador → 🥇 Investidor → 💎 Estrategista →
+  🚀 Trader → 🏛️ Mestre das Finanças → 👑 Lenda Financeira.
+- **4 conquistas novas**: Especialista em Renda Fixa (Nível 2
+  completo), Mestre dos simuladores (50 simulações), Leitor voraz (10
+  livros na Biblioteca), Amigo do POLVIn (10 perguntas ao assistente).
+  Novas chaves `SIMULATOR_RUNS` e `POLVIN_QUESTIONS_ASKED` em
+  `STORAGE_KEYS` para rastrear esse uso.
+
 ## [1.17.2] - 2026-08-05
 
 ### Corrigido

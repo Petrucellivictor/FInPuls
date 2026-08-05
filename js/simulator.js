@@ -4,11 +4,26 @@
 
 const Simulator = {
   init() {
-    document.getElementById("simCalcBtn").addEventListener("click", () => this.calc());
-    this.calc(); // roda uma vez com os valores padrão
+    document.getElementById("simCalcBtn").addEventListener("click", () => {
+      this.calc();
+      this.logRun();
+    });
+    this.calc(); // roda uma vez com os valores padrão (não conta como simulação feita pelo usuário)
 
-    document.getElementById("cmpCalcBtn")?.addEventListener("click", () => this.compare());
+    document.getElementById("cmpCalcBtn")?.addEventListener("click", () => {
+      this.compare();
+      this.logRun();
+    });
     this.compare();
+  },
+
+  /* Conta só simulações feitas de propósito (clique no botão), não o
+     cálculo automático de exibição inicial — usado pela conquista
+     "Fez 50 simulações". */
+  logRun() {
+    const runs = Store.get(STORAGE_KEYS.SIMULATOR_RUNS, 0) + 1;
+    Store.set(STORAGE_KEYS.SIMULATOR_RUNS, runs);
+    if (typeof Achievements !== "undefined") Achievements.checkAll();
   },
 
   fmt(v) {

@@ -9222,13 +9222,19 @@ const GLOSSARY = [
    Cada faixa também define o "acessório" visual do POLVIn, mostrado como
    selo ao lado do mascote conforme o usuário evolui.
    ------------------------------------------------------------------------- */
+/* Progressão narrativa: em vez de só acumular XP, o jogador "se torna" um
+   tipo de investidor cada vez mais avançado. Cada faixa também é o gancho
+   para desbloqueios futuros (aulas, simulações, desafios, roupas do POLVIn,
+   temas do app — ver ROADMAP.md, Etapa 3) — por ora, define só o título e
+   o emoji mostrados no header/perfil. */
 const PLAYER_LEVEL_TITLES = [
-  { min: 1, titulo: "Iniciante", emoji: "🌱" },
-  { min: 5, titulo: "Aprendiz Financeiro", emoji: "📘" },
-  { min: 10, titulo: "Planejador", emoji: "🗂️" },
-  { min: 20, titulo: "Investidor", emoji: "📈" },
-  { min: 35, titulo: "Construtor de Patrimônio", emoji: "🏗️" },
-  { min: 50, titulo: "Mestre Fin+", emoji: "👑" },
+  { min: 1, titulo: "Iniciante", emoji: "🥉" },
+  { min: 5, titulo: "Poupador", emoji: "🥈" },
+  { min: 12, titulo: "Investidor", emoji: "🥇" },
+  { min: 22, titulo: "Estrategista", emoji: "💎" },
+  { min: 35, titulo: "Trader", emoji: "🚀" },
+  { min: 50, titulo: "Mestre das Finanças", emoji: "🏛️" },
+  { min: 75, titulo: "Lenda Financeira", emoji: "👑" },
 ];
 
 function playerLevelTitle(level) {
@@ -9376,6 +9382,10 @@ const ACHIEVEMENTS = [
   { id: "trilha_unificada_completa", emoji: "🌟", titulo: "Mestre da trilha completa", descricao: "Você completou toda a Academia Fin+: trilha financeira e Brasil: História & Economia, do início ao fim." },
   { id: "primeiro_passo_empreendedor", emoji: "💼", titulo: "Primeiro passo empreendedor", descricao: "Você completou sua primeira lição na trilha Empreender." },
   { id: "mestre_empreendedor", emoji: "🏢", titulo: "Mestre empreendedor", descricao: "Você completou toda a trilha Empreender: regimes tributários, obrigações e gestão de pessoas e finanças." },
+  { id: "renda_fixa_completa", emoji: "💰", titulo: "Especialista em Renda Fixa", descricao: "Você completou todas as lições do Nível 2 · Renda Fixa." },
+  { id: "simulador_50x", emoji: "🧮", titulo: "Mestre dos simuladores", descricao: "Você fez 50 simulações no simulador de investimentos." },
+  { id: "leu_10_livros", emoji: "📖", titulo: "Leitor voraz", descricao: "Você conferiu 10 recomendações diferentes na Biblioteca Fin+." },
+  { id: "amigo_polvin", emoji: "🐙", titulo: "Amigo do POLVIn", descricao: "Você fez 10 perguntas para o POLVIn no assistente." },
 ];
 
 /* -------------------------------------------------------------------------
@@ -9389,7 +9399,7 @@ const SHOP_ITEMS = [
   { id: "hat_party", tipo: "acessorio", emoji: "🎉", nome: "Chapéu de festa", preco: 25, desc: "Para celebrar uma meta batida." },
   { id: "hat_grad", tipo: "acessorio", emoji: "🎓", nome: "Capelo de formatura", preco: 40, desc: "Para quem já dominou várias lições." },
   { id: "hat_top", tipo: "acessorio", emoji: "🎩", nome: "Cartola", preco: 60, desc: "Um clássico elegante." },
-  { id: "hat_crown", tipo: "acessorio", emoji: "👑", nome: "Coroa", preco: 150, desc: "Para o Mestre Fin+." },
+  { id: "hat_crown", tipo: "acessorio", emoji: "👑", nome: "Coroa", preco: 150, desc: "Para quem chegou a Lenda Financeira." },
   { id: "flag_star", tipo: "bandeira", emoji: "⭐", nome: "Insígnia de estrela", preco: 30, desc: "Brilha em qualquer liga." },
   { id: "flag_fire", tipo: "bandeira", emoji: "🔥", nome: "Insígnia de ofensiva", preco: 50, desc: "Para quem nunca perde a sequência." },
   { id: "flag_br", tipo: "bandeira", emoji: "🇧🇷", nome: "Bandeira do Brasil", preco: 30, desc: "Para quem terminou a trilha de história." },
@@ -9484,7 +9494,7 @@ const ASSISTANT_FAQ = [
   {
     id: "xp_niveis",
     gatilhos: ["como ganho xp", "como subo de nível", "como subo de nivel", "níveis de jogador", "niveis de jogador"],
-    resposta: "Você ganha XP completando lições na trilha, desafios diários, a missão da semana e batendo metas nos cofrinhos. Cada 100 XP sobe um nível, e a cada faixa você ganha um título novo — de Iniciante até Mestre Fin+.",
+    resposta: "Você ganha XP completando lições na trilha, desafios diários, a missão da semana e batendo metas nos cofrinhos. Cada 100 XP sobe um nível, e a cada faixa você vira um tipo de investidor diferente — de Iniciante até Lenda Financeira.",
   },
   {
     id: "desafios_missoes",
