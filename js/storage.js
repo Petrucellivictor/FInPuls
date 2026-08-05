@@ -18,6 +18,7 @@ const STORAGE_KEYS = {
   ACHIEVEMENTS_UNLOCKED: "if_achievements_unlocked",
   BOOKS_SEEN: "if_books_seen",
   BOOKS_COMPLETED: "if_books_completed",
+  STORIES_SEEN: "if_stories_seen",
   STOCK_TRADES: "if_stock_trades",
   STOCK_DIVIDENDS: "if_stock_dividends",
   STOCK_PRICES: "if_stock_prices",

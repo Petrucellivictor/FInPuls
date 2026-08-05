@@ -9368,6 +9368,62 @@ const SCENARIO_SIMULATIONS = [
 ];
 
 /* -------------------------------------------------------------------------
+   11.2) HISTÓRIAS INTERATIVAS — intercaladas na trilha financeira (não em
+   toda lição: Trail.maybePickStory() só dispara a cada 3 lições concluídas
+   da trilha financeira). Personagens fictícios enfrentando um dilema
+   financeiro concreto, com 2 escolhas e um desfecho narrativo — sem XP
+   direto (o aprendizado é o próprio ponto), ciclando pelo pool como
+   Books.pickNext() já faz com os livros.
+   ------------------------------------------------------------------------- */
+const INTERACTIVE_STORIES = [
+  {
+    id: "joao_bonus",
+    situacao: "João, 28 anos, recebeu R$ 3.000 de bônus no trabalho. Ele está decidindo o que fazer com esse dinheiro. Ajude João:",
+    opcoes: [
+      { id: "celular", texto: "Comprar um celular novo, o mais recente do mercado", desfecho: "João comprou o celular e ficou muito feliz por alguns meses. Mas o aparelho perdeu quase 40% do valor de revenda no primeiro ano, e ele não tinha nenhuma reserva quando, pouco depois, o carro dele quebrou — precisou parcelar o conserto no cartão, pagando juros altos." },
+      { id: "reserva", texto: "Montar uma reserva de emergência", desfecho: "João guardou o dinheiro em um Tesouro Selic, de fácil resgate. Meses depois, o carro dele quebrou — mas, como tinha a reserva, ele pagou o conserto à vista, sem entrar em dívida nem pagar juros do cartão." },
+    ],
+    licaoAprendida: "Ter uma reserva de emergência muda completamente como imprevistos afetam sua vida financeira — a diferença entre resolver um problema à vista ou entrar numa dívida cara.",
+  },
+  {
+    id: "maria_fatura",
+    situacao: "Maria não conseguiu pagar a fatura inteira do cartão de crédito este mês. O valor mínimo está disponível, mas o restante ficaria no 'rotativo' do cartão. O que ela faz?",
+    opcoes: [
+      { id: "minimo", texto: "Pagar só o mínimo e deixar o resto no rotativo", desfecho: "Maria pagou o mínimo, mas o rotativo do cartão cobrou uma das taxas de juros mais altas do mercado sobre o restante. No mês seguinte, a dívida já tinha crescido bastante, e ficou ainda mais difícil pagar a fatura inteira." },
+      { id: "parcelar_banco", texto: "Pedir para parcelar a fatura direto com o banco, numa taxa menor", desfecho: "Maria negociou o parcelamento da fatura com taxas de juros bem menores que o rotativo do cartão. A dívida ficou organizada em parcelas previsíveis, e ela conseguiu quitar sem que os juros 'bola de neve' do rotativo comprometessem os meses seguintes." },
+    ],
+    licaoAprendida: "O rotativo do cartão de crédito é uma das dívidas mais caras que existem — parcelar direto com o banco (ou outra linha de crédito mais barata) quase sempre custa menos do que deixar cair no rotativo.",
+  },
+  {
+    id: "carlos_aniversario",
+    situacao: "Carlos ganhou R$ 500 de aniversário de um parente. Ele está pensando no que fazer com o dinheiro:",
+    opcoes: [
+      { id: "gastar", texto: "Gastar tudo em algo que ele quer agora", desfecho: "Carlos aproveitou o presente imediatamente — teve um momento de prazer, mas, um mês depois, já nem lembrava exatamente no que tinha gastado o dinheiro." },
+      { id: "investir", texto: "Investir o valor, mesmo sendo pequeno", desfecho: "Carlos investiu o valor num Tesouro Selic. Não foi uma fortuna, mas ele começou a se acostumar com o hábito de investir — e, com os anos, foi somando outros valores pequenos ao mesmo investimento." },
+    ],
+    licaoAprendida: "Não é o tamanho do valor que importa para começar a investir — é o hábito. Pequenos aportes constantes, mantidos por anos, valem mais do que se imagina.",
+  },
+  {
+    id: "ana_decimo",
+    situacao: "Ana recebeu o 13º salário e está namorando uma TV nova de R$ 2.500, que ela queria comprar parcelada em 10x no cartão. O que ela faz?",
+    opcoes: [
+      { id: "parcelar", texto: "Comprar a TV parcelada em 10x no cartão", desfecho: "Ana comprou a TV parcelada. Passou a ter um compromisso mensal fixo no orçamento pelos próximos 10 meses, o que reduziu sua margem para lidar com qualquer imprevisto nesse período." },
+      { id: "juntar", texto: "Guardar o 13º e comprar a TV à vista, com desconto, quando juntar o suficiente", desfecho: "Ana esperou alguns meses, guardando o 13º rendendo num Tesouro Selic. Quando comprou a TV à vista, conseguiu um desconto pelo pagamento sem parcelamento — e, nesse meio tempo, o dinheiro ainda rendeu um pouco enquanto esperava." },
+    ],
+    licaoAprendida: "Comprar parcelado não é sempre errado, mas comprar à vista (quando possível) costuma sair mais barato — e ainda evita comprometer o orçamento dos próximos meses com uma parcela fixa.",
+  },
+  {
+    id: "pedro_promocao",
+    situacao: "Pedro foi promovido e seu salário aumentou R$ 500 por mês. Ele está decidindo o que fazer com essa diferença:",
+    opcoes: [
+      { id: "padrao", texto: "Aumentar o padrão de vida imediatamente (carro melhor, mais saídas)", desfecho: "Pedro elevou seus gastos mensais na mesma proporção do aumento. Um ano depois, apesar de ganhar mais, ele não tinha conseguido guardar nem investir nada além do que já fazia antes da promoção." },
+      { id: "investir_diferenca", texto: "Manter o padrão de vida atual e investir a diferença todo mês", desfecho: "Pedro manteve o mesmo estilo de vida de antes e passou a investir os R$ 500 extras todo mês. Um ano depois, além do salário maior, ele já tinha uma reserva crescendo consistentemente." },
+    ],
+    licaoAprendida: "Esse é o efeito da 'inflação do estilo de vida': aumentar os gastos na mesma proporção da renda impede que um salário maior se transforme em patrimônio. Manter o padrão e investir a diferença é uma das formas mais simples de acelerar o progresso financeiro.",
+  },
+];
+
+/* -------------------------------------------------------------------------
    12) EVENTOS ALEATÓRIOS — cenários educativos com escolha, 1 por dia
    ------------------------------------------------------------------------- */
 const RANDOM_EVENTS = [

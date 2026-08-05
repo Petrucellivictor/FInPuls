@@ -4,6 +4,22 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.22.0] - 2026-08-05
+
+### Adicionado
+- **RFC-004 — Histórias interativas na trilha financeira**
+  (`rfcs/RFC-004-historias-interativas-trilha.md`): a cada 3ª lição
+  concluída pela primeira vez na trilha financeira, uma história curta
+  aparece antes de voltar à trilha — um personagem fictício (João,
+  Maria, Carlos, Ana ou Pedro) enfrenta um dilema financeiro real
+  (reserva de emergência, rotativo do cartão, hábito de investir,
+  parcelamento x à vista, inflação do estilo de vida), o usuário
+  escolhe entre 2 opções, e vê um desfecho narrativo diferente
+  conforme a escolha, seguido de uma "lição aprendida". Sem XP direto
+  — cicla pelas 5 histórias sem repetir, como já acontece com os
+  livros recomendados.
+- Isso **fecha a Etapa 2 do `ROADMAP.md`** por completo.
+
 ## [1.21.0] - 2026-08-05
 
 ### Adicionado

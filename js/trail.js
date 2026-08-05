@@ -305,6 +305,7 @@ const Trail = {
     const pct = Math.round((correctCount / total) * 100);
     const passed = pct >= 60;
     let alreadyDone = false;
+    let storyToShow = null;
 
     if (passed) {
       const progress = this.getProgress(level.fonte);
@@ -322,6 +323,11 @@ const Trail = {
         const log = Store.get(STORAGE_KEYS.LESSON_LOG, []);
         log.push({ lessonId: lesson.id, fonte: level.fonte, data: new Date().toISOString() });
         Store.set(STORAGE_KEYS.LESSON_LOG, log);
+
+        /* Histórias interativas intercalam a trilha FINANCEIRA a cada 3
+           lições novas concluídas — só na primeira vez (replay não conta
+           progresso novo), e só para essa trilha (não a de História). */
+        if (level.fonte === "financeira") storyToShow = this.maybePickStory();
       }
       document.dispatchEvent(new CustomEvent("lesson:passed"));
     }
@@ -345,8 +351,68 @@ const Trail = {
     if (passed && typeof Fx !== "undefined") Fx.confetti(overlay.querySelector(".quiz-box"));
 
     document.getElementById("trailQuizCloseBtn").addEventListener("click", () => {
-      overlay.remove();
       this.activeQuiz = null;
+      if (storyToShow) {
+        this.showInteractiveStory(storyToShow);
+      } else {
+        overlay.remove();
+        this.render();
+        document.dispatchEvent(new CustomEvent("course:updated"));
+        if (typeof Achievements !== "undefined") Achievements.checkAll();
+      }
+    });
+  },
+
+  /* ---------- Histórias interativas (a cada 3 lições da trilha financeira) ---------- */
+
+  /* Cicla pelo pool de INTERACTIVE_STORIES como Books.pickNext() já faz com
+     os livros — nunca repete uma história até esgotar todas, e só dispara
+     quando o total de lições financeiras concluídas é múltiplo de 3. */
+  maybePickStory() {
+    const doneCount = Object.keys(this.getProgress("financeira")).length;
+    if (doneCount === 0 || doneCount % 3 !== 0) return null;
+
+    let seen = Store.get(STORAGE_KEYS.STORIES_SEEN, []);
+    let candidatos = INTERACTIVE_STORIES.filter((s) => !seen.includes(s.id));
+    if (!candidatos.length) {
+      seen = [];
+      candidatos = INTERACTIVE_STORIES;
+    }
+    const escolhida = candidatos[0];
+    seen.push(escolhida.id);
+    Store.set(STORAGE_KEYS.STORIES_SEEN, seen);
+    return escolhida;
+  },
+
+  showInteractiveStory(story) {
+    const overlay = this.overlayEl();
+    overlay.innerHTML = `
+      <div class="quiz-box story-box">
+        <div class="quiz-progress">📖 Uma história rápida</div>
+        <div class="quiz-question">${story.situacao}</div>
+        <div class="flex mt-16" style="flex-direction:column;gap:8px">
+          ${story.opcoes.map((op, i) => `<button class="quiz-option" data-opt="${i}" style="--i:${i}">${op.texto}</button>`).join("")}
+        </div>
+      </div>
+    `;
+    overlay.querySelectorAll("[data-opt]").forEach((btn) => {
+      btn.addEventListener("click", () => this.resolveInteractiveStory(story, Number(btn.dataset.opt)));
+    });
+  },
+
+  resolveInteractiveStory(story, idx) {
+    const opcao = story.opcoes[idx];
+    const overlay = document.getElementById("trailQuizOverlay");
+    overlay.innerHTML = `
+      <div class="quiz-box" style="text-align:center">
+        <div class="quiz-result-emoji">📖</div>
+        <p>${opcao.desfecho}</p>
+        <div class="alert-box info mt-16">💡 ${story.licaoAprendida}</div>
+        <button class="btn btn-primary btn-block mt-16" id="storyDoneBtn">Continuar</button>
+      </div>
+    `;
+    document.getElementById("storyDoneBtn").addEventListener("click", () => {
+      overlay.remove();
       this.render();
       document.dispatchEvent(new CustomEvent("course:updated"));
       if (typeof Achievements !== "undefined") Achievements.checkAll();
