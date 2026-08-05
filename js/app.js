@@ -19,6 +19,7 @@ const App = {
     Wallet.init();
     Installments.init();
     Goals.init();
+    Career.init();
     Portfolio.init();
     Stocks.init();
     Energy.init();
@@ -204,6 +205,9 @@ const App = {
       tipContainer.dataset.day = String(dayIndex);
       Polvin.renderBubble(tipContainer, `${tip.titulo}: ${tip.texto}`, { title: "Dica do POLVIn" });
     }
+
+    // Modo Carreira: trilha personalizada pelo objetivo de vida escolhido
+    Career.render();
 
     // Snippet da trilha de aprendizado (financeira + história intercaladas)
     Trail.renderHomeSnippet();

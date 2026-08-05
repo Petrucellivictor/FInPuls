@@ -4,6 +4,22 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.25.0] - 2026-08-05
+
+### Adicionado
+- **RFC-007 — Modo Carreira** (`rfcs/RFC-007-modo-carreira.md`): novo
+  card "🎯 Modo Carreira" na Início. Reaproveita o objetivo de vida já
+  escolhido no diagnóstico inicial (casa, carro, viajar, investir,
+  dívidas, reserva de emergência, viver de renda, aposentadoria ou
+  estudos) e mostra as 4 lições da Academia mais relevantes para esse
+  objetivo, em ordem, com progresso, o cofrinho já vinculado a ele, e
+  uma dica de como usar o Simulador para aquele caso específico.
+  Possível trocar de objetivo a qualquer momento sem refazer o
+  diagnóstico inteiro. Módulo novo `js/career.js`, `CAREER_PATHS` novo
+  em `data.js` (9 entradas, uma por objetivo).
+- **Isso fecha a Etapa 3 do `ROADMAP.md` por completo — e com ela, as
+  13 ideias de engajamento trazidas originalmente pelo usuário.**
+
 ## [1.24.0] - 2026-08-05
 
 ### Adicionado

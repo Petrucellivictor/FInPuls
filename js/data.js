@@ -9282,6 +9282,55 @@ const GOAL_TEMPLATES = {
 };
 
 /* -------------------------------------------------------------------------
+   10.1) MODO CARREIRA — trilha personalizada por objetivo de vida.
+   Reaproveita o objetivo já escolhido no diagnóstico inicial (LIFE_GOALS,
+   `profile.pessoal.objetivo`) e o cofrinho já criado por ele
+   (GOAL_TEMPLATES/Goals.ensureTemplateGoal) — não duplica nenhum dos dois.
+   O que é novo aqui é só o mapeamento objetivo → sequência curada de
+   lições JÁ EXISTENTES em COURSE (todas de fonte "financeira") mais
+   escolhidas por relevância para aquele objetivo, na ordem recomendada
+   de estudo (ver js/career.js).
+   ------------------------------------------------------------------------- */
+const CAREER_PATHS = {
+  casa: {
+    licoes: ["l1_3", "l1_2", "f1_28", "l2_3"],
+    simuladorDica: "Use o Comparador de Investimentos para simular quanto a entrada da casa pode render guardada em Tesouro Direto até a compra.",
+  },
+  carro: {
+    licoes: ["l1_3", "f1_07", "f1_23", "l2_2"],
+    simuladorDica: "Antes de financiar, use o Comparador para ver quanto renderia guardar o valor do carro em vez de pagar juros do financiamento.",
+  },
+  viajar: {
+    licoes: ["l1_3", "f1_15", "f1_09", "l2_1"],
+    simuladorDica: "Rode uma simulação com o valor da viagem: mostra quanto ela pode render guardada num investimento de liquidez diária até a data da viagem.",
+  },
+  investir: {
+    licoes: ["l4_1", "l2_1", "l3_1", "l3_2"],
+    simuladorDica: "Depois destas lições, use o Comparador de Investimentos para ver a diferença entre poupança e renda fixa/variável na prática.",
+  },
+  dividas: {
+    licoes: ["f1_20", "f1_21", "f1_25", "f1_24"],
+    simuladorDica: "Sem simulação necessária aqui — o foco é zerar o rotativo/dívidas caras antes de pensar em investir.",
+  },
+  reserva: {
+    licoes: ["l1_2", "f1_09", "l2_1", "l2_3"],
+    simuladorDica: "Use o Comparador para ver por que Tesouro Selic/CDB com liquidez diária é o lugar certo para a reserva de emergência, não a poupança.",
+  },
+  renda: {
+    licoes: ["rv_03", "rv_05", "l3_2", "rv_14"],
+    simuladorDica: "Depois destas lições, explore a aba Ações & FIIs para simular uma carteira de dividendos/FIIs de verdade.",
+  },
+  aposentadoria: {
+    licoes: ["f1_26", "f1_27", "av_03", "l6_6"],
+    simuladorDica: "Use o Comparador com um prazo longo (20-30 anos) para sentir o efeito real dos juros compostos na sua aposentadoria.",
+  },
+  educacao: {
+    licoes: ["l1_3", "f1_15", "f1_12", "l2_3"],
+    simuladorDica: "Rode uma simulação com o valor do curso: mostra quanto tempo de investimento você precisa até juntar o valor.",
+  },
+};
+
+/* -------------------------------------------------------------------------
    11) DESAFIOS DIÁRIOS E MISSÕES SEMANAIS
    "tipo: auto" é detectado automaticamente pelo app; "tipo: manual" depende
    do usuário marcar como concluído (autodeclarado, sem verificação).

@@ -25,12 +25,17 @@ Dois itens do pedido original não podem ser implementados como descrito sem mud
 - ✅ **Estante de livros + certificados** (v1.21.0, RFC-003): `js/books.js` virou uma estante — os 18 livros ganharam resumo (contado pelo POLVIn) + quiz de 2 perguntas; completar gera um certificado numa "parede de certificados" nova. A conquista `leu_10_livros` passou a exigir 10 livros *completados*, não só recomendados.
 - ✅ **Histórias interativas dentro das aulas** (v1.22.0, RFC-004): a cada 3ª lição concluída na trilha financeira, uma história curta (5 no pool, cicladas sem repetir) com um personagem e um dilema financeiro — 2 escolhas, desfechos narrativos diferentes, sem XP direto.
 
-## Etapa 3 — novas features maiores (mais esforço, mais risco de escopo)
+## Etapa 3 — novas features maiores (mais esforço, mais risco de escopo) — ✅ concluída (v1.23.0 + v1.24.0 + v1.25.0)
 
 - ✅ **Cidade Financeira** (v1.23.0, RFC-005): nova aba "🏙️ Cidade" com uma grade de 13 terrenos, cada um mapeado 1:1 a uma conquista já existente (primeira lição → Casa, primeira meta → Parque, primeiro investimento → Garagem, streak 7/30/100 → Banco/Empresa/Prefeitura, Renda Fixa/Renda Variável completas → Cofre/Bolsa de Valores, primeiro certificado → Biblioteca, primeiro passo empreendedor → Escritório, primeiro conto → Museu Histórico, nível 1 completo → Escola, trilha unificada completa → Monumento da Lenda Financeira). Zero estado novo — deriva 100% de `Achievements.getUnlocked()`, atualiza em tempo real via hook em `Achievements.checkAll()`.
 - ✅ **Eventos temporários** (v1.24.0, RFC-006): 5 janelas fixas no calendário, recorrentes todo ano (Semana do Bitcoin, Temporada de IR, Férias Fin+, Black Friday Fin+, Natal Fin+). Enquanto ativas: card com 2 missões especiais na Início, XP em dobro nas lições da trilha (financeira + Empreender), e uma moldura exclusiva na Loja. Ranking semanal sincronizado entre usuários fica de fora (mesma limitação de backend da Etapa 0) — quem quiser comparar XP ganho durante o evento com amigos já pode usar as Ligas locais/manuais existentes.
-- **Modo carreira**: usuário escolhe um objetivo (casa, carro, intercâmbio, aposentadoria, faculdade, independência financeira) e o app monta uma trilha personalizada — a peça mais complexa do pedido, pois exige compor uma sequência de lições/simuladores/metas já existentes sob um "objetivo" novo, sem duplicar conteúdo.
-- **Gating de conteúdo por nível**: níveis desbloqueando aulas/simulações/roupas/temas específicos (não só o título) — depende do sistema de níveis da Etapa 1 já estar estável, e exige repensar `Trail.isUnlocked`/a Loja para considerar nível do jogador, não só progresso sequencial.
+- ✅ **Modo carreira** (v1.25.0, RFC-007): reaproveita o objetivo de vida já escolhido no diagnóstico inicial (`LIFE_GOALS`/`profile.pessoal.objetivo`, 9 opções — cobrindo casa, carro, viagem/intercâmbio, investir, dívidas, reserva, renda passiva, aposentadoria e estudos/faculdade) em vez de duplicá-lo. Card novo na Início mostra as 4 lições de `COURSE` mais relevantes para aquele objetivo (`CAREER_PATHS`), o cofrinho já vinculado a ele, e uma dica de uso do Simulador — com opção de trocar de objetivo sem refazer o diagnóstico inteiro.
+
+Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 2026-08-05 estão todas endereçadas** — 11 implementadas de ponta a ponta, e 2 (IA financeira conversacional, notificações push de verdade) com uma versão client-side viável já entregue na Etapa 1 e a versão completa formalmente registrada na Etapa 0 como dependente de backend.
+
+## Ideias futuras (fora do backlog original das 13 ideias)
+
+- **Gating de conteúdo por nível**: níveis desbloqueando aulas/simulações/roupas/temas específicos (não só o título) — ideia adicionada pelo Product Owner durante a triagem, não fazia parte do pedido original. Depende de repensar `Trail.isUnlocked`/a Loja para considerar nível do jogador, não só progresso sequencial. Sem RFC aberta — só entra em uma próxima etapa se o usuário priorizar.
 
 ## Como este roadmap é usado
 
