@@ -9686,6 +9686,21 @@ const CITY_BUILDINGS = [
 ];
 
 /* -------------------------------------------------------------------------
+   20.1.1) DECORAÇÕES DA CIDADE — cosméticas, compradas com moedas
+   (Learn.spendCoins), sem nenhuma relação com conquistas. Diferente das
+   CITY_BUILDINGS (marco de progresso real, não compra), estas existem só
+   pra dar um uso extra e opcional pras moedas, sem tocar em XP/progressão.
+   ------------------------------------------------------------------------- */
+const CITY_DECORATIONS = [
+  { id: "castelo_areia", emoji: "🏰", nome: "Castelo de Areia", preco: 15, desc: "Simples, mas cheio de charme — sua primeira decoração." },
+  { id: "coral_recife", emoji: "🪸", nome: "Recife de Coral", preco: 20, desc: "Deixa o fundo do mar mais vivo e colorido." },
+  { id: "cardume", emoji: "🐠", nome: "Cardume Colorido", preco: 25, desc: "Um bando de peixinhos nadando pela sua cidade." },
+  { id: "farol", emoji: "🗼", nome: "Farol Submerso", preco: 30, desc: "Guia os visitantes até a sua cidade." },
+  { id: "bau_tesouro", emoji: "💎", nome: "Baú do Tesouro", preco: 40, desc: "Um tesourinho enterrado, só seu." },
+  { id: "navio_naufragado", emoji: "🚢", nome: "Navio Naufragado", preco: 50, desc: "Uma relíquia afundada, cheia de história." },
+];
+
+/* -------------------------------------------------------------------------
    21) MEDALHAS POR PONTUAÇÃO — faixas de Learn.totalScore()
    ------------------------------------------------------------------------- */
 const MEDAL_TIERS = [

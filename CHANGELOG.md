@@ -4,6 +4,29 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.29.0] - 2026-08-05
+
+### Adicionado
+- **RFC-010 — Cidade Financeira: Fundo do Mar (Fase 2A)**
+  (`rfcs/RFC-010-fundo-do-mar-cidade-e-plano-de-fases.md`): a Cidade
+  Financeira deixou de ser uma grade de cards e virou um cenário 2D
+  animado de fundo do mar (bolhas subindo, peixes nadando, coral
+  balançando, areia ondulada) — condizente com o POLVIn ser um polvo.
+  As 13 construções continuam desbloqueando exatamente pelas mesmas
+  conquistas de antes, agora numa fileira em zigue-zague sobre o leito
+  do mar, com um "guia" do POLVIn boiando no canto. Clicar numa
+  construção abre um card de detalhe (nome/descrição se já construída,
+  dica da conquista se ainda bloqueada).
+  - **Nova mecânica: Loja do Fundo do Mar** — 6 decorações cosméticas
+    (Castelo de Areia, Recife de Coral, Cardume Colorido, Farol
+    Submerso, Baú do Tesouro, Navio Naufragado) compráveis com moedas,
+    puramente visuais — não afetam progresso nem conquistas. Uma vez
+    comprada, a decoração aparece de verdade na cena.
+- **Plano de fases registrado** para o pedido de redesign completo do
+  site: Fase 2A (esta, concluída) → Fase 2B (customização do POLVIn
+  estilo POU: cor, guarda-roupa) → Fases 2C+ (demais abas, uma ou
+  poucas por vez) — nenhuma tentativa de redesenhar tudo de uma vez.
+
 ## [1.28.0] - 2026-08-05
 
 ### Corrigido

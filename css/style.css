@@ -1134,25 +1134,167 @@ tr.row-best td {
 .achievement-title { font-size: 11px; font-weight: 700; line-height: 1.25; }
 
 /* =========================================================================
-   CIDADE FINANCEIRA
+   CIDADE FINANCEIRA — FUNDO DO MAR (RFC-010, Fase 2A)
+   Cenário 2D estilo desenho animado (referência: fundo do mar, condizente
+   com o POLVIn ser um polvo) — as 13 construções (CITY_BUILDINGS) ficam
+   numa fileira rolável em zigue-zague sobre o "leito do mar", com bolhas/
+   peixes/coral animados. Só CSS/SVG/emoji — sem asset novo, mesma
+   restrição já em uso desde o RFC-008.
    ========================================================================= */
-.city-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 12px;
+.city-ocean {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: linear-gradient(to bottom, #6fd3ec 0%, #2f8fc4 30%, #145f95 58%, #0a3b64 82%, #062340 100%);
+  box-shadow: var(--shadow-lg);
 }
+
+.city-ocean-scroll {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.city-ocean-scroll::-webkit-scrollbar { display: none; }
+
+/* ---------- vida marinha decorativa ---------- */
+.city-bubble {
+  position: absolute;
+  bottom: -24px;
+  width: var(--size, 10px);
+  height: var(--size, 10px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.12));
+  animation: cityBubbleRise var(--dur, 8s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  pointer-events: none;
+}
+@keyframes cityBubbleRise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  8% { opacity: 0.9; }
+  85% { opacity: 0.5; }
+  100% { transform: translateY(-320px) translateX(14px); opacity: 0; }
+}
+
+.city-fish {
+  position: absolute;
+  font-size: var(--size, 22px);
+  animation: cityFishSwim var(--dur, 16s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  pointer-events: none;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.25));
+}
+@keyframes cityFishSwim {
+  0% { left: -8%; transform: scaleX(1); }
+  49% { transform: scaleX(1); }
+  50% { left: 108%; transform: scaleX(1); }
+  50.01% { transform: scaleX(-1); }
+  99% { left: -8%; transform: scaleX(-1); }
+  100% { left: -8%; transform: scaleX(1); }
+}
+
+.city-coral {
+  position: absolute;
+  bottom: 46px;
+  font-size: var(--size, 32px);
+  transform-origin: bottom center;
+  animation: citySway var(--dur, 4.5s) ease-in-out infinite;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+}
+@keyframes citySway {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.city-sand {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 46px;
+  background: linear-gradient(to bottom, #e0c17e, #c49a5c);
+  clip-path: polygon(0% 45%, 6% 15%, 13% 40%, 21% 10%, 29% 32%, 37% 12%, 46% 38%, 54% 14%, 63% 34%, 71% 10%, 80% 30%, 89% 12%, 100% 32%, 100% 100%, 0% 100%);
+}
+
+/* ---------- guia (POLVIn boiando num canto, com fala) ---------- */
+.city-guide {
+  position: absolute;
+  left: 14px;
+  bottom: 50px;
+  z-index: 5;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: none;
+}
+.city-guide-bubble {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--ink);
+  border-radius: 14px 14px 14px 3px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  max-width: 170px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+/* ---------- fileira de construções (zigue-zague, mesma lógica do .trail-node) ---------- */
+.city-row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 30px;
+  padding: 46px 26px 78px;
+  min-width: max-content;
+}
+
 .city-plot {
+  position: relative;
+  flex-shrink: 0;
+  width: 92px;
   text-align: center;
-  padding: 16px 8px;
-  border-radius: 12px;
-  border: 1.5px solid var(--border);
-  background: var(--surface);
-  cursor: default;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.city-plot.built { border-color: var(--gold); background: #fdf3e3; }
-.city-plot.locked { opacity: 0.5; }
-.city-plot-emoji { font-size: 30px; margin-bottom: 6px; }
-.city-plot-nome { font-size: 11.5px; font-weight: 700; line-height: 1.25; }
+.city-plot:nth-child(even) { transform: translateY(-26px); }
+.city-plot:hover, .city-plot:focus-visible { transform: translateY(-8px) scale(1.06); }
+.city-plot:nth-child(even):hover, .city-plot:nth-child(even):focus-visible { transform: translateY(-34px) scale(1.06); }
+
+.city-shell {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 8px;
+  border-radius: 42% 42% 46% 46% / 58% 58% 40% 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  background: radial-gradient(circle at 35% 28%, #fdf3e3, #e8a33d 75%);
+  box-shadow: 0 8px 16px rgba(2, 12, 24, 0.45), inset 0 -5px 10px rgba(0, 0, 0, 0.18), 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+.city-plot.locked .city-shell {
+  background: radial-gradient(circle at 35% 28%, #7d8f9e, #46596a 75%);
+  font-size: 22px;
+  filter: saturate(0.6);
+}
+.city-plot-nome {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+}
+
+/* ---------- loja de decorações (compra cosmética com moedas) ---------- */
+.city-decoration-card.owned { border-color: var(--gold); background: #fdf3e3; }
+.city-decoration-emoji { font-size: 28px; }
 
 .achievement-toast {
   position: fixed;

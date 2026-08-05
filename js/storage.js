@@ -39,6 +39,7 @@ const STORAGE_KEYS = {
   POLVIN_LOG: "if_polvin_log",
   POLVIN_NOTICE_SHOWN: "if_polvin_notice_shown",
   SEASONAL_STATE: "if_seasonal_state",
+  CITY_DECORATIONS_OWNED: "if_city_decorations_owned",
   VAULT_ENABLED: "if_vault_enabled",
   VAULT_SALT: "if_vault_salt",
   VAULT_CANARY: "if_vault_canary",

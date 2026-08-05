@@ -36,7 +36,9 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 ## Identidade visual e motion design (trilha separada, fora do backlog das 13 ideias)
 
 - ✅ **Fase 1 — biblioteca de animações + celebração de lição + Início** (v1.27.0, RFC-008): primeira aplicação da nova filosofia de design (`.claude/agents/ux-ui-design-lead.md`). Biblioteca de animações reutilizável (`js/fx.js`/`css/style.css`), celebração de lição reconstruída (POLVIn comemorando, moedas voando, confete, brilho), botões elásticos em todo o app, e o card da Início virou uma cena com o POLVIn mergulhando trazendo uma moeda e uma fala dinâmica sobre o progresso real do jogador.
-- **Fases futuras**: redesenho das demais ~19 abas do app, uma leva por vez — ainda não escopado em nenhuma RFC.
+- ✅ **Fase 2A — Cidade Financeira: Fundo do Mar** (v1.29.0, RFC-010): a Cidade virou um cenário 2D animado de fundo do mar (bolhas, peixes, coral, areia, guia do POLVIn), com as mesmas 13 construções de sempre (RFC-005, sem regressão) numa fileira em zigue-zague em vez de grade, mais uma Loja do Fundo do Mar nova — 6 decorações cosméticas compráveis com moedas, sem afetar progresso.
+- **Fase 2B — Customização do POLVIn estilo POU** (cor, guarda-roupa dedicado): ainda não escopada em RFC.
+- **Fases 2C+ — demais abas** (Investimentos, Simulador, Carteira, Ações & FIIs, Desafios, Mercado, Notícias, Educação, Avançado, Biblioteca): redesenho completo pedido pelo usuário, uma ou poucas abas por vez — ainda não escopado em nenhuma RFC.
 
 ## Qualidade — responsividade e acessibilidade
 
