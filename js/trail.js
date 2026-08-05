@@ -124,7 +124,7 @@ const Trail = {
             <div class="trail-node-icon">${icon}</div>
           </div>
           <div class="trail-node-label">${lesson.titulo}</div>
-          <div class="trail-node-xp">+${lesson.xp} XP</div>
+          <div class="trail-node-xp">+${Events.applyMultiplier(lesson.xp)} XP</div>
         </div>`;
       })
       .join("");
@@ -306,6 +306,7 @@ const Trail = {
     const passed = pct >= 60;
     let alreadyDone = false;
     let storyToShow = null;
+    let xpGanho = lesson.xp;
 
     if (passed) {
       const progress = this.getProgress(level.fonte);
@@ -317,7 +318,8 @@ const Trail = {
          missão semanal "complete 3 lições" (que conta entradas no log, não
          lições distintas), concedendo recompensa sem trabalho novo real. */
       if (!alreadyDone) {
-        Learn.addXp(lesson.xp);
+        xpGanho = Events.applyMultiplier(lesson.xp);
+        Learn.addXp(xpGanho);
         Learn.addCoins(5);
 
         const log = Store.get(STORAGE_KEYS.LESSON_LOG, []);
@@ -342,7 +344,7 @@ const Trail = {
           passed
             ? alreadyDone
               ? `<p class="text-soft">✅ Você já tinha concluído essa lição — revisar não dá XP de novo, mas ajuda a fixar o conteúdo!</p>`
-              : `<p><b>+${lesson.xp} XP</b> adicionados à sua conta.</p>`
+              : `<p><b>+${xpGanho} XP</b> adicionados à sua conta.</p>`
             : `<p>Você precisa de pelo menos 60% de acertos para concluir. Tente de novo!</p>`
         }
         <button class="btn btn-primary btn-block mt-16" id="trailQuizCloseBtn">${passed ? "Continuar" : "Tentar novamente"}</button>
@@ -437,7 +439,7 @@ const Trail = {
           <div class="text-soft text-sm">${icone} ${next.level.titulo}</div>
           <b>${next.lesson.titulo}</b>
         </div>
-        <button class="btn btn-gold btn-sm" id="homeContinueBtn">Continuar (+${next.lesson.xp} XP)</button>
+        <button class="btn btn-gold btn-sm" id="homeContinueBtn">Continuar (+${Events.applyMultiplier(next.lesson.xp)} XP)</button>
       </div>
     `;
     document.getElementById("homeContinueBtn").addEventListener("click", () => {

@@ -25,6 +25,7 @@ const App = {
     Trail.init();
     Business.init();
     Engagement.init();
+    Events.init();
     Achievements.init();
     City.init();
     Profile.init();
@@ -209,6 +210,9 @@ const App = {
 
     // Missões diárias/semanais e evento do dia
     Engagement.renderHome();
+
+    // Evento temporário ativo (Semana Bitcoin, IR, Férias, Black Friday, Natal)
+    Events.render();
 
     // O que o POLVIn percebeu sobre sua vida financeira (dados reais)
     this.renderPolvinInsights();

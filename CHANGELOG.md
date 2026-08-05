@@ -4,6 +4,30 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.24.0] - 2026-08-05
+
+### Adicionado
+- **RFC-006 — Eventos temporários** (`rfcs/RFC-006-eventos-temporarios.md`):
+  5 janelas fixas no calendário, recorrentes todo ano — Semana do Bitcoin
+  (03-09/jan), Temporada de IR (mar-abr), Férias Fin+ (jul), Black Friday
+  Fin+ (20-30/nov) e Natal Fin+ (15-25/dez). Enquanto uma está ativa: um
+  card na Início mostra 2 missões especiais temáticas (+15 XP cada),
+  todas as lições da trilha (financeira + Empreender) dão **XP em
+  dobro**, e uma moldura exclusiva daquele evento fica disponível na
+  Loja (permanece equipável mesmo depois do evento acabar, se comprada
+  a tempo). Módulo novo `js/events.js`.
+- Segundo item da **Etapa 3 do `ROADMAP.md`** concluído.
+
+### Observações de escopo
+- Ranking semanal sincronizado entre usuários diferentes (mencionado no
+  pedido original) não foi implementado — exigiria backend, mesma
+  limitação já registrada na Etapa 0 do roadmap. Quem quiser comparar
+  XP ganho durante um evento com amigos já pode usar as Ligas
+  locais/manuais existentes na aba Desafios.
+- XP em dobro se aplica só às lições da trilha, não a desafios diários,
+  missão semanal, metas ou livros — decisão de escopo registrada no
+  RFC-006 (Product Owner).
+
 ## [1.23.0] - 2026-08-05
 
 ### Adicionado

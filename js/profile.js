@@ -74,14 +74,23 @@ const Profile = {
     const owned = Store.get(STORAGE_KEYS.SHOP_OWNED, []);
     const equipped = Store.get(STORAGE_KEYS.EQUIPPED, {});
     const coins = Learn.getCoins();
+    const activeEvent = typeof Events !== "undefined" ? Events.getActiveEvent() : null;
 
-    container.innerHTML = SHOP_ITEMS.map((item) => {
+    /* Itens de evento (eventoExclusivo) só aparecem na vitrine enquanto o
+       evento correspondente está ativo, ou se o jogador já os possui —
+       nunca desaparecem depois de comprados, só ficam indisponíveis para
+       quem ainda não comprou fora da janela do evento. */
+    const visibleItems = SHOP_ITEMS.filter(
+      (item) => !item.eventoExclusivo || owned.includes(item.id) || (activeEvent && activeEvent.id === item.eventoExclusivo)
+    );
+
+    container.innerHTML = visibleItems.map((item) => {
       const isOwned = owned.includes(item.id);
       const isEquipped = equipped[item.tipo] === item.id;
       return `
         <div class="card shop-item ${isEquipped ? "equipped" : ""}">
           <div class="shop-item-emoji">${item.emoji}</div>
-          <div class="shop-item-name">${item.nome}</div>
+          <div class="shop-item-name">${item.nome}${item.eventoExclusivo ? " 🎉" : ""}</div>
           <div class="text-soft text-sm">${item.desc}</div>
           ${
             isOwned

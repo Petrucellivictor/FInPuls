@@ -9531,6 +9531,86 @@ const SHOP_ITEMS = [
   { id: "frame_green", tipo: "moldura", emoji: "🟢", cor: "#4FAE4A", nome: "Moldura verde", preco: 50, desc: "Cor de crescimento." },
   { id: "frame_blue", tipo: "moldura", emoji: "🔵", cor: "#3B6E8F", nome: "Moldura azul", preco: 50, desc: "Clássica e discreta." },
   { id: "frame_gold", tipo: "moldura", emoji: "🟡", cor: "#E8A33D", nome: "Moldura dourada", preco: 80, desc: "Um brilho de campeão." },
+  { id: "frame_bitcoin", tipo: "moldura", emoji: "₿", cor: "#F2A900", nome: "Moldura Bitcoin", preco: 60, desc: "Exclusiva da Semana do Bitcoin.", eventoExclusivo: "semana_bitcoin" },
+  { id: "frame_ir", tipo: "moldura", emoji: "🧾", cor: "#5C7A99", nome: "Moldura Declarante", preco: 60, desc: "Exclusiva da Temporada de IR.", eventoExclusivo: "temporada_ir" },
+  { id: "frame_ferias", tipo: "moldura", emoji: "🏖️", cor: "#2DB6A3", nome: "Moldura Férias", preco: 60, desc: "Exclusiva das Férias Fin+.", eventoExclusivo: "ferias" },
+  { id: "frame_blackfriday", tipo: "moldura", emoji: "🛍️", cor: "#1A1A1A", nome: "Moldura Black Friday", preco: 60, desc: "Exclusiva da Black Friday Fin+.", eventoExclusivo: "black_friday" },
+  { id: "frame_natal", tipo: "moldura", emoji: "🎄", cor: "#B23B3B", nome: "Moldura Natal", preco: 60, desc: "Exclusiva do Natal Fin+.", eventoExclusivo: "natal" },
+];
+
+/* -------------------------------------------------------------------------
+   20.2) EVENTOS TEMPORÁRIOS — janelas fixas no calendário (recorrentes todo
+   ano) com missões especiais, XP em dobro nas lições da trilha, e uma
+   moldura exclusiva na Loja enquanto o evento estiver ativo (ver js/events.js).
+   `inicio`/`fim` no formato "MM-DD", sem virada de ano (nenhum intervalo
+   cruza 31/12 → 01/01) — ver js/events.js para a comparação de datas.
+   ------------------------------------------------------------------------- */
+const SEASONAL_EVENTS = [
+  {
+    id: "semana_bitcoin",
+    nome: "Semana do Bitcoin",
+    emoji: "₿",
+    inicio: "01-03",
+    fim: "01-09",
+    descricao: "Uma semana para estudar risco e reforçar o que você já aprendeu sobre Renda Variável.",
+    xpMultiplicador: 2,
+    missoesEspeciais: [
+      { id: "btc_licao", titulo: "Estude Renda Variável", descricao: "Complete 1 lição da trilha de Renda Variável (Nível 3).", xp: 15, tipo: "licao_nivel3" },
+      { id: "btc_simulacao", titulo: "Simule uma decisão", descricao: "Rode 1 simulação no Simulador de Investimentos.", xp: 15, tipo: "simulacao" },
+    ],
+  },
+  {
+    id: "temporada_ir",
+    nome: "Temporada de IR",
+    emoji: "🧾",
+    inicio: "03-01",
+    fim: "04-30",
+    descricao: "A época de declarar o Imposto de Renda é uma boa hora para organizar sua vida financeira.",
+    xpMultiplicador: 2,
+    missoesEspeciais: [
+      { id: "ir_transacao", titulo: "Organize seus gastos", descricao: "Registre 1 transação na Carteira.", xp: 15, tipo: "transacao" },
+      { id: "ir_meta", titulo: "Contribua com um cofrinho", descricao: "Guarde dinheiro em uma das suas metas.", xp: 15, tipo: "meta" },
+    ],
+  },
+  {
+    id: "ferias",
+    nome: "Férias Fin+",
+    emoji: "🏖️",
+    inicio: "07-01",
+    fim: "07-31",
+    descricao: "Aproveite as férias para avançar mais na Academia Fin+, sem pressa, no seu ritmo.",
+    xpMultiplicador: 2,
+    missoesEspeciais: [
+      { id: "ferias_licao", titulo: "Continue a trilha", descricao: "Complete 1 lição em qualquer trilha da Academia.", xp: 15, tipo: "licao" },
+      { id: "ferias_livro", titulo: "Leia um livro", descricao: "Complete a leitura de 1 livro na Biblioteca.", xp: 15, tipo: "livro" },
+    ],
+  },
+  {
+    id: "black_friday",
+    nome: "Black Friday Fin+",
+    emoji: "🛍️",
+    inicio: "11-20",
+    fim: "11-30",
+    descricao: "A época de maior tentação de consumo é a melhor hora para praticar decisões financeiras conscientes.",
+    xpMultiplicador: 2,
+    missoesEspeciais: [
+      { id: "bf_simulacao", titulo: "Simule antes de gastar", descricao: "Rode 1 simulação de decisão no Simulador.", xp: 15, tipo: "simulacao" },
+      { id: "bf_polvin", titulo: "Pergunte ao POLVIn", descricao: "Faça 1 pergunta ao POLVIn antes de uma compra grande.", xp: 15, tipo: "polvin" },
+    ],
+  },
+  {
+    id: "natal",
+    nome: "Natal Fin+",
+    emoji: "🎄",
+    inicio: "12-15",
+    fim: "12-25",
+    descricao: "O fim de ano é uma ótima época para reforçar hábitos de poupança e generosidade consciente.",
+    xpMultiplicador: 2,
+    missoesEspeciais: [
+      { id: "natal_meta", titulo: "Contribua com um cofrinho", descricao: "Guarde dinheiro em uma meta antes do fim do ano.", xp: 15, tipo: "meta" },
+      { id: "natal_licao", titulo: "Termine o ano estudando", descricao: "Complete 1 lição em qualquer trilha.", xp: 15, tipo: "licao" },
+    ],
+  },
 ];
 
 /* -------------------------------------------------------------------------

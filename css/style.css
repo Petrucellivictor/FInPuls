@@ -1025,6 +1025,9 @@ tr.row-best td {
 .mission-title { font-weight: 700; font-size: 13.5px; }
 .mission-xp { font-size: 11.5px; font-weight: 700; color: var(--gold-dark); white-space: nowrap; }
 
+.seasonal-event-card { border: 1.5px solid var(--gold); }
+.seasonal-event-card .mission-row { margin-top: 8px; }
+
 /* =========================================================================
    CONQUISTAS (Aprender)
    ========================================================================= */

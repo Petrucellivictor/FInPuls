@@ -102,7 +102,7 @@ const Business = {
         <div class="trail-node ${stateClass} ${isCurrent ? "current" : ""}" data-level="${levelIdx}" data-lesson="${lessonIdx}" title="${lesson.titulo}">
           <div class="trail-node-ring"><div class="trail-node-icon">${icon}</div></div>
           <div class="trail-node-label">${lesson.titulo}</div>
-          <div class="trail-node-xp">+${lesson.xp} XP</div>
+          <div class="trail-node-xp">+${Events.applyMultiplier(lesson.xp)} XP</div>
         </div>`;
       })
       .join("");
@@ -267,6 +267,7 @@ const Business = {
     const pct = Math.round((correctCount / total) * 100);
     const passed = pct >= 60;
     let alreadyDone = false;
+    let xpGanho = lesson.xp;
 
     if (passed) {
       const progress = this.getProgress();
@@ -278,7 +279,8 @@ const Business = {
          missão semanal "complete 3 lições" (que conta entradas no log, não
          lições distintas), concedendo recompensa sem trabalho novo real. */
       if (!alreadyDone) {
-        Learn.addXp(lesson.xp);
+        xpGanho = Events.applyMultiplier(lesson.xp);
+        Learn.addXp(xpGanho);
         Learn.addCoins(5);
 
         const log = Store.get(STORAGE_KEYS.LESSON_LOG, []);
@@ -298,7 +300,7 @@ const Business = {
           passed
             ? alreadyDone
               ? `<p class="text-soft">✅ Você já tinha concluído essa lição — revisar não dá XP de novo, mas ajuda a fixar o conteúdo!</p>`
-              : `<p><b>+${lesson.xp} XP</b> adicionados à sua conta.</p>`
+              : `<p><b>+${xpGanho} XP</b> adicionados à sua conta.</p>`
             : `<p>Você precisa de pelo menos 60% de acertos para concluir. Tente de novo!</p>`
         }
         <button class="btn btn-primary btn-block mt-16" id="businessQuizCloseBtn">${passed ? "Continuar" : "Tentar novamente"}</button>
