@@ -1096,6 +1096,12 @@ tr.row-best td {
    ========================================================================= */
 .book-card.highlighted { border-color: var(--gold); box-shadow: var(--shadow-lg); }
 .book-card h3 { font-size: 15.5px; }
+.book-card { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.book-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.book-card.done { border-color: var(--green); background: #f3fbf1; }
+
+.certificate-card { text-align: center; padding: 22px 16px; border: 2px solid var(--gold); background: linear-gradient(180deg, #fff9ec, #fff); }
+.certificate-seal { font-size: 36px; }
 
 /* =========================================================================
    CONTA (login Google / perfil local por e-mail)

@@ -4,6 +4,33 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.21.0] - 2026-08-05
+
+### Adicionado
+- **RFC-002 — Simulador de Decisões** (`rfcs/RFC-002-simulador-estilo-jogo.md`):
+  novo bloco na aba Simulador. O usuário "recebe" um valor de uma vez
+  (bônus, herança, prêmio, 13º turbinado) e escolhe entre 4 opções (2
+  de gasto, 1 investir, 1 poupança); a tela de resultado mostra sempre
+  as 3 projeções "10 anos depois" (o que a escolha real gerou, o que
+  teria sido se investido, o que teria sido na poupança), usando a
+  Selic real via `Simulator.currentSelic()`. Escolher uma opção conta
+  como uma simulação para a conquista "50 simulações" e o desafio
+  diário "Faça uma simulação".
+- **RFC-003 — Estante de livros + certificados**
+  (`rfcs/RFC-003-estante-livros-certificados.md`): os 18 livros da
+  Biblioteca ganharam resumo (3 parágrafos, contado pelo POLVIn) e um
+  quiz de 2 perguntas. Completar o quiz marca o livro como lido na
+  estante e gera um certificado numa nova "Parede de Certificados" —
+  sem reprovação, já que o objetivo é incentivar a leitura. XP/moedas
+  só na primeira conclusão de cada livro. Nova conquista
+  `primeiro_certificado`.
+
+### Alterado
+- **Conquista "Leitor voraz" (`leu_10_livros`)**: critério mudou de
+  "10 livros recomendados" (`BOOKS_SEEN`) para "10 livros
+  *completados*, com quiz" (`BOOKS_COMPLETED`) — mais rigoroso, mas
+  mais fiel ao que a conquista sempre quis dizer.
+
 ## [1.20.0] - 2026-08-05
 
 ### Adicionado

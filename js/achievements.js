@@ -49,8 +49,9 @@ const Achievements = {
       return !!nivel2 && nivel2.licoes.every((l) => !!progress[l.id]);
     },
     simulador_50x: () => Store.get(STORAGE_KEYS.SIMULATOR_RUNS, 0) >= 50,
-    leu_10_livros: () => Store.get(STORAGE_KEYS.BOOKS_SEEN, []).length >= 10,
+    leu_10_livros: () => Object.keys(Store.get(STORAGE_KEYS.BOOKS_COMPLETED, {})).length >= 10,
     amigo_polvin: () => Store.get(STORAGE_KEYS.POLVIN_QUESTIONS_ASKED, 0) >= 10,
+    primeiro_certificado: () => Object.keys(Store.get(STORAGE_KEYS.BOOKS_COMPLETED, {})).length > 0,
   },
 
   getUnlocked() {

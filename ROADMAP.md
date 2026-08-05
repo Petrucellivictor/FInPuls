@@ -19,11 +19,11 @@ Dois itens do pedido original não podem ser implementados como descrito sem mud
 | Mercado em tempo real | ✅ Feito (v1.20.0, RFC-001) | Mais pares de moeda (GBP, ARS) e criptomoedas (BNB, XRP) — cotação de ações individuais continua fora do escopo (ver Etapa 0 do README, exige API paga) |
 | Notificações do POLVIn (versão client-side) | ✅ Feito (v1.20.0, RFC-001) | Toast único por dia — "sentiu sua falta" (2+ dias sem atividade) > "streak em risco" (nada feito hoje) > "faltam X XP para o próximo nível" |
 
-## Etapa 2 — novas mecânicas de conteúdo (esforço médio)
+## Etapa 2 — novas mecânicas de conteúdo (esforço médio) — 2 de 3 concluídas
 
-- **Histórias interativas dentro das aulas**: cenários de escolha ("João ganhou R$3.000...") intercalados na trilha financeira (não em toda lição — a cada ~3 lições), com desfecho que muda conforme a escolha. Depende do Financial Education Specialist para o conteúdo.
-- **Simulador estilo jogo**: cenário "você recebeu R$50.000, o que faz?" com resultado revelado "10 anos depois" — nova experiência dentro da aba Simulador, complementar (não substitui) o simulador de juros compostos atual.
-- **Estante de livros + certificados**: `js/books.js` vira uma estante visual; cada livro concluído ganha resumo + quiz + certificado. Certificados agrupados numa "parede" (Etapa 2 termina aqui; a parede en si pode crescer na Etapa 3 junto dos certificados de trilha).
+- ✅ **Simulador estilo jogo** (v1.21.0, RFC-002): "Simulador de Decisões" na aba Simulador — 4 cenários (bônus, herança, prêmio, 13º turbinado), cada um com 4 opções (2 de gasto, 1 investir, 1 poupança), revelando as 3 projeções "10 anos depois" para comparação, reaproveitando a Selic real já usada no comparador de investimentos.
+- ✅ **Estante de livros + certificados** (v1.21.0, RFC-003): `js/books.js` virou uma estante — os 18 livros ganharam resumo (contado pelo POLVIn) + quiz de 2 perguntas; completar gera um certificado numa "parede de certificados" nova. A conquista `leu_10_livros` passou a exigir 10 livros *completados*, não só recomendados.
+- ⏳ **Histórias interativas dentro das aulas**: cenários de escolha ("João ganhou R$3.000...") intercalados na trilha financeira (não em toda lição — a cada ~3 lições), com desfecho que muda conforme a escolha. Depende do Financial Specialist para o conteúdo. Ainda não iniciado — próximo item da Etapa 2.
 
 ## Etapa 3 — novas features maiores (mais esforço, mais risco de escopo)
 

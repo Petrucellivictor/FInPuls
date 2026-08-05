@@ -255,6 +255,16 @@
         <button class="btn btn-primary btn-block" id="cmpCalcBtn">Comparar investimentos</button>
         <div id="cmpResult" class="mt-16"></div>
       </div>
+
+      <div class="card mt-16">
+        <div class="section-title" style="margin-bottom:10px">
+          <div>
+            <h3 style="font-size:16px;margin:0">🎲 Simulador de Decisões</h3>
+            <div class="subtitle">Você recebe um dinheiro de uma vez só. O que você faz? Veja o resultado 10 anos depois.</div>
+          </div>
+        </div>
+        <div id="scenarioContainer"></div>
+      </div>
     </section>
 
     <!-- ---------- CARTEIRA / CONTROLE DE GASTOS ---------- -->
@@ -643,7 +653,11 @@
       <div id="bookRecommendation"></div>
 
       <div class="section-title mt-16">
-        <h3 style="margin:0">Todos os livros</h3>
+        <div>
+          <h3 style="margin:0">📚 Sua Estante</h3>
+          <div class="subtitle">Clique num livro para ler o resumo, fazer o quiz e ganhar o certificado.</div>
+        </div>
+        <div class="stat-chip xp"><span class="ico">🏅</span><span id="booksCompletedLabel">0/0 lidos</span></div>
       </div>
       <div class="invest-filters" id="booksFiltros">
         <button class="filter-chip active" data-nivel="todos">Todos</button>
@@ -652,6 +666,14 @@
         <button class="filter-chip" data-nivel="avancado">Avançado</button>
       </div>
       <div class="grid grid-3" id="booksGrid"></div>
+
+      <div class="section-title mt-16">
+        <div>
+          <h3 style="margin:0">🏅 Parede de Certificados</h3>
+          <div class="subtitle">Cada livro concluído (resumo + quiz) ganha um certificado aqui.</div>
+        </div>
+      </div>
+      <div class="grid grid-3" id="certificatesWall"></div>
     </section>
 
   </main>

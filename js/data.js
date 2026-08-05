@@ -9308,6 +9308,66 @@ const WEEKLY_MISSIONS = [
 ];
 
 /* -------------------------------------------------------------------------
+   11.1) SIMULADOR DE DECISÕES — "você recebeu R$X, o que faz?", com o
+   resultado revelado "10 anos depois" (js/simulator.js calcula as 3
+   projeções — gasto, poupança, investido — comparando com a escolha real
+   do usuário). Diferente de RANDOM_EVENTS (1 por dia, feedback imediato em
+   XP): aqui o usuário escolhe quantas vezes quiser, e o "prêmio" é a
+   comparação educativa, não XP direto (XP vem do desafio diário
+   "run_simulation", contado por Simulator.logRun()).
+   ------------------------------------------------------------------------- */
+const SCENARIO_SIMULATIONS = [
+  {
+    id: "bonus_trabalho",
+    titulo: "Um bônus inesperado",
+    valor: 50000,
+    situacao: "Você recebeu um bônus de R$ 50.000 no trabalho, de uma vez só. O que você faz com esse dinheiro?",
+    opcoes: [
+      { id: "carro", texto: "Comprar um carro novo", categoria: "gasto", narrativa: "Você comprou o carro que sempre quis. Foi ótimo dirigir ele nos primeiros anos — mas, como a maioria dos carros, ele foi perdendo valor com o tempo, não ganhando." },
+      { id: "viajar", texto: "Fazer a viagem dos sonhos", categoria: "gasto", narrativa: "Você viveu uma experiência incrível e voltou com memórias para a vida toda — sem dúvida, algo que também tem valor, só que não financeiro." },
+      { id: "investir", texto: "Investir (renda fixa + variável)", categoria: "investir", narrativa: "Você decidiu deixar o dinheiro trabalhando para você, numa combinação de renda fixa e variável." },
+      { id: "guardar", texto: "Guardar na poupança, por segurança", categoria: "poupanca", narrativa: "Você preferiu manter o dinheiro guardado de um jeito simples e sem risco." },
+    ],
+  },
+  {
+    id: "heranca_avo",
+    titulo: "Uma herança da sua avó",
+    valor: 80000,
+    situacao: "Sua avó deixou R$ 80.000 de herança para você. O que você faz com esse dinheiro?",
+    opcoes: [
+      { id: "reforma", texto: "Reformar a casa/apartamento", categoria: "gasto", narrativa: "Você deixou seu espaço muito mais confortável — um investimento em qualidade de vida, mesmo sem retorno financeiro direto." },
+      { id: "quitar_dividas", texto: "Quitar dívidas caras (cartão/cheque especial)", categoria: "gasto", narrativa: "Você se livrou de dívidas que cobravam juros altíssimos — financeiramente, isso já foi uma ótima decisão, mesmo sem 'crescer' o dinheiro depois." },
+      { id: "investir", texto: "Investir (renda fixa + variável)", categoria: "investir", narrativa: "Você decidiu deixar o dinheiro trabalhando para você, numa combinação de renda fixa e variável." },
+      { id: "guardar", texto: "Guardar na poupança, por segurança", categoria: "poupanca", narrativa: "Você preferiu manter o dinheiro guardado de um jeito simples e sem risco." },
+    ],
+  },
+  {
+    id: "premio_sorteio",
+    titulo: "Um prêmio de sorteio",
+    valor: 30000,
+    situacao: "Você ganhou R$ 30.000 em um sorteio da empresa onde trabalha. O que você faz com esse dinheiro?",
+    opcoes: [
+      { id: "eletronicos", texto: "Comprar eletrônicos novos (celular, TV, notebook)", categoria: "gasto", narrativa: "Você renovou seus equipamentos e aproveitou bastante — mas, como toda tecnologia, o valor de revenda cai rápido." },
+      { id: "gastar_geral", texto: "Gastar em compras diversas, sem muito plano", categoria: "gasto", narrativa: "O dinheiro foi sendo usado em várias coisas ao longo dos meses, sem um destino específico." },
+      { id: "investir", texto: "Investir (renda fixa + variável)", categoria: "investir", narrativa: "Você decidiu deixar o dinheiro trabalhando para você, numa combinação de renda fixa e variável." },
+      { id: "guardar", texto: "Guardar na poupança, por segurança", categoria: "poupanca", narrativa: "Você preferiu manter o dinheiro guardado de um jeito simples e sem risco." },
+    ],
+  },
+  {
+    id: "decimo_turbinado",
+    titulo: "Um décimo terceiro turbinado",
+    valor: 15000,
+    situacao: "Entre o 13º salário e um bônus de fim de ano, você recebeu R$ 15.000 de uma vez. O que você faz com esse dinheiro?",
+    opcoes: [
+      { id: "festas", texto: "Curtir as festas de fim de ano sem economizar", categoria: "gasto", narrativa: "Você teve um fim de ano e tanto, aproveitando sem se preocupar com o orçamento." },
+      { id: "presentes", texto: "Dar presentes generosos para a família", categoria: "gasto", narrativa: "Você fez a família feliz com presentes generosos — um gesto que vale muito, mesmo sem retorno financeiro." },
+      { id: "investir", texto: "Investir (renda fixa + variável)", categoria: "investir", narrativa: "Você decidiu deixar o dinheiro trabalhando para você, numa combinação de renda fixa e variável." },
+      { id: "guardar", texto: "Guardar na poupança, por segurança", categoria: "poupanca", narrativa: "Você preferiu manter o dinheiro guardado de um jeito simples e sem risco." },
+    ],
+  },
+];
+
+/* -------------------------------------------------------------------------
    12) EVENTOS ALEATÓRIOS — cenários educativos com escolha, 1 por dia
    ------------------------------------------------------------------------- */
 const RANDOM_EVENTS = [
@@ -9389,8 +9449,9 @@ const ACHIEVEMENTS = [
   { id: "mestre_empreendedor", emoji: "🏢", titulo: "Mestre empreendedor", descricao: "Você completou toda a trilha Empreender: regimes tributários, obrigações e gestão de pessoas e finanças." },
   { id: "renda_fixa_completa", emoji: "💰", titulo: "Especialista em Renda Fixa", descricao: "Você completou todas as lições do Nível 2 · Renda Fixa." },
   { id: "simulador_50x", emoji: "🧮", titulo: "Mestre dos simuladores", descricao: "Você fez 50 simulações no simulador de investimentos." },
-  { id: "leu_10_livros", emoji: "📖", titulo: "Leitor voraz", descricao: "Você conferiu 10 recomendações diferentes na Biblioteca Fin+." },
+  { id: "leu_10_livros", emoji: "📖", titulo: "Leitor voraz", descricao: "Você completou a leitura de 10 livros na Biblioteca Fin+ (resumo + quiz)." },
   { id: "amigo_polvin", emoji: "🐙", titulo: "Amigo do POLVIn", descricao: "Você fez 10 perguntas para o POLVIn no assistente." },
+  { id: "primeiro_certificado", emoji: "🏅", titulo: "Primeiro certificado", descricao: "Você completou seu primeiro livro (resumo + quiz) e ganhou um certificado." },
 ];
 
 /* -------------------------------------------------------------------------
@@ -9565,28 +9626,420 @@ const ASSISTANT_FALLBACKS = [
    14) BIBLIOTECA FIN+ — recomendações reais de livros, do zero ao avançado
    ------------------------------------------------------------------------- */
 const BOOKS = [
-  { id: "babilonia", titulo: "O Homem Mais Rico da Babilônia", autor: "George S. Clason", nivel: "iniciante", tema: "Hábitos financeiros", pitch: "Parábolas atemporais sobre poupar, viver com menos do que se ganha e fazer o dinheiro trabalhar para você." },
-  { id: "pairico", titulo: "Pai Rico, Pai Pobre", autor: "Robert T. Kiyosaki", nivel: "iniciante", tema: "Mentalidade financeira", pitch: "A diferença entre comprar ativos (que geram renda) e passivos (que geram despesa), explicada de forma simples." },
-  { id: "penseenriqueca", titulo: "Pense e Enriqueça", autor: "Napoleon Hill", nivel: "iniciante", tema: "Mentalidade e disciplina", pitch: "Um clássico sobre objetivos claros, disciplina e persistência aplicados também às finanças pessoais." },
-  { id: "mentemilionaria", titulo: "Os Segredos da Mente Milionária", autor: "T. Harv Eker", nivel: "iniciante", tema: "Comportamento com dinheiro", pitch: "Como crenças aprendidas na infância moldam — e muitas vezes sabotam — a relação de cada pessoa com o dinheiro." },
-  { id: "mepoupe", titulo: "Me Poupe!", autor: "Nathalia Arcuri", nivel: "iniciante", tema: "Controle de gastos", pitch: "Guia direto ao ponto para organizar o orçamento e sair do vermelho, com linguagem bem acessível." },
-  { id: "casaisinteligentes", titulo: "Casais Inteligentes Enriquecem Juntos", autor: "Gustavo Cerbasi", nivel: "iniciante", tema: "Planejamento familiar", pitch: "Como alinhar objetivos financeiros a dois (ou em família) sem transformar dinheiro em motivo de conflito." },
-  { id: "domilaomilhao", titulo: "Do Mil ao Milhão", autor: "Thiago Nigro", nivel: "intermediario", tema: "Primeiros investimentos", pitch: "Passo a passo, no contexto brasileiro, para sair do zero e montar os primeiros investimentos com consistência." },
-  { id: "umpassoadiante", titulo: "Um Passo Adiante em Wall Street", autor: "Peter Lynch", nivel: "intermediario", tema: "Ações no dia a dia", pitch: "Como usar observações do cotidiano para identificar empresas promissoras antes que o mercado perceba." },
-  { id: "psicologiafinanceira", titulo: "A Psicologia Financeira", autor: "Morgan Housel", nivel: "intermediario", tema: "Comportamento e decisões", pitch: "Por que boas decisões financeiras dependem muito mais de comportamento do que de fórmulas matemáticas." },
-  { id: "investidorinteligente", titulo: "O Investidor Inteligente", autor: "Benjamin Graham", nivel: "avancado", tema: "Value investing", pitch: "A base da análise fundamentalista moderna, escrito pelo mentor de Warren Buffett." },
-  { id: "acoescomuns", titulo: "Ações Comuns, Lucros Extraordinários", autor: "Philip Fisher", nivel: "avancado", tema: "Análise de crescimento", pitch: "Como avaliar a qualidade e o potencial de crescimento de uma empresa além dos números do balanço." },
-  { id: "pequenolivro", titulo: "O Pequeno Livro Que Ainda Bate o Mercado", autor: "Joel Greenblatt", nivel: "avancado", tema: "Estratégia sistemática", pitch: "Uma metodologia simples e sistemática para selecionar ações com bom potencial de retorno no longo prazo." },
-  { id: "boladeneve", titulo: "A Bola de Neve: Warren Buffett e o Negócio da Vida", autor: "Alice Schroeder", nivel: "avancado", tema: "Biografia e estratégia", pitch: "A biografia definitiva de Warren Buffett, mostrando décadas de decisões reais de alocação de capital." },
-
-  // Economia pública, distribuição de renda e pensamento econômico crítico —
-  // para complementar a visão de mercado com a compreensão do papel do
-  // Estado, da desigualdade e de correntes de pensamento além do liberalismo.
-  { id: "formacaoeconomica", titulo: "Formação Econômica do Brasil", autor: "Celso Furtado", nivel: "avancado", tema: "Economia e história do Brasil", pitch: "O clássico que explica como a economia colonial exportadora moldou a desigualdade e a dependência externa do Brasil até hoje." },
-  { id: "dependenciaedesenvolvimento", titulo: "Dependência e Desenvolvimento na América Latina", autor: "Fernando Henrique Cardoso e Enzo Faletto", nivel: "avancado", tema: "Teoria da dependência", pitch: "Um dos textos fundadores da teoria da dependência, sobre por que países latino-americanos permaneceram economicamente dependentes dos países ricos." },
-  { id: "ocapital", titulo: "O Capital", autor: "Karl Marx", nivel: "avancado", tema: "Crítica ao capitalismo", pitch: "A obra fundamental do pensamento socialista, com a crítica de Marx à exploração do trabalho e à concentração de capital no sistema capitalista." },
-  { id: "precodesigualdade", titulo: "O Preço da Desigualdade", autor: "Joseph Stiglitz", nivel: "avancado", tema: "Desigualdade e distribuição de renda", pitch: "O Nobel de Economia mostra, com dados, como a desigualdade extrema prejudica o crescimento econômico de um país como um todo — não só os mais pobres." },
-  { id: "capitalseculoxxi", titulo: "O Capital no Século XXI", autor: "Thomas Piketty", nivel: "avancado", tema: "Desigualdade e distribuição de renda", pitch: "Um estudo histórico sobre como a riqueza se concentra ao longo do tempo e por que a tributação progressiva é debatida como ferramenta de redistribuição." },
+  {
+    id: "babilonia", titulo: "O Homem Mais Rico da Babilônia", autor: "George S. Clason", nivel: "iniciante", tema: "Hábitos financeiros",
+    pitch: "Parábolas atemporais sobre poupar, viver com menos do que se ganha e fazer o dinheiro trabalhar para você.",
+    resumo: [
+      "O livro é estruturado como parábolas ambientadas na antiga Babilônia, ensinando princípios financeiros atemporais através de histórias de personagens comuns em busca de riqueza.",
+      "O princípio central, repetido em várias parábolas, é 'pague-se primeiro': guardar pelo menos um décimo de tudo que se ganha antes de gastar com qualquer outra coisa — uma disciplina que antecede qualquer estratégia de investimento.",
+      "Outros princípios incluem controlar despesas para que não cresçam junto com a renda, fazer o dinheiro guardado 'trabalhar' (investir com sabedoria, buscando orientação de quem entende), proteger-se de perdas evitando riscos mal compreendidos, e investir na própria capacidade de ganhar mais.",
+    ],
+    quiz: [
+      {
+        pergunta: "Qual é o princípio central e mais repetido do livro?",
+        opcoes: ["Gastar tudo que se ganha e investir o restante", "Pagar-se primeiro: guardar uma parte do que se ganha antes de gastar com qualquer coisa", "Nunca investir em nada arriscado", "Pedir dinheiro emprestado para investir"],
+        correta: 1,
+        explicacao: "O livro repete, em diferentes parábolas, que guardar uma parte (pelo menos 10%) de tudo que se ganha, antes de qualquer gasto, é a base de qualquer progresso financeiro.",
+      },
+      {
+        pergunta: "Segundo o livro, o que se deve fazer com o dinheiro guardado, além de simplesmente acumulá-lo?",
+        opcoes: ["Deixar parado, sem nenhuma decisão", "Fazer esse dinheiro trabalhar, investindo com orientação de quem entende do assunto", "Gastar rapidamente antes que perca valor", "Emprestar para qualquer pessoa que peça"],
+        correta: 1,
+        explicacao: "O livro defende que o dinheiro guardado deve ser investido de forma criteriosa, buscando orientação de quem tem conhecimento — não apenas acumulado sem propósito.",
+      },
+    ],
+  },
+  {
+    id: "pairico", titulo: "Pai Rico, Pai Pobre", autor: "Robert T. Kiyosaki", nivel: "iniciante", tema: "Mentalidade financeira",
+    pitch: "A diferença entre comprar ativos (que geram renda) e passivos (que geram despesa), explicada de forma simples.",
+    resumo: [
+      "O livro contrasta os ensinamentos financeiros de dois pais do autor — o 'pai pobre' (seu pai biológico, educador bem formado mas sempre com dificuldades financeiras) e o 'pai rico' (pai de um amigo, empresário que construiu riqueza real).",
+      "O conceito central: ativo é o que coloca dinheiro no seu bolso; passivo é o que tira. O 'pai rico' defende comprar ativos primeiro, mesmo pequenos, antes de aumentar o padrão de vida — enquanto o 'pai pobre' seguia o caminho tradicional de estudar, ter um emprego estável e financiar uma casa própria, que Kiyosaki classifica como passivo, não ativo.",
+      "O livro defende que a alfabetização financeira (entender contabilidade básica, investimentos, mercados) importa mais do que quanto se ganha — e que trabalhar só pela segurança do emprego, sem aprender a construir ativos, mantém alguém financeiramente dependente.",
+    ],
+    quiz: [
+      {
+        pergunta: "Segundo a definição do livro, o que diferencia um ativo de um passivo?",
+        opcoes: ["Ativo é caro, passivo é barato", "Ativo coloca dinheiro no seu bolso; passivo tira dinheiro do seu bolso", "Ativo é qualquer imóvel; passivo é qualquer investimento", "Não há diferença real entre os dois"],
+        correta: 1,
+        explicacao: "Essa é a definição central do livro — usada, por exemplo, para questionar se a casa própria financiada é sempre um 'ativo', como o senso comum sugere.",
+      },
+      {
+        pergunta: "Qual é a principal crítica do 'pai rico' ao caminho seguido pelo 'pai pobre' (estudar, emprego estável, casa financiada)?",
+        opcoes: ["Que estudar nunca vale a pena", "Que esse caminho, sozinho, não ensina a construir ativos que gerem renda, mantendo a pessoa dependente do salário", "Que ter um emprego é sempre uma escolha ruim", "Que comprar uma casa é proibido"],
+        correta: 1,
+        explicacao: "A crítica não é contra estudar ou trabalhar, mas contra parar aí — sem aprender a construir ativos, a pessoa segue dependente do próprio trabalho para sempre.",
+      },
+    ],
+  },
+  {
+    id: "penseenriqueca", titulo: "Pense e Enriqueça", autor: "Napoleon Hill", nivel: "iniciante", tema: "Mentalidade e disciplina",
+    pitch: "Um clássico sobre objetivos claros, disciplina e persistência aplicados também às finanças pessoais.",
+    resumo: [
+      "Escrito nos anos 1930, o livro reúne (segundo o autor) décadas de observação de pessoas bem-sucedidas financeiramente, buscando padrões de pensamento e comportamento em comum entre elas.",
+      "O princípio de abertura é o 'desejo definido': ter um objetivo claro e específico — não um desejo vago de 'ficar rico' — sustentado por um plano concreto, um prazo definido e persistência diante de fracassos temporários.",
+      "Outros princípios centrais incluem a especialização em uma área de conhecimento, o poder da tomada de decisão rápida (contra a indecisão crônica), e a formação de um grupo de aliança ('mastermind') com pessoas que se complementam em conhecimento e experiência.",
+    ],
+    quiz: [
+      {
+        pergunta: "Qual é o primeiro princípio central defendido pelo livro para alcançar objetivos financeiros?",
+        opcoes: ["Ter um desejo vago de ser rico algum dia", "Ter um desejo definido: um objetivo específico, com plano e prazo, sustentado por persistência", "Esperar uma oportunidade de sorte", "Nunca definir metas para não se decepcionar"],
+        correta: 1,
+        explicacao: "O livro defende que um objetivo vago raramente se realiza — é preciso um desejo específico, com plano de ação e prazo definido.",
+      },
+      {
+        pergunta: "O que o livro chama de 'mastermind'?",
+        opcoes: ["Um tipo de investimento de alto risco", "Um grupo de aliança entre pessoas com conhecimentos complementares, trabalhando em harmonia por um objetivo comum", "Um método de meditação", "Um imposto sobre grandes fortunas"],
+        correta: 1,
+        explicacao: "O 'mastermind' é a formação de um grupo de pessoas que se apoiam e se complementam para alcançar objetivos mais difíceis de atingir isoladamente.",
+      },
+    ],
+  },
+  {
+    id: "mentemilionaria", titulo: "Os Segredos da Mente Milionária", autor: "T. Harv Eker", nivel: "iniciante", tema: "Comportamento com dinheiro",
+    pitch: "Como crenças aprendidas na infância moldam — e muitas vezes sabotam — a relação de cada pessoa com o dinheiro.",
+    resumo: [
+      "O livro defende que cada pessoa carrega um 'blueprint financeiro' (um conjunto de crenças sobre dinheiro) formado principalmente na infância, a partir do que viu e ouviu em casa — e que esse blueprint influencia boa parte do resultado financeiro na vida adulta.",
+      "Contrasta 'arquivos de riqueza' de quem pensa como rico (foco em construir patrimônio, assumir responsabilidade pelos próprios resultados, boa gestão do que já se tem) com padrões que sabotam a prosperidade (culpar circunstâncias externas, evitar lidar com dinheiro, desconforto em cobrar bem pelo próprio trabalho).",
+      "Propõe exercícios práticos para identificar e 'reprogramar' crenças limitantes, e defende que atitudes diárias simples de gestão financeira (como separar o dinheiro em contas com propósitos diferentes) refletem e reforçam esse blueprint interno.",
+    ],
+    quiz: [
+      {
+        pergunta: "O que o livro chama de 'blueprint financeiro'?",
+        opcoes: ["Um plano de investimentos específico", "O conjunto de crenças sobre dinheiro formado principalmente na infância, que influencia os resultados financeiros adultos", "Um tipo de imposto sobre herança", "Uma estratégia de day trade"],
+        correta: 1,
+        explicacao: "O 'blueprint financeiro' é essa base de crenças, moldada desde a infância, que o livro defende ser tão importante quanto a estratégia técnica de investir.",
+      },
+      {
+        pergunta: "Segundo o livro, qual é uma diferença comportamental comum entre quem pensa como rico e quem tem crenças limitantes sobre dinheiro?",
+        opcoes: ["Quem pensa como rico nunca trabalha", "Quem pensa como rico assume responsabilidade pelos próprios resultados financeiros, em vez de culpar circunstâncias externas", "Quem tem crenças limitantes sempre ganha mais dinheiro", "Não existe diferença comportamental nenhuma"],
+        correta: 1,
+        explicacao: "Um dos contrastes centrais do livro é a assunção de responsabilidade pelos próprios resultados, em vez de atribuir tudo a fatores externos.",
+      },
+    ],
+  },
+  {
+    id: "mepoupe", titulo: "Me Poupe!", autor: "Nathalia Arcuri", nivel: "iniciante", tema: "Controle de gastos",
+    pitch: "Guia direto ao ponto para organizar o orçamento e sair do vermelho, com linguagem bem acessível.",
+    resumo: [
+      "Livro com linguagem direta e bem-humorada, focado em ajudar quem está endividado ou desorganizado financeiramente a dar os primeiros passos práticos.",
+      "Defende mapear com clareza receitas e despesas antes de qualquer outra decisão, identificar e cortar gastos por impulso, e organizar dívidas existentes — priorizando as de juros mais altos, como cartão de crédito e cheque especial — antes de pensar em investir.",
+      "Uma vez organizado o básico, incentiva começar a investir mesmo com pouco dinheiro, priorizando primeiro a reserva de emergência em ativos líquidos e seguros, reforçando que o hábito consistente importa mais do que um valor alto no começo.",
+    ],
+    quiz: [
+      {
+        pergunta: "Segundo o livro, o que deveria vir antes de começar a investir, para quem está endividado?",
+        opcoes: ["Investir em ações imediatamente, para recuperar o dinheiro mais rápido", "Organizar o orçamento e priorizar quitar dívidas caras (cartão, cheque especial) antes de investir", "Pedir mais um empréstimo para pagar as dívidas antigas", "Ignorar as dívidas e focar só em ganhar mais"],
+        correta: 1,
+        explicacao: "O livro defende organizar as contas e quitar dívidas de juros altos antes de qualquer estratégia de investimento, já que esses juros costumam superar qualquer retorno de investimento.",
+      },
+      {
+        pergunta: "Qual mentalidade sobre começar a investir o livro defende?",
+        opcoes: ["Só vale a pena investir com um valor alto para começar", "É possível (e recomendado) começar a investir mesmo com pouco dinheiro, priorizando a consistência do hábito", "Investir é só para quem já é rico", "É melhor esperar ter R$ 100.000 antes de começar"],
+        correta: 1,
+        explicacao: "Um dos pontos centrais é que o hábito consistente de investir, mesmo com valores pequenos, importa mais do que esperar ter uma quantia alta para começar.",
+      },
+    ],
+  },
+  {
+    id: "casaisinteligentes", titulo: "Casais Inteligentes Enriquecem Juntos", autor: "Gustavo Cerbasi", nivel: "iniciante", tema: "Planejamento familiar",
+    pitch: "Como alinhar objetivos financeiros a dois (ou em família) sem transformar dinheiro em motivo de conflito.",
+    resumo: [
+      "O livro aborda como conflitos financeiros entre casais raramente são só sobre dinheiro em si, e sim sobre valores, prioridades e expectativas diferentes que nunca foram conversadas abertamente.",
+      "Defende que casais definam juntos objetivos financeiros comuns (curto, médio e longo prazo) e decidam de forma explícita como dividir responsabilidades e despesas — evitando o modelo em que só uma pessoa 'cuida do dinheiro' e a outra fica alheia às decisões.",
+      "Também trata de planejamento familiar mais amplo (filhos, herança, aposentadoria a dois) e defende que a transparência financeira entre o casal é decisiva para evitar que dinheiro se torne fonte recorrente de conflito.",
+    ],
+    quiz: [
+      {
+        pergunta: "Segundo o livro, qual costuma ser a verdadeira origem de muitos conflitos financeiros entre casais?",
+        opcoes: ["Falta de dinheiro, sempre", "Diferenças de valores, prioridades e expectativas sobre dinheiro que nunca foram conversadas abertamente", "Investir em ações", "Ter contas bancárias separadas"],
+        correta: 1,
+        explicacao: "O livro argumenta que o problema raramente é só o valor em si, mas a falta de alinhamento e comunicação sobre prioridades financeiras entre o casal.",
+      },
+      {
+        pergunta: "O que o livro recomenda para evitar que só uma pessoa do casal concentre todas as decisões financeiras?",
+        opcoes: ["Que uma pessoa sempre decida tudo sozinha, para simplificar", "Que o casal defina juntos objetivos financeiros comuns e divida responsabilidades de forma explícita", "Que o casal nunca converse sobre dinheiro, para evitar brigas", "Que cada um esconda os próprios gastos do outro"],
+        correta: 1,
+        explicacao: "O livro defende decisões e responsabilidades financeiras compartilhadas e conversadas abertamente, não concentradas ou evitadas.",
+      },
+    ],
+  },
+  {
+    id: "domilaomilhao", titulo: "Do Mil ao Milhão", autor: "Thiago Nigro", nivel: "intermediario", tema: "Primeiros investimentos",
+    pitch: "Passo a passo, no contexto brasileiro, para sair do zero e montar os primeiros investimentos com consistência.",
+    resumo: [
+      "Livro brasileiro voltado a quem está começando do zero, estruturado como um passo a passo prático: organizar a vida financeira, montar reserva de emergência, e só depois avançar para investimentos mais sofisticados.",
+      "Defende uma sequência de prioridades — reserva de emergência em ativos líquidos e seguros primeiro, depois diversificação gradual entre renda fixa e variável — reforçando a importância de aportes mensais consistentes ao longo do tempo, em vez de buscar 'acertar' um investimento único.",
+      "Também aborda mentalidade: paciência com o longo prazo, evitar comparação com 'ganhos rápidos' de terceiros, e tratar educação financeira como um processo contínuo, não um destino único.",
+    ],
+    quiz: [
+      {
+        pergunta: "Segundo o livro, qual deve ser a primeira prioridade de quem está organizando a vida financeira do zero?",
+        opcoes: ["Investir tudo em ações imediatamente", "Montar uma reserva de emergência em ativos líquidos e seguros antes de qualquer outro investimento", "Comprar um imóvel para alugar", "Investir em criptomoedas"],
+        correta: 1,
+        explicacao: "O livro segue a lógica de que a reserva de emergência é a base antes de qualquer diversificação em outros investimentos.",
+      },
+      {
+        pergunta: "Que tipo de comportamento de investimento o livro defende como mais importante do que 'acertar' um único investimento milagroso?",
+        opcoes: ["Aportes mensais consistentes ao longo do tempo", "Concentrar tudo em um único ativo por indicação de terceiros", "Investir só uma vez na vida", "Esperar uma dica de investimento garantida"],
+        correta: 0,
+        explicacao: "A consistência dos aportes ao longo do tempo é apresentada como mais determinante para o resultado final do que tentar acertar uma única grande jogada.",
+      },
+    ],
+  },
+  {
+    id: "umpassoadiante", titulo: "Um Passo Adiante em Wall Street", autor: "Peter Lynch", nivel: "intermediario", tema: "Ações no dia a dia",
+    pitch: "Como usar observações do cotidiano para identificar empresas promissoras antes que o mercado perceba.",
+    resumo: [
+      "Escrito por um dos gestores de fundos mais bem-sucedidos da história (fundo Magellan, da Fidelity), o livro defende que investidores individuais podem observar de perto, no dia a dia, produtos e empresas que estão crescendo antes que o mercado perceba.",
+      "Lynch categoriza empresas em diferentes perfis (crescimento lento, estáveis, de crescimento rápido, cíclicas, em recuperação, com ativos ocultos) e defende que cada perfil exige uma análise e expectativa de retorno diferentes — não existe uma fórmula única para 'boa ação'.",
+      "Reforça que 'investir no que você conhece' não significa comprar uma ação só porque gosta do produto — é preciso fazer a 'lição de casa': estudar os números da empresa, sua dívida e seus concorrentes antes de qualquer decisão.",
+    ],
+    quiz: [
+      {
+        pergunta: "Qual é a ideia central de 'investir no que você conhece', segundo Peter Lynch?",
+        opcoes: ["Comprar qualquer ação de uma empresa cujo produto você usa, sem analisar mais nada", "Usar a observação do dia a dia como ponto de partida para identificar empresas promissoras, sempre seguida de uma análise real dos números", "Nunca investir em empresas que você não conhece pessoalmente", "Investir apenas em empresas de tecnologia"],
+        correta: 1,
+        explicacao: "A observação do cotidiano é o ponto de PARTIDA, não o critério final — o livro insiste na necessidade de analisar os fundamentos antes de decidir.",
+      },
+      {
+        pergunta: "Por que o livro categoriza empresas em diferentes perfis (crescimento rápido, cíclicas, em recuperação, etc.)?",
+        opcoes: ["Porque todas as empresas devem ser analisadas exatamente da mesma forma", "Porque cada perfil de empresa exige uma análise e expectativa de retorno diferentes", "Porque só um desses perfis vale a pena investir", "Não existe nenhuma razão prática para essa categorização"],
+        correta: 1,
+        explicacao: "Lynch argumenta que tratar todas as empresas com a mesma régua de análise é um erro — cada perfil tem uma lógica de avaliação própria.",
+      },
+    ],
+  },
+  {
+    id: "psicologiafinanceira", titulo: "A Psicologia Financeira", autor: "Morgan Housel", nivel: "intermediario", tema: "Comportamento e decisões",
+    pitch: "Por que boas decisões financeiras dependem muito mais de comportamento do que de fórmulas matemáticas.",
+    resumo: [
+      "Defende que o sucesso financeiro de longo prazo depende muito mais de comportamento (paciência, humildade, controle emocional) do que de inteligência técnica ou fórmulas matemáticas sofisticadas.",
+      "Usa histórias reais para mostrar como sorte e risco desempenham papéis maiores do que se costuma admitir nos resultados financeiros de qualquer pessoa — o que pede humildade tanto para não copiar cegamente quem teve sucesso quanto para não julgar duramente quem teve prejuízo.",
+      "Defende a importância de definir pessoalmente o que é 'suficiente' (para não cair numa busca infinita por mais, que aumenta risco sem necessidade), o valor de guardar dinheiro mesmo sem um objetivo específico, e reforça o poder de deixar o dinheiro investido por décadas sem interrupção.",
+    ],
+    quiz: [
+      {
+        pergunta: "Segundo o livro, o que geralmente importa mais para o sucesso financeiro de longo prazo?",
+        opcoes: ["Fórmulas matemáticas complexas", "Comportamento: paciência, humildade e controle emocional", "Ter o QI mais alto possível", "Prever com exatidão os movimentos do mercado"],
+        correta: 1,
+        explicacao: "A tese central do livro é que comportamento pesa mais do que conhecimento técnico puro nos resultados financeiros de longo prazo.",
+      },
+      {
+        pergunta: "Por que o livro defende reconhecer o papel da sorte e do risco nos resultados financeiros das pessoas?",
+        opcoes: ["Para justificar copiar exatamente as decisões de quem teve sucesso", "Para ter humildade: nem todo sucesso é só mérito, nem todo fracasso é só erro — reduzindo julgamentos precipitados", "Porque sorte é o único fator que importa", "Porque risco não tem nenhuma relevância prática"],
+        correta: 1,
+        explicacao: "Reconhecer sorte e risco pede humildade nos dois sentidos: não atribuir todo sucesso só à habilidade, nem todo fracasso só a erro.",
+      },
+    ],
+  },
+  {
+    id: "investidorinteligente", titulo: "O Investidor Inteligente", autor: "Benjamin Graham", nivel: "avancado", tema: "Value investing",
+    pitch: "A base da análise fundamentalista moderna, escrito pelo mentor de Warren Buffett.",
+    resumo: [
+      "Considerado a base da análise fundamentalista moderna e citado por Warren Buffett como o livro de investimentos mais importante já escrito — Graham foi, de fato, professor e mentor direto de Buffett.",
+      "Introduz o conceito de 'margem de segurança': comprar ativos por um preço bem abaixo do seu valor intrínseco estimado, criando uma proteção contra erros de avaliação ou eventos imprevistos.",
+      "Apresenta a alegoria do 'Sr. Mercado', um sócio hipotético emocionalmente instável que todo dia oferece comprar ou vender sua parte do negócio por um preço diferente — e defende que o investidor racional deve aproveitar essas oscilações de humor do mercado, sem ser contaminado por elas.",
+    ],
+    quiz: [
+      {
+        pergunta: "O que é 'margem de segurança', conceito central do livro?",
+        opcoes: ["Comprar qualquer ação, independente do preço", "Comprar um ativo por um preço bem abaixo do seu valor intrínseco estimado, como proteção contra erros de avaliação", "Um seguro contra queda da bolsa", "Um tipo de imposto sobre investimentos"],
+        correta: 1,
+        explicacao: "A margem de segurança é essa distância entre o preço pago e o valor real estimado do ativo — quanto maior, mais protegido o investidor fica de erros de avaliação.",
+      },
+      {
+        pergunta: "O que a alegoria do 'Sr. Mercado' ilustra?",
+        opcoes: ["Que o mercado é sempre racional e eficiente", "Que o mercado se comporta como um sócio emocionalmente instável, oferecendo preços que oscilam sem necessariamente refletir o valor real do negócio", "Que só existe um preço correto todos os dias", "Que é impossível comprar ou vender ações"],
+        correta: 1,
+        explicacao: "A alegoria mostra o mercado como alguém com humor variável — o investidor racional deve aproveitar essas oscilações, não segui-las emocionalmente.",
+      },
+    ],
+  },
+  {
+    id: "acoescomuns", titulo: "Ações Comuns, Lucros Extraordinários", autor: "Philip Fisher", nivel: "avancado", tema: "Análise de crescimento",
+    pitch: "Como avaliar a qualidade e o potencial de crescimento de uma empresa além dos números do balanço.",
+    resumo: [
+      "Outro nome fundamental da análise de ações, Fisher é mais focado em qualidade e potencial de CRESCIMENTO da empresa do que Graham, que era mais voltado a comprar barato.",
+      "Propõe um roteiro de perguntas (os famosos '15 pontos') para avaliar qualitativamente uma empresa antes de investir — cobrindo potencial de crescimento de vendas, qualidade e integridade da gestão, esforço em pesquisa e desenvolvimento, e margem de lucro sustentável.",
+      "Defende que, uma vez identificada uma empresa realmente excepcional, o investidor deve ter paciência para mantê-la por muitos anos, evitando vender só por causa de oscilações de curto prazo — o retorno excepcional viria do crescimento composto do próprio negócio ao longo do tempo.",
+    ],
+    quiz: [
+      {
+        pergunta: "Qual é a principal diferença de foco entre Philip Fisher e Benjamin Graham na análise de ações?",
+        opcoes: ["Não existe diferença nenhuma entre os dois", "Fisher foca mais na qualidade e no potencial de crescimento da empresa; Graham foca mais em comprar por um preço bem abaixo do valor intrínseco", "Fisher nunca analisa números, só intuição", "Graham só investia em imóveis"],
+        correta: 1,
+        explicacao: "Embora ambos sejam fundamentais para a análise de ações, Fisher é mais associado à avaliação qualitativa de crescimento, enquanto Graham é mais associado à margem de segurança sobre o valor intrínseco.",
+      },
+      {
+        pergunta: "Segundo Fisher, o que o investidor deve fazer ao identificar uma empresa realmente excepcional?",
+        opcoes: ["Vender rapidamente para garantir o lucro", "Ter paciência para mantê-la por muitos anos, sem se abalar com oscilações de curto prazo", "Comprar e vender todos os dias", "Vender assim que o preço cair um pouco"],
+        correta: 1,
+        explicacao: "Fisher defende que o verdadeiro retorno excepcional vem do crescimento composto do negócio ao longo de muitos anos, não de negociações frequentes.",
+      },
+    ],
+  },
+  {
+    id: "pequenolivro", titulo: "O Pequeno Livro Que Ainda Bate o Mercado", autor: "Joel Greenblatt", nivel: "avancado", tema: "Estratégia sistemática",
+    pitch: "Uma metodologia simples e sistemática para selecionar ações com bom potencial de retorno no longo prazo.",
+    resumo: [
+      "Apresenta a chamada 'fórmula mágica' (magic formula), um método sistemático e simples para selecionar ações, criado para ser seguido de forma disciplinada, sem depender de intuição ou de tentar prever o mercado.",
+      "A fórmula combina duas métricas: empresas com alto retorno sobre o capital investido (indicando um negócio eficiente) e um 'yield' de lucro atrativo em relação ao preço (indicando que a ação não está cara demais) — comprando uma cesta diversificada das empresas mais bem classificadas nos dois critérios.",
+      "Reforça que a disciplina de seguir o método por vários anos, mesmo em períodos de desempenho ruim (que Greenblatt reconhece que vão acontecer), é o que sustenta o resultado no longo prazo — abandonar a estratégia no primeiro mau momento é, segundo o autor, o erro mais comum.",
+    ],
+    quiz: [
+      {
+        pergunta: "A 'fórmula mágica' do livro combina quais dois critérios para selecionar ações?",
+        opcoes: ["Preço da ação e cor do logotipo da empresa", "Alto retorno sobre o capital investido e um 'yield' de lucro atrativo em relação ao preço", "Apenas o tamanho da empresa", "Apenas a opinião de analistas de mercado"],
+        correta: 1,
+        explicacao: "A fórmula combina eficiência do negócio (retorno sobre capital) com uma medida de quão 'barata' a ação está em relação ao lucro que gera.",
+      },
+      {
+        pergunta: "Segundo Greenblatt, qual é o erro mais comum de quem tenta aplicar a fórmula mágica?",
+        opcoes: ["Aplicá-la por décadas sem parar", "Abandonar a estratégia assim que ela passa por um período de desempenho ruim, algo que ele reconhece que vai acontecer", "Diversificar demais entre várias ações", "Escolher só uma ação para aplicar a fórmula"],
+        correta: 1,
+        explicacao: "O autor é explícito: a estratégia terá períodos ruins, e desistir nesses momentos é o que mais compromete o resultado de longo prazo.",
+      },
+    ],
+  },
+  {
+    id: "boladeneve", titulo: "A Bola de Neve: Warren Buffett e o Negócio da Vida", autor: "Alice Schroeder", nivel: "avancado", tema: "Biografia e estratégia",
+    pitch: "A biografia definitiva de Warren Buffett, mostrando décadas de decisões reais de alocação de capital.",
+    resumo: [
+      "Biografia extensa e autorizada de Warren Buffett, escrita com acesso direto ao próprio investidor, cobrindo desde a infância até décadas de decisões reais à frente da Berkshire Hathaway.",
+      "O título é a própria metáfora central: assim como uma bola de neve cresce ao rolar por uma ladeira longa e com neve úmida, o patrimônio de Buffett cresceu pela combinação de juros compostos com um período de tempo extraordinariamente longo — a maior parte da riqueza dele foi construída depois dos 50 anos.",
+      "Também retrata hábitos pessoais de Buffett (frugalidade mesmo sendo um dos homens mais ricos do mundo, leitura intensa, paciência extrema para esperar a oportunidade certa) e decisões reais de investimento ao longo de décadas.",
+    ],
+    quiz: [
+      {
+        pergunta: "O que a metáfora 'bola de neve' (título do livro) representa na trajetória financeira de Warren Buffett?",
+        opcoes: ["Um investimento específico que ele fez", "O crescimento do patrimônio através da combinação de juros compostos com um período de tempo muito longo", "Uma crise financeira que ele enfrentou", "O clima da cidade onde ele nasceu"],
+        correta: 1,
+        explicacao: "Assim como uma bola de neve cresce ao rolar por uma ladeira longa, o patrimônio de Buffett cresceu principalmente pela combinação de juros compostos com décadas de tempo — a maior parte depois dos 50 anos.",
+      },
+      {
+        pergunta: "Qual hábito pessoal de Buffett o livro destaca, mesmo ele sendo um dos homens mais ricos do mundo?",
+        opcoes: ["Gastos extravagantes constantes", "Frugalidade e leitura intensa e disciplinada", "Trocar de investimento a cada poucos dias", "Evitar qualquer tipo de estudo sobre as empresas"],
+        correta: 1,
+        explicacao: "O livro retrata Buffett como alguém frugal em hábitos pessoais e extremamente dedicado à leitura e ao estudo constante das empresas, mesmo com sua riqueza.",
+      },
+    ],
+  },
+  {
+    id: "formacaoeconomica", titulo: "Formação Econômica do Brasil", autor: "Celso Furtado", nivel: "avancado", tema: "Economia e história do Brasil",
+    pitch: "O clássico que explica como a economia colonial exportadora moldou a desigualdade e a dependência externa do Brasil até hoje.",
+    resumo: [
+      "Obra clássica da economia brasileira (publicada em 1959), que analisa a formação da economia do país desde o período colonial, buscando as raízes estruturais de problemas que persistem até hoje.",
+      "Argumenta que o modelo primário-exportador colonial (já visto na trilha de História) não foi um acidente, mas uma estrutura que moldou profundamente a distribuição de terra, renda e poder no Brasil, criando uma dependência do mercado externo que se estendeu muito além do fim da colônia.",
+      "É referência fundamental para entender por que problemas como desigualdade regional e concentração de renda no Brasil têm raízes históricas e estruturais, não são apenas resultado de políticas econômicas recentes.",
+    ],
+    quiz: [
+      {
+        pergunta: "Segundo Celso Furtado, o modelo econômico primário-exportador da colônia foi um fator estrutural para qual característica persistente da economia brasileira?",
+        opcoes: ["A ausência total de qualquer desigualdade", "A desigualdade de renda e terra e a dependência do mercado externo", "Um crescimento econômico sempre equilibrado", "A inexistência de qualquer ciclo econômico"],
+        correta: 1,
+        explicacao: "Furtado argumenta que o modelo colonial exportador moldou estruturalmente a desigualdade e a dependência externa da economia brasileira, com efeitos que persistiram muito depois do fim da colônia.",
+      },
+      {
+        pergunta: "Por que esse livro é considerado uma referência para entender a economia brasileira atual, não só a histórica?",
+        opcoes: ["Porque ele não tem relação alguma com o presente", "Porque mostra que problemas atuais, como desigualdade e concentração de renda, têm raízes históricas e estruturais, não são só resultado de políticas recentes", "Porque prevê com exatidão o futuro da economia", "Porque é um livro de ficção"],
+        correta: 1,
+        explicacao: "A obra ajuda a entender que desafios econômicos atuais do Brasil têm origem em escolhas estruturais de séculos atrás, não apenas em decisões recentes.",
+      },
+    ],
+  },
+  {
+    id: "dependenciaedesenvolvimento", titulo: "Dependência e Desenvolvimento na América Latina", autor: "Fernando Henrique Cardoso e Enzo Faletto", nivel: "avancado", tema: "Teoria da dependência",
+    pitch: "Um dos textos fundadores da teoria da dependência, sobre por que países latino-americanos permaneceram economicamente dependentes dos países ricos.",
+    resumo: [
+      "Um dos textos fundadores da chamada 'teoria da dependência', escrito por Fernando Henrique Cardoso (antes de sua carreira política) e Enzo Faletto, analisando por que países latino-americanos permaneceram economicamente dependentes mesmo após a industrialização.",
+      "Argumenta que a dependência não é apenas uma fase temporária no caminho para o desenvolvimento, mas uma condição estrutural, moldada pela forma como esses países se inseriram na economia internacional — fornecendo matéria-prima e importando capital e tecnologia dos países centrais.",
+      "Influenciou décadas de debate sobre desenvolvimento econômico na América Latina, questionando se seguir o mesmo caminho dos países já industrializados bastaria para superar essa dependência estrutural, ou se seria necessária uma mudança mais profunda nas relações econômicas internacionais.",
+    ],
+    quiz: [
+      {
+        pergunta: "O que a 'teoria da dependência' argumenta sobre a relação entre países latino-americanos e países economicamente centrais?",
+        opcoes: ["Que essa dependência é só uma fase temporária sem nenhuma causa estrutural", "Que a dependência é uma condição estrutural, moldada pela forma como esses países se inseriram na economia internacional", "Que não existe nenhuma relação de dependência entre esses países", "Que a dependência só existe no campo político, nunca no econômico"],
+        correta: 1,
+        explicacao: "A tese central do livro é que a dependência é estrutural, não apenas uma etapa temporária a caminho do desenvolvimento pleno.",
+      },
+      {
+        pergunta: "Qual pergunta central o livro ajudou a colocar no debate sobre desenvolvimento latino-americano?",
+        opcoes: ["Se seguir exatamente o caminho dos países já industrializados seria suficiente para superar a dependência estrutural, ou se seria necessária uma mudança mais profunda", "Qual seria a cor da nova moeda regional", "Se a América Latina deveria parar de exportar qualquer produto", "Nenhuma pergunta relevante, é só um relato histórico"],
+        correta: 0,
+        explicacao: "O livro questiona se apenas industrializar, copiando o caminho dos países centrais, bastaria para romper a dependência estrutural — ou se mudanças mais profundas nas relações econômicas internacionais seriam necessárias.",
+      },
+    ],
+  },
+  {
+    id: "ocapital", titulo: "O Capital", autor: "Karl Marx", nivel: "avancado", tema: "Crítica ao capitalismo",
+    pitch: "A obra fundamental do pensamento socialista, com a crítica de Marx à exploração do trabalho e à concentração de capital no sistema capitalista.",
+    resumo: [
+      "Obra fundamental do pensamento socialista e uma das análises mais influentes (e debatidas) da história sobre o funcionamento do sistema capitalista, publicada originalmente no século XIX.",
+      "Desenvolve a teoria do valor-trabalho e o conceito de 'mais-valia': a ideia de que o valor gerado pelo trabalho de um empregado supera o salário que ele recebe, e essa diferença é apropriada pelo capitalista como lucro — a base da crítica de Marx à exploração do trabalho no capitalismo.",
+      "Também analisa tendências de concentração de capital ao longo do tempo e contradições internas que, segundo Marx, o sistema capitalista carregaria — um debate que continua presente em discussões sobre desigualdade, papel do Estado e alternativas econômicas ao capitalismo.",
+    ],
+    quiz: [
+      {
+        pergunta: "O que Marx chama de 'mais-valia'?",
+        opcoes: ["Um tipo de imposto cobrado pelo governo", "A diferença entre o valor gerado pelo trabalho de um empregado e o salário que ele recebe, apropriada pelo capitalista como lucro", "Um bônus pago aos trabalhadores", "O valor de mercado de uma ação"],
+        correta: 1,
+        explicacao: "A mais-valia é o conceito central da crítica de Marx: a diferença entre o valor produzido pelo trabalho e o salário pago, apropriada como lucro pelo capitalista.",
+      },
+      {
+        pergunta: "Por que 'O Capital' é considerado uma obra tão influente e debatida na história do pensamento econômico?",
+        opcoes: ["Porque não tem nenhuma relação com debates econômicos atuais", "Porque sua crítica ao capitalismo e à exploração do trabalho continua presente em debates sobre desigualdade e papel do Estado até hoje", "Porque foi escrito recentemente", "Porque defende exatamente o mesmo que o liberalismo econômico"],
+        correta: 1,
+        explicacao: "Apesar de ter sido escrito no século XIX, os temas centrais da obra continuam no centro de debates econômicos e políticos contemporâneos.",
+      },
+    ],
+  },
+  {
+    id: "precodesigualdade", titulo: "O Preço da Desigualdade", autor: "Joseph Stiglitz", nivel: "avancado", tema: "Desigualdade e distribuição de renda",
+    pitch: "O Nobel de Economia mostra, com dados, como a desigualdade extrema prejudica o crescimento econômico de um país como um todo — não só os mais pobres.",
+    resumo: [
+      "Escrito pelo economista Joseph Stiglitz, ganhador do Nobel de Economia, o livro usa dados e análises para argumentar que a desigualdade extrema não é apenas um problema moral ou social, mas também um problema econômico que prejudica o crescimento do país como um todo.",
+      "Argumenta que a concentração excessiva de renda no topo reduz o consumo agregado (já que quem tem menos tende a gastar uma proporção maior da renda), enfraquece o investimento em capital humano da maior parte da população, e pode distorcer políticas públicas a favor de quem já tem mais poder econômico.",
+      "Propõe que reduzir a desigualdade extrema, através de tributação mais progressiva e investimento público em educação e saúde, não é apenas uma questão de justiça social, mas também uma estratégia para um crescimento econômico mais robusto no longo prazo.",
+    ],
+    quiz: [
+      {
+        pergunta: "Qual é a tese central do livro sobre desigualdade extrema?",
+        opcoes: ["Que a desigualdade extrema só afeta quem é pobre, sem nenhum efeito sobre o crescimento econômico do país", "Que a desigualdade extrema prejudica o crescimento econômico do país como um todo, não só os mais pobres", "Que a desigualdade sempre beneficia o crescimento econômico", "Que desigualdade não tem relação alguma com política econômica"],
+        correta: 1,
+        explicacao: "Stiglitz argumenta, com dados, que a desigualdade extrema tem custos econômicos reais para o país inteiro, não é um problema isolado de quem está na base da pirâmide de renda.",
+      },
+      {
+        pergunta: "Segundo o livro, por que a concentração excessiva de renda no topo pode reduzir o consumo agregado da economia?",
+        opcoes: ["Porque ricos nunca consomem nada", "Porque quem tem renda menor tende a gastar uma proporção maior dela, então concentrar renda no topo reduz o consumo total", "Porque consumo não tem relação com distribuição de renda", "Porque o governo proíbe o consumo dos mais ricos"],
+        correta: 1,
+        explicacao: "Como quem ganha menos tende a consumir uma parcela maior da própria renda, uma distribuição mais concentrada tende a reduzir o consumo agregado da economia.",
+      },
+    ],
+  },
+  {
+    id: "capitalseculoxxi", titulo: "O Capital no Século XXI", autor: "Thomas Piketty", nivel: "avancado", tema: "Desigualdade e distribuição de renda",
+    pitch: "Um estudo histórico sobre como a riqueza se concentra ao longo do tempo e por que a tributação progressiva é debatida como ferramenta de redistribuição.",
+    resumo: [
+      "Estudo econômico de grande escala, reunindo dados históricos de renda e riqueza de vários países ao longo de mais de um século, para entender como a desigualdade evolui ao longo do tempo.",
+      "A tese mais conhecida é resumida na fórmula 'r > g': quando o retorno do capital (r) tende a crescer mais rápido do que o crescimento econômico geral (g) por períodos longos, a riqueza herdada tende a se concentrar cada vez mais, ampliando a desigualdade entre quem já tem capital acumulado e quem depende só do próprio trabalho.",
+      "Com base nessa análise histórica, Piketty debate a tributação progressiva (inclusive sobre grandes fortunas) como ferramenta possível de redistribuição — uma proposta que gerou intenso debate entre economistas, com defensores e críticos discutindo tanto os dados quanto a viabilidade prática dessas políticas.",
+    ],
+    quiz: [
+      {
+        pergunta: "O que a fórmula 'r > g', central no livro de Piketty, representa?",
+        opcoes: ["Uma fórmula de cálculo de juros compostos pessoais", "A ideia de que, quando o retorno do capital cresce mais rápido que o crescimento econômico geral por longos períodos, a riqueza herdada tende a se concentrar cada vez mais", "Uma taxa de imposto fixa sugerida pelo autor", "Uma métrica usada apenas para avaliar ações individuais"],
+        correta: 1,
+        explicacao: "Essa é a tese histórica central do livro: quando o retorno do capital supera o crescimento da economia por muito tempo, a desigualdade entre riqueza herdada e trabalho tende a aumentar.",
+      },
+      {
+        pergunta: "Que tipo de política Piketty debate como ferramenta possível para lidar com a concentração de riqueza que ele descreve?",
+        opcoes: ["Eliminar totalmente qualquer forma de propriedade privada", "Tributação progressiva, inclusive sobre grandes fortunas", "Proibir qualquer tipo de herança", "Nenhuma política é discutida no livro"],
+        correta: 1,
+        explicacao: "Piketty debate a tributação progressiva (incluindo sobre grandes fortunas) como uma ferramenta de redistribuição possível, um tema que gerou bastante debate entre economistas.",
+      },
+    ],
+  },
 ];
 
 /* -------------------------------------------------------------------------

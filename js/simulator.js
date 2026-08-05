@@ -15,6 +15,8 @@ const Simulator = {
       this.logRun();
     });
     this.compare();
+
+    this.renderScenario(this.pickRandomScenario());
   },
 
   /* Conta só simulações feitas de propósito (clique no botão), não o
@@ -103,6 +105,79 @@ const Simulator = {
     return entry && entry.valor != null ? entry.valor / 100 : 0.105; // fallback educativo: 10,5% a.a.
   },
 
+  /* Regra real da poupança: 70% da Selic quando Selic ≤ 8,5% a.a.; senão TR +
+     0,5% a.m. (TR ≈ 0 aproximado). Extraído de compare() para reaproveitar
+     no Simulador de Decisões (renderScenario/chooseScenarioOption). */
+  poupancaTaxaAnual(selic) {
+    return selic <= 0.085 ? selic * 0.7 : Math.pow(1.005, 12) - 1;
+  },
+
+  /* ---------- Simulador de Decisões ("você recebeu R$X, o que faz?") ---------- */
+
+  activeScenario: null,
+
+  pickRandomScenario(excludeId) {
+    const pool = excludeId ? SCENARIO_SIMULATIONS.filter((s) => s.id !== excludeId) : SCENARIO_SIMULATIONS;
+    return pool[Math.floor(Math.random() * pool.length)];
+  },
+
+  renderScenario(scenario) {
+    const container = document.getElementById("scenarioContainer");
+    if (!container) return;
+    this.activeScenario = scenario;
+    container.innerHTML = `
+      <div class="alert-box info">
+        <b>${scenario.titulo}</b><br/>
+        ${scenario.situacao}
+      </div>
+      <div class="flex mt-16" style="flex-direction:column;gap:8px">
+        ${scenario.opcoes.map((op, i) => `<button class="quiz-option" data-opt="${i}">${op.texto}</button>`).join("")}
+      </div>
+    `;
+    container.querySelectorAll("[data-opt]").forEach((btn) => {
+      btn.addEventListener("click", () => this.chooseScenarioOption(Number(btn.dataset.opt)));
+    });
+  },
+
+  /* Projeção educativa (não é recomendação de investimento): "investir" usa
+     a Selic atual + 2 p.p. como aproximação de uma carteira mista de renda
+     fixa/variável; "poupanca" usa a regra real da poupança; "gasto" é 0,
+     já que o dinheiro foi usado, não investido. */
+  projectOutcome(valor, categoria, anos) {
+    const selic = this.currentSelic();
+    if (categoria === "investir") return valor * Math.pow(1 + selic + 0.02, anos);
+    if (categoria === "poupanca") return valor * Math.pow(1 + this.poupancaTaxaAnual(selic), anos);
+    return 0;
+  },
+
+  chooseScenarioOption(idx) {
+    const scenario = this.activeScenario;
+    if (!scenario) return;
+    const opcao = scenario.opcoes[idx];
+    const anos = 10;
+    const resultadoEscolha = this.projectOutcome(scenario.valor, opcao.categoria, anos);
+    const resultadoInvestido = this.projectOutcome(scenario.valor, "investir", anos);
+    const resultadoPoupanca = this.projectOutcome(scenario.valor, "poupanca", anos);
+
+    const container = document.getElementById("scenarioContainer");
+    if (!container) return;
+    container.innerHTML = `
+      <div class="quiz-feedback">${opcao.narrativa}</div>
+      <h4 class="mt-16">📅 ${anos} anos depois...</h4>
+      <div class="grid grid-3 kpi-row">
+        <div class="card kpi"><div class="label">Sua escolha${opcao.categoria === "gasto" ? " (você escolheu)" : ""}</div><div class="value">${this.fmt(resultadoEscolha)}</div></div>
+        <div class="card kpi"><div class="label">Se tivesse guardado na poupança${opcao.categoria === "poupanca" ? " (você escolheu)" : ""}</div><div class="value">${this.fmt(resultadoPoupanca)}</div></div>
+        <div class="card kpi"><div class="label">Se tivesse investido${opcao.categoria === "investir" ? " (você escolheu)" : ""}</div><div class="value">${this.fmt(resultadoInvestido)}</div></div>
+      </div>
+      <p class="text-sm text-soft mt-8">Estimativa educativa com juros compostos sobre a Selic atual, sem considerar impostos, taxas ou mudanças futuras nas taxas de juros — não é recomendação de investimento personalizada.</p>
+      <button class="btn btn-outline btn-block mt-16" id="scenarioNewBtn">🎲 Tentar outro cenário</button>
+    `;
+    document.getElementById("scenarioNewBtn").addEventListener("click", () => {
+      this.renderScenario(this.pickRandomScenario(scenario.id));
+    });
+    this.logRun();
+  },
+
   compare() {
     const valor = parseFloat(document.getElementById("cmpValor").value) || 0;
     const dias = parseInt(document.getElementById("cmpPrazo").value) || 360;
@@ -116,8 +191,7 @@ const Simulator = {
     }
 
     const selic = this.currentSelic();
-    // Regra real da poupança: 70% da Selic quando Selic ≤ 8,5% a.a.; senão TR + 0,5% a.m. (TR ≈ 0 aproximado).
-    const poupancaTaxa = selic <= 0.085 ? selic * 0.7 : Math.pow(1.005, 12) - 1;
+    const poupancaTaxa = this.poupancaTaxaAnual(selic);
     const aliquota = irAliquotaPorPrazo(dias).aliquota;
 
     const produtos = [
