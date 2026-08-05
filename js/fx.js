@@ -45,6 +45,18 @@ const Fx = {
     }, 4500);
   },
 
+  energyToast(amount, combo) {
+    const toast = document.createElement("div");
+    toast.className = "achievement-toast level-toast";
+    toast.innerHTML = `<span class="emoji">⚡</span><div><b>+${amount} energia!</b><br/>Você acertou ${combo} perguntas seguidas.</div>`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add("show"), 10);
+    setTimeout(() => {
+      toast.classList.remove("show");
+      setTimeout(() => toast.remove(), 400);
+    }, 4500);
+  },
+
   /* Ondulação (ripple) a partir do ponto de clique — dá feedback tátil a
      botões e nós clicáveis. O elemento precisa de position:relative e
      overflow:hidden para conter o efeito. */

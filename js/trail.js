@@ -167,9 +167,10 @@ const Trail = {
   /* ---------- Fluxo da lição (conto opcional + quiz) ---------- */
 
   startLesson(levelIdx, lessonIdx) {
+    if (!Energy.tryStart()) return;
     const level = this.levels()[levelIdx];
     const lesson = level.licoes[lessonIdx];
-    this.activeQuiz = { level, lesson, qIndex: 0, correctCount: 0, answered: false, onVariant: false, variantQuestion: null };
+    this.activeQuiz = { level, lesson, qIndex: 0, correctCount: 0, correctStreak: 0, answered: false, onVariant: false, variantQuestion: null };
     if (lesson.conto || lesson.aula) {
       this.renderIntroOverlay();
     } else {
@@ -241,6 +242,8 @@ const Trail = {
     const question = onVariant ? variantQuestion : lesson.perguntas[qIndex];
     const correct = idx === question.correta;
     if (correct) this.activeQuiz.correctCount++;
+    this.activeQuiz.correctStreak = correct ? (this.activeQuiz.correctStreak || 0) + 1 : 0;
+    Energy.registerAnswer(correct, this.activeQuiz.correctStreak);
 
     document.querySelectorAll("#trailQuizOptions .quiz-option").forEach((btn, i) => {
       if (i === question.correta) btn.classList.add("correct");

@@ -21,6 +21,7 @@ const App = {
     Goals.init();
     Portfolio.init();
     Stocks.init();
+    Energy.init();
     Trail.init();
     Business.init();
     Engagement.init();
@@ -154,6 +155,7 @@ const App = {
     else coinsEl.textContent = `${coins}`;
 
     document.getElementById("headerStreak").textContent = `${streak.dias} dia${streak.dias === 1 ? "" : "s"}`;
+    Energy.render();
 
     const nivelLabels = { iniciante: "Iniciante", intermediario: "Intermediário", avancado: "Avançado" };
     document.getElementById("headerLevel").textContent = profile ? nivelLabels[profile.nivel] : "Sem perfil";

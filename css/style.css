@@ -176,6 +176,7 @@ button {
 .stat-chip.xp { background: rgba(232, 163, 61, 0.25); color: #ffe3b0; }
 .stat-chip.coins { background: rgba(255, 215, 64, 0.2); color: #fff2c2; }
 .stat-chip.streak { background: rgba(217, 83, 79, 0.25); color: #ffd0ce; }
+.stat-chip.energy { background: rgba(79, 195, 247, 0.22); color: #bfe9ff; }
 
 /* ---------- ticker de mercado (elemento de assinatura) ---------- */
 .ticker-wrap {

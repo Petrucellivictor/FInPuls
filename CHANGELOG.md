@@ -4,6 +4,31 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.14.0] - 2026-08-05
+
+### Adicionado
+- **Sistema de energia (estilo Duolingo)**: cada lição iniciada (trilha
+  financeira/história ou Empreender) gasta 1 energia, com máximo de 3
+  por dia. Energia renova todo dia (mesma lógica de data do streak); um
+  combo de 3 respostas certas seguidas dentro de uma lição devolve +1
+  energia na hora, com um toast de aviso. Sem energia, um modal explica
+  a situação em vez de abrir a lição. Novo `js/energy.js`, chip "⚡" no
+  header, chave `STORAGE_KEYS.ENERGY` (sincronizada na nuvem como as
+  demais).
+- **Onda 4 da expansão para 300 lições — novo padrão de 10 perguntas
+  por lição**: o Módulo 04 da trilha financeira ("Nível 4 ·
+  Diversificação e Risco") ganhou 3 lições novas (perfil de investidor
+  e suitability, correlação entre ativos, hedge) e as 2 lições já
+  existentes (diversificação de carteira, criptomoedas com
+  responsabilidade) foram retrofitadas de 2 para 10 perguntas cada,
+  com aula expandida cobrindo risco sistemático x não sistemático,
+  diversificação entre classes/geográfica, rebalanceamento, custódia
+  própria x exchange, tributação de cripto, golpes comuns e
+  stablecoins. A partir desta onda, toda lição nova passa a ter 10
+  perguntas (em vez de 2-3), seguindo a mesma lógica de repetição do
+  Duolingo — as demais ~106 lições já publicadas serão retrofitadas
+  gradualmente em ondas futuras.
+
 ## [1.13.0] - 2026-08-05
 
 ### Adicionado

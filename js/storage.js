@@ -25,6 +25,7 @@ const STORAGE_KEYS = {
   ACCOUNT: "if_account",
   HISTORY_PROGRESS: "if_history_progress",
   BUSINESS_PROGRESS: "if_business_progress",
+  ENERGY: "if_energy",
   COINS: "if_coins",
   LAST_LOGIN_BONUS: "if_last_login_bonus",
   SHOP_OWNED: "if_shop_owned",
