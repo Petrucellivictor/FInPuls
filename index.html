@@ -84,7 +84,7 @@
        ========================================================= -->
   <nav class="tabs-nav" id="tabsNav">
     <button class="tab-btn active" data-tab="home">🏠 Início</button>
-    <button class="tab-btn" data-tab="investimentos">📊 Investimentos</button>
+    <button class="tab-btn" data-tab="investimentos">📊 Guia de Investimentos</button>
     <button class="tab-btn" data-tab="simulador">🧮 Simulador</button>
     <button class="tab-btn" data-tab="carteira">💳 Carteira</button>
     <button class="tab-btn" data-tab="acoesfiis">📈 Ações & FIIs</button>
@@ -93,8 +93,6 @@
     <button class="tab-btn" data-tab="cidade">🏙️ Cidade</button>
     <button class="tab-btn" data-tab="perfil">👤 Perfil</button>
     <button class="tab-btn" data-tab="mercado">📊 Mercado</button>
-    <button class="tab-btn" data-tab="noticias">📰 Notícias</button>
-    <button class="tab-btn" data-tab="educacao">💡 Educação</button>
     <button class="tab-btn" data-tab="avancado">🧠 Avançado</button>
     <button class="tab-btn" data-tab="biblioteca">📚 Biblioteca</button>
   </nav>
@@ -202,6 +200,37 @@
         <button class="filter-chip" data-filtro="avancado">Avançado</button>
       </div>
       <div class="grid grid-3" id="investGrid"></div>
+
+      <div class="card mt-16">
+        <h3>Investir x Não investir: o que está realmente em jogo</h3>
+        <p>Quando você não investe, seu dinheiro não "fica parado" — ele perde valor todos os anos por causa da inflação. Investir é a forma de, no mínimo, proteger o que você já conquistou, e, no melhor cenário, construir patrimônio e independência ao longo do tempo.</p>
+        <table class="compare-table">
+          <thead><tr><th>Situação</th><th>Depois de 20 anos guardando R$300/mês</th></tr></thead>
+          <tbody>
+            <tr><td>Dinheiro parado (sem render nada)</td><td class="bad">R$ 72.000 — e ainda perde valor para a inflação</td></tr>
+            <tr><td>Investido a ~10% a.a. (juros compostos)</td><td class="good">≈ R$ 227.000</td></tr>
+          </tbody>
+        </table>
+        <p class="text-sm text-soft mt-8">Valores aproximados e ilustrativos. Use o Simulador para calcular com seus próprios números.</p>
+      </div>
+
+      <div class="card mt-16">
+        <h3>Por que educação financeira é também consciência de classe</h3>
+        <div class="edu-quote">"Quem não conhece as regras do jogo financeiro tende a ficar de fora dos seus benefícios — mesmo trabalhando duro todos os dias."</div>
+        <p>Historicamente, o acesso à educação financeira e ao mercado de investimentos foi concentrado em quem já tinha capital e informação. Bancos e o próprio sistema lucram, muitas vezes, com quem não sabe organizar as próprias finanças (juros de cartão, cheque especial, produtos caros e pouco vantajosos).</p>
+        <p>Entender como o dinheiro funciona — orçamento, juros, inflação, tipos de investimento — é uma forma concreta de reduzir essa desigualdade de informação. Não é sobre "ficar rico rápido": é sobre ter autonomia para tomar decisões melhores, seja você alguém começando do zero ou já inserido no mercado financeiro.</p>
+      </div>
+
+      <div class="grid grid-2 mt-16">
+        <div class="card">
+          <h3>🌱 Do zero</h3>
+          <p class="text-sm">Comece pelo básico: entenda para onde vai seu dinheiro, monte uma reserva de emergência e aprenda o que é inflação e juros compostos na aba <b>Aprender</b>.</p>
+        </div>
+        <div class="card">
+          <h3>📈 Já no mercado</h3>
+          <p class="text-sm">Se você já investe, aprofunde-se em análise fundamentalista, diversificação internacional e estratégias fiscais na trilha avançada — e acompanhe os indicadores oficiais na aba <b>Mercado</b>.</p>
+        </div>
+      </div>
     </section>
 
     <!-- ---------- SIMULADOR (investir x não investir) ---------- -->
@@ -545,57 +574,10 @@
         <p class="text-soft text-sm">O Fin+ não tem uma cotação em tempo real de ações/FIIs individuais (ver aba Ações &amp; FIIs) — por isso, isto não é um "top de altas e baixas de hoje". São características estruturais historicamente conhecidas de cada exemplo, para fins didáticos. Não é recomendação de investimento.</p>
         <div id="stockHighlights"></div>
       </div>
-    </section>
-
-    <!-- ---------- NOTÍCIAS ---------- -->
-    <section class="tab-panel hidden" id="tab-noticias">
-      <div class="section-title">
-        <div>
-          <h2>Notícias que Impactam sua Economia</h2>
-          <div class="subtitle">Notícias que afetam seu dinheiro e seus investimentos.</div>
-        </div>
-      </div>
-      <div class="card" id="newsCard"></div>
-    </section>
-
-    <!-- ---------- EDUCAÇÃO FINANCEIRA / CONSCIÊNCIA ---------- -->
-    <section class="tab-panel hidden" id="tab-educacao">
-      <div class="section-title">
-        <div>
-          <h2>Educação Financeira e Consciência de Classe</h2>
-          <div class="subtitle">Entenda por que investir (e não só guardar) pode mudar sua vida.</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Investir x Não investir: o que está realmente em jogo</h3>
-        <p>Quando você não investe, seu dinheiro não "fica parado" — ele perde valor todos os anos por causa da inflação. Investir é a forma de, no mínimo, proteger o que você já conquistou, e, no melhor cenário, construir patrimônio e independência ao longo do tempo.</p>
-        <table class="compare-table">
-          <thead><tr><th>Situação</th><th>Depois de 20 anos guardando R$300/mês</th></tr></thead>
-          <tbody>
-            <tr><td>Dinheiro parado (sem render nada)</td><td class="bad">R$ 72.000 — e ainda perde valor para a inflação</td></tr>
-            <tr><td>Investido a ~10% a.a. (juros compostos)</td><td class="good">≈ R$ 227.000</td></tr>
-          </tbody>
-        </table>
-        <p class="text-sm text-soft mt-8">Valores aproximados e ilustrativos. Use o Simulador para calcular com seus próprios números.</p>
-      </div>
 
       <div class="card mt-16">
-        <h3>Por que educação financeira é também consciência de classe</h3>
-        <div class="edu-quote">"Quem não conhece as regras do jogo financeiro tende a ficar de fora dos seus benefícios — mesmo trabalhando duro todos os dias."</div>
-        <p>Historicamente, o acesso à educação financeira e ao mercado de investimentos foi concentrado em quem já tinha capital e informação. Bancos e o próprio sistema lucram, muitas vezes, com quem não sabe organizar as próprias finanças (juros de cartão, cheque especial, produtos caros e pouco vantajosos).</p>
-        <p>Entender como o dinheiro funciona — orçamento, juros, inflação, tipos de investimento — é uma forma concreta de reduzir essa desigualdade de informação. Não é sobre "ficar rico rápido": é sobre ter autonomia para tomar decisões melhores, seja você alguém começando do zero ou já inserido no mercado financeiro.</p>
-      </div>
-
-      <div class="grid grid-2 mt-16">
-        <div class="card">
-          <h3>🌱 Do zero</h3>
-          <p class="text-sm">Comece pelo básico: entenda para onde vai seu dinheiro, monte uma reserva de emergência e aprenda o que é inflação e juros compostos na aba <b>Aprender</b>.</p>
-        </div>
-        <div class="card">
-          <h3>📈 Já no mercado</h3>
-          <p class="text-sm">Se você já investe, aprofunde-se em análise fundamentalista, diversificação internacional e estratégias fiscais na trilha avançada — e acompanhe os indicadores oficiais na aba <b>Mercado</b>.</p>
-        </div>
+        <h3>📰 Notícias que Impactam sua Economia</h3>
+        <div id="newsCard"></div>
       </div>
     </section>
 

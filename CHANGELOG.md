@@ -4,6 +4,24 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.32.0] - 2026-08-05
+
+### Alterado
+- **RFC-013 — Consolidação de abas** (`rfcs/RFC-013-consolidacao-de-abas.md`):
+  auditoria de usabilidade das 14 abas encontrou 2 sem substância
+  própria — "Educação" (só texto estático que já mandava o usuário pra
+  outras abas) e "Notícias" (curadoria estática de 5 itens, sem busca
+  ao vivo). Nenhum conteúdo foi perdido:
+  - O card de notícias agora vive dentro da aba **Mercado**, como
+    seção final.
+  - Os 2 cards de educação financeira (comparação investir x não
+    investir, texto sobre consciência de classe) agora vivem dentro da
+    aba **Investimentos**.
+  - Botão "Investimentos" renomeado para "Guia de Investimentos", pra
+    não confundir com "Ações & FIIs" (catálogo educativo x carteira
+    real).
+  - O app passa de 14 para **12 abas**.
+
 ## [1.31.0] - 2026-08-05
 
 ### Adicionado

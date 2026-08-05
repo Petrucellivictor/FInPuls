@@ -43,6 +43,7 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 ## Qualidade — responsividade e acessibilidade
 
 - ✅ **RFC-009** (v1.28.0): revisão orientada a evidências (testada em 320-1440px com Playwright, não só lida no código) — cabeçalho compactado (3→2 linhas em celular, botões de backup movidos pro Perfil), indicador de scroll nas abas, 10 alvos de toque e 8 fontes pequenas corrigidos, 10 campos de formulário sem rótulo corrigidos, toasts com `aria-live`. Navegação por abas com 14 itens continua exigindo scroll horizontal em celulares (mitigado com um indicador visual, não eliminado) — uma reestruturação da navegação (menu "mais", reordenar por uso) ficaria para uma RFC própria se o usuário priorizar.
+- ✅ **RFC-013** (v1.32.0): auditoria de usabilidade das 14 abas — "Educação" e "Notícias" não tinham substância própria (a primeira só apontava pra outras abas, a segunda era uma curadoria estática de 5 itens). Conteúdo de ambas preservado, mesclado em Investimentos e Mercado respectivamente. App passa de 14 para 12 abas, ajudando também a rolagem horizontal em celular do RFC-009.
 
 ## Desbloqueio progressivo por nível
 
