@@ -26,6 +26,7 @@ const App = {
     Business.init();
     Engagement.init();
     Achievements.init();
+    City.init();
     Profile.init();
     Leagues.init();
     Market.init();

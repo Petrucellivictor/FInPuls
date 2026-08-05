@@ -9504,6 +9504,8 @@ const ACHIEVEMENTS = [
   { id: "primeiro_passo_empreendedor", emoji: "💼", titulo: "Primeiro passo empreendedor", descricao: "Você completou sua primeira lição na trilha Empreender." },
   { id: "mestre_empreendedor", emoji: "🏢", titulo: "Mestre empreendedor", descricao: "Você completou toda a trilha Empreender: regimes tributários, obrigações e gestão de pessoas e finanças." },
   { id: "renda_fixa_completa", emoji: "💰", titulo: "Especialista em Renda Fixa", descricao: "Você completou todas as lições do Nível 2 · Renda Fixa." },
+  { id: "renda_variavel_completa", emoji: "📈", titulo: "Especialista em Renda Variável", descricao: "Você completou todas as lições do Nível 3 · Renda Variável." },
+  { id: "primeira_licao", emoji: "🏠", titulo: "Primeiros passos", descricao: "Você completou sua primeira lição, em qualquer trilha da Academia Fin+." },
   { id: "simulador_50x", emoji: "🧮", titulo: "Mestre dos simuladores", descricao: "Você fez 50 simulações no simulador de investimentos." },
   { id: "leu_10_livros", emoji: "📖", titulo: "Leitor voraz", descricao: "Você completou a leitura de 10 livros na Biblioteca Fin+ (resumo + quiz)." },
   { id: "amigo_polvin", emoji: "🐙", titulo: "Amigo do POLVIn", descricao: "Você fez 10 perguntas para o POLVIn no assistente." },
@@ -9529,6 +9531,29 @@ const SHOP_ITEMS = [
   { id: "frame_green", tipo: "moldura", emoji: "🟢", cor: "#4FAE4A", nome: "Moldura verde", preco: 50, desc: "Cor de crescimento." },
   { id: "frame_blue", tipo: "moldura", emoji: "🔵", cor: "#3B6E8F", nome: "Moldura azul", preco: 50, desc: "Clássica e discreta." },
   { id: "frame_gold", tipo: "moldura", emoji: "🟡", cor: "#E8A33D", nome: "Moldura dourada", preco: 80, desc: "Um brilho de campeão." },
+];
+
+/* -------------------------------------------------------------------------
+   20.1) CIDADE FINANCEIRA — meta-jogo visual: cada conquista (já existente
+   em ACHIEVEMENTS/Achievements.CHECKERS) constrói algo no terreno vazio do
+   usuário. Não introduz nenhuma condição nova de desbloqueio própria — só
+   reaproveita conquistas já reais do app, então "construído" = "conquista
+   desbloqueada" (ver js/city.js). Ordem = dificuldade crescente.
+   ------------------------------------------------------------------------- */
+const CITY_BUILDINGS = [
+  { id: "primeira_licao", emoji: "🏠", nome: "Casa", descricaoConstruida: "Sua primeira construção — a casa onde tudo começou, erguida na sua primeira lição." },
+  { id: "primeira_meta", emoji: "🌳", nome: "Parque", descricaoConstruida: "Um espaço para cuidar dos seus objetivos, criado com seu primeiro cofrinho." },
+  { id: "primeiro_investimento", emoji: "🚗", nome: "Garagem", descricaoConstruida: "Construída quando você registrou seu primeiro investimento na Carteira." },
+  { id: "streak_7", emoji: "🏦", nome: "Banco", descricaoConstruida: "Erguido com 7 dias seguidos de disciplina — sua ofensiva começou a valer a pena." },
+  { id: "primeiro_certificado", emoji: "📚", nome: "Biblioteca", descricaoConstruida: "Construída ao concluir seu primeiro livro (resumo + quiz) na Biblioteca Fin+." },
+  { id: "primeiro_passo_empreendedor", emoji: "💼", nome: "Escritório", descricaoConstruida: "Aberto com sua primeira lição na trilha Empreender." },
+  { id: "primeiro_conto", emoji: "🏺", nome: "Museu Histórico", descricaoConstruida: "Inaugurado com seu primeiro conto da trilha Brasil: História & Economia." },
+  { id: "nivel1_completo", emoji: "🏫", nome: "Escola", descricaoConstruida: "Construída ao dominar todos os fundamentos do Nível 1." },
+  { id: "streak_30", emoji: "🏢", nome: "Empresa", descricaoConstruida: "Fundada com 30 dias seguidos de constância na Academia Fin+." },
+  { id: "renda_fixa_completa", emoji: "💰", nome: "Cofre", descricaoConstruida: "Erguido ao dominar toda a Renda Fixa (Nível 2)." },
+  { id: "renda_variavel_completa", emoji: "📈", nome: "Bolsa de Valores", descricaoConstruida: "Inaugurada ao dominar toda a Renda Variável (Nível 3): ações e FIIs." },
+  { id: "streak_100", emoji: "🏛️", nome: "Prefeitura", descricaoConstruida: "Construída com 100 dias seguidos de ofensiva — um marco de constância." },
+  { id: "trilha_unificada_completa", emoji: "👑", nome: "Monumento da Lenda Financeira", descricaoConstruida: "O monumento máximo da sua cidade: toda a Academia Fin+ concluída, financeira e história." },
 ];
 
 /* -------------------------------------------------------------------------

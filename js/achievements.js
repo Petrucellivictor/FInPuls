@@ -48,6 +48,12 @@ const Achievements = {
       const nivel2 = COURSE.find((lvl) => lvl.id === "nivel2");
       return !!nivel2 && nivel2.licoes.every((l) => !!progress[l.id]);
     },
+    renda_variavel_completa: () => {
+      const progress = Learn.getProgress();
+      const nivel3 = COURSE.find((lvl) => lvl.id === "nivel3");
+      return !!nivel3 && nivel3.licoes.every((l) => !!progress[l.id]);
+    },
+    primeira_licao: () => Store.get(STORAGE_KEYS.LESSON_LOG, []).length > 0,
     simulador_50x: () => Store.get(STORAGE_KEYS.SIMULATOR_RUNS, 0) >= 50,
     leu_10_livros: () => Object.keys(Store.get(STORAGE_KEYS.BOOKS_COMPLETED, {})).length >= 10,
     amigo_polvin: () => Store.get(STORAGE_KEYS.POLVIN_QUESTIONS_ASKED, 0) >= 10,
@@ -77,6 +83,7 @@ const Achievements = {
       Store.set(STORAGE_KEYS.ACHIEVEMENTS_UNLOCKED, unlocked);
       novas.forEach((a) => this.notify(a));
       this.render();
+      if (typeof City !== "undefined") City.render();
     }
     return novas;
   },

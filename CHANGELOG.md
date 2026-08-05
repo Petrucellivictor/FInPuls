@@ -4,6 +4,29 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.23.0] - 2026-08-05
+
+### Adicionado
+- **RFC-005 — Cidade Financeira** (`rfcs/RFC-005-cidade-financeira.md`):
+  nova aba "🏙️ Cidade" com uma grade de 13 terrenos. Cada marco de
+  progresso já existente (primeira lição, primeira meta, primeiro
+  investimento, streak de 7/30/100 dias, Renda Fixa completa, Renda
+  Variável completa, primeiro certificado de livro, primeiro passo
+  empreendedor, primeiro conto de História, nível 1 completo, trilha
+  unificada completa) constrói um terreno diferente (Casa, Parque,
+  Garagem, Banco, Empresa, Prefeitura, Cofre, Bolsa de Valores,
+  Biblioteca, Escritório, Museu Histórico, Escola, Monumento da Lenda
+  Financeira). Terrenos ainda não desbloqueados aparecem como "???"/🔲.
+  Módulo novo `js/city.js` — sem estado próprio, deriva 100% de
+  `Achievements.getUnlocked()` e atualiza em tempo real ao desbloquear
+  uma conquista nova (hook em `Achievements.checkAll()`).
+- Primeiro item da **Etapa 3 do `ROADMAP.md`** concluído.
+
+### Adicionado (conquistas)
+- `renda_variavel_completa` (concluir toda a trilha de Renda Variável)
+  e `primeira_licao` (concluir qualquer lição pela primeira vez), que
+  também alimentam os terrenos "Bolsa de Valores" e "Casa" da Cidade.
+
 ## [1.22.0] - 2026-08-05
 
 ### Adicionado
