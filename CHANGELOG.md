@@ -4,6 +4,22 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.15.0] - 2026-08-05
+
+### Adicionado
+- **Onda 5 da expansão para 300 lições**: o Módulo 05 da trilha
+  financeira ("Nível 5 · Avançado") ganhou 3 lições novas — análise
+  técnica (tendência, suporte/resistência, médias móveis), balanço
+  patrimonial e DRE (ativo, passivo, patrimônio líquido, lucro bruto x
+  líquido), e aportes regulares com juros compostos no longo prazo —
+  e as 2 lições já existentes (análise fundamentalista, estratégia de
+  longo prazo) foram retrofitadas de 2 para 10 perguntas cada, com
+  aula expandida cobrindo margem líquida, comparação de P/L só dentro
+  do mesmo setor, fundamentalista x técnica, timing de mercado e o
+  custo de interromper aportes/resgatar antes do prazo. Nível 5 foi de
+  2 para 5 lições (50 perguntas). A trilha financeira (COURSE) chegou
+  a 93 lições no total.
+
 ## [1.14.0] - 2026-08-05
 
 ### Adicionado
