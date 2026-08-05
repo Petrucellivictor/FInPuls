@@ -4,6 +4,23 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.13.0] - 2026-08-05
+
+### Adicionado
+- **Onda 3 da expansão para 300 lições**: o Módulo 03 da trilha
+  financeira ("Nível 3 · Renda Variável") saiu de 2 para 22 lições — 20
+  lições novas sobre ações e Fundos Imobiliários, em ordem pedagógica
+  seguindo a lógica dos Módulos 01 e 02: tipos de ação (ON, PN, units),
+  como comprar na prática (corretora, home broker, lote padrão),
+  dividendos x Juros sobre Capital Próprio, múltiplos de avaliação (P/L,
+  P/VP, Dividend Yield), Ibovespa e IFIX, volatilidade e liquidez, IPO,
+  tributação de ações (isenção de R$20 mil, DARF, day trade x swing
+  trade), ETFs, BDRs, tipos de FII (tijolo, papel, fundo de fundos,
+  híbridos), a regra de isenção dos FIIs, taxa de administração/gestão,
+  risco de crédito nos FIIs de papel, diversificação e os erros mais
+  comuns ao começar em renda variável. A trilha financeira (COURSE) foi
+  de 67 para 87 lições no total.
+
 ## [1.12.0] - 2026-08-04
 
 ### Adicionado
