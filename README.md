@@ -254,26 +254,27 @@ fin-plus/
 └── README.md
 ```
 
-## Equipe de agentes especializados (`.claude/agents/`)
+## Orchestrator AI e a equipe de agentes especializados
 
-O desenvolvimento do Fin+ com Claude Code é organizado como um time profissional, com 12 papéis definidos em `.claude/agents/*.md`, cada um com contexto real do projeto (não descrições genéricas) e limites claros do que pode e não pode fazer:
+O desenvolvimento do Fin+ com Claude Code segue o protocolo definido em [`CLAUDE.md`](CLAUDE.md): toda solicitação passa primeiro por uma **RFC** (`rfcs/RFC-NNN-*.md`) e é coordenada por um **Orchestrator AI** através de 13 papéis definidos em `.claude/agents/*.md`, cada um com contexto real do projeto (não descrições genéricas) e limites claros do que pode e não pode fazer. O Orchestrator nunca implementa diretamente — ele encaminha, na ordem abaixo, e consolida os resultados.
 
-| Agente | Papel |
-| --- | --- |
-| `product-owner` | Define/prioriza funcionalidades, roadmap, user stories — nunca escreve código |
-| `ux-ui-design-lead` | UX/UI, design system, acessibilidade, responsividade |
-| `frontend-engineer` | Implementa telas e interatividade (HTML/CSS/JS puro) |
-| `backend-engineer` | Regras de negócio, gamificação, integração com Supabase |
-| `qa-engineer` | Testa e reporta bugs — não corrige código |
-| `security-specialist` | Auditoria OWASP, RLS do Supabase, XSS, exposição de segredos |
-| `database-engineer` | Modelagem de dados (`STORAGE_KEYS`, schema/RLS do Supabase) |
-| `gamification-designer` | XP, energia, streak, conquistas, ligas, loja — só especifica, não codifica |
-| `financial-education-specialist` | Cria/valida todo o conteúdo da trilha (lições, quizzes, simuladores) |
-| `ai-prompt-engineer` | Personalidade do POLVIn e o assistente por palavras-chave |
-| `devops-engineer` | Git/GitHub, deploy, infraestrutura do Supabase, segredos |
-| `documentation-specialist` | Mantém README e CHANGELOG atualizados a cada mudança |
+| # | Papel (Workflow Oficial) | Arquivo em `.claude/agents/` |
+| - | --- | --- |
+| 1 | Product Owner | `product-owner` — define/prioriza funcionalidades, roadmap, user stories — nunca escreve código |
+| 2 | Software Architect | `software-architect` — define estrutura de módulos, dependências e formato de dados antes de codar — não cria interface |
+| 3 | UX/UI Designer | `ux-ui-design-lead` — UX/UI, design system, acessibilidade, responsividade |
+| 4 | Gamification Designer | `gamification-designer` — XP, energia, streak, conquistas, ligas, loja — só especifica, não codifica |
+| 5 | Financial Specialist | `financial-education-specialist` — cria/valida todo o conteúdo da trilha (lições, quizzes, simuladores) |
+| 6 | Database Engineer | `database-engineer` — modelagem de dados (`STORAGE_KEYS`, schema/RLS do Supabase) |
+| 7 | Backend Engineer | `backend-engineer` — regras de negócio, gamificação, integração com Supabase |
+| 8 | Frontend Engineer | `frontend-engineer` — implementa telas e interatividade (HTML/CSS/JS puro) |
+| 9 | Cyber Security Specialist | `security-specialist` — auditoria OWASP, RLS do Supabase, XSS, exposição de segredos |
+| 10 | QA Engineer | `qa-engineer` — testa e reporta bugs — não corrige código |
+| 11 | Documentation Specialist | `documentation-specialist` — mantém README, CHANGELOG e ROADMAP atualizados a cada mudança |
+| 12 | DevOps Engineer | `devops-engineer` — git/GitHub, deploy, infraestrutura do Supabase, segredos (só quando há deploy) |
+| — | *(fora do workflow obrigatório)* | `ai-prompt-engineer` — personalidade do POLVIn e o assistente por palavras-chave |
 
-Fluxo sugerido para uma funcionalidade nova: Product Owner → UX/UI Lead → Gamification Designer → Financial Education Specialist → Back-end → Database → Front-end → Security → QA → DevOps → Documentation.
+Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qualidade completos.
 
 ## O que já funciona (v7 — com moedas, loja, medalhas, ligas e perfil)
 

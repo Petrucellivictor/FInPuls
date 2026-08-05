@@ -4,6 +4,26 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.19.0] - 2026-08-05
+
+### Adicionado
+- **`CLAUDE.md`**: protocolo formal do Orchestrator AI — a partir de
+  agora, toda solicitação de funcionalidade/melhoria/correção passa
+  por uma RFC (`rfcs/RFC-NNN-*.md`) coordenada pelo Orchestrator
+  através de um Workflow Oficial de 12 etapas (Product Owner →
+  Software Architect → UX/UI Designer → Gamification Designer →
+  Financial Specialist → Database Engineer → Backend Engineer →
+  Frontend Engineer → Cyber Security Specialist → QA Engineer →
+  Documentation Specialist → DevOps Engineer), com critérios de
+  qualidade explícitos antes de considerar algo concluído.
+- **Agente `software-architect`** (13º papel): define estrutura de
+  módulos, dependências e formato de dados antes de qualquer
+  implementação — papel que faltava no time original de 12.
+- **`rfcs/`**: pasta e convenção para os documentos de RFC exigidos
+  pelo novo protocolo.
+- README: seção da equipe de agentes atualizada para refletir o
+  Workflow Oficial de 12 etapas e o novo papel de Software Architect.
+
 ## [1.18.0] - 2026-08-05
 
 ### Adicionado
