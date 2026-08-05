@@ -4,6 +4,37 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.33.0] - 2026-08-05
+
+### Adicionado
+- **Onda 7 da expansão para 300 lições**: as 9 lições da trilha
+  "Brasil: História & Economia" (Módulos 01-04, `hnivel1`-`hnivel4`)
+  foram retrofitadas de 2-3 para 10 perguntas cada (90 perguntas no
+  total), completando o padrão de 10 perguntas/lição também nesta
+  trilha (a trilha financeira já estava completa desde a Onda 6).
+  Nenhuma lição nova — todas as 9 já existentes ganharam profundidade
+  real, com 1-2 parágrafos novos de "conto" cada, cobrindo conceitos
+  historicamente precisos: capitanias hereditárias, pacto colonial e
+  colonização de exploração, Casas de Fundição/Derrama/Inconfidência
+  Mineira e o Tratado de Methuen (Módulo 01 · Colônia); a migração da
+  produção cafeeira, o sistema de colonato, a política do café-com-leite
+  e o Convênio de Taubaté, a Revolução de 1930, o Estado Novo, o
+  salário mínimo (1940) e o financiamento da CSN via Segunda Guerra
+  (Módulo 02 · Café/Vargas); o AI-5, os slogans do regime militar, a
+  Transamazônica, o II PND e o crescimento da dívida externa (Módulo
+  03 · Milagre/Moedas); a indexação generalizada, a inflação inercial,
+  o bloqueio de contas do Plano Collor e o pico de quase 80% de
+  inflação mensal (Módulo 03 · continuação); e, no Plano Real, a
+  equipe econômica, o ajuste fiscal prévio (PAI), o câmbio semi-fixo e
+  sua flutuação em 1999, além da Lei de Terras de 1850, o índice de
+  Gini, a PNAD/IBGE, a tributação regressiva e a reforma tributária de
+  2023 (Módulo 04 · Real/Desigualdade/Estado).
+- Esse é o primeiro passo rumo ao **Blueprint das Trilhas** (mapa de
+  ~300 lições por trilha, calibrado contra NFEC/BNCC, corpo de
+  conhecimento CFA e a periodização da história econômica brasileira)
+  — ainda em andamento, próxima leva a ser escolhida em turnos
+  seguintes.
+
 ## [1.32.0] - 2026-08-05
 
 ### Alterado
