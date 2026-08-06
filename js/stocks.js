@@ -1,14 +1,18 @@
 /* =========================================================================
    STOCKS.JS — Aba "Ações & FIIs": registro de compras e dividendos por
-   ticker, com preço atual atualizado manualmente (não depende de nenhuma
-   API externa — a maioria das cotações de ações/FIIs exige chave paga em
-   APIs públicas, então optamos por 100% de controle manual e confiável).
+   ticker. Cripto sempre teve cotação automática (CoinGecko); ações/FIIs
+   individuais buscam cotação automática via brapi.dev (RFC-016) — sem
+   token configurado (js/brapi-config.js), só os 4 tickers de teste da API
+   funcionam sozinhos (PETR4, MGLU3, VALE3, ITUB4); os demais continuam
+   100% manuais, exatamente como antes, sem nenhuma quebra.
    Mostra valorização, dividendos recebidos e histórico por ano/mês.
    ========================================================================= */
 
 const MESES_PT = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
 const Stocks = {
+  _autoTickers: new Set(), // tickers de Ação/FII cuja última busca via brapi.dev deu certo
+
   init() {
     document.getElementById("stockAddTradeBtn")?.addEventListener("click", () => this.addTrade());
     document.getElementById("stockAddDividendBtn")?.addEventListener("click", () => this.addDividend());
@@ -21,6 +25,7 @@ const Stocks = {
     this.toggleTradeFields();
     this.renderAll();
     this.refreshCryptoPrices();
+    this.refreshStockPrices();
   },
 
   fmt(v) {
@@ -87,6 +92,7 @@ const Stocks = {
 
     this.renderAll();
     if (typeof Achievements !== "undefined") Achievements.checkAll();
+    this.refreshStockPrices(); // tenta buscar cotação automática do ticker recém-cadastrado
   },
 
   /* Compra de criptomoeda: o usuário informa o valor em R$, e o sistema
@@ -150,6 +156,51 @@ const Stocks = {
       cryptoTickers.map(async (ticker) => {
         const preco = await this.fetchCryptoPrice(ticker);
         if (preco) this.setPriceSilent(ticker, preco);
+      })
+    );
+    this.renderAll();
+  },
+
+  /* Cotação de Ação/FII via brapi.dev (RFC-016). Sem token (js/brapi-config.js
+     em branco), só PETR4/MGLU3/VALE3/ITUB4 respondem — qualquer outro ticker
+     retorna null e a interface simplesmente mantém a entrada manual, sem erro
+     visível pro usuário (é um resultado esperado, não uma falha de rede). */
+  async fetchStockPrice(ticker) {
+    try {
+      const token = typeof BRAPI_TOKEN !== "undefined" ? BRAPI_TOKEN : "";
+      const url = `https://brapi.dev/api/quote/${encodeURIComponent(ticker)}${token ? `?token=${encodeURIComponent(token)}` : ""}`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const json = await res.json();
+      const resultado = json.results && json.results[0];
+      return resultado && typeof resultado.regularMarketPrice === "number" ? resultado.regularMarketPrice : null;
+    } catch (e) {
+      console.warn("Falha ao buscar cotação de ação/FII:", e);
+      return null;
+    }
+  },
+
+  /* Mesmo padrão de refreshCryptoPrices(), para Ação/FII. Tickers que não
+     respondem (sem token, ou fora do plano gratuito) simplesmente ficam de
+     fora de _autoTickers e continuam com o preço manual já cadastrado —
+     nunca sobrescreve com null. Passar forceRerender=true (clique manual no
+     botão) sempre re-renderiza, mesmo sem nenhum ticker elegível, pra dar
+     feedback visual de que a ação rodou. */
+  async refreshStockPrices(forceRerender) {
+    const tickers = [...new Set(this.getTrades().filter((t) => t.tipo === "Ação" || t.tipo === "FII").map((t) => t.ticker))];
+    if (!tickers.length) {
+      if (forceRerender) this.renderAll();
+      return;
+    }
+    await Promise.all(
+      tickers.map(async (ticker) => {
+        const preco = await this.fetchStockPrice(ticker);
+        if (preco != null) {
+          this.setPriceSilent(ticker, preco);
+          this._autoTickers.add(ticker);
+        } else {
+          this._autoTickers.delete(ticker);
+        }
       })
     );
     this.renderAll();
@@ -282,6 +333,8 @@ const Stocks = {
       container.innerHTML = `<div class="empty-state"><span class="emoji">📈</span>Nenhuma posição registrada ainda. Adicione sua primeira compra acima.</div>`;
       return;
     }
+    const temAcaoOuFii = positions.some((p) => p.tipo === "Ação" || p.tipo === "FII");
+
     container.innerHTML = `
       <div class="table-scroll"><table class="compare-table stock-table">
         <thead>
@@ -297,7 +350,7 @@ const Stocks = {
               <td class="mono">${this.fmt(p.precoMedio)}</td>
               <td class="mono">
                 <input type="number" class="stock-price-input" data-ticker="${p.ticker}" value="${p.precoAtual.toFixed(2)}" step="0.01" min="0" style="width:90px;padding:4px 6px" />
-                ${p.tipo === "Criptomoeda" ? `<div class="text-soft" style="font-size:10px">🔄 cotação automática</div>` : ""}
+                ${p.tipo === "Criptomoeda" || this._autoTickers.has(p.ticker) ? `<div class="text-soft" style="font-size:10px">🔄 cotação automática</div>` : ""}
               </td>
               <td class="mono">${this.fmt(p.valorInvestido)}</td>
               <td class="mono">${this.fmt(p.valorAtual)}</td>
@@ -309,7 +362,8 @@ const Stocks = {
             .join("")}
         </tbody>
       </table></div>
-      <p class="text-sm text-soft mt-8">Atualize manualmente o "preço atual" de cada ticker sempre que quiser recalcular sua valorização — não há cotação automática em tempo real para todas as ações/FIIs sem uma chave de API paga.</p>
+      ${temAcaoOuFii ? `<button class="btn btn-outline btn-sm mt-8" id="stockRefreshPricesBtn">🔄 Atualizar cotações</button>` : ""}
+      <p class="text-sm text-soft mt-8">Ações/FIIs com "🔄 cotação automática" já atualizam sozinhos (via brapi.dev). Os demais tickers — fora do plano gratuito da API, ou sem token configurado — continuam usando o "preço atual" que você mesmo atualiza aqui.</p>
     `;
 
     container.querySelectorAll("[data-update]").forEach((btn) => {
@@ -322,6 +376,12 @@ const Stocks = {
         }
         this.setPrice(btn.dataset.update, preco);
       });
+    });
+
+    container.querySelector("#stockRefreshPricesBtn")?.addEventListener("click", (e) => {
+      e.target.disabled = true;
+      e.target.textContent = "Atualizando...";
+      this.refreshStockPrices(true);
     });
   },
 

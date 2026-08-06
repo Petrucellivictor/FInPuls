@@ -27,6 +27,7 @@ const Market = {
     const now = new Date();
     const el = document.getElementById("marketLastUpdate");
     if (el) el.textContent = `atualizado às ${now.toLocaleTimeString("pt-BR")}`;
+    document.dispatchEvent(new CustomEvent("market:updated"));
   },
 
   async fetchMoedas() {

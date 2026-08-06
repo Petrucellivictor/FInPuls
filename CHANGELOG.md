@@ -4,6 +4,29 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.37.0] - 2026-08-06
+
+### Adicionado
+- **Cotação automática de ações/FIIs via brapi.dev** (RFC-016): PETR4,
+  MGLU3, VALE3 e ITUB4 já atualizam sozinhos sem nenhuma configuração;
+  qualquer outro ticker passa a atualizar automaticamente também, com
+  um token gratuito opcional (`js/brapi-config.js`, ver README). Sem
+  token/fora do plano gratuito, o ticker continua com a entrada manual
+  de sempre — nunca quebra, só deixa de mostrar "🔄 cotação
+  automática". Botão "🔄 Atualizar cotações" novo na aba Ações & FIIs.
+
+### Alterado
+- **Simulador usa a Selic real como padrão** (RFC-016): o campo
+  "Rentabilidade estimada" do simulador de juros compostos, antes
+  fixo em "12" no HTML, agora vem preenchido com a Selic atual (via
+  `Market`), sempre editável para simular outro cenário — e para de
+  perder essa edição quando a Selic é atualizada. Botão "🔄 Selic
+  atual" permite voltar ao valor sugerido. Corrigido também um bug de
+  ordenação de inicialização: o comparador de investimentos nunca era
+  re-renderizado quando a Selic terminava de carregar, então a
+  primeira exibição podia ficar no valor de fallback (10,5%) mesmo com
+  a Selic real já disponível segundos depois.
+
 ## [1.36.0] - 2026-08-06
 
 ### Adicionado

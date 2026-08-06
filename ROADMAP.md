@@ -51,6 +51,17 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 
 - ✅ **RFC-012** (v1.31.0): a aba Ações & FIIs (registro de posições/dividendos) fica bloqueada até concluir a trilha de Renda Variável (Nível 3), e a aba Avançado (carteiras-modelo, calculadoras, glossário avançado) até concluir o Nível 1 · Fundamentos — ou já nascem destravadas se o diagnóstico inicial classificou a pessoa como intermediária/avançada. Abas nunca somem do menu, só ficam marcadas (🔒) com uma prévia explicando o requisito; ao desbloquear, um aviso específico da ferramenta aparece na hora ("Parabéns! Você concluiu Renda Variável e desbloqueou o rastreador de Ações & FIIs."). Mais ferramentas/abas podem entrar nessa lista depois, uma leva por vez.
 
+## Dados de mercado e simulador em tempo real
+
+- ✅ **RFC-016** (v1.37.0): cotação automática de ações/FIIs individuais via [brapi.dev](https://brapi.dev/) (4 tickers de teste sem cadastro — PETR4, MGLU3, VALE3, ITUB4 — e qualquer ticker com um token gratuito), revisitando uma decisão antiga documentada no próprio código (`js/stocks.js`) de que isso não era viável sem API paga — o pressuposto mudou. A "Rentabilidade estimada" do simulador de juros compostos (`#simTaxa`) deixa de ser um "12" fixo no HTML e passa a vir preenchida com a Selic real (via `Market`/BCB), sempre editável pra simular outro cenário — e um bug de ordenação de inicialização (o comparador nunca era re-renderizado quando a cotação da Selic chegava) foi corrigido junto.
+
+## Iniciativas grandes, escopadas mas não iniciadas
+
+Pedido do usuário em 2026-08-06 trazia 3 iniciativas grandes juntas. A 1ª (dados de mercado, acima) já foi entregue; as outras 2 ficaram para turnos seguintes, por decisão explícita do usuário ("por onde começar" → "dados de mercado primeiro") — decisões já tomadas registradas aqui pra não se perderem:
+
+- **Migração de armazenamento para Supabase (conta obrigatória)**: o usuário confirmou que quer a nuvem como fonte de verdade — toda conta precisa de login, os dados moram no Supabase, o navegador guarda só um cache local. Isso é uma reversão deliberada do princípio "100% funcional sem conta" documentado no README e em RFCs anteriores (não um erro a corrigir, uma prioridade nova que supera a anterior). Afeta todo módulo que hoje lê/grava via `Store`/`localStorage` — merece sua própria RFC, bem testada, antes de somar mais uma frente grande em cima.
+- **Cidade Financeira → jogo de simulação de vida completo**: redesenho total da aba Cidade (hoje: grade de construções 1:1 com conquistas, RFC-005/RFC-010) para um sistema com eventos econômicos semanais sorteados, patrimônio/felicidade/saúde/status social, escolhas com consequência, empresas com custo operacional, mercado imobiliário, luxo vs. patrimônio, educação como pré-requisito de investimentos, hábitos/disciplina, reputação, cenário isométrico animado, e mais. Escopo comparável a várias RFCs já feitas juntas — vai precisar ser fatiado em fases (Fase 1 = núcleo do loop: evento semanal + indicadores + escolha + atributos principais; o resto do spec entra em fases seguintes), como já foi feito para a identidade visual (Fases 2A/2B/2B do RFC-008/010/011).
+
 ## Ideias futuras (fora do backlog original das 13 ideias)
 
 (nenhuma pendente no momento — "Gating de conteúdo por nível" foi implementado como RFC-012)

@@ -45,6 +45,25 @@ configurado ou não (ver seção "Sincronização multiusuário" abaixo):
    `index.html` direto (protocolo `file://`); o app detecta isso e avisa
    na tela em vez de mostrar um botão quebrado.
 
+### Habilitar cotação automática de mais ações/FIIs (opcional)
+
+Sem nenhuma configuração, a aba **Ações & FIIs** já busca cotação automática
+para 4 tickers de teste da [brapi.dev](https://brapi.dev/) — **PETR4, MGLU3,
+VALE3, ITUB4** — sem precisar de cadastro. Os demais tickers continuam com o
+"preço atual" atualizado manualmente, exatamente como sempre funcionou.
+
+Para liberar cotação automática de qualquer ticker:
+
+1. Crie uma conta gratuita em [brapi.dev](https://brapi.dev/) (plano
+   Gratuito: 15.000 requisições por mês) e copie o seu token em
+   [brapi.dev/dashboard](https://brapi.dev/dashboard).
+2. Cole o token em `BRAPI_TOKEN`, no topo de `js/brapi-config.js`.
+
+Esse token fica visível no navegador (o PolvIn não tem servidor pra
+escondê-lo) — a API só devolve cotações públicas, então o único risco é
+outra pessoa consumir a sua cota gratuita, não exposição de dado sensível.
+Se a cota se esgotar, o app volta a pedir a cotação manualmente, sem quebrar.
+
 ## Sincronização multiusuário com Supabase (opcional)
 
 Por padrão o PolvIn não tem banco de dados nem servidor — é esse o motivo de

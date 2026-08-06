@@ -3,11 +3,22 @@
    ========================================================================= */
 
 const Simulator = {
+  _taxaUserEdited: false, // true assim que o usuário editar #simTaxa manualmente — a partir daí, não sobrescrevemos mais com a Selic ao vivo
+
   init() {
     document.getElementById("simCalcBtn").addEventListener("click", () => {
       this.calc();
       this.logRun();
     });
+    document.getElementById("simTaxa").addEventListener("input", () => {
+      this._taxaUserEdited = true;
+    });
+    document.getElementById("simUseSelicBtn")?.addEventListener("click", () => {
+      this._taxaUserEdited = false;
+      this.applyLiveTaxa();
+      this.calc();
+    });
+    this.applyLiveTaxa(); // preenche #simTaxa com a Selic (ao vivo, se já tiver chegado, senão o fallback educativo)
     this.calc(); // roda uma vez com os valores padrão (não conta como simulação feita pelo usuário)
 
     document.getElementById("cmpCalcBtn")?.addEventListener("click", () => {
@@ -17,6 +28,28 @@ const Simulator = {
     this.compare();
 
     this.renderScenario(this.pickRandomScenario());
+
+    /* RFC-016: Simulator.init() roda antes de Market.init() (js/app.js), então
+       na 1ª renderização currentSelic() só tem o fallback educativo. Quando o
+       Market termina a 1ª busca real (e a cada atualização periódica depois),
+       reaplicamos a Selic em #simTaxa (se o usuário não tiver editado) e
+       sempre reexecutamos compare() — ele já lia a Selic ao vivo, mas nunca
+       era re-chamado quando ela chegava. */
+    document.addEventListener("market:updated", () => {
+      this.applyLiveTaxa();
+      this.compare();
+    });
+  },
+
+  /* Preenche #simTaxa com a Selic atual (currentSelic(), já com fallback
+     educativo de 10,5% se o Market ainda não carregou), só se o usuário
+     ainda não tiver digitado outro valor por conta própria. */
+  applyLiveTaxa() {
+    const input = document.getElementById("simTaxa");
+    const hint = document.getElementById("simTaxaHint");
+    const selicPct = Math.round(this.currentSelic() * 1000) / 10; // 1 casa decimal
+    if (!this._taxaUserEdited) input.value = selicPct;
+    if (hint) hint.textContent = `Sugestão: ${selicPct}% (Selic atual) — edite o campo pra simular outro cenário.`;
   },
 
   /* Conta só simulações feitas de propósito (clique no botão), não o
