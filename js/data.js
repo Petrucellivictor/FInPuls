@@ -9435,6 +9435,10 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     pibAnual: [3, 5],
     ibovespaPct: [3, 8],
     dolarPct: [-3, -1],
+    fiiPct: [1, 3],
+    etfPct: [2, 5],
+    criptoPct: [8, 25],
+    ouroPct: [-2, 1],
   },
   {
     id: "crise",
@@ -9447,6 +9451,10 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     pibAnual: [-3, -1],
     ibovespaPct: [-12, -5],
     dolarPct: [3, 8],
+    fiiPct: [-5, -1],
+    etfPct: [-7, -2],
+    criptoPct: [-30, -10],
+    ouroPct: [2, 6],
   },
   {
     id: "inflacao_alta",
@@ -9459,6 +9467,10 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     pibAnual: [0, 1.5],
     ibovespaPct: [-3, 0],
     dolarPct: [2, 5],
+    fiiPct: [-2, 0.5],
+    etfPct: [-2, 0.5],
+    criptoPct: [-12, 8],
+    ouroPct: [2, 5],
   },
   {
     id: "neutro",
@@ -9471,6 +9483,10 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     pibAnual: [1.5, 2.5],
     ibovespaPct: [-2, 2],
     dolarPct: [-1, 1],
+    fiiPct: [0, 1.5],
+    etfPct: [-1, 1.5],
+    criptoPct: [-8, 8],
+    ouroPct: [-1, 1],
   },
 ];
 
@@ -9485,6 +9501,37 @@ const CITY_LIFE_DECISION_OPTIONS = [
   { id: "renda_fixa", texto: "Investir em Renda Fixa (Tesouro/CDB)", categoria: "investir_rf", felicidadeDelta: 0, saudeDelta: 0, disciplinaDelta: 2, narrativa: "Você aplicou em algo seguro, que rende conforme a Selic simulada dessa semana." },
   { id: "acoes", texto: "Investir em Ações", categoria: "investir_rv", felicidadeDelta: 0, saudeDelta: 0, disciplinaDelta: 1, narrativa: "Você apostou em renda variável — o retorno oscila junto com a bolsa simulada dessa semana, pra cima ou pra baixo." },
   { id: "lazer", texto: "Gastar em lazer e bem-estar", categoria: "gasto", felicidadeDelta: 6, saudeDelta: 2, disciplinaDelta: -1, narrativa: "Você usou o dinheiro pra cuidar de você — vale bastante pro bem-estar, só que esse dinheiro não fica trabalhando." },
+  /* RFC-018, Fase 2 — 4 opções novas, 2 com requisitoOu (satisfaz bastando UM
+     dos caminhos: curso simulado comprado na Cidade OU nível real concluído
+     na trilha Aprender — mesma lógica de "múltiplos caminhos pro mesmo gate"
+     já usada em Progression.CHECKERS.acoesfiis). */
+  { id: "fii", texto: "Investir em Fundos Imobiliários (FIIs)", categoria: "investir_fii", felicidadeDelta: 0, saudeDelta: 0, disciplinaDelta: 2, narrativa: "Você investiu em fundos imobiliários — o retorno soma o dividendo mensal com a variação do preço da cota, que pode cair quando os juros simulados sobem.", requisitoOu: [{ tipo: "trilha", nivelId: "nivel3" }, { tipo: "curso", cursoId: "investimentos" }] },
+  { id: "etf", texto: "Investir em ETFs", categoria: "investir_etf", felicidadeDelta: 0, saudeDelta: 0, disciplinaDelta: 2, narrativa: "Você investiu num ETF diversificado — menos volátil que uma ação isolada, porque reúne várias empresas (e moedas) de uma vez.", requisitoOu: [{ tipo: "curso", cursoId: "ingles" }] },
+  { id: "cripto", texto: "Investir em Criptomoedas", categoria: "investir_cripto", felicidadeDelta: 0, saudeDelta: 0, disciplinaDelta: 0, narrativa: "Você investiu em criptomoedas — o ativo mais volátil da sua carteira: pode disparar ou despencar bem mais forte do que ações na mesma semana." },
+  { id: "ouro", texto: "Investir em Ouro", categoria: "investir_ouro", felicidadeDelta: 0, saudeDelta: 0, disciplinaDelta: 1, narrativa: "Ouro não paga dividendo nem juro — mas quando todo mundo desconfia da moeda ou do futuro, ele guarda valor há milênios, e por isso costuma subir justo quando os outros ativos tremem." },
+];
+
+/* Empregos (RFC-018, Fase 2): salário mensal usado no ciclo semanal.
+   `auxiliar` é o único sem requisito (ponto de partida da Fase 1, preservado
+   pra não quebrar saves antigos). Promoção nunca é obrigatória — aparece como
+   sugestão que o jogador aceita quando quiser. */
+const CITY_LIFE_JOBS = [
+  { id: "auxiliar", titulo: "Auxiliar Administrativo", emoji: "🗂️", salario: 1800, requisito: null },
+  { id: "analista", titulo: "Analista Financeiro", emoji: "📊", salario: 3200, requisito: { tipo: "curso", cursoId: "excel" } },
+  { id: "gerente", titulo: "Gerente", emoji: "💼", salario: 5500, requisito: { tipo: "trilha", nivelId: "nivel2" } },
+  { id: "diretor", titulo: "Diretor(a) Financeiro(a)", emoji: "🏆", salario: 9500, requisito: { tipo: "curso", cursoId: "mba" } },
+  { id: "empresario", titulo: "Empresário(a)", emoji: "👑", salario: 15000, requisito: { tipo: "curso", cursoId: "empreendedorismo" } },
+];
+
+/* Cursos (RFC-018, Fase 2): custam patrimônio SIMULADO da Cidade (nunca
+   COINS reais), compra única, cada um desbloqueia 1 emprego OU 1 opção de
+   investimento — nunca os dois ao mesmo tempo, pra manter cada curso legível. */
+const CITY_LIFE_COURSES = [
+  { id: "excel", nome: "Curso de Excel", emoji: "📊", custo: 500, descricao: "Domine planilhas pra organizar melhor as finanças no trabalho.", desbloqueiaEmprego: "analista" },
+  { id: "investimentos", nome: "Curso de Investimentos", emoji: "📈", custo: 800, descricao: "Entenda fundos imobiliários e como eles reagem aos juros.", desbloqueiaOpcao: "fii" },
+  { id: "ingles", nome: "Inglês", emoji: "🗣️", custo: 600, descricao: "Abre a porta pra investir em ETFs internacionais.", desbloqueiaOpcao: "etf" },
+  { id: "mba", nome: "MBA", emoji: "🎓", custo: 3000, descricao: "Visão estratégica de negócios e finanças corporativas.", desbloqueiaEmprego: "diretor" },
+  { id: "empreendedorismo", nome: "Empreendedorismo", emoji: "💡", custo: 2500, descricao: "Prepara você pra abrir seu próprio negócio.", desbloqueiaEmprego: "empresario" },
 ];
 
 /* -------------------------------------------------------------------------
@@ -9631,6 +9678,7 @@ const ACHIEVEMENTS = [
   { id: "amigo_polvin", emoji: "🐙", titulo: "Amigo do POLVIn", descricao: "Você fez 10 perguntas para o POLVIn no assistente." },
   { id: "vida_na_cidade_iniciada", emoji: "🪸", titulo: "Uma vida começa", descricao: "Você avançou a primeira semana da sua vida financeira na Cidade." },
   { id: "vida_na_cidade_1_ano", emoji: "🏝️", titulo: "Um ano de decisões", descricao: "Você viveu 12 semanas (1 ano fictício) na sua vida financeira da Cidade." },
+  { id: "primeiro_curso_cidade", emoji: "🎓", titulo: "Investindo em você mesmo", descricao: "Você comprou seu primeiro curso na sua vida financeira da Cidade." },
   { id: "primeiro_certificado", emoji: "🏅", titulo: "Primeiro certificado", descricao: "Você completou seu primeiro livro (resumo + quiz) e ganhou um certificado." },
 ];
 

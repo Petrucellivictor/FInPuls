@@ -4,6 +4,25 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.39.0] - 2026-08-06
+
+### Adicionado
+- **Cidade Financeira — Fase 2: emprego, educação e catálogo de
+  investimentos** (RFC-018): 5 empregos com salário crescente, cada um
+  exigindo um curso simulado ou um nível real da trilha Aprender —
+  promoção aparece como banner, nunca bloqueia o ciclo (aceitar é
+  opcional, e reduz um pouco felicidade/saúde no início, refletindo
+  "mais responsabilidade, mais estresse"). 5 cursos que custam
+  patrimônio simulado da Cidade, cada um desbloqueando 1 emprego ou 1
+  opção de investimento. 4 opções de investimento novas na decisão
+  semanal — FIIs, ETFs, Criptomoedas e Ouro, somadas às 4 já
+  existentes — 2 delas exigindo um requisito (curso comprado OU trilha
+  real concluída), sempre visíveis mesmo bloqueadas, com o requisito
+  exato escrito. Direção dos retornos de cada ativo por cenário
+  econômico validada pelo Financial Specialist. Nova conquista
+  "Investindo em você mesmo" (primeiro curso comprado).
+- Saves da Fase 1 (RFC-017) migram automaticamente sem nenhuma perda.
+
 ## [1.38.0] - 2026-08-06
 
 ### Adicionado

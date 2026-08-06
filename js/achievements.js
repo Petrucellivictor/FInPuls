@@ -60,6 +60,7 @@ const Achievements = {
     primeiro_certificado: () => Object.keys(Store.get(STORAGE_KEYS.BOOKS_COMPLETED, {})).length > 0,
     vida_na_cidade_iniciada: () => Store.get(STORAGE_KEYS.CITY_LIFE, { semana: 0 }).semana >= 1,
     vida_na_cidade_1_ano: () => Store.get(STORAGE_KEYS.CITY_LIFE, { semana: 0 }).semana >= 12,
+    primeiro_curso_cidade: () => Store.get(STORAGE_KEYS.CITY_LIFE, { cursosComprados: [] }).cursosComprados.length > 0,
   },
 
   getUnlocked() {

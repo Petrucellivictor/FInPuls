@@ -1,16 +1,24 @@
 /* =========================================================================
    CITYLIFE.JS — Cidade Financeira: ciclo semanal de vida financeira
-   (RFC-017, Fase 1). Estado próprio e persistente (STORAGE_KEYS.CITY_LIFE),
-   separado de js/city.js (que continua cuidando só da grade de 13
-   construções derivadas de conquistas — nenhuma mudança lá).
+   (RFC-017 Fase 1 + RFC-018 Fase 2). Estado próprio e persistente
+   (STORAGE_KEYS.CITY_LIFE), separado de js/city.js (que continua cuidando
+   só da grade de 13 construções derivadas de conquistas — nenhuma mudança
+   lá) e de js/career.js ("Modo Carreira" — currículo por objetivo de vida,
+   um conceito totalmente diferente; por isso aqui usamos "Emprego", não
+   "Carreira", para não confundir os dois).
 
    Cada "semana" representa ~1 mês de vida: sorteia 1 cenário econômico
    FICTÍCIO (próprio da simulação, não os dados reais da aba Mercado),
    credita salário, debita despesas fixas, e o jogador decide o que fazer
    com a sobra. Patrimônio/atributos são uma métrica PARALELA — nunca
    convertem em COINS/XP reais, pra não permitir "imprimir moeda" clicando
-   em avançar semana repetidamente de graça (só 2 conquistas de marco,
-   com XP fixo e pequeno, fazem essa ponte).
+   em avançar semana repetidamente de graça (só conquistas de marco, com
+   XP fixo e pequeno, fazem essa ponte).
+
+   Fase 2 adiciona: emprego com requisito (curso simulado OU trilha real
+   concluída), cursos que custam patrimônio simulado, e 4 opções de
+   investimento novas — 2 delas só ficam disponíveis depois de satisfazer
+   um requisito, sempre visível mesmo bloqueada (nunca escondida).
    ========================================================================= */
 
 const CityLife = {
@@ -21,7 +29,8 @@ const CityLife = {
     saude: 80,
     disciplina: 50,
     selicAtual: 10.5,
-    emprego: { titulo: "Auxiliar Administrativo", salario: 1800 },
+    empregoId: "auxiliar",
+    cursosComprados: [],
     despesasFixas: 900,
     ultimoCenarioId: null,
     decisaoPendente: null,
@@ -29,7 +38,14 @@ const CityLife = {
   },
 
   getState() {
-    return Store.get(STORAGE_KEYS.CITY_LIFE, this.DEFAULT_STATE);
+    const state = Store.get(STORAGE_KEYS.CITY_LIFE, this.DEFAULT_STATE);
+    // Migração de saves da Fase 1 (RFC-017), que guardavam `emprego` como
+    // objeto fixo em vez de `empregoId` — Fase 1 só tinha o cargo inicial,
+    // então a migração é exata, sem perda.
+    if (!state.empregoId) state.empregoId = "auxiliar";
+    if (!state.cursosComprados) state.cursosComprados = [];
+    delete state.emprego;
+    return state;
   },
 
   setState(state) {
@@ -53,6 +69,87 @@ const CityLife = {
     return pool[Math.floor(Math.random() * pool.length)];
   },
 
+  currentJob(state) {
+    return CITY_LIFE_JOBS.find((j) => j.id === state.empregoId) || CITY_LIFE_JOBS[0];
+  },
+
+  /* Satisfeito se: sem requisito (null); OU comprou o curso indicado; OU
+     concluiu de verdade (Learn.getProgress()) o nível da trilha indicado —
+     mesmo "múltiplos caminhos pro mesmo gate" já usado em
+     Progression.CHECKERS.acoesfiis (perfil avançado OU trilha completa). */
+  requisitoSatisfeito(requisito, state) {
+    if (!requisito) return true;
+    if (requisito.tipo === "curso") return state.cursosComprados.includes(requisito.cursoId);
+    if (requisito.tipo === "trilha") {
+      const nivel = COURSE.find((lvl) => lvl.id === requisito.nivelId);
+      const progress = typeof Learn !== "undefined" ? Learn.getProgress() : {};
+      return !!nivel && nivel.licoes.every((l) => !!progress[l.id]);
+    }
+    return false;
+  },
+
+  requisitoTexto(requisito) {
+    if (!requisito) return "";
+    if (requisito.tipo === "curso") {
+      const curso = CITY_LIFE_COURSES.find((c) => c.id === requisito.cursoId);
+      return curso ? `comprar o curso "${curso.nome}"` : "";
+    }
+    const nivel = COURSE.find((lvl) => lvl.id === requisito.nivelId);
+    return nivel ? `concluir "${nivel.titulo}" na trilha Aprender` : "";
+  },
+
+  opcaoDisponivel(opcao, state) {
+    if (!opcao.requisitoOu) return true;
+    return opcao.requisitoOu.some((r) => this.requisitoSatisfeito(r, state));
+  },
+
+  opcaoRequisitoTexto(opcao) {
+    if (!opcao.requisitoOu) return "";
+    return opcao.requisitoOu.map((r) => this.requisitoTexto(r)).join(" OU ");
+  },
+
+  /* ---------- Emprego / promoção ---------- */
+
+  promocaoDisponivel(state) {
+    const idxAtual = CITY_LIFE_JOBS.findIndex((j) => j.id === state.empregoId);
+    const proximo = CITY_LIFE_JOBS[idxAtual + 1];
+    if (!proximo) return null;
+    return this.requisitoSatisfeito(proximo.requisito, state) ? proximo : null;
+  },
+
+  aceitarPromocao(jobId) {
+    const state = this.getState();
+    const job = CITY_LIFE_JOBS.find((j) => j.id === jobId);
+    if (!job) return;
+    state.empregoId = job.id;
+    // "mais responsabilidade, mais estresse" — queda pequena e única, não é
+    // punição: o jogador recupera escolhendo "lazer" depois, como qualquer
+    // outro atributo no jogo.
+    state.felicidade = this.clamp(state.felicidade - 5, 0, 100);
+    state.saude = this.clamp(state.saude - 3, 0, 100);
+    this.setState(state);
+    this.render();
+  },
+
+  /* ---------- Educação ---------- */
+
+  comprarCurso(cursoId) {
+    const state = this.getState();
+    const curso = CITY_LIFE_COURSES.find((c) => c.id === cursoId);
+    if (!curso || state.cursosComprados.includes(cursoId)) return;
+    if (state.patrimonio < curso.custo) {
+      alert("Patrimônio simulado insuficiente pra esse curso ainda.");
+      return;
+    }
+    state.patrimonio -= curso.custo;
+    state.cursosComprados.push(cursoId);
+    this.setState(state);
+    if (typeof Achievements !== "undefined") Achievements.checkAll();
+    this.render();
+  },
+
+  /* ---------- Ciclo semanal ---------- */
+
   avancarSemana() {
     const state = this.getState();
     if (state.decisaoPendente) return; // precisa resolver a decisão da semana atual antes de avançar
@@ -65,13 +162,18 @@ const CityLife = {
       pib: Math.round(this.randInRange(cenario.pibAnual) * 10) / 10,
       ibovespaPct: Math.round(this.randInRange(cenario.ibovespaPct) * 10) / 10,
       dolarPct: Math.round(this.randInRange(cenario.dolarPct) * 10) / 10,
+      fiiPct: Math.round(this.randInRange(cenario.fiiPct) * 10) / 10,
+      etfPct: Math.round(this.randInRange(cenario.etfPct) * 10) / 10,
+      criptoPct: Math.round(this.randInRange(cenario.criptoPct) * 10) / 10,
+      ouroPct: Math.round(this.randInRange(cenario.ouroPct) * 10) / 10,
     };
-    const sobra = Math.max(0, state.emprego.salario - state.despesasFixas);
+    const salario = this.currentJob(state).salario;
+    const sobra = Math.max(0, salario - state.despesasFixas);
 
     state.semana += 1;
     state.selicAtual = indicadores.selic;
     state.ultimoCenarioId = cenario.id;
-    state.decisaoPendente = { cenarioId: cenario.id, indicadores, sobra };
+    state.decisaoPendente = { cenarioId: cenario.id, indicadores, sobra, salario };
     this.setState(state);
 
     if (typeof Achievements !== "undefined") Achievements.checkAll();
@@ -85,6 +187,10 @@ const CityLife = {
     if (opcao.categoria === "poupanca") return sobra;
     if (opcao.categoria === "investir_rf") return sobra * (1 + selicAtual / 100 / 12);
     if (opcao.categoria === "investir_rv") return sobra * (1 + indicadores.ibovespaPct / 100);
+    if (opcao.categoria === "investir_fii") return sobra * (1 + indicadores.fiiPct / 100);
+    if (opcao.categoria === "investir_etf") return sobra * (1 + indicadores.etfPct / 100);
+    if (opcao.categoria === "investir_cripto") return sobra * (1 + indicadores.criptoPct / 100);
+    if (opcao.categoria === "investir_ouro") return sobra * (1 + indicadores.ouroPct / 100);
     return 0; // gasto — dinheiro usado, não investido
   },
 
@@ -93,7 +199,7 @@ const CityLife = {
     const pendente = state.decisaoPendente;
     if (!pendente) return;
     const opcao = CITY_LIFE_DECISION_OPTIONS.find((o) => o.id === optionId);
-    if (!opcao) return;
+    if (!opcao || !this.opcaoDisponivel(opcao, state)) return;
 
     const efeito = this.efeitoOpcao(opcao, pendente.sobra, pendente.indicadores, state.selicAtual);
     state.patrimonio += efeito;
@@ -104,7 +210,8 @@ const CityLife = {
     state.historico.unshift({ semana: state.semana, cenarioId: pendente.cenarioId, sobra: pendente.sobra, opcaoId: opcao.id, efeito });
     state.historico = state.historico.slice(0, 12);
 
-    const comparativo = CITY_LIFE_DECISION_OPTIONS.map((o) => ({
+    const disponiveisAgora = CITY_LIFE_DECISION_OPTIONS.filter((o) => this.opcaoDisponivel(o, state));
+    const comparativo = disponiveisAgora.map((o) => ({
       id: o.id,
       texto: o.texto,
       efeito: this.efeitoOpcao(o, pendente.sobra, pendente.indicadores, state.selicAtual),
@@ -123,10 +230,43 @@ const CityLife = {
     return WEEKLY_ECONOMIC_SCENARIOS.find((s) => s.id === id);
   },
 
+  renderOpcoesHtml(state) {
+    return CITY_LIFE_DECISION_OPTIONS.map((o) => {
+      const disponivel = this.opcaoDisponivel(o, state);
+      if (disponivel) return `<button class="quiz-option" data-opt="${o.id}">${o.texto}</button>`;
+      return `<button class="quiz-option locked" disabled title="Bloqueado">🔒 ${o.texto}<div class="text-soft" style="font-size:11px;font-weight:400">Requisito: ${this.opcaoRequisitoTexto(o)}</div></button>`;
+    }).join("");
+  },
+
+  renderEducacaoHtml(state) {
+    return `
+      <h4 class="mt-16">🎓 Educação (custa patrimônio simulado)</h4>
+      <div class="grid grid-2 city-life-courses">
+        ${CITY_LIFE_COURSES.map((c) => {
+          const comprado = state.cursosComprados.includes(c.id);
+          const podePagar = state.patrimonio >= c.custo;
+          return `
+          <div class="card city-life-course ${comprado ? "owned" : ""}">
+            <div style="font-size:22px">${c.emoji}</div>
+            <b>${c.nome}</b>
+            <div class="text-soft text-sm">${c.descricao}</div>
+            ${
+              comprado
+                ? `<div class="badge mt-8">✅ Concluído</div>`
+                : `<button class="btn btn-outline btn-sm mt-8" data-curso="${c.id}" ${podePagar ? "" : "disabled"}>${this.fmt(c.custo)}</button>`
+            }
+          </div>`;
+        }).join("")}
+      </div>
+    `;
+  },
+
   render(resultado) {
     const container = document.getElementById("cityLifePanel");
     if (!container) return;
     const state = this.getState();
+    const jobAtual = this.currentJob(state);
+    const promocao = this.promocaoDisponivel(state);
 
     const atributosHtml = `
       <div class="city-life-attrs">
@@ -140,9 +280,18 @@ const CityLife = {
       <div class="grid grid-3 kpi-row">
         <div class="card kpi"><div class="label">Mês (semana)</div><div class="value">${state.semana}</div></div>
         <div class="card kpi"><div class="label">Patrimônio simulado</div><div class="value">${this.fmt(state.patrimonio)}</div></div>
-        <div class="card kpi"><div class="label">Emprego atual</div><div class="value" style="font-size:14px">${state.emprego.titulo}<br/><span class="text-soft" style="font-size:12px">${this.fmt(state.emprego.salario)}/mês</span></div></div>
+        <div class="card kpi"><div class="label">Emprego atual</div><div class="value" style="font-size:14px">${jobAtual.emoji} ${jobAtual.titulo}<br/><span class="text-soft" style="font-size:12px">${this.fmt(jobAtual.salario)}/mês</span></div></div>
       </div>
     `;
+
+    const promocaoHtml = promocao
+      ? `
+      <div class="alert-box info mt-16">
+        🎉 <b>Promoção disponível: ${promocao.emoji} ${promocao.titulo}</b> (${this.fmt(promocao.salario)}/mês).
+        Mais salário, mais responsabilidade — aceitar reduz um pouco felicidade/saúde no início.
+        <button class="btn btn-primary btn-sm mt-8" id="cityLifeAceitarPromocaoBtn" data-job="${promocao.id}">Aceitar promoção</button>
+      </div>`
+      : "";
 
     let cicloHtml;
     if (resultado) {
@@ -162,7 +311,7 @@ const CityLife = {
             )
             .join("")}
         </div>
-        <p class="text-sm text-soft mt-8">Esse é só o efeito dessa semana — repetir a mesma escolha por vários meses tende a compor esse resultado, pra melhor ou pra pior, dependendo do cenário econômico de cada semana.</p>
+        <p class="text-sm text-soft mt-8">Esse é só o efeito dessa semana — repetir a mesma escolha por vários meses tende a compor esse resultado, pra melhor ou pra pior, dependendo do cenário econômico de cada semana. Só as opções já desbloqueadas nessa semana entram no comparativo.</p>
         <button class="btn btn-primary btn-block mt-16" id="cityLifeNextBtn">➡️ Avançar semana</button>
       `;
     } else if (state.decisaoPendente) {
@@ -181,9 +330,9 @@ const CityLife = {
           <div><span class="text-soft text-sm">Dólar simulado</span><div class="mono">${ind.dolarPct >= 0 ? "+" : ""}${ind.dolarPct}%</div></div>
         </div>
         <p class="text-sm text-soft mt-8">🌊 Indicadores fictícios da sua Cidade Financeira — pra dados reais do mercado, veja a aba Mercado.</p>
-        <div class="alert-box mt-16">💰 Você recebeu ${this.fmt(state.emprego.salario)} de salário e pagou ${this.fmt(state.despesasFixas)} em despesas fixas. Sobrou <b>${this.fmt(state.decisaoPendente.sobra)}</b>. O que você faz com essa sobra?</div>
+        <div class="alert-box mt-16">💰 Você recebeu ${this.fmt(state.decisaoPendente.salario)} de salário e pagou ${this.fmt(state.despesasFixas)} em despesas fixas. Sobrou <b>${this.fmt(state.decisaoPendente.sobra)}</b>. O que você faz com essa sobra?</div>
         <div class="flex mt-16" style="flex-direction:column;gap:8px">
-          ${CITY_LIFE_DECISION_OPTIONS.map((o) => `<button class="quiz-option" data-opt="${o.id}">${o.texto}</button>`).join("")}
+          ${this.renderOpcoesHtml(state)}
         </div>
       `;
     } else {
@@ -194,7 +343,7 @@ const CityLife = {
       `;
     }
 
-    container.innerHTML = kpisHtml + atributosHtml + cicloHtml;
+    container.innerHTML = kpisHtml + promocaoHtml + atributosHtml + cicloHtml + this.renderEducacaoHtml(state);
 
     const polvinArea = document.getElementById("cityLifePolvin");
     if (polvinArea && typeof Polvin !== "undefined") {
@@ -210,6 +359,10 @@ const CityLife = {
       btn.addEventListener("click", () => this.resolverDecisao(btn.dataset.opt));
     });
     container.querySelector("#cityLifeNextBtn")?.addEventListener("click", () => this.avancarSemana());
+    container.querySelector("#cityLifeAceitarPromocaoBtn")?.addEventListener("click", (e) => this.aceitarPromocao(e.target.dataset.job));
+    container.querySelectorAll("[data-curso]").forEach((btn) => {
+      btn.addEventListener("click", () => this.comprarCurso(btn.dataset.curso));
+    });
   },
 
   init() {

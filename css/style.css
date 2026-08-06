@@ -1322,6 +1322,11 @@ tr.row-best td {
   padding: 12px;
 }
 .city-life-indicators .mono { font-weight: 700; font-size: 15px; margin-top: 2px; }
+.city-life-courses { margin-top: 10px; }
+.city-life-course { text-align: center; }
+.city-life-course.owned { border-color: var(--gold); background: #fdf3e3; }
+.quiz-option.locked { opacity: 0.6; cursor: not-allowed; background: var(--surface); }
+.quiz-option.locked:hover { border-color: var(--border); }
 
 .achievement-toast {
   position: fixed;
