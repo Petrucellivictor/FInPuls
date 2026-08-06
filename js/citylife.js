@@ -314,6 +314,10 @@ const CityLife = {
     state.semana += 1;
     state.selicAtual = indicadores.selic;
     state.ultimoCenarioId = cenario.id;
+    // RFC-024: avisa a Cidade Financeira (js/citygame.js) do novo cenário
+    // sorteado — mesmo padrão de market:updated/tab:changed, sem dependência
+    // direta entre módulos. CityGame reage recolorindo o mar/clima.
+    document.dispatchEvent(new CustomEvent("citylife:scenario", { detail: { cenarioId: cenario.id } }));
     state.decisaoPendente = { cenarioId: cenario.id, indicadores, sobra, salario, manutencao, aluguel, despesasTotais };
     this.setState(state);
 

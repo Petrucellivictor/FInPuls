@@ -4,6 +4,36 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.45.0] - 2026-08-06
+
+### Adicionado
+- **Cidade Financeira — clima por cenário econômico e ciclo dia/noite**
+  (RFC-024): fecha um loop de um dado que já existia desde a Fase 1
+  (`corAgua` de cada cenário em `WEEKLY_ECONOMIC_SCENARIOS`, RFC-017) mas
+  nunca tinha uso visual. O mar do mapa agora reage à cor do último
+  cenário econômico sorteado (Boom, Crise, Inflação Alta ou Estável),
+  com transição suave — nunca um corte abrupto — a cada semana avançada
+  (e já nasce com a cor certa ao carregar a Cidade, mesmo sem jogar
+  nenhuma semana nesta sessão). Cada categoria de cenário ganhou também
+  1 efeito de clima próprio e reconhecível: Boom = brilho dourado
+  cintilando na superfície da água; Crise = chuva com vento cobrindo o
+  mapa todo; Inflação Alta = névoa quente e translúcida perto do
+  horizonte; Estável = nenhum efeito extra (a cor calma já basta).
+  Separadamente, um ciclo dia/noite ambiente e contínuo (dia →
+  entardecer → noite → amanhecer, com crossfade suave entre fases, ~4-5
+  minutos por volta completa) passa a variar a luminosidade geral do
+  mapa — puramente decorativo, não afeta nenhuma mecânica de jogo. À
+  noite, as janelas iluminadas do Banco e do Escritório (RFC-021/022)
+  ficam mais acesas e estáveis (sobe o piso do pulso já existente, sem
+  criar animação nova).
+- Dívida técnica registrada (não bloqueante): o PolvIn 3D (RFC-023) não
+  escurece junto com o overlay de dia/noite — o personagem continua
+  sempre no brilho máximo, já que ele vive num canvas Three.js separado
+  do canvas Phaser 2D onde o overlay é desenhado, sem nenhuma ponte
+  entre os dois hoje. Aceitável por ora (herói sempre nítido é
+  convenção válida em jogos do gênero); uma fase futura pode sincronizar
+  os dois via um evento novo, sem acoplar os módulos diretamente.
+
 ## [1.44.0] - 2026-08-06
 
 ### Alterado

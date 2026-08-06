@@ -57,6 +57,17 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 
 ## Cidade Financeira — jogo de simulação de vida
 
+- ✅ **RFC-024 — clima por cenário econômico e ciclo dia/noite** (v1.45.0):
+  fecha um loop de um dado que já existia desde a Fase 1 (`corAgua` de
+  cada cenário, RFC-017) mas nunca tinha uso visual — o mar do mapa
+  passa a reagir à cor do último cenário sorteado, com transição suave, e
+  cada categoria (Boom/Crise/Inflação Alta/Estável) ganhou 1 efeito de
+  clima próprio (brilho dourado/chuva/névoa/nenhum). Ciclo dia/noite
+  ambiente contínuo (4 fases com crossfade, ~4-5min por volta), incluindo
+  as janelas do Banco/Escritório acendendo mais à noite — puramente
+  decorativo, sem afetar nenhuma mecânica. Dívida técnica registrada: o
+  PolvIn 3D (RFC-023) não escurece junto com o overlay 2D, por viverem em
+  canvases separados sem ponte entre eles hoje.
 - ✅ **RFC-023 — PolvIn 3D dentro do jogo 2D** (v1.44.0): o token jogável
   deixou de ser uma imagem plana e virou um personagem 3D modelado por
   geometria procedural (esfera + tentáculos articulados + olhos + óculos),
@@ -104,6 +115,18 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 ## Iniciativa grande, escopada mas não iniciada
 
 - **Migração de armazenamento para Supabase (conta obrigatória)**: o usuário confirmou que quer a nuvem como fonte de verdade — toda conta precisa de login, os dados moram no Supabase, o navegador guarda só um cache local. Isso é uma reversão deliberada do princípio "100% funcional sem conta" documentado no README e em RFCs anteriores (não um erro a corrigir, uma prioridade nova que supera a anterior). Afeta todo módulo que hoje lê/grava via `Store`/`localStorage` — merece sua própria RFC, bem testada, antes de somar mais uma frente grande em cima. **Sequenciamento confirmado pelo usuário 2026-08-06**: essa migração só começa depois que TODAS as fases da Cidade Financeira (acima) estiverem prontas — "o jogo" vem primeiro, a migração de dados vem depois.
+
+## Bugs conhecidos (backlog técnico)
+
+Itens encontrados durante o desenvolvimento/QA de uma RFC, mas fora do escopo dela — registrados aqui em vez de ficarem só na conversa que os encontrou, até ganharem uma RFC própria de correção.
+
+- **`Achievements.CHECKERS.primeiro_curso_cidade` pode lançar `TypeError` no boot** (encontrado pelo QA Engineer durante o RFC-024, fora do escopo daquela RFC — confirmado pré-existente, `js/citygame.js`/`js/citylife.js` não tocam esse arquivo). Gravidade: **média-alta**.
+  - **Onde**: `js/achievements.js:63` lê `Store.get(STORAGE_KEYS.CITY_LIFE, { cursosComprados: [] }).cursosComprados.length` direto do `localStorage`, sem passar pela migração que `CityLife.getState()` faz (`js/citylife.js:44-59`) para preencher `cursosComprados`/`bensComprados`/`negocio`/`status`/`reputacao` quando ausentes de saves de fases anteriores.
+  - **Por que quebra**: essa migração só existe no objeto em memória devolvido por `getState()` — nunca é persistida de volta via `setState()`. Se o `if_city_life` salvo no `localStorage` de um usuário real não tiver `cursosComprados` (save de antes da Fase 2/RFC-018, nunca reaberto na Cidade desde então), `Store.get` retorna o objeto salvo como está (o `default` do 2º argumento só vale quando a chave não existe) — `.cursosComprados` fica `undefined`, e `.length` lança `TypeError: Cannot read properties of undefined (reading 'length')`.
+  - **Por que é média-alta e não só um detalhe da aba Cidade**: o stack trace passa por `app.js init() → Engagement.init() → Engagement.renderHome() → Achievements.checkAwards() → Achievements.checkAll()`, ou seja, roda no **boot da aplicação**, não só ao abrir a aba Cidade — para o usuário real cujo save antigo dispara essa condição, o erro pode interromper silenciosamente o resto da cadeia síncrona de boot antes que a pessoa toque em nada.
+  - **Como reproduzir**: `localStorage.setItem("if_city_life", JSON.stringify({ semana: 3, ultimoCenarioId: "crise" }))` (sem `cursosComprados`) + um perfil válido qualquer (pra pular o onboarding) + recarregar a página.
+  - **Correção sugerida (QA Engineer)**: (a) `CityLife.getState()` passar a persistir o patch de migração (`this.setState(state)` ao final do próprio método, não só devolver o objeto em memória) — resolve na raiz para qualquer consumidor futuro que leia `STORAGE_KEYS.CITY_LIFE` direto via `Store.get`; ou (b), mais local, os 3 checkers de Cidade em `achievements.js:63-65` (`primeiro_curso_cidade`, `primeiro_bem_cidade`, `primeiro_negocio_cidade`) chamarem `CityLife.getState()` em vez de `Store.get(STORAGE_KEYS.CITY_LIFE, ...)` direto, reaproveitando a migração já escrita.
+  - **Donos sugeridos**: Backend Engineer (dono de `js/citylife.js`/persistência) com Frontend Engineer em cópia (dono de `js/achievements.js`). Ainda sem RFC própria.
 
 ## Ideias futuras (fora do backlog original das 13 ideias)
 
