@@ -4,6 +4,19 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.34.0] - 2026-08-06
+
+### Corrigido
+- **Rolagem/toque em celular no diagnóstico inicial e no quiz de lição**
+  (RFC-014): `.onboarding-card` e `.quiz-box` (as 3 trilhas) ficavam sem
+  `overflow-y`/`max-height`, então em telas de celular o conteúdo mais
+  alto que a viewport (ex.: a etapa "Um pouco sobre você", com 9 opções
+  de objetivo) ficava centralizado para fora da área visível, sem
+  nenhuma forma de rolar até o botão — impedindo terminar o cadastro
+  pelo celular. Corrigido replicando o padrão que `.modal-box` já usava
+  (`max-height: 88vh; overflow-y: auto;`). Testado com Playwright em
+  360×740 e 375×667 (diagnóstico e quiz) e 1280×800 (regressão desktop).
+
 ## [1.33.0] - 2026-08-05
 
 ### Adicionado

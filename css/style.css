@@ -470,6 +470,9 @@ input:focus, select:focus, textarea:focus {
   width: 100%;
   padding: 32px;
   box-shadow: var(--shadow-lg);
+  max-height: 88vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .onboarding-progress {
@@ -928,6 +931,7 @@ input:focus, select:focus, textarea:focus {
 .quiz-box {
   background: var(--surface); border-radius: var(--radius); max-width: 560px; width: 100%;
   padding: 28px; box-shadow: var(--shadow-lg);
+  max-height: 88vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
 }
 .quiz-dots { display: flex; gap: 6px; margin-bottom: 14px; }
 .quiz-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background 0.25s, transform 0.25s; }
