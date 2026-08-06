@@ -1308,6 +1308,21 @@ tr.row-best td {
 .city-decoration-card.owned { border-color: var(--gold); background: #fdf3e3; }
 .city-decoration-emoji { font-size: 28px; }
 
+/* ---------- Cidade Financeira: Vida (RFC-017, Fase 1) ---------- */
+.city-life-attrs { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.city-life-attr { display: flex; flex-direction: column; gap: 4px; }
+.city-life-attr span { font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+.city-life-indicators {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 10px;
+  text-align: center;
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.city-life-indicators .mono { font-weight: 700; font-size: 15px; margin-top: 2px; }
+
 .achievement-toast {
   position: fixed;
   bottom: 20px;

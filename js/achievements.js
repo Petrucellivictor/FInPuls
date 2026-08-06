@@ -58,6 +58,8 @@ const Achievements = {
     leu_10_livros: () => Object.keys(Store.get(STORAGE_KEYS.BOOKS_COMPLETED, {})).length >= 10,
     amigo_polvin: () => Store.get(STORAGE_KEYS.POLVIN_QUESTIONS_ASKED, 0) >= 10,
     primeiro_certificado: () => Object.keys(Store.get(STORAGE_KEYS.BOOKS_COMPLETED, {})).length > 0,
+    vida_na_cidade_iniciada: () => Store.get(STORAGE_KEYS.CITY_LIFE, { semana: 0 }).semana >= 1,
+    vida_na_cidade_1_ano: () => Store.get(STORAGE_KEYS.CITY_LIFE, { semana: 0 }).semana >= 12,
   },
 
   getUnlocked() {

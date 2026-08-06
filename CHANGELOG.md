@@ -4,6 +4,32 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.38.0] - 2026-08-06
+
+### Adicionado
+- **Cidade Financeira ganha vida — Fase 1 do simulador de vida financeira**
+  (RFC-017): novo card "🌊 Sua Vida Financeira" na aba Cidade, com estado
+  próprio e persistente. Cada "semana" representa ~1 mês: sorteia 1 de 4
+  cenários econômicos fictícios (Boom, Crise, Inflação Alta, Estável —
+  direção macroeconômica validada antes de publicar), mostra indicadores
+  da simulação (claramente rotulados como fictícios, distintos dos dados
+  reais da aba Mercado), credita salário, debita despesas fixas, e o
+  jogador decide o que fazer com a sobra do mês (reserva de emergência,
+  renda fixa, ações ou lazer) — sempre vendo o comparativo das 4 opções
+  lado a lado, sem nunca subtrair patrimônio já conquistado. Acompanha 3
+  atributos (felicidade, saúde, disciplina) e 2 conquistas de marco
+  ("Uma vida começa", "Um ano de decisões"). Sem Game Over — só
+  consequências, sempre explicadas pelo PolvIn.
+- A grade de 13 construções por conquista (RFC-005/010) continua 100%
+  intacta, sem nenhuma mudança — a nova mecânica vive ao lado dela, com
+  estado totalmente separado, e não converte patrimônio/atributos
+  simulados em moedas/XP reais (só os 2 marcos de conquista fazem essa
+  ponte, com XP fixo e pequeno).
+- Fase 1 de um pedido bem maior (carreira, catálogo completo de
+  investimentos com conhecimento bloqueando acesso, imóveis, empresas,
+  luxo/status, isométrico, linha do tempo, relatório de temporada) —
+  próximas fases registradas no `ROADMAP.md`.
+
 ## [1.37.0] - 2026-08-06
 
 ### Adicionado

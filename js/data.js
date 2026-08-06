@@ -9417,6 +9417,77 @@ const SCENARIO_SIMULATIONS = [
 ];
 
 /* -------------------------------------------------------------------------
+   11.1b) CIDADE FINANCEIRA — VIDA (RFC-017, Fase 1). Ciclo semanal (1 semana
+   = ~1 mês de vida): cenário econômico sorteado (fictício, próprio da
+   simulação — não confundir com os dados reais da aba Mercado) + 1 decisão
+   sobre o que sobrou do salário. Direção macroeconômica de cada cenário
+   validada pelo Financial Specialist antes de publicar.
+   ------------------------------------------------------------------------- */
+const WEEKLY_ECONOMIC_SCENARIOS = [
+  {
+    id: "boom",
+    nome: "Boom Econômico",
+    emoji: "🟢",
+    corAgua: "#4FC3D9",
+    narrativa: "A economia está crescendo com força: empresas contratando, bolsa em alta. O real capital estrangeiro entrando pelo otimismo com a bolsa ajuda a segurar o dólar — mesmo com os juros mais baixos, que sozinhos tenderiam a atrair menos dólares, não mais.",
+    selicDeltaPP: [-0.75, -0.25],
+    inflacaoAnual: [3, 4.5],
+    pibAnual: [3, 5],
+    ibovespaPct: [3, 8],
+    dolarPct: [-3, -1],
+  },
+  {
+    id: "crise",
+    nome: "Crise / Recessão",
+    emoji: "🔴",
+    corAgua: "#2B4A5C",
+    narrativa: "Investidores perderam a confiança e estão tirando dinheiro do país. O Banco Central até sobe a Selic na defensiva, tentando conter essa fuga de capital — mas não é suficiente pra deter a saída, e o dólar sobe mesmo assim.",
+    selicDeltaPP: [0.5, 1.0],
+    inflacaoAnual: [5, 7],
+    pibAnual: [-3, -1],
+    ibovespaPct: [-12, -5],
+    dolarPct: [3, 8],
+  },
+  {
+    id: "inflacao_alta",
+    nome: "Inflação Alta",
+    emoji: "🟠",
+    corAgua: "#5C7A8A",
+    narrativa: "Quando os preços começam a subir rápido demais, é como se a economia estivesse pisando fundo no acelerador. O Banco Central aperta o freio subindo a Selic: crédito mais caro faz gente e empresa gastar menos, a economia desacelera um pouco, e isso ajuda a tirar o pé dos preços.",
+    selicDeltaPP: [0.75, 1.5],
+    inflacaoAnual: [8, 13],
+    pibAnual: [0, 1.5],
+    ibovespaPct: [-3, 0],
+    dolarPct: [2, 5],
+  },
+  {
+    id: "neutro",
+    nome: "Mercado Estável",
+    emoji: "🔵",
+    corAgua: "#3F8FA6",
+    narrativa: "Semana tranquila: nem euforia, nem pânico. É nesses momentos de calmaria que vale a pena revisar seus planos com calma, sem pressa.",
+    selicDeltaPP: [-0.25, 0.25],
+    inflacaoAnual: [4, 5],
+    pibAnual: [1.5, 2.5],
+    ibovespaPct: [-2, 2],
+    dolarPct: [-1, 1],
+  },
+];
+
+/* 4 opções fixas, sempre as mesmas — repetição é intencional (mesma lógica
+   pedagógica já usada nas trilhas: reforço > novidade). Cada opção afeta o
+   patrimônio (conforme a categoria + os indicadores fictícios da semana) e
+   1 atributo. Nenhuma opção AQUI subtrai patrimônio já acumulado — só
+   redireciona a sobra do mês; o botão "gasto" simplesmente não soma nada
+   ao patrimônio (o dinheiro foi usado, não investido). */
+const CITY_LIFE_DECISION_OPTIONS = [
+  { id: "reserva", texto: "Guardar na reserva de emergência", categoria: "poupanca", felicidadeDelta: 0, saudeDelta: 0, disciplinaDelta: 3, narrativa: "Você fortaleceu sua reserva de emergência — não rende muito, mas está ali pra qualquer imprevisto." },
+  { id: "renda_fixa", texto: "Investir em Renda Fixa (Tesouro/CDB)", categoria: "investir_rf", felicidadeDelta: 0, saudeDelta: 0, disciplinaDelta: 2, narrativa: "Você aplicou em algo seguro, que rende conforme a Selic simulada dessa semana." },
+  { id: "acoes", texto: "Investir em Ações", categoria: "investir_rv", felicidadeDelta: 0, saudeDelta: 0, disciplinaDelta: 1, narrativa: "Você apostou em renda variável — o retorno oscila junto com a bolsa simulada dessa semana, pra cima ou pra baixo." },
+  { id: "lazer", texto: "Gastar em lazer e bem-estar", categoria: "gasto", felicidadeDelta: 6, saudeDelta: 2, disciplinaDelta: -1, narrativa: "Você usou o dinheiro pra cuidar de você — vale bastante pro bem-estar, só que esse dinheiro não fica trabalhando." },
+];
+
+/* -------------------------------------------------------------------------
    11.2) HISTÓRIAS INTERATIVAS — intercaladas na trilha financeira (não em
    toda lição: Trail.maybePickStory() só dispara a cada 3 lições concluídas
    da trilha financeira). Personagens fictícios enfrentando um dilema
@@ -9558,6 +9629,8 @@ const ACHIEVEMENTS = [
   { id: "simulador_50x", emoji: "🧮", titulo: "Mestre dos simuladores", descricao: "Você fez 50 simulações no simulador de investimentos." },
   { id: "leu_10_livros", emoji: "📖", titulo: "Leitor voraz", descricao: "Você completou a leitura de 10 livros na Biblioteca PolvIn (resumo + quiz)." },
   { id: "amigo_polvin", emoji: "🐙", titulo: "Amigo do POLVIn", descricao: "Você fez 10 perguntas para o POLVIn no assistente." },
+  { id: "vida_na_cidade_iniciada", emoji: "🪸", titulo: "Uma vida começa", descricao: "Você avançou a primeira semana da sua vida financeira na Cidade." },
+  { id: "vida_na_cidade_1_ano", emoji: "🏝️", titulo: "Um ano de decisões", descricao: "Você viveu 12 semanas (1 ano fictício) na sua vida financeira da Cidade." },
   { id: "primeiro_certificado", emoji: "🏅", titulo: "Primeiro certificado", descricao: "Você completou seu primeiro livro (resumo + quiz) e ganhou um certificado." },
 ];
 
@@ -9693,6 +9766,8 @@ const CITY_BUILDINGS = [
   { id: "renda_variavel_completa", emoji: "📈", nome: "Bolsa de Valores", descricaoConstruida: "Inaugurada ao dominar toda a Renda Variável (Nível 3): ações e FIIs." },
   { id: "streak_100", emoji: "🏛️", nome: "Prefeitura", descricaoConstruida: "Construída com 100 dias seguidos de ofensiva — um marco de constância." },
   { id: "trilha_unificada_completa", emoji: "👑", nome: "Monumento da Lenda Financeira", descricaoConstruida: "O monumento máximo da sua cidade: toda a Academia PolvIn concluída, financeira e história." },
+  { id: "vida_na_cidade_iniciada", emoji: "🪸", nome: "Recife da Vida", descricaoConstruida: "O ponto de partida da sua vida financeira simulada — erguido na sua primeira semana." },
+  { id: "vida_na_cidade_1_ano", emoji: "🏝️", nome: "Ilha de 1 Ano", descricaoConstruida: "12 semanas de decisões (1 ano fictício) construíram essa ilha na sua vida financeira." },
 ];
 
 /* -------------------------------------------------------------------------
