@@ -244,7 +244,7 @@ const Profile = {
   },
 
   lockVaultNow() {
-    if (!confirm("Isso vai bloquear o cofre agora e recarregar a página — você precisará digitar a senha para continuar usando o Fin+. Continuar?")) return;
+    if (!confirm("Isso vai bloquear o cofre agora e recarregar a página — você precisará digitar a senha para continuar usando o PolvIn. Continuar?")) return;
     Vault.lock();
     location.reload();
   },

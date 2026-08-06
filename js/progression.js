@@ -76,7 +76,7 @@ const Progression = {
         <div style="font-size:48px">🔒</div>
         <h2>${gate.nome} ainda bloqueado</h2>
         <p class="text-soft">Esta ferramenta libera quando você: <b>${gate.requisito}</b>.</p>
-        <p class="text-soft text-sm">Continue evoluindo na Academia Fin+ — você será avisado na hora que desbloquear.</p>
+        <p class="text-soft text-sm">Continue evoluindo na Academia PolvIn — você será avisado na hora que desbloquear.</p>
       </div>`;
   },
 

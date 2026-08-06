@@ -18,7 +18,7 @@
    RLS — colocá-la no navegador equivale a publicar a senha mestra do
    banco de dados.
 
-   Se deixar os dois valores em branco, o Fin+ continua funcionando 100%
+   Se deixar os dois valores em branco, o PolvIn continua funcionando 100%
    normalmente no modo local (localStorage), exatamente como antes — a
    sincronização na nuvem só fica indisponível.
    ========================================================================= */

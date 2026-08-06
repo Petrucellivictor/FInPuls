@@ -1,4 +1,4 @@
-# RFCs do Fin+
+# RFCs do PolvIn
 
 Cada mudança não trivial no projeto (nova funcionalidade, melhoria, refatoração, integração) passa por uma RFC antes de qualquer implementação, seguindo o protocolo definido em [`CLAUDE.md`](../CLAUDE.md).
 

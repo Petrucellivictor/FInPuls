@@ -1,6 +1,6 @@
 /* =========================================================================
    PRIVACY.JS — Política de Privacidade (LGPD) e modal de exibição.
-   Texto reflete exatamente como o Fin+ funciona: 100% local, sem backend.
+   Texto reflete exatamente como o PolvIn funciona: 100% local, sem backend.
    ========================================================================= */
 
 const Privacy = {
@@ -24,12 +24,12 @@ const Privacy = {
         <p class="text-soft text-sm">Em conformidade com a LGPD (Lei nº 13.709/2018). Última atualização: 2026.</p>
 
         <h3>1. Não existe servidor nem banco de dados</h3>
-        <p class="text-sm">O Fin+ é um site 100% estático (HTML/CSS/JavaScript), sem back-end e sem banco de dados próprio. Tudo o que você cadastra — perfil, transações, orçamentos, cofrinhos, investimentos, ações/FIIs, parcelamentos, ligas e progresso — é salvo apenas no <b>localStorage do seu navegador</b>, no seu próprio computador ou celular. Nenhum dado seu é enviado, replicado ou armazenado em nenhum servidor nosso, porque esse servidor simplesmente não existe.</p>
+        <p class="text-sm">O PolvIn é um site 100% estático (HTML/CSS/JavaScript), sem back-end e sem banco de dados próprio. Tudo o que você cadastra — perfil, transações, orçamentos, cofrinhos, investimentos, ações/FIIs, parcelamentos, ligas e progresso — é salvo apenas no <b>localStorage do seu navegador</b>, no seu próprio computador ou celular. Nenhum dado seu é enviado, replicado ou armazenado em nenhum servidor nosso, porque esse servidor simplesmente não existe.</p>
 
         <h3>2. Quando algo trafega pela internet</h3>
         <p class="text-sm">Duas exceções, nenhuma delas envolve seus dados financeiros pessoais:</p>
         <ul class="text-sm">
-          <li><b>Login com Google</b> (opcional): a autenticação acontece direto com o Google; o Fin+ recebe só seu nome, e-mail e foto públicos para personalizar a saudação — nunca sua senha.</li>
+          <li><b>Login com Google</b> (opcional): a autenticação acontece direto com o Google; o PolvIn recebe só seu nome, e-mail e foto públicos para personalizar a saudação — nunca sua senha.</li>
           <li><b>Cotações de mercado</b>: o ticker e os indicadores buscam preços públicos (Banco Central do Brasil, AwesomeAPI, CoinGecko). São dados de mercado, sem nenhuma relação com sua identidade ou seus dados pessoais.</li>
         </ul>
 

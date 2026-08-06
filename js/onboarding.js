@@ -39,7 +39,7 @@ const Onboarding = {
     const card = document.getElementById("onboardingCard");
     card.innerHTML = `
       <div class="onboarding-welcome">
-        <img src="Polvin-logo.png" alt="POLVIn, o mascote do Fin+" class="mascot-img mascot-hero" />
+        <img src="Polvin-logo.png" alt="PolvIn" class="mascot-img mascot-hero" />
         <h2>Oi! Eu sou o POLVIn 👋</h2>
         <p class="text-soft">Antes de começar, vamos conhecer um pouco sobre você e fazer ${ONBOARDING_QUESTIONS.length} perguntas rápidas para entender seu nível e personalizar sua trilha — do zero ao avançado.</p>
         <button class="btn btn-primary btn-block mt-16" id="startOnboardingBtn">Começar diagnóstico</button>
@@ -203,7 +203,7 @@ const Onboarding = {
             ? `<div class="alert-box info" style="text-align:left">🎯 Seu objetivo agora é <b>${goalLabel.emoji} ${goalLabel.label}</b>. Já criamos um cofrinho <b>"${goalInfo.emoji} ${goalInfo.nome}"</b> com meta de ${metaValor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} na aba Carteira — ajuste o valor quando quiser.</div>`
             : ""
         }
-        <button class="btn btn-primary btn-block mt-16" id="finishOnboardingBtn">Entrar no Fin+</button>
+        <button class="btn btn-primary btn-block mt-16" id="finishOnboardingBtn">Entrar no PolvIn</button>
       </div>
     `;
     document.getElementById("finishOnboardingBtn").addEventListener("click", () => {

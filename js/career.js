@@ -34,7 +34,7 @@ const Career = {
     container.innerHTML = `
       <div class="card mt-16">
         <h3>🎯 Modo Carreira</h3>
-        <p class="text-soft text-sm">Escolha um objetivo e a Academia Fin+ destaca as lições mais relevantes para ele, além do cofrinho e da simulação certos para o seu caso.</p>
+        <p class="text-soft text-sm">Escolha um objetivo e a Academia PolvIn destaca as lições mais relevantes para ele, além do cofrinho e da simulação certos para o seu caso.</p>
         <div class="life-goals-grid mt-8" id="careerGoalGrid">
           ${LIFE_GOALS.map((g) => `<button class="life-goal-btn" data-id="${g.id}"><span class="emoji">${g.emoji}</span>${g.label}</button>`).join("")}
         </div>

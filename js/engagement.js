@@ -28,7 +28,7 @@ const Engagement = {
     if (streak.dias > 0 && daysSince >= 2) {
       message = "🐙 Seu dinheiro sentiu sua falta! Bora continuar de onde parou?";
     } else if (streak.dias > 0 && daysSince >= 1) {
-      message = "🐙 Sua sequência está em risco hoje! Complete algo na Academia Fin+ para não perder o streak.";
+      message = "🐙 Sua sequência está em risco hoje! Complete algo na Academia PolvIn para não perder o streak.";
     } else {
       const faltam = 100 - (Learn.getXp() % 100);
       if (faltam <= 20) message = `🐙 Faltam só ${faltam} XP para você subir de nível!`;

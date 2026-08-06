@@ -1,6 +1,6 @@
 /* =========================================================================
    BUSINESS.JS — Trilha "Empreender"
-   Segunda trilha independente da Academia Fin+ (não intercalada com a
+   Segunda trilha independente da Academia PolvIn (não intercalada com a
    trilha financeira/história): mini aulas + quiz sobre a diferença entre
    empreender e ser empresário, regimes tributários (MEI, Simples,
    Presumido, Real), obrigações fiscais/contábeis e gestão de pessoas e

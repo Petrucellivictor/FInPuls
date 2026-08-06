@@ -112,7 +112,7 @@ const Store = {
   /* ---------- backup manual (exportar/importar JSON) ---------- */
 
   exportAll() {
-    const dump = { _finplusBackup: true, exportadoEm: new Date().toISOString(), dados: {} };
+    const dump = { _polvinBackup: true, exportadoEm: new Date().toISOString(), dados: {} };
     Object.entries(STORAGE_KEYS).forEach(([name, key]) => {
       if (key.indexOf("if_vault_") === 0) return; // metadados do cofre não entram no backup
       const value = this.get(key, undefined);
@@ -123,7 +123,7 @@ const Store = {
     const a = document.createElement("a");
     const dataStr = new Date().toISOString().slice(0, 10);
     a.href = url;
-    a.download = `finplus-backup-${dataStr}.json`;
+    a.download = `polvin-backup-${dataStr}.json`;
     document.body.appendChild(a);
     a.click();
     a.remove();

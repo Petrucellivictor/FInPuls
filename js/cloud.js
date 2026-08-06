@@ -2,7 +2,7 @@
    CLOUD.JS — Sincronização multiusuário via Supabase (opcional).
 
    Se js/supabase-config.js não tiver URL/chave configuradas, este módulo
-   fica inerte e o Fin+ funciona exatamente como antes (100% local). Com o
+   fica inerte e o PolvIn funciona exatamente como antes (100% local). Com o
    Supabase configurado, cada conta (e-mail/senha ou Google) passa a ter
    seus dados sincronizados numa tabela protegida por RLS (ver
    supabase/schema.sql) — cada pessoa só acessa as próprias linhas.

@@ -1,5 +1,5 @@
 /* =========================================================================
-   BOOKS.JS — Biblioteca Fin+ / Estante de livros
+   BOOKS.JS — Biblioteca PolvIn / Estante de livros
    Recomendações reais de livros, do zero ao avançado. A "recomendação de
    agora" nunca repete um livro já sugerido até esgotar a lista completa
    (BOOKS_SEEN), quando então o ciclo recomeça — isso é independente de

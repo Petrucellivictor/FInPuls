@@ -269,7 +269,7 @@ const Polvin = {
         ${this.avatarHtml("sm")}
         <div class="polvin-chat-header-info">
           <b>POLVIn</b>
-          <div class="text-soft text-sm">Pergunte sobre o Fin+</div>
+          <div class="text-soft text-sm">Tire suas dúvidas sobre o app</div>
         </div>
         <button class="polvin-chat-close" id="polvinChatClose">✕</button>
       </div>
@@ -291,7 +291,7 @@ const Polvin = {
 
     this.pushMessage(
       "polvin",
-      "Oi! Sou o POLVIn 🐙 Pode perguntar sobre qualquer aba, funcionalidade ou termo financeiro do Fin+. Um aviso importante: eu busco respostas dentro do conteúdo do próprio site — ainda não sou uma IA generativa de verdade!"
+      "Oi! Sou o POLVIn 🐙 Pode perguntar sobre qualquer aba, funcionalidade ou termo financeiro do PolvIn. Um aviso importante: eu busco respostas dentro do conteúdo do próprio site — ainda não sou uma IA generativa de verdade!"
     );
     setTimeout(() => input.focus(), 150);
   },

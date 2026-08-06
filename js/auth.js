@@ -205,7 +205,7 @@ const Auth = {
       overlay.innerHTML = `
         <div class="modal-box auth-modal">
           <button class="modal-close">✕</button>
-          <h2>Entrar no Fin+</h2>
+          <h2>Entrar no PolvIn</h2>
           <p class="text-soft text-sm">Crie uma conta para sincronizar seus dados (transações, investimentos, progresso) entre dispositivos.</p>
           <div id="googleSignInArea" class="mt-16"></div>
           <div class="auth-divider">ou</div>
@@ -237,7 +237,7 @@ const Auth = {
       overlay.innerHTML = `
         <div class="modal-box auth-modal">
           <button class="modal-close">✕</button>
-          <h2>Entrar no Fin+</h2>
+          <h2>Entrar no PolvIn</h2>
           <p class="text-soft text-sm">Isso só personaliza sua saudação. Seus dados financeiros continuam salvos neste navegador — não há sincronização entre dispositivos.</p>
           <div id="googleSignInArea" class="mt-16"></div>
           <div class="auth-divider">ou</div>
@@ -264,7 +264,7 @@ const Auth = {
     if (!area) return;
 
     if (location.protocol === "file:") {
-      area.innerHTML = `<div class="alert-box warn">⚠️ O login com Google não funciona abrindo o arquivo direto (file://). Abra o Fin+ por um servidor (local ou hospedado) para habilitar essa opção. As outras formas de entrar abaixo funcionam normalmente.</div>`;
+      area.innerHTML = `<div class="alert-box warn">⚠️ O login com Google não funciona abrindo o arquivo direto (file://). Abra o PolvIn por um servidor (local ou hospedado) para habilitar essa opção. As outras formas de entrar abaixo funcionam normalmente.</div>`;
       return;
     }
     if (GOOGLE_CLIENT_ID.startsWith("SUBSTITUA_")) {

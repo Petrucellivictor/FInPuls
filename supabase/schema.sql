@@ -1,5 +1,5 @@
 -- =========================================================================
--- Fin+ — Schema Supabase para sincronização multiusuário
+-- PolvIn — Schema Supabase para sincronização multiusuário
 --
 -- Como usar: no painel do seu projeto Supabase, abra o "SQL Editor" e
 -- execute este arquivo inteiro (Run). Ele é seguro para rodar mais de uma

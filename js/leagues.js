@@ -1,10 +1,10 @@
 /* =========================================================================
    LEAGUES.JS — Aba Desafios: seu placar e Ligas locais.
-   IMPORTANTE: o Fin+ não tem servidor, então não existe um ranking global
+   IMPORTANTE: o PolvIn não tem servidor, então não existe um ranking global
    automático entre instalações diferentes. As "Ligas" são um placar local
    e manual — você cria a liga, adiciona os nomes dos amigos e atualiza a
    pontuação deles de vez em quando (comparando o que cada um vê no
-   próprio Fin+). A SUA linha é sempre automática (sua pontuação real).
+   próprio PolvIn). A SUA linha é sempre automática (sua pontuação real).
    ========================================================================= */
 
 const Leagues = {

@@ -1,5 +1,5 @@
 /* =========================================================================
-   DATA.JS — Base de conteúdo do Fin+
+   DATA.JS — Base de conteúdo do PolvIn
    Todo o conteúdo educativo, perguntas e trilha gamificada vivem aqui.
    Separar os dados da lógica facilita adicionar novos investimentos,
    perguntas ou fases da trilha sem tocar no restante do sistema.
@@ -2265,7 +2265,7 @@ const COURSE = [
         aula: [
           "Duas pessoas podem ter a mesma quantia para investir e tomar decisões completamente diferentes — e as duas podem estar certas. Uma prefere dormir tranquila sabendo que seu dinheiro não vai oscilar; outra aceita ver o valor subir e cair bastante, em troca da chance de um retorno maior. Nenhuma está 'errada', elas só têm perfis diferentes.",
           "O perfil de investidor é entender sua própria tolerância a ver o dinheiro balançar de valor (risco), seus objetivos e o tempo até precisar desse dinheiro. É a mesma lógica de escolher um esporte: alguém prefere uma caminhada tranquila, outro prefere algo radical — o 'melhor' depende de quem está perguntando.",
-          "Foi esse tipo de pergunta que o diagnóstico inicial do Fin+ fez para você — e é essa informação que ajuda a decidir entre focar em renda fixa, renda variável, ou uma combinação das duas nas próximas lições.",
+          "Foi esse tipo de pergunta que o diagnóstico inicial do PolvIn fez para você — e é essa informação que ajuda a decidir entre focar em renda fixa, renda variável, ou uma combinação das duas nas próximas lições.",
         ],
       },
     ],
@@ -9016,7 +9016,7 @@ const BCB_SERIES = [
 
 /* -------------------------------------------------------------------------
    5.1) DESTAQUES EDUCATIVOS DE AÇÕES E FIIS (aba Mercado)
-   O Fin+ não tem cotação em tempo real de ações/FIIs individuais (ver
+   O PolvIn não tem cotação em tempo real de ações/FIIs individuais (ver
    "Fora do escopo" no README) — por isso isto NÃO é um ranking de altas e
    baixas do dia. São características estruturais historicamente conhecidas
    de exemplos reais e líquidos da bolsa brasileira, para fins didáticos.
@@ -9337,7 +9337,7 @@ const CAREER_PATHS = {
    ------------------------------------------------------------------------- */
 const DAILY_CHALLENGES = [
   { id: "log_expense", titulo: "Registre 1 transação", descricao: "Adicione uma entrada ou saída na sua Carteira hoje.", xp: 10, tipo: "auto" },
-  { id: "complete_lesson", titulo: "Complete 1 lição", descricao: "Termine uma lição na Academia Fin+ hoje.", xp: 15, tipo: "auto" },
+  { id: "complete_lesson", titulo: "Complete 1 lição", descricao: "Termine uma lição na Academia PolvIn hoje.", xp: 15, tipo: "auto" },
   { id: "save_goal", titulo: "Guarde um valor em um cofrinho", descricao: "Faça um aporte, mesmo pequeno, em uma das suas metas.", xp: 10, tipo: "auto" },
   { id: "no_impulse", titulo: "Não registre gasto por impulso hoje", descricao: "Passe o dia sem lançar nenhuma compra por impulso na Carteira.", xp: 15, tipo: "manual" },
   { id: "review_wishlist", titulo: "Revise sua lista de espera de desejos", descricao: "Abra a lista de espera na Carteira e decida sobre algum item.", xp: 10, tipo: "manual" },
@@ -9351,7 +9351,7 @@ const DAILY_CHALLENGES = [
 ];
 
 const WEEKLY_MISSIONS = [
-  { id: "week_lessons_3", titulo: "Complete 3 lições esta semana", descricao: "Avance na Academia Fin+.", xp: 40, meta: 3 },
+  { id: "week_lessons_3", titulo: "Complete 3 lições esta semana", descricao: "Avance na Academia PolvIn.", xp: 40, meta: 3 },
   { id: "week_save_100", titulo: "Guarde R$ 100 em cofrinhos esta semana", descricao: "Some aportes em qualquer meta.", xp: 40, meta: 100 },
   { id: "week_log_5tx", titulo: "Registre 5 transações esta semana", descricao: "Mantenha sua Carteira atualizada.", xp: 30, meta: 5 },
 ];
@@ -9538,25 +9538,25 @@ const ACHIEVEMENTS = [
   { id: "primeiro_investimento", emoji: "📦", titulo: "Primeiro investimento registrado", descricao: "Você registrou sua primeira posição na Carteira de Investimentos." },
   { id: "primeira_acao", emoji: "📈", titulo: "Primeira ação/FII comprado", descricao: "Você registrou sua primeira compra na aba Ações & FIIs." },
   { id: "primeiro_dividendo", emoji: "💵", titulo: "Primeiro dividendo registrado", descricao: "Você registrou o recebimento do seu primeiro dividendo/rendimento." },
-  { id: "streak_7", emoji: "🔥", titulo: "7 dias de ofensiva", descricao: "Você usou o Fin+ por 7 dias seguidos." },
-  { id: "streak_30", emoji: "🔥", titulo: "30 dias de ofensiva", descricao: "Você usou o Fin+ por 30 dias seguidos." },
-  { id: "streak_100", emoji: "🔥", titulo: "100 dias de ofensiva", descricao: "Você usou o Fin+ por 100 dias seguidos." },
+  { id: "streak_7", emoji: "🔥", titulo: "7 dias de ofensiva", descricao: "Você usou o PolvIn por 7 dias seguidos." },
+  { id: "streak_30", emoji: "🔥", titulo: "30 dias de ofensiva", descricao: "Você usou o PolvIn por 30 dias seguidos." },
+  { id: "streak_100", emoji: "🔥", titulo: "100 dias de ofensiva", descricao: "Você usou o PolvIn por 100 dias seguidos." },
   { id: "reserva_formada", emoji: "🚨", titulo: "Reserva de emergência formada", descricao: "Você registrou pelo menos R$ 1.000 em Caixa/Reserva na Carteira de Investimentos." },
-  { id: "nivel1_completo", emoji: "✅", titulo: "Fundamentos concluídos", descricao: "Você completou todas as lições do Nível 1 da Academia Fin+." },
-  { id: "trilha_completa", emoji: "🏆", titulo: "Trilha completa", descricao: "Você completou todas as lições da Academia Fin+." },
+  { id: "nivel1_completo", emoji: "✅", titulo: "Fundamentos concluídos", descricao: "Você completou todas as lições do Nível 1 da Academia PolvIn." },
+  { id: "trilha_completa", emoji: "🏆", titulo: "Trilha completa", descricao: "Você completou todas as lições da Academia PolvIn." },
   { id: "primeiro_desafio", emoji: "🎯", titulo: "Primeiro desafio concluído", descricao: "Você completou seu primeiro desafio diário." },
-  { id: "leitor", emoji: "📚", titulo: "Primeira leitura", descricao: "Você conferiu sua primeira recomendação na Biblioteca Fin+." },
+  { id: "leitor", emoji: "📚", titulo: "Primeira leitura", descricao: "Você conferiu sua primeira recomendação na Biblioteca PolvIn." },
   { id: "primeiro_conto", emoji: "📜", titulo: "Primeiro conto lido", descricao: "Você completou sua primeira lição da trilha Brasil: História & Economia." },
   { id: "historiador", emoji: "🇧🇷", titulo: "Historiador econômico", descricao: "Você completou toda a trilha Brasil: História & Economia." },
   { id: "primeira_compra_parcelada", emoji: "🧾", titulo: "Primeira compra parcelada", descricao: "Você registrou sua primeira compra parcelada na Carteira." },
-  { id: "trilha_unificada_completa", emoji: "🌟", titulo: "Mestre da trilha completa", descricao: "Você completou toda a Academia Fin+: trilha financeira e Brasil: História & Economia, do início ao fim." },
+  { id: "trilha_unificada_completa", emoji: "🌟", titulo: "Mestre da trilha completa", descricao: "Você completou toda a Academia PolvIn: trilha financeira e Brasil: História & Economia, do início ao fim." },
   { id: "primeiro_passo_empreendedor", emoji: "💼", titulo: "Primeiro passo empreendedor", descricao: "Você completou sua primeira lição na trilha Empreender." },
   { id: "mestre_empreendedor", emoji: "🏢", titulo: "Mestre empreendedor", descricao: "Você completou toda a trilha Empreender: regimes tributários, obrigações e gestão de pessoas e finanças." },
   { id: "renda_fixa_completa", emoji: "💰", titulo: "Especialista em Renda Fixa", descricao: "Você completou todas as lições do Nível 2 · Renda Fixa." },
   { id: "renda_variavel_completa", emoji: "📈", titulo: "Especialista em Renda Variável", descricao: "Você completou todas as lições do Nível 3 · Renda Variável." },
-  { id: "primeira_licao", emoji: "🏠", titulo: "Primeiros passos", descricao: "Você completou sua primeira lição, em qualquer trilha da Academia Fin+." },
+  { id: "primeira_licao", emoji: "🏠", titulo: "Primeiros passos", descricao: "Você completou sua primeira lição, em qualquer trilha da Academia PolvIn." },
   { id: "simulador_50x", emoji: "🧮", titulo: "Mestre dos simuladores", descricao: "Você fez 50 simulações no simulador de investimentos." },
-  { id: "leu_10_livros", emoji: "📖", titulo: "Leitor voraz", descricao: "Você completou a leitura de 10 livros na Biblioteca Fin+ (resumo + quiz)." },
+  { id: "leu_10_livros", emoji: "📖", titulo: "Leitor voraz", descricao: "Você completou a leitura de 10 livros na Biblioteca PolvIn (resumo + quiz)." },
   { id: "amigo_polvin", emoji: "🐙", titulo: "Amigo do POLVIn", descricao: "Você fez 10 perguntas para o POLVIn no assistente." },
   { id: "primeiro_certificado", emoji: "🏅", titulo: "Primeiro certificado", descricao: "Você completou seu primeiro livro (resumo + quiz) e ganhou um certificado." },
 ];
@@ -9582,9 +9582,9 @@ const SHOP_ITEMS = [
   { id: "frame_gold", tipo: "moldura", emoji: "🟡", cor: "#E8A33D", nome: "Moldura dourada", preco: 80, desc: "Um brilho de campeão." },
   { id: "frame_bitcoin", tipo: "moldura", emoji: "₿", cor: "#F2A900", nome: "Moldura Bitcoin", preco: 60, desc: "Exclusiva da Semana do Bitcoin.", eventoExclusivo: "semana_bitcoin" },
   { id: "frame_ir", tipo: "moldura", emoji: "🧾", cor: "#5C7A99", nome: "Moldura Declarante", preco: 60, desc: "Exclusiva da Temporada de IR.", eventoExclusivo: "temporada_ir" },
-  { id: "frame_ferias", tipo: "moldura", emoji: "🏖️", cor: "#2DB6A3", nome: "Moldura Férias", preco: 60, desc: "Exclusiva das Férias Fin+.", eventoExclusivo: "ferias" },
-  { id: "frame_blackfriday", tipo: "moldura", emoji: "🛍️", cor: "#1A1A1A", nome: "Moldura Black Friday", preco: 60, desc: "Exclusiva da Black Friday Fin+.", eventoExclusivo: "black_friday" },
-  { id: "frame_natal", tipo: "moldura", emoji: "🎄", cor: "#B23B3B", nome: "Moldura Natal", preco: 60, desc: "Exclusiva do Natal Fin+.", eventoExclusivo: "natal" },
+  { id: "frame_ferias", tipo: "moldura", emoji: "🏖️", cor: "#2DB6A3", nome: "Moldura Férias", preco: 60, desc: "Exclusiva das Férias PolvIn.", eventoExclusivo: "ferias" },
+  { id: "frame_blackfriday", tipo: "moldura", emoji: "🛍️", cor: "#1A1A1A", nome: "Moldura Black Friday", preco: 60, desc: "Exclusiva da Black Friday PolvIn.", eventoExclusivo: "black_friday" },
+  { id: "frame_natal", tipo: "moldura", emoji: "🎄", cor: "#B23B3B", nome: "Moldura Natal", preco: 60, desc: "Exclusiva do Natal PolvIn.", eventoExclusivo: "natal" },
 
   /* Cores do POLVIn (RFC-011) — aplicadas via filtro CSS sobre a arte já
      existente (Polvin-logo.png), sem re-ilustrar o mascote. `filtro` é o
@@ -9633,11 +9633,11 @@ const SEASONAL_EVENTS = [
   },
   {
     id: "ferias",
-    nome: "Férias Fin+",
+    nome: "Férias PolvIn",
     emoji: "🏖️",
     inicio: "07-01",
     fim: "07-31",
-    descricao: "Aproveite as férias para avançar mais na Academia Fin+, sem pressa, no seu ritmo.",
+    descricao: "Aproveite as férias para avançar mais na Academia PolvIn, sem pressa, no seu ritmo.",
     xpMultiplicador: 2,
     missoesEspeciais: [
       { id: "ferias_licao", titulo: "Continue a trilha", descricao: "Complete 1 lição em qualquer trilha da Academia.", xp: 15, tipo: "licao" },
@@ -9646,7 +9646,7 @@ const SEASONAL_EVENTS = [
   },
   {
     id: "black_friday",
-    nome: "Black Friday Fin+",
+    nome: "Black Friday PolvIn",
     emoji: "🛍️",
     inicio: "11-20",
     fim: "11-30",
@@ -9659,7 +9659,7 @@ const SEASONAL_EVENTS = [
   },
   {
     id: "natal",
-    nome: "Natal Fin+",
+    nome: "Natal PolvIn",
     emoji: "🎄",
     inicio: "12-15",
     fim: "12-25",
@@ -9684,15 +9684,15 @@ const CITY_BUILDINGS = [
   { id: "primeira_meta", emoji: "🌳", nome: "Parque", descricaoConstruida: "Um espaço para cuidar dos seus objetivos, criado com seu primeiro cofrinho." },
   { id: "primeiro_investimento", emoji: "🚗", nome: "Garagem", descricaoConstruida: "Construída quando você registrou seu primeiro investimento na Carteira." },
   { id: "streak_7", emoji: "🏦", nome: "Banco", descricaoConstruida: "Erguido com 7 dias seguidos de disciplina — sua ofensiva começou a valer a pena." },
-  { id: "primeiro_certificado", emoji: "📚", nome: "Biblioteca", descricaoConstruida: "Construída ao concluir seu primeiro livro (resumo + quiz) na Biblioteca Fin+." },
+  { id: "primeiro_certificado", emoji: "📚", nome: "Biblioteca", descricaoConstruida: "Construída ao concluir seu primeiro livro (resumo + quiz) na Biblioteca PolvIn." },
   { id: "primeiro_passo_empreendedor", emoji: "💼", nome: "Escritório", descricaoConstruida: "Aberto com sua primeira lição na trilha Empreender." },
   { id: "primeiro_conto", emoji: "🏺", nome: "Museu Histórico", descricaoConstruida: "Inaugurado com seu primeiro conto da trilha Brasil: História & Economia." },
   { id: "nivel1_completo", emoji: "🏫", nome: "Escola", descricaoConstruida: "Construída ao dominar todos os fundamentos do Nível 1." },
-  { id: "streak_30", emoji: "🏢", nome: "Empresa", descricaoConstruida: "Fundada com 30 dias seguidos de constância na Academia Fin+." },
+  { id: "streak_30", emoji: "🏢", nome: "Empresa", descricaoConstruida: "Fundada com 30 dias seguidos de constância na Academia PolvIn." },
   { id: "renda_fixa_completa", emoji: "💰", nome: "Cofre", descricaoConstruida: "Erguido ao dominar toda a Renda Fixa (Nível 2)." },
   { id: "renda_variavel_completa", emoji: "📈", nome: "Bolsa de Valores", descricaoConstruida: "Inaugurada ao dominar toda a Renda Variável (Nível 3): ações e FIIs." },
   { id: "streak_100", emoji: "🏛️", nome: "Prefeitura", descricaoConstruida: "Construída com 100 dias seguidos de ofensiva — um marco de constância." },
-  { id: "trilha_unificada_completa", emoji: "👑", nome: "Monumento da Lenda Financeira", descricaoConstruida: "O monumento máximo da sua cidade: toda a Academia Fin+ concluída, financeira e história." },
+  { id: "trilha_unificada_completa", emoji: "👑", nome: "Monumento da Lenda Financeira", descricaoConstruida: "O monumento máximo da sua cidade: toda a Academia PolvIn concluída, financeira e história." },
 ];
 
 /* -------------------------------------------------------------------------
@@ -9771,17 +9771,17 @@ const ASSISTANT_FAQ = [
   {
     id: "ia_de_verdade",
     gatilhos: ["você é uma ia", "voce e uma ia", "é chatgpt", "e chatgpt", "inteligência artificial de verdade", "você pensa", "voce pensa"],
-    resposta: "Não sou uma IA generativa de verdade como o ChatGPT — não tenho um modelo de linguagem gigante me alimentando! Eu busco a resposta dentro do próprio conteúdo do Fin+ (glossário, guia de investimentos, livros, dúvidas comuns) e tento te responder da forma mais útil possível. Se eu não souber algo, é porque ainda não está no site.",
+    resposta: "Não sou uma IA generativa de verdade como o ChatGPT — não tenho um modelo de linguagem gigante me alimentando! Eu busco a resposta dentro do próprio conteúdo do site (glossário, guia de investimentos, livros, dúvidas comuns) e tento te responder da forma mais útil possível. Se eu não souber algo, é porque ainda não está no site.",
   },
   {
     id: "login_conta",
     gatilhos: ["como faço login", "como faco login", "como crio conta", "entrar com google", "cadastro por email", "preciso de senha", "criar perfil"],
-    resposta: "Você pode entrar com sua conta Google ou criar um perfil local só com nome e e-mail, sem senha. Isso só personaliza sua saudação — o Fin+ não tem servidor, então seus dados financeiros continuam salvos neste navegador, sem sincronizar entre dispositivos. Clique em '👤 Entrar' no topo da tela.",
+    resposta: "Você pode entrar com sua conta Google ou criar um perfil local só com nome e e-mail, sem senha. Isso só personaliza sua saudação — o PolvIn não tem servidor, então seus dados financeiros continuam salvos neste navegador, sem sincronizar entre dispositivos. Clique em '👤 Entrar' no topo da tela.",
   },
   {
     id: "seguranca_dados",
     gatilhos: ["meus dados são seguros", "onde ficam meus dados", "vocês guardam minhas informações", "privacidade", "meus dados estao seguros"],
-    resposta: "Todos os seus dados (transações, investimentos, progresso) ficam salvos só no navegador que você está usando — nada é enviado a nenhum servidor, porque o Fin+ não tem backend. Isso também significa que, se limpar os dados do navegador ou trocar de dispositivo, você precisa ter feito backup antes! Use os botões 'Exportar' e 'Importar' no topo da tela.",
+    resposta: "Todos os seus dados (transações, investimentos, progresso) ficam salvos só no navegador que você está usando — nada é enviado a nenhum servidor, porque o PolvIn não tem backend. Isso também significa que, se limpar os dados do navegador ou trocar de dispositivo, você precisa ter feito backup antes! Use os botões 'Exportar' e 'Importar' no topo da tela.",
   },
   {
     id: "backup_exportar",
@@ -9816,7 +9816,7 @@ const ASSISTANT_FAQ = [
   {
     id: "trilha_historia",
     gatilhos: ["trilha de história", "trilha de historia", "brasil história economia", "contos", "moedas do brasil"],
-    resposta: "A Academia Fin+ tem uma trilha só, intercalando educação financeira com pequenos contos sobre a história econômica do Brasil — as moedas que já tivemos (do Réis ao Real), os ciclos econômicos, a industrialização, o Plano Real e mais. Cada capítulo de história abre com uma historinha antes do quiz.",
+    resposta: "A Academia PolvIn tem uma trilha só, intercalando educação financeira com pequenos contos sobre a história econômica do Brasil — as moedas que já tivemos (do Réis ao Real), os ciclos econômicos, a industrialização, o Plano Real e mais. Cada capítulo de história abre com uma historinha antes do quiz.",
   },
   {
     id: "xp_niveis",
@@ -9861,7 +9861,7 @@ const ASSISTANT_FAQ = [
   {
     id: "google_login_config",
     gatilhos: ["login google não funciona", "login google nao funciona", "configurar google", "client id"],
-    resposta: "O login com Google só funciona depois de configurar um Client ID gratuito no Google Cloud Console e abrir o Fin+ por um servidor local, não direto pelo arquivo. Tem o passo a passo completo no README do projeto. Enquanto isso, o cadastro por e-mail funciona sempre, sem nenhuma configuração.",
+    resposta: "O login com Google só funciona depois de configurar um Client ID gratuito no Google Cloud Console e abrir o PolvIn por um servidor local, não direto pelo arquivo. Tem o passo a passo completo no README do projeto. Enquanto isso, o cadastro por e-mail funciona sempre, sem nenhuma configuração.",
   },
 ];
 
@@ -9878,13 +9878,13 @@ const INVESTMENT_TIPS = [
 ];
 
 const ASSISTANT_FALLBACKS = [
-  "Hmm, essa eu não sei responder ainda — meu conhecimento vem só do conteúdo do próprio Fin+. Tenta perguntar sobre alguma aba, funcionalidade ou termo financeiro específico!",
+  "Hmm, essa eu não sei responder ainda — meu conhecimento vem só do conteúdo do próprio site. Tenta perguntar sobre alguma aba, funcionalidade ou termo financeiro específico!",
   "Não encontrei nada muito próximo disso no que eu conheço do site. Que tal reformular a pergunta, ou dar uma olhada no Dicionário do Mercado (aba Avançado)?",
-  "Essa passou batido pelos meus 8 braços! Posso te ajudar com dúvidas sobre as abas do Fin+, termos financeiros, investimentos ou livros da Biblioteca — tenta de outro jeito?",
+  "Essa passou batido pelos meus 8 braços! Posso te ajudar com dúvidas sobre as abas do PolvIn, termos financeiros, investimentos ou livros da Biblioteca — tenta de outro jeito?",
 ];
 
 /* -------------------------------------------------------------------------
-   14) BIBLIOTECA FIN+ — recomendações reais de livros, do zero ao avançado
+   14) BIBLIOTECA POLVIN — recomendações reais de livros, do zero ao avançado
    ------------------------------------------------------------------------- */
 const BOOKS = [
   {

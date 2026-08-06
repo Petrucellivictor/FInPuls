@@ -4,6 +4,21 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.35.0] - 2026-08-06
+
+### Alterado
+- **Rebrand: Fin+/FinPlus → PolvIn** (RFC-015): o app passa a se chamar
+  **PolvIn** — o mesmo nome que o mascote já usa (estilizado como
+  "POLVIn" nas falas em 1ª pessoa), unificando produto e personagem.
+  Novo wordmark no header (`Polv` + `In` em verde, no lugar de `Fin` +
+  `+`), título da aba, README, `CLAUDE.md` e todo o conteúdo em runtime
+  atualizados. Backup manual (exportar/importar) ganhou o novo prefixo
+  de arquivo (`polvin-backup-*.json`) sem quebrar a importação de
+  backups antigos. `CHANGELOG.md` e as RFCs numeradas já concluídas
+  antes desta (registro histórico) foram deliberadamente preservadas
+  com o nome antigo, assim como o nome do repositório no GitHub
+  (`FInPuls`) — nenhum dos dois é o "nome do produto" que foi pedido.
+
 ## [1.34.0] - 2026-08-06
 
 ### Corrigido

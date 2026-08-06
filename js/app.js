@@ -1,5 +1,5 @@
 /* =========================================================================
-   APP.JS — Inicialização e orquestração geral do Fin+
+   APP.JS — Inicialização e orquestração geral do PolvIn
    ========================================================================= */
 
 const App = {
@@ -309,7 +309,7 @@ const App = {
     if (container.dataset.day === todayKey) return; // já mostrado hoje
 
     if (!facts.length) {
-      container.innerHTML = `<div class="empty-state"><span class="emoji">🐙</span>Continue usando o Fin+ — quanto mais você registrar (cofrinhos, investimentos, transações), mais o POLVIn vai te contar sobre sua própria jornada financeira aqui.</div>`;
+      container.innerHTML = `<div class="empty-state"><span class="emoji">🐙</span>Continue usando o PolvIn — quanto mais você registrar (cofrinhos, investimentos, transações), mais o POLVIn vai te contar sobre sua própria jornada financeira aqui.</div>`;
       return;
     }
     container.dataset.day = todayKey;

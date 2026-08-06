@@ -142,7 +142,7 @@ button {
   color: #fff;
 }
 
-.brand-plus { color: var(--green-light); }
+.brand-in { color: var(--green-light); }
 
 .brand-tag {
   font-size: 11px;
@@ -358,7 +358,7 @@ button {
   font-size: 13.5px;
   /* botão "elástico": aperta rápido, solta com uma curva de overshoot
      (passa um pouco do tamanho normal antes de assentar) — identidade
-     de botão do Fin+, não um retângulo com :active { translateY(1px) }. */
+     de botão do PolvIn, não um retângulo com :active { translateY(1px) }. */
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s, background 0.15s;
 }
 
@@ -1355,7 +1355,7 @@ tr.row-best td {
 .history-month .tx-list { margin-left: 10px; }
 
 /* =========================================================================
-   BIBLIOTECA FIN+
+   BIBLIOTECA POLVIN
    ========================================================================= */
 .book-card.highlighted { border-color: var(--gold); box-shadow: var(--shadow-lg); }
 .book-card h3 { font-size: 15.5px; }
@@ -1428,7 +1428,7 @@ tr.row-best td {
 }
 
 /* =========================================================================
-   ANIMAÇÕES DA TRILHA GAMIFICADA (mais vida na Academia Fin+)
+   ANIMAÇÕES DA TRILHA GAMIFICADA (mais vida na Academia PolvIn)
    ========================================================================= */
 .quiz-box {
   position: relative;

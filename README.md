@@ -1,8 +1,8 @@
-# Fin+ 💚
+# PolvIn 💚
 
-> **Fin** de Finanças, **In** de Investimentos, **+** de tudo o que vem além:
-> educação financeira, controle de gastos e variedade de conteúdos — do
-> zero ao avançado.
+> **Polv** de Polvo — nosso mascote-guia de 8 braços — **In** de
+> Investimentos e educação financeira: controle de gastos e variedade de
+> conteúdos, do zero ao avançado.
 
 Ferramenta web (HTML + CSS + JavaScript puro, sem frameworks e sem build)
 para ajudar qualquer pessoa — do zero absoluto ao investidor experiente —
@@ -30,7 +30,7 @@ computador/navegador).
 ### Habilitar o login com Google (opcional)
 
 O login com Google usa o **Google Identity Services** para obter um token
-de identidade; o que o Fin+ faz com esse token depende de o Supabase estar
+de identidade; o que o PolvIn faz com esse token depende de o Supabase estar
 configurado ou não (ver seção "Sincronização multiusuário" abaixo):
 
 1. Crie um **OAuth Client ID gratuito** em
@@ -39,7 +39,7 @@ configurado ou não (ver seção "Sincronização multiusuário" abaixo):
    Aplicativo da Web, e registre a origem onde você for abrir o app.
 2. Substitua o valor de `GOOGLE_CLIENT_ID` no topo de `js/auth.js` pelo
    Client ID gerado.
-3. Abra o Fin+ por um **servidor local ou remoto (http/https)** — por
+3. Abra o PolvIn por um **servidor local ou remoto (http/https)** — por
    exemplo, a extensão "Live Server" do VS Code, ou hospedando (ver
    "Hospedagem" abaixo). O login do Google **não funciona** abrindo o
    `index.html` direto (protocolo `file://`); o app detecta isso e avisa
@@ -47,10 +47,10 @@ configurado ou não (ver seção "Sincronização multiusuário" abaixo):
 
 ## Sincronização multiusuário com Supabase (opcional)
 
-Por padrão o Fin+ não tem banco de dados nem servidor — é esse o motivo de
+Por padrão o PolvIn não tem banco de dados nem servidor — é esse o motivo de
 não existirem "credenciais de acesso" a um banco para te passar quando
 ninguém configurou nada. Se você quer publicar o site para vários usuários
-testarem com contas e dados próprios, o Fin+ já vem com a integração
+testarem com contas e dados próprios, o PolvIn já vem com a integração
 pronta para o **Supabase** (Postgres gerenciado + autenticação, com plano
 gratuito). Veja como ativar:
 
@@ -94,7 +94,7 @@ cifrada (ver seção "Segurança e privacidade" abaixo).
 
 ## Hospedagem
 
-Hospedar o Fin+ significa publicar os arquivos estáticos (HTML/CSS/JS) em
+Hospedar o PolvIn significa publicar os arquivos estáticos (HTML/CSS/JS) em
 algum lugar acessível por HTTPS — com ou sem o Supabase configurado, isso
 não muda. Duas opções simples:
 
@@ -160,7 +160,7 @@ graça, a limitação do login com Google que exige `http`/`https` (não
   e o mascote **POLVIn**.
 - **Verde** (`--green`) → linguagem de "crescimento financeiro": entradas de
   dinheiro, indicadores em alta, lições concluídas, respostas certas no quiz
-  e o "+" do logotipo **Fin+**.
+  e o "+" do logotipo **PolvIn**.
 - **Dourado, coral e azul** seguem como cores de apoio para gamificação (XP),
   alertas/saídas e informações neutras, respectivamente.
 - **POLVIn**, o mascote, usa a arte 3D real (`Polvin-logo.png`) em todos os
@@ -189,7 +189,7 @@ própria arte do mascote).
   aba, abre um chat onde você pode perguntar sobre qualquer funcionalidade
   do site ou termo financeiro. **Importante: não é uma IA generativa** —
   não há nenhum modelo de linguagem por trás. É uma busca por palavras-
-  chave sobre o próprio conteúdo do Fin+ (a base de FAQ em
+  chave sobre o próprio conteúdo do PolvIn (a base de FAQ em
   `ASSISTANT_FAQ`, o glossário, o guia de investimentos e a biblioteca de
   livros). O próprio POLVIn explica isso na primeira mensagem do chat,
   para não gerar uma expectativa que a ferramenta não cumpre.
@@ -246,7 +246,7 @@ fin-plus/
 │   ├── market.js                                           → indicadores em tempo real (moedas, cripto, BCB)
 │   ├── news.js                                               → notícias com impacto na economia brasileira
 │   ├── advanced.js                                             → aba Avançado: carteiras-modelo, calculadoras, dicionário
-│   ├── books.js                                                  → aba Biblioteca Fin+: recomendações de livros
+│   ├── books.js                                                  → aba Biblioteca PolvIn: recomendações de livros
 │   └── app.js                                                      → orquestrador geral / dashboard
 ├── supabase/
 │   └── schema.sql                  → script SQL (tabela + Row Level Security) para o Supabase opcional
@@ -256,7 +256,7 @@ fin-plus/
 
 ## Orchestrator AI e a equipe de agentes especializados
 
-O desenvolvimento do Fin+ com Claude Code segue o protocolo definido em [`CLAUDE.md`](CLAUDE.md): toda solicitação passa primeiro por uma **RFC** (`rfcs/RFC-NNN-*.md`) e é coordenada por um **Orchestrator AI** através de 13 papéis definidos em `.claude/agents/*.md`, cada um com contexto real do projeto (não descrições genéricas) e limites claros do que pode e não pode fazer. O Orchestrator nunca implementa diretamente — ele encaminha, na ordem abaixo, e consolida os resultados.
+O desenvolvimento do PolvIn com Claude Code segue o protocolo definido em [`CLAUDE.md`](CLAUDE.md): toda solicitação passa primeiro por uma **RFC** (`rfcs/RFC-NNN-*.md`) e é coordenada por um **Orchestrator AI** através de 13 papéis definidos em `.claude/agents/*.md`, cada um com contexto real do projeto (não descrições genéricas) e limites claros do que pode e não pode fazer. O Orchestrator nunca implementa diretamente — ele encaminha, na ordem abaixo, e consolida os resultados.
 
 | # | Papel (Workflow Oficial) | Arquivo em `.claude/agents/` |
 | - | --- | --- |
@@ -317,13 +317,13 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   conquistas×20 + streak×5), a tabela de medalhas por faixa de pontuação
   (Bronze → Prata → Ouro → Platina → Diamante), e **Ligas** — crie um
   grupo, adicione o nome de amigos e atualize a pontuação deles
-  manualmente para competir. **Importante:** o Fin+ não tem servidor, então
+  manualmente para competir. **Importante:** o PolvIn não tem servidor, então
   isso é um placar local e manual (como uma "tabela de placar" que vocês
   atualizam comparando o que cada um vê na própria aba Perfil) — não é um
   ranking automático sincronizado entre instalações diferentes. Sua
   própria linha na tabela é sempre calculada automaticamente.
 
-### Gamificação ("Academia Fin+")
+### Gamificação ("Academia PolvIn")
 - **Trilha única e intercalada**: a trilha financeira "Do Zero ao
   Avançado" (6 níveis, 67 lições — o Nível 1 "Fundamentos e Comportamento
   Financeiro" foi expandido de 5 para 35 lições, cobrindo desde receita
@@ -356,7 +356,7 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   confete na conclusão e um toast comemorativo ao subir de "nível de
   jogador" — tudo respeitando `prefers-reduced-motion`.
 - **Níveis de jogador nomeados**: Iniciante → Aprendiz Financeiro →
-  Planejador → Investidor → Construtor de Patrimônio → Mestre Fin+, com o
+  Planejador → Investidor → Construtor de Patrimônio → Mestre PolvIn, com o
   contador de XP no cabeçalho "subindo" com animação ao ganhar pontos.
 - **Trilha "Empreender"** (nova!): uma trilha independente, no mesmo
   estilo, para quem quer abrir ou já tem uma empresa — 5 níveis, 15 mini
@@ -379,7 +379,7 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   garantia, prós e contras, e filtros por categoria/nível.
 - **Simulador de juros compostos** (investir x guardar sem render) e um
   **Comparador de Investimentos** (novo!): informe o valor e o prazo, e o
-  Fin+ simula Poupança, CDB, LCI/LCA e Tesouro Selic, usando a Selic
+  PolvIn simula Poupança, CDB, LCI/LCA e Tesouro Selic, usando a Selic
   atual (Banco Central) como referência, aplica o IR regressivo real e
   ranqueia as 3 opções de renda fixa mais vantajosas líquidas — mais 1
   comparação com FIIs (renda variável, via dividend yield estimado) — com
@@ -388,14 +388,14 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
 - **Carteira digital**: entradas/saídas, orçamento por categoria, alertas
   de gasto compulsivo, lista de espera de desejos (regra de 7 dias).
 - **Compras parceladas** (nova!): registre o valor total e o número de
-  parcelas de uma compra — o Fin+ calcula automaticamente quantas parcelas
+  parcelas de uma compra — o PolvIn calcula automaticamente quantas parcelas
   já "venceram" (com base na data da compra) e quanto ainda falta pagar,
   com um indicador visual de cada parcela paga/futura e o total
   comprometido no mês.
 - **Cofrinhos** (metas de economia) e **Carteira de Investimentos**
   (alocação real por classe de ativo x carteira-modelo do seu perfil).
 - **Ações & FIIs**: registre compras, dividendos e preço atual (manual).
-  Para **criptomoedas** (nova!), a compra é por valor em reais — o Fin+
+  Para **criptomoedas** (nova!), a compra é por valor em reais — o PolvIn
   busca a cotação atual (CoinGecko) e calcula a quantidade fracionária
   automaticamente, já que cripto não se compra em "cotas" inteiras. O
   preço de posições em cripto também se atualiza automaticamente.
@@ -404,7 +404,7 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   mercado com ~39 termos.
 
 ### Conteúdo e mercado
-- **Biblioteca Fin+**: agora com 18 livros reais — do "Pai Rico, Pai
+- **Biblioteca PolvIn**: agora com 18 livros reais — do "Pai Rico, Pai
   Pobre" ao "O Capital" (Marx), "Formação Econômica do Brasil" (Celso
   Furtado) e "O Capital no Século XXI" (Piketty) — cobrindo também
   distribuição de renda, dependência econômica e pensamento crítico sobre
