@@ -1356,6 +1356,7 @@ tr.row-best td {
 .city-game-dialogue {
   background: var(--surface-2);
   border-radius: var(--radius);
+  border-top: 4px solid var(--primary);
   padding: 16px;
   margin-top: 12px;
   animation: cityGameDialogueIn 0.25s ease;

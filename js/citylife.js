@@ -138,8 +138,7 @@ const CityLife = {
     state.felicidade = this.clamp(state.felicidade - 5, 0, 100);
     state.saude = this.clamp(state.saude - 3, 0, 100);
     this.setState(state);
-    this.render();
-    this.renderCicloInto(this._cicloContainer);
+    this._refreshActive();
   },
 
   /* ---------- Educação ---------- */
@@ -156,8 +155,7 @@ const CityLife = {
     state.cursosComprados.push(cursoId);
     this.setState(state);
     if (typeof Achievements !== "undefined") Achievements.checkAll();
-    this.render();
-    this.renderCicloInto(this._cicloContainer);
+    this._refreshActive();
   },
 
   /* ---------- Patrimônio físico (RFC-019, Fase 3) ---------- */
@@ -182,8 +180,7 @@ const CityLife = {
     state.saude = this.clamp(state.saude + asset.saudeDelta, 0, 100);
     this.setState(state);
     if (typeof Achievements !== "undefined") Achievements.checkAll();
-    this.render();
-    this.renderCicloInto(this._cicloContainer);
+    this._refreshActive();
   },
 
   manutencaoTotalMensal(state) {
@@ -237,8 +234,7 @@ const CityLife = {
     state.negocio = { businessId, funcionarios: 0, semanasOperando: 0, ultimoLucro: 0 };
     this.setState(state);
     if (typeof Achievements !== "undefined") Achievements.checkAll();
-    this.render();
-    this.renderCicloInto(this._cicloContainer);
+    this._refreshActive();
   },
 
   contratarFuncionario() {
@@ -246,7 +242,7 @@ const CityLife = {
     if (!state.negocio || state.negocio.funcionarios >= this.FUNCIONARIOS_MAX) return;
     state.negocio.funcionarios += 1;
     this.setState(state);
-    this.render();
+    this._refreshActive();
   },
 
   demitirFuncionario() {
@@ -254,7 +250,7 @@ const CityLife = {
     if (!state.negocio || state.negocio.funcionarios <= 0) return;
     state.negocio.funcionarios -= 1;
     this.setState(state);
-    this.render();
+    this._refreshActive();
   },
 
   /* Fechar não devolve o investimento de abertura — risco real de
@@ -267,7 +263,7 @@ const CityLife = {
     if (!state.negocio) return;
     state.negocio = null;
     this.setState(state);
-    this.render();
+    this._refreshActive();
   },
 
   /* Lucro/prejuízo da semana soma direto ao patrimônio (mesmo padrão da
@@ -322,8 +318,7 @@ const CityLife = {
     this.setState(state);
 
     if (typeof Achievements !== "undefined") Achievements.checkAll();
-    this.render();
-    this.renderCicloInto(this._cicloContainer);
+    this._refreshActive();
   },
 
   /* Efeito de cada opção sobre a MESMA sobra/indicadores da semana — usado
@@ -367,8 +362,7 @@ const CityLife = {
     this.setState(state);
 
     if (typeof Achievements !== "undefined") Achievements.checkAll();
-    this.render(); // patrimônio mudou — mantém os botões de compra do painel legado em dia
-    this.renderCicloInto(this._cicloContainer, { ultimaEscolha: opcao, comparativo });
+    this._refreshActive({ ultimaEscolha: opcao, comparativo });
   },
 
   /* ---------- Render ---------- */
@@ -385,11 +379,13 @@ const CityLife = {
     }).join("");
   },
 
-  renderPatrimonioFisicoHtml(state) {
+  renderPatrimonioFisicoHtml(state, categoriaFiltro) {
+    const assets = CITY_LIFE_ASSETS.filter((a) => !categoriaFiltro || a.categoria === categoriaFiltro);
+    const titulo = categoriaFiltro === "luxo" ? "🚗 Veículos" : categoriaFiltro === "imovel" ? "🏠 Imóveis" : "🏠 Patrimônio Físico (imóveis e itens de luxo)";
     return `
-      <h4 class="mt-16">🏠 Patrimônio Físico (imóveis e itens de luxo)</h4>
+      <h4 class="mt-16">${titulo}</h4>
       <div class="grid grid-2 city-life-courses">
-        ${CITY_LIFE_ASSETS.map((a) => {
+        ${assets.map((a) => {
           const possuido = state.bensComprados[a.id] !== undefined;
           const podePagar = state.patrimonio >= a.custo;
           const agio = a.custo - a.valorInicial;
@@ -471,10 +467,24 @@ const CityLife = {
     `;
   },
 
-  /* ---------- Ciclo semanal: renderizado onde quem chamar precisar (RFC-021,
-     o painel de diálogo do CityGame, ao entrar no Banco) — não mais um
-     elemento fixo da página. `_cicloContainer` guarda o último container
-     usado, pra avancarSemana()/resolverDecisao() saberem onde re-renderizar. */
+  /* ---------- Painéis renderizados sob demanda (RFC-021 + RFC-022) ----------
+     Cada construção do CityGame abre 1 painel de diálogo compartilhado com
+     uma fatia diferente do CityLife. Como só 1 diálogo fica aberto por vez,
+     `_activeContainer`/`_activeRenderer` guardam qual painel está aberto
+     agora, pra qualquer método que mude o estado re-renderizar só esse —
+     nunca "todos os painéis possíveis" (não existe mais um painel fixo). */
+
+  _activeContainer: null,
+  _activeRenderer: null,
+
+  _refreshActive(extra) {
+    if (this._activeContainer && this._activeRenderer) this._activeRenderer(this._activeContainer, extra);
+  },
+
+  clearActiveContainer() {
+    this._activeContainer = null;
+    this._activeRenderer = null;
+  },
 
   renderAtributosHtml(state) {
     return `
@@ -555,7 +565,8 @@ const CityLife = {
      no mesmo lugar depois de mudar o estado. */
   renderCicloInto(container, resultado) {
     if (!container) return;
-    this._cicloContainer = container;
+    this._activeContainer = container;
+    this._activeRenderer = (c, extra) => this.renderCicloInto(c, extra);
     const state = this.getState();
     container.innerHTML = this.renderKpisHtml(state) + this.renderAtributosHtml(state) + this.renderCicloHtml(state, resultado);
 
@@ -575,12 +586,49 @@ const CityLife = {
     container.querySelector("#cityLifeNextBtn")?.addEventListener("click", () => this.avancarSemana());
   },
 
-  render() {
-    const container = document.getElementById("cityLifeLegacyPanel");
+  /* Universidade (RFC-022) — cursos. */
+  renderEducacaoInto(container) {
     if (!container) return;
+    this._activeContainer = container;
+    this._activeRenderer = (c) => this.renderEducacaoInto(c);
+    const state = this.getState();
+    container.innerHTML = this.renderEducacaoHtml(state);
+    container.querySelectorAll("[data-curso]").forEach((btn) => {
+      btn.addEventListener("click", () => this.comprarCurso(btn.dataset.curso));
+    });
+  },
+
+  /* Concessionária (RFC-022) — bens categoria "luxo" (bicicleta/carros). */
+  renderVeiculosInto(container) {
+    if (!container) return;
+    this._activeContainer = container;
+    this._activeRenderer = (c) => this.renderVeiculosInto(c);
+    const state = this.getState();
+    container.innerHTML = this.renderPatrimonioFisicoHtml(state, "luxo");
+    container.querySelectorAll("[data-bem]").forEach((btn) => {
+      btn.addEventListener("click", () => this.comprarBem(btn.dataset.bem));
+    });
+  },
+
+  /* Imobiliária (RFC-022) — bens categoria "imovel". */
+  renderImoveisInto(container) {
+    if (!container) return;
+    this._activeContainer = container;
+    this._activeRenderer = (c) => this.renderImoveisInto(c);
+    const state = this.getState();
+    container.innerHTML = this.renderPatrimonioFisicoHtml(state, "imovel");
+    container.querySelectorAll("[data-bem]").forEach((btn) => {
+      btn.addEventListener("click", () => this.comprarBem(btn.dataset.bem));
+    });
+  },
+
+  /* Escritório (RFC-022) — emprego/promoção + negócio. */
+  renderTrabalhoInto(container) {
+    if (!container) return;
+    this._activeContainer = container;
+    this._activeRenderer = (c) => this.renderTrabalhoInto(c);
     const state = this.getState();
     const promocao = this.promocaoDisponivel(state);
-
     const promocaoHtml = promocao
       ? `
       <div class="alert-box info">
@@ -589,16 +637,9 @@ const CityLife = {
         <button class="btn btn-primary btn-sm mt-8" id="cityLifeAceitarPromocaoBtn" data-job="${promocao.id}">Aceitar promoção</button>
       </div>`
       : "";
-
-    container.innerHTML = promocaoHtml + this.renderNegocioHtml(state) + this.renderPatrimonioFisicoHtml(state) + this.renderEducacaoHtml(state);
+    container.innerHTML = promocaoHtml + this.renderNegocioHtml(state);
 
     container.querySelector("#cityLifeAceitarPromocaoBtn")?.addEventListener("click", (e) => this.aceitarPromocao(e.target.dataset.job));
-    container.querySelectorAll("[data-curso]").forEach((btn) => {
-      btn.addEventListener("click", () => this.comprarCurso(btn.dataset.curso));
-    });
-    container.querySelectorAll("[data-bem]").forEach((btn) => {
-      btn.addEventListener("click", () => this.comprarBem(btn.dataset.bem));
-    });
     container.querySelectorAll("[data-negocio]").forEach((btn) => {
       btn.addEventListener("click", () => this.abrirNegocio(btn.dataset.negocio));
     });
@@ -607,9 +648,5 @@ const CityLife = {
     container.querySelector("#cityLifeFecharNegocioBtn")?.addEventListener("click", () => {
       if (confirm("Fechar o negócio não devolve o valor de abertura. Continuar?")) this.fecharNegocio();
     });
-  },
-
-  init() {
-    this.render();
   },
 };

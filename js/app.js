@@ -30,7 +30,6 @@ const App = {
     Achievements.init();
     Progression.init();
     City.init();
-    CityLife.init();
     Profile.init();
     Leagues.init();
     Market.init();

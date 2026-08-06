@@ -57,6 +57,19 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 
 ## Cidade Financeira — jogo de simulação de vida
 
+- ✅ **RFC-022, Fase 6 — mais construções, fim do painel legado** (v1.43.0):
+  as últimas 4 seções que ainda viviam num card de dashboard "temporário"
+  (Educação, Veículos, Imóveis, Emprego/Negócio) ganharam construções
+  próprias no mapa — Universidade, Concessionária, Imobiliária e
+  Escritório — seguindo o mesmo padrão proximidade→balão→diálogo provado
+  na Fase 5. `#cityLifeLegacyPanel` foi removido: a aba Cidade não tem mais
+  nenhum fallback em formato de card, só o mapa. `CityGame.BUILDINGS` virou
+  uma lista genérica (não mais 1 construção hardcoded), preparada pra
+  próximas construções sem duplicar código de proximidade/balão/diálogo.
+  Zero regra econômica mudou. Fases futuras (ainda não escopadas): NPCs com
+  diálogo próprio, e os sistemas mais amplos da visão de longo prazo do
+  usuário (Quest/Weather/Audio Manager/Character Customization/World
+  Events).
 - ✅ **RFC-021, Fase 5 — fundação do motor de jogo 2D** (v1.42.0): mudança
   de direção pedida pelo usuário depois das Fases 1-4 — a Cidade
   virava um dashboard quando deveria ser um "jogo web" de verdade

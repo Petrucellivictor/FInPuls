@@ -4,6 +4,24 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.43.0] - 2026-08-06
+
+### Alterado
+- **Cidade Financeira — Fase 6: mais construções no mapa, fim do painel
+  legado** (RFC-022): as 4 seções que ainda viviam num card de dashboard
+  "temporário" abaixo do mapa (Educação, Veículos, Imóveis, Emprego/Negócio)
+  ganharam suas próprias construções jogáveis, seguindo exatamente o mesmo
+  padrão proximidade → balão → diálogo provado na Fase 5 com o Banco:
+  Universidade (cursos), Concessionária (bicicleta/carros), Imobiliária
+  (terreno/casa/apartamento) e Escritório (promoção de emprego + abrir/
+  gerenciar negócio). Cada construção tem silhueta e animação próprias
+  (cúpula com emblema balançando, vitrine com holofote giratório, placa de
+  "à venda" balançando ao vento, janelas de escritório acendendo em
+  sequência) — nenhuma repete a arte do Banco. `#cityLifeLegacyPanel` e o
+  card que o envolvia saem do HTML: a aba Cidade passa a ser 100% jogo, sem
+  nenhum fallback em formato de card. Zero regra econômica mudou — é
+  relocação de interface sobre a mesma lógica das Fases 1-4.
+
 ## [1.42.0] - 2026-08-06
 
 ### Alterado
