@@ -29,10 +29,12 @@ const CityLife = {
     saude: 80,
     disciplina: 50,
     status: 20,
+    reputacao: 20,
     selicAtual: 10.5,
     empregoId: "auxiliar",
     cursosComprados: [],
     bensComprados: {},
+    negocio: null,
     despesasFixas: 900,
     ultimoCenarioId: null,
     decisaoPendente: null,
@@ -44,11 +46,14 @@ const CityLife = {
     // Migração de saves da Fase 1 (RFC-017), que guardavam `emprego` como
     // objeto fixo em vez de `empregoId` — Fase 1 só tinha o cargo inicial,
     // então a migração é exata, sem perda. Fase 3 (RFC-019) adiciona
-    // `bensComprados`/`status`, ausentes em saves das Fases 1-2.
+    // `bensComprados`/`status`; Fase 4 (RFC-020) adiciona `negocio`/
+    // `reputacao`, ausentes em saves anteriores.
     if (!state.empregoId) state.empregoId = "auxiliar";
     if (!state.cursosComprados) state.cursosComprados = [];
     if (!state.bensComprados) state.bensComprados = {};
     if (state.status === undefined) state.status = 20;
+    if (state.reputacao === undefined) state.reputacao = 20;
+    if (state.negocio === undefined) state.negocio = null;
     delete state.emprego;
     return state;
   },
@@ -207,6 +212,77 @@ const CityLife = {
     });
   },
 
+  /* ---------- Negócio (RFC-020, Fase 4) ---------- */
+
+  FUNCIONARIOS_MAX: 5,
+  RECEITA_POR_FUNCIONARIO: 0.15, // cada funcionário multiplica a receita potencial em +15%
+
+  abrirNegocio(businessId) {
+    const state = this.getState();
+    if (state.empregoId !== "empresario") {
+      alert("Só é possível abrir um negócio como Empresário(a) — veja os requisitos na seção de Educação/Emprego.");
+      return;
+    }
+    if (state.negocio) return; // só 1 negócio por vez nesta fase
+    const biz = CITY_LIFE_BUSINESSES.find((b) => b.id === businessId);
+    if (!biz) return;
+    if (state.patrimonio < biz.custoAbertura) {
+      alert("Patrimônio simulado insuficiente pra abrir esse negócio ainda.");
+      return;
+    }
+    state.patrimonio -= biz.custoAbertura;
+    state.negocio = { businessId, funcionarios: 0, semanasOperando: 0, ultimoLucro: 0 };
+    this.setState(state);
+    if (typeof Achievements !== "undefined") Achievements.checkAll();
+    this.render();
+  },
+
+  contratarFuncionario() {
+    const state = this.getState();
+    if (!state.negocio || state.negocio.funcionarios >= this.FUNCIONARIOS_MAX) return;
+    state.negocio.funcionarios += 1;
+    this.setState(state);
+    this.render();
+  },
+
+  demitirFuncionario() {
+    const state = this.getState();
+    if (!state.negocio || state.negocio.funcionarios <= 0) return;
+    state.negocio.funcionarios -= 1;
+    this.setState(state);
+    this.render();
+  },
+
+  /* Fechar não devolve o investimento de abertura — risco real de
+     empreender, deliberadamente diferente da regra "sem penalidade" das
+     decisões semanais de investimento (RFC-017): abrir negócio é uma
+     aposta que o jogador assume conscientemente, não uma alocação de
+     sobra mensal. */
+  fecharNegocio() {
+    const state = this.getState();
+    if (!state.negocio) return;
+    state.negocio = null;
+    this.setState(state);
+    this.render();
+  },
+
+  /* Lucro/prejuízo da semana soma direto ao patrimônio (mesmo padrão da
+     valorização de bens); Reputação sobe em semana lucrativa, cai um pouco
+     em semana de prejuízo — nunca some/reseta, só oscila. */
+  aplicarNegocioSemanal(state, cenario) {
+    if (!state.negocio) return;
+    const biz = CITY_LIFE_BUSINESSES.find((b) => b.id === state.negocio.businessId);
+    if (!biz) return;
+    const receitaPct = this.randInRange(cenario.negocioReceitaPct);
+    const receita = biz.receitaBase * (1 + receitaPct / 100) * (1 + state.negocio.funcionarios * this.RECEITA_POR_FUNCIONARIO);
+    const despesa = biz.despesaBase + state.negocio.funcionarios * biz.custoPorFuncionario;
+    const lucro = receita - despesa;
+    state.patrimonio += lucro;
+    state.reputacao = this.clamp(state.reputacao + (lucro > 0 ? 1 : -0.5), 0, 100);
+    state.negocio.semanasOperando += 1;
+    state.negocio.ultimoLucro = lucro;
+  },
+
   /* ---------- Ciclo semanal ---------- */
 
   avancarSemana() {
@@ -227,6 +303,7 @@ const CityLife = {
       ouroPct: Math.round(this.randInRange(cenario.ouroPct) * 10) / 10,
     };
     this.aplicarValorizacaoSemanal(state, cenario);
+    this.aplicarNegocioSemanal(state, cenario);
 
     const salario = this.currentJob(state).salario;
     const manutencao = this.manutencaoTotalMensal(state);
@@ -350,6 +427,44 @@ const CityLife = {
     `;
   },
 
+  renderNegocioHtml(state) {
+    if (!state.negocio) {
+      const podeAbrir = state.empregoId === "empresario";
+      return `
+        <h4 class="mt-16">🏢 Seu Negócio</h4>
+        ${podeAbrir ? "" : `<p class="text-soft text-sm">Só é possível abrir um negócio como <b>Empresário(a)</b> — desbloqueie esse emprego na seção de Educação.</p>`}
+        <div class="grid grid-2 city-life-courses">
+          ${CITY_LIFE_BUSINESSES.map((b) => {
+            const podePagar = state.patrimonio >= b.custoAbertura;
+            return `
+            <div class="card city-life-course">
+              <div style="font-size:22px">${b.emoji}</div>
+              <b>${b.nome}</b>
+              <div class="text-soft text-sm">${b.descricao}</div>
+              <button class="btn btn-outline btn-sm mt-8" data-negocio="${b.id}" ${podeAbrir && podePagar ? "" : "disabled"}>${this.fmt(b.custoAbertura)}</button>
+            </div>`;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    const biz = CITY_LIFE_BUSINESSES.find((b) => b.id === state.negocio.businessId);
+    return `
+      <h4 class="mt-16">🏢 Seu Negócio</h4>
+      <div class="card city-life-course" style="text-align:left">
+        <b>${biz.emoji} ${biz.nome}</b> — ${state.negocio.semanasOperando} semana(s) operando
+        <div class="text-soft text-sm mt-8">Funcionários: <b>${state.negocio.funcionarios}</b>/${this.FUNCIONARIOS_MAX} (cada um aumenta a receita potencial e a despesa)</div>
+        <div class="mt-8" style="color:${state.negocio.ultimoLucro >= 0 ? "var(--green-dark)" : "var(--coral-dark)"}"><b>Resultado da última semana: ${this.fmt(state.negocio.ultimoLucro)}</b></div>
+        <div class="flex mt-8" style="gap:8px">
+          <button class="btn btn-outline btn-sm" id="cityLifeContratarBtn" ${state.negocio.funcionarios >= this.FUNCIONARIOS_MAX ? "disabled" : ""}>+ Contratar</button>
+          <button class="btn btn-outline btn-sm" id="cityLifeDemitirBtn" ${state.negocio.funcionarios <= 0 ? "disabled" : ""}>− Demitir</button>
+          <button class="btn btn-outline btn-sm" id="cityLifeFecharNegocioBtn" style="margin-left:auto">Fechar negócio</button>
+        </div>
+        <p class="text-sm text-soft mt-8">Fechar não devolve o valor de abertura — abrir um negócio é um risco real, diferente das decisões semanais de investimento.</p>
+      </div>
+    `;
+  },
+
   render(resultado) {
     const container = document.getElementById("cityLifePanel");
     if (!container) return;
@@ -363,6 +478,7 @@ const CityLife = {
         <div class="city-life-attr"><span>❤️ Saúde</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.saude}%;background:var(--coral)"></div></div></div>
         <div class="city-life-attr"><span>🏆 Disciplina</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.disciplina}%"></div></div></div>
         <div class="city-life-attr"><span>⭐ Status Social</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.status}%;background:var(--primary-light)"></div></div></div>
+        <div class="city-life-attr"><span>🤝 Reputação</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.reputacao}%;background:var(--green)"></div></div></div>
       </div>
     `;
 
@@ -433,7 +549,7 @@ const CityLife = {
       `;
     }
 
-    container.innerHTML = kpisHtml + promocaoHtml + atributosHtml + cicloHtml + this.renderPatrimonioFisicoHtml(state) + this.renderEducacaoHtml(state);
+    container.innerHTML = kpisHtml + promocaoHtml + atributosHtml + cicloHtml + this.renderNegocioHtml(state) + this.renderPatrimonioFisicoHtml(state) + this.renderEducacaoHtml(state);
 
     const polvinArea = document.getElementById("cityLifePolvin");
     if (polvinArea && typeof Polvin !== "undefined") {
@@ -455,6 +571,14 @@ const CityLife = {
     });
     container.querySelectorAll("[data-bem]").forEach((btn) => {
       btn.addEventListener("click", () => this.comprarBem(btn.dataset.bem));
+    });
+    container.querySelectorAll("[data-negocio]").forEach((btn) => {
+      btn.addEventListener("click", () => this.abrirNegocio(btn.dataset.negocio));
+    });
+    container.querySelector("#cityLifeContratarBtn")?.addEventListener("click", () => this.contratarFuncionario());
+    container.querySelector("#cityLifeDemitirBtn")?.addEventListener("click", () => this.demitirFuncionario());
+    container.querySelector("#cityLifeFecharNegocioBtn")?.addEventListener("click", () => {
+      if (confirm("Fechar o negócio não devolve o valor de abertura. Continuar?")) this.fecharNegocio();
     });
   },
 

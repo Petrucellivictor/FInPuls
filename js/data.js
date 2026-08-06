@@ -9440,6 +9440,7 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     criptoPct: [8, 25],
     ouroPct: [-2, 1],
     imovelValorizacaoPct: [0.3, 0.8],
+    negocioReceitaPct: [10, 25],
   },
   {
     id: "crise",
@@ -9457,6 +9458,7 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     criptoPct: [-30, -10],
     ouroPct: [2, 6],
     imovelValorizacaoPct: [-0.3, 0.1],
+    negocioReceitaPct: [-25, -8],
   },
   {
     id: "inflacao_alta",
@@ -9474,6 +9476,7 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     criptoPct: [-12, 8],
     ouroPct: [2, 5],
     imovelValorizacaoPct: [0.2, 0.6],
+    negocioReceitaPct: [-8, 5],
   },
   {
     id: "neutro",
@@ -9491,6 +9494,7 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     criptoPct: [-8, 8],
     ouroPct: [-1, 1],
     imovelValorizacaoPct: [0.1, 0.3],
+    negocioReceitaPct: [-3, 5],
   },
 ];
 
@@ -9558,6 +9562,18 @@ const CITY_LIFE_ASSETS = [
   { id: "terreno", categoria: "imovel", nome: "Terreno", emoji: "🌳", custo: 15000, valorInicial: 15000, manutencaoMensal: 40, aluguelMensal: 0, statusDelta: 2, felicidadeDelta: 0, saudeDelta: 0, descricao: "Baixo custo de manutenção, tende a valorizar com o tempo." },
   { id: "casa_propria", categoria: "imovel", nome: "Casa Própria", emoji: "🏠", custo: 180000, valorInicial: 178000, manutencaoMensal: 250, aluguelMensal: 0, statusDelta: 5, felicidadeDelta: 10, saudeDelta: 0, descricao: "Não gera aluguel (você mora nela), mas dá estabilidade real." },
   { id: "apartamento_alugado", categoria: "imovel", nome: "Apartamento p/ Alugar", emoji: "🏢", custo: 150000, valorInicial: 148000, manutencaoMensal: 200, aluguelMensal: 900, statusDelta: 4, felicidadeDelta: 0, saudeDelta: 0, descricao: "Gera aluguel todo mês — uma segunda fonte de renda." },
+];
+
+/* Negócios (RFC-020, Fase 4): só quem é "Empresário(a)" (emprego da Fase 2,
+   desbloqueado pelo curso de Empreendedorismo) pode abrir. `receitaBase` e
+   `despesaBase` são valores ilustrativos mensais; `custoPorFuncionario`
+   soma à despesa E multiplica a receita potencial (0,15 por funcionário,
+   fixo em js/citylife.js) — contratar mais gente nem sempre compensa,
+   dependendo do cenário econômico da semana. */
+const CITY_LIFE_BUSINESSES = [
+  { id: "cafeteria", nome: "Cafeteria", emoji: "☕", custoAbertura: 30000, receitaBase: 8000, despesaBase: 4000, custoPorFuncionario: 1800, descricao: "Vendas de café e lanches — a receita acompanha o movimento da região." },
+  { id: "loja_roupas", nome: "Loja de Roupas", emoji: "👕", custoAbertura: 50000, receitaBase: 12000, despesaBase: 6000, custoPorFuncionario: 1800, descricao: "Depende de estoque — as vendas variam bastante com a economia." },
+  { id: "consultoria", nome: "Consultoria", emoji: "💼", custoAbertura: 20000, receitaBase: 6000, despesaBase: 2500, custoPorFuncionario: 2500, descricao: "Baixo custo fixo, mas a receita depende muito de indicação e reputação." },
 ];
 
 /* -------------------------------------------------------------------------
@@ -9706,6 +9722,7 @@ const ACHIEVEMENTS = [
   { id: "vida_na_cidade_1_ano", emoji: "🏝️", titulo: "Um ano de decisões", descricao: "Você viveu 12 semanas (1 ano fictício) na sua vida financeira da Cidade." },
   { id: "primeiro_curso_cidade", emoji: "🎓", titulo: "Investindo em você mesmo", descricao: "Você comprou seu primeiro curso na sua vida financeira da Cidade." },
   { id: "primeiro_bem_cidade", emoji: "🏠", titulo: "Patrimônio de verdade", descricao: "Você comprou seu primeiro imóvel ou item de luxo na sua vida financeira da Cidade." },
+  { id: "primeiro_negocio_cidade", emoji: "🏢", titulo: "Empreendedor de verdade", descricao: "Você abriu seu primeiro negócio na sua vida financeira da Cidade." },
   { id: "primeiro_certificado", emoji: "🏅", titulo: "Primeiro certificado", descricao: "Você completou seu primeiro livro (resumo + quiz) e ganhou um certificado." },
 ];
 

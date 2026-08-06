@@ -4,6 +4,23 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.41.0] - 2026-08-06
+
+### Adicionado
+- **Cidade Financeira — Fase 4: empresas com fluxo de caixa e
+  reputação** (RFC-020): quem alcançar o emprego Empresário(a)
+  (desbloqueado na Fase 2) pode abrir 1 de 3 negócios — Cafeteria,
+  Loja de Roupas, Consultoria. Cada um tem receita e despesa próprias
+  que reagem ao cenário econômico da semana; contratar funcionários
+  (até 5) aumenta a receita potencial, mas também a despesa — nem
+  sempre compensa. Lucro ou prejuízo de cada semana soma direto ao
+  patrimônio; Reputação sobe em semana lucrativa e cai um pouco em
+  semana de prejuízo. Fechar o negócio não devolve o valor investido
+  na abertura — um risco real de empreender, diferente das decisões
+  semanais de investimento (que nunca subtraem patrimônio já
+  conquistado). Novo atributo 🤝 Reputação e conquista "Empreendedor
+  de verdade".
+
 ## [1.40.0] - 2026-08-06
 
 ### Adicionado
