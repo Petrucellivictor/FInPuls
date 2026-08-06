@@ -4,6 +4,29 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.42.0] - 2026-08-06
+
+### Alterado
+- **Cidade Financeira — Fase 5: fundação do motor de jogo 2D** (RFC-021):
+  mudança de direção pedida diretamente pelo usuário — a aba Cidade
+  virava um dashboard (cards, barras, listas), quando deveria ser um
+  jogo 2D de verdade, no espírito de Animal Crossing/Stardew
+  Valley/Pou (conceitos, não cópia). Agora o jogador controla o
+  PolvIn andando livremente por um cenário litoral (Phaser 3, via
+  CDN, sem build step) — clique/toque move o token com animação de
+  passo, a câmera acompanha o personagem num mundo maior que a tela.
+  O Banco é a 1ª construção jogável: aparece um balão ao se aproximar
+  e, ao entrar, abre um painel de diálogo na base da tela com o ciclo
+  semanal — que é o MESMO `CityLife` das Fases 1-4 (RFC-017 a
+  RFC-020), sem nenhuma reescrita de regra econômica. Educação,
+  Patrimônio Físico e Negócio continuam num painel abaixo do mapa,
+  marcados como temporários até ganharem suas próprias construções
+  (Concessionária, Universidade, Imobiliária, Escritório — fases
+  seguintes). Bug real pego na verificação visual: o sprite do PolvIn
+  "explodia" pro tamanho nativo da imagem após o primeiro movimento
+  (escala absoluta sobrescrevendo a do `setDisplaySize`) — corrigido
+  antes do merge.
+
 ## [1.41.0] - 2026-08-06
 
 ### Adicionado

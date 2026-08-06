@@ -57,6 +57,23 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 
 ## Cidade Financeira — jogo de simulação de vida
 
+- ✅ **RFC-021, Fase 5 — fundação do motor de jogo 2D** (v1.42.0): mudança
+  de direção pedida pelo usuário depois das Fases 1-4 — a Cidade
+  virava um dashboard quando deveria ser um "jogo web" de verdade
+  (termo interno adotado a partir daqui). PolvIn agora é um token
+  jogável (Phaser 3 via CDN, sem build step) num mapa litoral, com
+  câmera que segue o personagem e 1 construção interativa por
+  proximidade (Banco) — que abre um painel de diálogo hospedando o
+  MESMO ciclo semanal do `CityLife`, sem nenhuma mudança de regra
+  econômica das Fases 1-4. Educação/Patrimônio/Negócio seguem num
+  painel "legado" abaixo do mapa até ganharem suas próprias
+  construções. Fases futuras (registradas aqui, não escopadas ainda):
+  mais construções no mesmo padrão proximidade→balão→diálogo
+  (Concessionária p/ carros, Universidade p/ cursos, Imobiliária p/
+  imóveis, Escritório p/ negócio); depois, os sistemas mais amplos
+  pedidos pelo usuário como visão de longo prazo — Quest System,
+  Weather System (clima/dia-e-noite), Audio Manager, Character
+  Customization, NPCs com diálogo próprio, eventos de mundo.
 - ✅ **RFC-017, Fase 1** (v1.38.0): núcleo do ciclo semanal (1 semana = ~1 mês de vida). Novo estado próprio e persistente (`STORAGE_KEYS.CITY_LIFE`, separado da grade de 13 construções do RFC-005/010, que continua intacta) — a cada "avançar semana": sorteia 1 de 4 cenários econômicos fictícios (Boom/Crise/Inflação Alta/Estável, direção macroeconômica validada pelo Financial Specialist), mostra indicadores da simulação (claramente distintos dos dados reais da aba Mercado), credita salário, debita despesas fixas, e o jogador decide o que fazer com a sobra (reserva/renda fixa/ações/lazer) — sempre com o comparativo das 4 opções lado a lado, nunca subtraindo patrimônio já conquistado. Patrimônio/felicidade/saúde/disciplina são métricas paralelas, não tocam `COINS`/XP reais — só 2 conquistas de marco fazem essa ponte.
 - ✅ **RFC-018, Fase 2** (v1.39.0): emprego, educação e catálogo de investimentos. 5 empregos com salário crescente (`CITY_LIFE_JOBS`), cada um exigindo um curso simulado ou um nível real da trilha Aprender — promoção aparece como banner (nunca bloqueia o ciclo, aceitar é opcional). 5 cursos que custam patrimônio simulado (`CITY_LIFE_COURSES`), cada um desbloqueando 1 emprego ou 1 opção de investimento. 4 opções de investimento novas (FIIs, ETFs, Criptomoedas, Ouro) somadas às 4 da Fase 1 — 2 delas exigem requisito (curso OU trilha real concluída, o mesmo padrão "múltiplos caminhos" do `js/progression.js`), sempre visíveis mesmo bloqueadas, com o requisito exato escrito. Direção dos retornos de cada ativo por cenário validada pelo Financial Specialist (corrigiu, por exemplo, que FIIs **caem** — não sobem menos — em Inflação Alta, por marcação a mercado).
 - ✅ **RFC-019, Fase 3** (v1.40.0): patrimônio físico — mercado imobiliário e sistema de luxo unificados num só catálogo (`CITY_LIFE_ASSETS`, 6 bens), por serem mecanicamente idênticos. Comprar um imóvel de valor justo não reduz patrimônio (só converte dinheiro em ativo equivalente); comprar um item de luxo reduz exatamente pelo "ágio de status" (`custo - valorInicial`, nunca recuperável — carro de luxo perde R$50 mil só de ágio na saída da loja). Todo bem possuído soma manutenção mensal às despesas (e aluguel à renda, pros imóveis alugáveis) e valoriza/deprecia toda semana — imóveis conforme o cenário sorteado, veículos numa taxa fixa que deprecia mesmo em Boom (validado pelo Financial Specialist: perda por uso/idade não desaparece numa alta de mercado). Novo atributo ⭐ Status Social, subindo uma vez a cada compra.

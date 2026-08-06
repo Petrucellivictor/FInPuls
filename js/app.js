@@ -127,6 +127,16 @@ const App = {
         Trail.observeReveal();
         Business.observeReveal(document.getElementById("businessTrailContainer"));
       }
+      if (e.detail.tabId === "cidade") {
+        // Mesma armadilha (RFC-021): o container do Phaser tinha display:none
+        // até a 1ª visita à aba — inicializar aqui, não no boot do app, evita
+        // o motor de jogo nascer com geometria zero (mesmo motivo do Trail
+        // acima). Em visitas seguintes, só recalcula o tamanho.
+        if (typeof CityGame !== "undefined") {
+          if (!CityGame.game) CityGame.init();
+          else CityGame.game.scale.refresh();
+        }
+      }
     });
   },
 

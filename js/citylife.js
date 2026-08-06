@@ -139,6 +139,7 @@ const CityLife = {
     state.saude = this.clamp(state.saude - 3, 0, 100);
     this.setState(state);
     this.render();
+    this.renderCicloInto(this._cicloContainer);
   },
 
   /* ---------- Educação ---------- */
@@ -156,6 +157,7 @@ const CityLife = {
     this.setState(state);
     if (typeof Achievements !== "undefined") Achievements.checkAll();
     this.render();
+    this.renderCicloInto(this._cicloContainer);
   },
 
   /* ---------- Patrimônio físico (RFC-019, Fase 3) ---------- */
@@ -181,6 +183,7 @@ const CityLife = {
     this.setState(state);
     if (typeof Achievements !== "undefined") Achievements.checkAll();
     this.render();
+    this.renderCicloInto(this._cicloContainer);
   },
 
   manutencaoTotalMensal(state) {
@@ -235,6 +238,7 @@ const CityLife = {
     this.setState(state);
     if (typeof Achievements !== "undefined") Achievements.checkAll();
     this.render();
+    this.renderCicloInto(this._cicloContainer);
   },
 
   contratarFuncionario() {
@@ -319,6 +323,7 @@ const CityLife = {
 
     if (typeof Achievements !== "undefined") Achievements.checkAll();
     this.render();
+    this.renderCicloInto(this._cicloContainer);
   },
 
   /* Efeito de cada opção sobre a MESMA sobra/indicadores da semana — usado
@@ -362,7 +367,8 @@ const CityLife = {
     this.setState(state);
 
     if (typeof Achievements !== "undefined") Achievements.checkAll();
-    this.render({ ultimaEscolha: opcao, comparativo });
+    this.render(); // patrimônio mudou — mantém os botões de compra do painel legado em dia
+    this.renderCicloInto(this._cicloContainer, { ultimaEscolha: opcao, comparativo });
   },
 
   /* ---------- Render ---------- */
@@ -465,14 +471,13 @@ const CityLife = {
     `;
   },
 
-  render(resultado) {
-    const container = document.getElementById("cityLifePanel");
-    if (!container) return;
-    const state = this.getState();
-    const jobAtual = this.currentJob(state);
-    const promocao = this.promocaoDisponivel(state);
+  /* ---------- Ciclo semanal: renderizado onde quem chamar precisar (RFC-021,
+     o painel de diálogo do CityGame, ao entrar no Banco) — não mais um
+     elemento fixo da página. `_cicloContainer` guarda o último container
+     usado, pra avancarSemana()/resolverDecisao() saberem onde re-renderizar. */
 
-    const atributosHtml = `
+  renderAtributosHtml(state) {
+    return `
       <div class="city-life-attrs">
         <div class="city-life-attr"><span>😊 Felicidade</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.felicidade}%;background:var(--gold)"></div></div></div>
         <div class="city-life-attr"><span>❤️ Saúde</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.saude}%;background:var(--coral)"></div></div></div>
@@ -481,28 +486,23 @@ const CityLife = {
         <div class="city-life-attr"><span>🤝 Reputação</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.reputacao}%;background:var(--green)"></div></div></div>
       </div>
     `;
+  },
 
-    const kpisHtml = `
+  renderKpisHtml(state) {
+    const jobAtual = this.currentJob(state);
+    return `
       <div class="grid grid-3 kpi-row">
         <div class="card kpi"><div class="label">Mês (semana)</div><div class="value">${state.semana}</div></div>
         <div class="card kpi"><div class="label">Patrimônio simulado</div><div class="value">${this.fmt(state.patrimonio)}</div></div>
         <div class="card kpi"><div class="label">Emprego atual</div><div class="value" style="font-size:14px">${jobAtual.emoji} ${jobAtual.titulo}<br/><span class="text-soft" style="font-size:12px">${this.fmt(jobAtual.salario)}/mês</span></div></div>
       </div>
     `;
+  },
 
-    const promocaoHtml = promocao
-      ? `
-      <div class="alert-box info mt-16">
-        🎉 <b>Promoção disponível: ${promocao.emoji} ${promocao.titulo}</b> (${this.fmt(promocao.salario)}/mês).
-        Mais salário, mais responsabilidade — aceitar reduz um pouco felicidade/saúde no início.
-        <button class="btn btn-primary btn-sm mt-8" id="cityLifeAceitarPromocaoBtn" data-job="${promocao.id}">Aceitar promoção</button>
-      </div>`
-      : "";
-
-    let cicloHtml;
+  renderCicloHtml(state, resultado) {
     if (resultado) {
       const opcao = resultado.ultimaEscolha;
-      cicloHtml = `
+      return `
         <div id="cityLifePolvin"></div>
         <div class="quiz-feedback mt-8">${opcao.narrativa}</div>
         <h4 class="mt-16">📊 O que cada escolha teria feito com essa mesma sobra</h4>
@@ -520,10 +520,11 @@ const CityLife = {
         <p class="text-sm text-soft mt-8">Esse é só o efeito dessa semana — repetir a mesma escolha por vários meses tende a compor esse resultado, pra melhor ou pra pior, dependendo do cenário econômico de cada semana. Só as opções já desbloqueadas nessa semana entram no comparativo.</p>
         <button class="btn btn-primary btn-block mt-16" id="cityLifeNextBtn">➡️ Avançar semana</button>
       `;
-    } else if (state.decisaoPendente) {
+    }
+    if (state.decisaoPendente) {
       const cenario = this.scenarioById(state.decisaoPendente.cenarioId);
       const ind = state.decisaoPendente.indicadores;
-      cicloHtml = `
+      return `
         <div id="cityLifePolvin"></div>
         <div class="alert-box info mt-8">
           <b>${cenario.emoji} ${cenario.nome}</b><br/>${cenario.narrativa}
@@ -541,17 +542,24 @@ const CityLife = {
           ${this.renderOpcoesHtml(state)}
         </div>
       `;
-    } else {
-      cicloHtml = `
-        <div id="cityLifePolvin"></div>
-        <p class="text-soft mt-8">${state.semana === 0 ? "Sua vida financeira na Cidade está pronta pra começar." : "Semana resolvida — pronto para o próximo mês."}</p>
-        <button class="btn btn-primary btn-block mt-16" id="cityLifeNextBtn">➡️ Avançar semana</button>
-      `;
     }
+    return `
+      <div id="cityLifePolvin"></div>
+      <p class="text-soft mt-8">${state.semana === 0 ? "Sua vida financeira na Cidade está pronta pra começar." : "Semana resolvida — pronto para o próximo mês."}</p>
+      <button class="btn btn-primary btn-block mt-16" id="cityLifeNextBtn">➡️ Avançar semana</button>
+    `;
+  },
 
-    container.innerHTML = kpisHtml + promocaoHtml + atributosHtml + cicloHtml + this.renderNegocioHtml(state) + this.renderPatrimonioFisicoHtml(state) + this.renderEducacaoHtml(state);
+  /* Ponto de entrada usado pelo CityGame (painel de diálogo do Banco) e,
+     internamente, por avancarSemana()/resolverDecisao() para re-renderizar
+     no mesmo lugar depois de mudar o estado. */
+  renderCicloInto(container, resultado) {
+    if (!container) return;
+    this._cicloContainer = container;
+    const state = this.getState();
+    container.innerHTML = this.renderKpisHtml(state) + this.renderAtributosHtml(state) + this.renderCicloHtml(state, resultado);
 
-    const polvinArea = document.getElementById("cityLifePolvin");
+    const polvinArea = container.querySelector("#cityLifePolvin");
     if (polvinArea && typeof Polvin !== "undefined") {
       const fala = resultado
         ? "Vamos ver o que essa decisão fez pela sua vida financeira!"
@@ -565,6 +573,25 @@ const CityLife = {
       btn.addEventListener("click", () => this.resolverDecisao(btn.dataset.opt));
     });
     container.querySelector("#cityLifeNextBtn")?.addEventListener("click", () => this.avancarSemana());
+  },
+
+  render() {
+    const container = document.getElementById("cityLifeLegacyPanel");
+    if (!container) return;
+    const state = this.getState();
+    const promocao = this.promocaoDisponivel(state);
+
+    const promocaoHtml = promocao
+      ? `
+      <div class="alert-box info">
+        🎉 <b>Promoção disponível: ${promocao.emoji} ${promocao.titulo}</b> (${this.fmt(promocao.salario)}/mês).
+        Mais salário, mais responsabilidade — aceitar reduz um pouco felicidade/saúde no início.
+        <button class="btn btn-primary btn-sm mt-8" id="cityLifeAceitarPromocaoBtn" data-job="${promocao.id}">Aceitar promoção</button>
+      </div>`
+      : "";
+
+    container.innerHTML = promocaoHtml + this.renderNegocioHtml(state) + this.renderPatrimonioFisicoHtml(state) + this.renderEducacaoHtml(state);
+
     container.querySelector("#cityLifeAceitarPromocaoBtn")?.addEventListener("click", (e) => this.aceitarPromocao(e.target.dataset.job));
     container.querySelectorAll("[data-curso]").forEach((btn) => {
       btn.addEventListener("click", () => this.comprarCurso(btn.dataset.curso));

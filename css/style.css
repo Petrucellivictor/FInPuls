@@ -1322,6 +1322,46 @@ tr.row-best td {
   padding: 12px;
 }
 .city-life-indicators .mono { font-weight: 700; font-size: 15px; margin-top: 2px; }
+
+/* ---------- Cidade Financeira: motor de jogo 2D (RFC-021, Fase 5) ---------- */
+.city-game-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 800 / 420;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #3F8FA6;
+  box-shadow: var(--shadow-lg);
+}
+.city-game-canvas canvas { display: block; width: 100% !important; height: 100% !important; cursor: pointer; }
+
+.city-game-prompt {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  background: rgba(255, 255, 255, 0.97);
+  color: var(--ink);
+  border-radius: 14px 14px 14px 3px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  white-space: nowrap;
+  border: 2px solid var(--gold);
+  animation: cityGamePromptBob 1.4s ease-in-out infinite;
+  z-index: 5;
+}
+@keyframes cityGamePromptBob { 0%, 100% { margin-top: 0; } 50% { margin-top: -6px; } }
+
+.city-game-dialogue {
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 12px;
+  animation: cityGameDialogueIn 0.25s ease;
+}
+@keyframes cityGameDialogueIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.city-game-dialogue .btn-outline.close-dialogue { float: right; }
 .city-life-courses { margin-top: 10px; }
 .city-life-course { text-align: center; }
 .city-life-course.owned { border-color: var(--gold); background: #fdf3e3; }
