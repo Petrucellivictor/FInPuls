@@ -9439,6 +9439,7 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     etfPct: [2, 5],
     criptoPct: [8, 25],
     ouroPct: [-2, 1],
+    imovelValorizacaoPct: [0.3, 0.8],
   },
   {
     id: "crise",
@@ -9455,6 +9456,7 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     etfPct: [-7, -2],
     criptoPct: [-30, -10],
     ouroPct: [2, 6],
+    imovelValorizacaoPct: [-0.3, 0.1],
   },
   {
     id: "inflacao_alta",
@@ -9471,6 +9473,7 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     etfPct: [-2, 0.5],
     criptoPct: [-12, 8],
     ouroPct: [2, 5],
+    imovelValorizacaoPct: [0.2, 0.6],
   },
   {
     id: "neutro",
@@ -9487,8 +9490,15 @@ const WEEKLY_ECONOMIC_SCENARIOS = [
     etfPct: [-1, 1.5],
     criptoPct: [-8, 8],
     ouroPct: [-1, 1],
+    imovelValorizacaoPct: [0.1, 0.3],
   },
 ];
+
+/* Depreciação de veículo é uma constante FIXA, independente do cenário
+   sorteado — diferente de imóveis/investimentos, a perda de valor por
+   uso/idade de um carro não desaparece numa alta de mercado (validado pelo
+   Financial Specialist). */
+const VEICULO_DEPRECIACAO_PCT_SEMANA = -0.5;
 
 /* 4 opções fixas, sempre as mesmas — repetição é intencional (mesma lógica
    pedagógica já usada nas trilhas: reforço > novidade). Cada opção afeta o
@@ -9532,6 +9542,22 @@ const CITY_LIFE_COURSES = [
   { id: "ingles", nome: "Inglês", emoji: "🗣️", custo: 600, descricao: "Abre a porta pra investir em ETFs internacionais.", desbloqueiaOpcao: "etf" },
   { id: "mba", nome: "MBA", emoji: "🎓", custo: 3000, descricao: "Visão estratégica de negócios e finanças corporativas.", desbloqueiaEmprego: "diretor" },
   { id: "empreendedorismo", nome: "Empreendedorismo", emoji: "💡", custo: 2500, descricao: "Prepara você pra abrir seu próprio negócio.", desbloqueiaEmprego: "empresario" },
+];
+
+/* Bens físicos (RFC-019, Fase 3): imóveis e itens de luxo unificados num só
+   catálogo — mecanicamente idênticos (compra única, manutenção mensal,
+   valorização/depreciação semanal). `valorInicial` é o valor de revenda
+   logo após a compra: igual ao `custo` pra imóveis (sem ágio), menor que o
+   `custo` pra itens de luxo (parte do preço é "status", nunca recuperável —
+   validado pelo Financial Specialist). `aluguelMensal` só é > 0 pra imóveis
+   comprados como investimento (não os que o jogador "mora"). */
+const CITY_LIFE_ASSETS = [
+  { id: "bicicleta", categoria: "luxo", nome: "Bicicleta", emoji: "🚲", custo: 800, valorInicial: 750, manutencaoMensal: 10, aluguelMensal: 0, statusDelta: 1, felicidadeDelta: 3, saudeDelta: 8, descricao: "Barata de manter e ainda cuida da sua saúde." },
+  { id: "carro_popular", categoria: "luxo", nome: "Carro Popular", emoji: "🚗", custo: 25000, valorInicial: 21000, manutencaoMensal: 350, aluguelMensal: 0, statusDelta: 8, felicidadeDelta: 5, saudeDelta: 0, descricao: "Prático, mas já perde valor assim que sai da concessionária." },
+  { id: "carro_luxo", categoria: "luxo", nome: "Carro de Luxo", emoji: "🏎️", custo: 180000, valorInicial: 130000, manutencaoMensal: 1800, aluguelMensal: 0, statusDelta: 30, felicidadeDelta: 6, saudeDelta: 0, descricao: "Muito status — mas boa parte do preço é 'marca', não valor de revenda." },
+  { id: "terreno", categoria: "imovel", nome: "Terreno", emoji: "🌳", custo: 15000, valorInicial: 15000, manutencaoMensal: 40, aluguelMensal: 0, statusDelta: 2, felicidadeDelta: 0, saudeDelta: 0, descricao: "Baixo custo de manutenção, tende a valorizar com o tempo." },
+  { id: "casa_propria", categoria: "imovel", nome: "Casa Própria", emoji: "🏠", custo: 180000, valorInicial: 178000, manutencaoMensal: 250, aluguelMensal: 0, statusDelta: 5, felicidadeDelta: 10, saudeDelta: 0, descricao: "Não gera aluguel (você mora nela), mas dá estabilidade real." },
+  { id: "apartamento_alugado", categoria: "imovel", nome: "Apartamento p/ Alugar", emoji: "🏢", custo: 150000, valorInicial: 148000, manutencaoMensal: 200, aluguelMensal: 900, statusDelta: 4, felicidadeDelta: 0, saudeDelta: 0, descricao: "Gera aluguel todo mês — uma segunda fonte de renda." },
 ];
 
 /* -------------------------------------------------------------------------
@@ -9679,6 +9705,7 @@ const ACHIEVEMENTS = [
   { id: "vida_na_cidade_iniciada", emoji: "🪸", titulo: "Uma vida começa", descricao: "Você avançou a primeira semana da sua vida financeira na Cidade." },
   { id: "vida_na_cidade_1_ano", emoji: "🏝️", titulo: "Um ano de decisões", descricao: "Você viveu 12 semanas (1 ano fictício) na sua vida financeira da Cidade." },
   { id: "primeiro_curso_cidade", emoji: "🎓", titulo: "Investindo em você mesmo", descricao: "Você comprou seu primeiro curso na sua vida financeira da Cidade." },
+  { id: "primeiro_bem_cidade", emoji: "🏠", titulo: "Patrimônio de verdade", descricao: "Você comprou seu primeiro imóvel ou item de luxo na sua vida financeira da Cidade." },
   { id: "primeiro_certificado", emoji: "🏅", titulo: "Primeiro certificado", descricao: "Você completou seu primeiro livro (resumo + quiz) e ganhou um certificado." },
 ];
 

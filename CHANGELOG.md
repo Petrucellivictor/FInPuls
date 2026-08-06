@@ -4,6 +4,24 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.40.0] - 2026-08-06
+
+### Adicionado
+- **Cidade Financeira — Fase 3: patrimônio físico (imóveis e luxo)**
+  (RFC-019): 6 bens compráveis com patrimônio simulado — Bicicleta,
+  Carro Popular, Carro de Luxo, Terreno, Casa Própria e Apartamento
+  p/ Alugar. Comprar um imóvel de valor justo não reduz patrimônio
+  (só converte dinheiro em ativo de valor equivalente); itens de
+  luxo reduzem exatamente pelo "ágio de status" — a parte do preço
+  que é marca/status, nunca recuperável (o Carro de Luxo, por
+  exemplo, perde R$ 50.000 de ágio já na saída da concessionária).
+  Todo bem possuído soma manutenção mensal às despesas da semana (e,
+  pros imóveis alugáveis, soma aluguel à renda), e valoriza ou
+  deprecia toda semana — imóveis conforme o cenário econômico
+  sorteado, veículos numa depreciação fixa que não desaparece nem
+  durante um Boom. Novo atributo ⭐ Status Social, que sobe uma vez a
+  cada compra. Nova conquista "Patrimônio de verdade".
+
 ## [1.39.0] - 2026-08-06
 
 ### Adicionado

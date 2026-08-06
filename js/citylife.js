@@ -28,9 +28,11 @@ const CityLife = {
     felicidade: 70,
     saude: 80,
     disciplina: 50,
+    status: 20,
     selicAtual: 10.5,
     empregoId: "auxiliar",
     cursosComprados: [],
+    bensComprados: {},
     despesasFixas: 900,
     ultimoCenarioId: null,
     decisaoPendente: null,
@@ -41,9 +43,12 @@ const CityLife = {
     const state = Store.get(STORAGE_KEYS.CITY_LIFE, this.DEFAULT_STATE);
     // Migração de saves da Fase 1 (RFC-017), que guardavam `emprego` como
     // objeto fixo em vez de `empregoId` — Fase 1 só tinha o cargo inicial,
-    // então a migração é exata, sem perda.
+    // então a migração é exata, sem perda. Fase 3 (RFC-019) adiciona
+    // `bensComprados`/`status`, ausentes em saves das Fases 1-2.
     if (!state.empregoId) state.empregoId = "auxiliar";
     if (!state.cursosComprados) state.cursosComprados = [];
+    if (!state.bensComprados) state.bensComprados = {};
+    if (state.status === undefined) state.status = 20;
     delete state.emprego;
     return state;
   },
@@ -148,6 +153,60 @@ const CityLife = {
     this.render();
   },
 
+  /* ---------- Patrimônio físico (RFC-019, Fase 3) ---------- */
+
+  /* Comprar um bem de valor justo (imóvel) não reduz patrimônio — só
+     converte dinheiro em ativo de valor equivalente. Itens de luxo têm
+     `valorInicial` menor que o `custo` (ágio de status, nunca recuperável),
+     então o patrimônio cai exatamente esse ágio no ato da compra — nunca o
+     valor cheio, que continua existindo como o `valorAtual` do bem. */
+  comprarBem(assetId) {
+    const state = this.getState();
+    const asset = CITY_LIFE_ASSETS.find((a) => a.id === assetId);
+    if (!asset || state.bensComprados[assetId] !== undefined) return;
+    if (state.patrimonio < asset.custo) {
+      alert("Patrimônio simulado insuficiente pra esse bem ainda.");
+      return;
+    }
+    state.patrimonio -= asset.custo - asset.valorInicial;
+    state.bensComprados[assetId] = asset.valorInicial;
+    state.status = this.clamp(state.status + asset.statusDelta, 0, 100);
+    state.felicidade = this.clamp(state.felicidade + asset.felicidadeDelta, 0, 100);
+    state.saude = this.clamp(state.saude + asset.saudeDelta, 0, 100);
+    this.setState(state);
+    if (typeof Achievements !== "undefined") Achievements.checkAll();
+    this.render();
+  },
+
+  manutencaoTotalMensal(state) {
+    return Object.keys(state.bensComprados).reduce((soma, id) => {
+      const asset = CITY_LIFE_ASSETS.find((a) => a.id === id);
+      return soma + (asset ? asset.manutencaoMensal : 0);
+    }, 0);
+  },
+
+  aluguelTotalMensal(state) {
+    return Object.keys(state.bensComprados).reduce((soma, id) => {
+      const asset = CITY_LIFE_ASSETS.find((a) => a.id === id);
+      return soma + (asset ? asset.aluguelMensal : 0);
+    }, 0);
+  },
+
+  /* Valorização (imóveis, conforme o cenário sorteado) ou depreciação
+     (veículos, taxa fixa — não some numa alta de mercado) de cada bem
+     possuído, aplicada toda semana. A variação de cada bem soma direto no
+     patrimônio, porque o valor do bem É parte do patrimônio total. */
+  aplicarValorizacaoSemanal(state, cenario) {
+    Object.keys(state.bensComprados).forEach((id) => {
+      const asset = CITY_LIFE_ASSETS.find((a) => a.id === id);
+      if (!asset) return;
+      const pct = asset.categoria === "imovel" ? this.randInRange(cenario.imovelValorizacaoPct) : VEICULO_DEPRECIACAO_PCT_SEMANA;
+      const delta = state.bensComprados[id] * (pct / 100);
+      state.bensComprados[id] += delta;
+      state.patrimonio += delta;
+    });
+  },
+
   /* ---------- Ciclo semanal ---------- */
 
   avancarSemana() {
@@ -167,13 +226,18 @@ const CityLife = {
       criptoPct: Math.round(this.randInRange(cenario.criptoPct) * 10) / 10,
       ouroPct: Math.round(this.randInRange(cenario.ouroPct) * 10) / 10,
     };
+    this.aplicarValorizacaoSemanal(state, cenario);
+
     const salario = this.currentJob(state).salario;
-    const sobra = Math.max(0, salario - state.despesasFixas);
+    const manutencao = this.manutencaoTotalMensal(state);
+    const aluguel = this.aluguelTotalMensal(state);
+    const despesasTotais = state.despesasFixas + manutencao;
+    const sobra = Math.max(0, salario + aluguel - despesasTotais);
 
     state.semana += 1;
     state.selicAtual = indicadores.selic;
     state.ultimoCenarioId = cenario.id;
-    state.decisaoPendente = { cenarioId: cenario.id, indicadores, sobra, salario };
+    state.decisaoPendente = { cenarioId: cenario.id, indicadores, sobra, salario, manutencao, aluguel, despesasTotais };
     this.setState(state);
 
     if (typeof Achievements !== "undefined") Achievements.checkAll();
@@ -238,6 +302,31 @@ const CityLife = {
     }).join("");
   },
 
+  renderPatrimonioFisicoHtml(state) {
+    return `
+      <h4 class="mt-16">🏠 Patrimônio Físico (imóveis e itens de luxo)</h4>
+      <div class="grid grid-2 city-life-courses">
+        ${CITY_LIFE_ASSETS.map((a) => {
+          const possuido = state.bensComprados[a.id] !== undefined;
+          const podePagar = state.patrimonio >= a.custo;
+          const agio = a.custo - a.valorInicial;
+          return `
+          <div class="card city-life-course ${possuido ? "owned" : ""}">
+            <div style="font-size:22px">${a.emoji}</div>
+            <b>${a.nome}</b>
+            <div class="text-soft text-sm">${a.descricao}</div>
+            <div class="text-soft text-sm mt-8">Manutenção: ${this.fmt(a.manutencaoMensal)}/mês${a.aluguelMensal ? ` · Aluguel: +${this.fmt(a.aluguelMensal)}/mês` : ""}${agio > 0 ? ` · Ágio de status: ${this.fmt(agio)}` : ""}</div>
+            ${
+              possuido
+                ? `<div class="badge mt-8">✅ Possui — valor atual: ${this.fmt(state.bensComprados[a.id])}</div>`
+                : `<button class="btn btn-outline btn-sm mt-8" data-bem="${a.id}" ${podePagar ? "" : "disabled"}>${this.fmt(a.custo)}</button>`
+            }
+          </div>`;
+        }).join("")}
+      </div>
+    `;
+  },
+
   renderEducacaoHtml(state) {
     return `
       <h4 class="mt-16">🎓 Educação (custa patrimônio simulado)</h4>
@@ -273,6 +362,7 @@ const CityLife = {
         <div class="city-life-attr"><span>😊 Felicidade</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.felicidade}%;background:var(--gold)"></div></div></div>
         <div class="city-life-attr"><span>❤️ Saúde</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.saude}%;background:var(--coral)"></div></div></div>
         <div class="city-life-attr"><span>🏆 Disciplina</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.disciplina}%"></div></div></div>
+        <div class="city-life-attr"><span>⭐ Status Social</span><div class="budget-bar-bg"><div class="budget-bar-fill" style="width:${state.status}%;background:var(--primary-light)"></div></div></div>
       </div>
     `;
 
@@ -330,7 +420,7 @@ const CityLife = {
           <div><span class="text-soft text-sm">Dólar simulado</span><div class="mono">${ind.dolarPct >= 0 ? "+" : ""}${ind.dolarPct}%</div></div>
         </div>
         <p class="text-sm text-soft mt-8">🌊 Indicadores fictícios da sua Cidade Financeira — pra dados reais do mercado, veja a aba Mercado.</p>
-        <div class="alert-box mt-16">💰 Você recebeu ${this.fmt(state.decisaoPendente.salario)} de salário e pagou ${this.fmt(state.despesasFixas)} em despesas fixas. Sobrou <b>${this.fmt(state.decisaoPendente.sobra)}</b>. O que você faz com essa sobra?</div>
+        <div class="alert-box mt-16">💰 Você recebeu ${this.fmt(state.decisaoPendente.salario)} de salário${state.decisaoPendente.aluguel ? ` + ${this.fmt(state.decisaoPendente.aluguel)} de aluguel` : ""} e pagou ${this.fmt(state.decisaoPendente.despesasTotais)} em despesas${state.decisaoPendente.manutencao ? ` (incluindo ${this.fmt(state.decisaoPendente.manutencao)} de manutenção dos seus bens)` : ""}. Sobrou <b>${this.fmt(state.decisaoPendente.sobra)}</b>. O que você faz com essa sobra?</div>
         <div class="flex mt-16" style="flex-direction:column;gap:8px">
           ${this.renderOpcoesHtml(state)}
         </div>
@@ -343,7 +433,7 @@ const CityLife = {
       `;
     }
 
-    container.innerHTML = kpisHtml + promocaoHtml + atributosHtml + cicloHtml + this.renderEducacaoHtml(state);
+    container.innerHTML = kpisHtml + promocaoHtml + atributosHtml + cicloHtml + this.renderPatrimonioFisicoHtml(state) + this.renderEducacaoHtml(state);
 
     const polvinArea = document.getElementById("cityLifePolvin");
     if (polvinArea && typeof Polvin !== "undefined") {
@@ -362,6 +452,9 @@ const CityLife = {
     container.querySelector("#cityLifeAceitarPromocaoBtn")?.addEventListener("click", (e) => this.aceitarPromocao(e.target.dataset.job));
     container.querySelectorAll("[data-curso]").forEach((btn) => {
       btn.addEventListener("click", () => this.comprarCurso(btn.dataset.curso));
+    });
+    container.querySelectorAll("[data-bem]").forEach((btn) => {
+      btn.addEventListener("click", () => this.comprarBem(btn.dataset.bem));
     });
   },
 
