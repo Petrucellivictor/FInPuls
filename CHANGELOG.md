@@ -4,6 +4,42 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.36.0] - 2026-08-06
+
+### Adicionado
+- **Onda 8 da expansão para 300 lições**: as 15 lições da trilha
+  "Empreender" (Níveis 1-5, `enivel1`-`enivel5`) foram retrofitadas de
+  3 para 10 perguntas cada (150 perguntas no total), completando o
+  padrão de 10 perguntas/lição nas **3 trilhas do app** (financeira
+  desde a Onda 6, história desde a Onda 7). Nenhuma lição nova — todas
+  as 15 já existentes ganharam profundidade real, com 1 novo parágrafo
+  de aula cada, cobrindo conceitos factualmente atualizados para 2026
+  (verificados via busca antes de publicar): empreendedorismo por
+  oportunidade/necessidade e empreendedorismo social, contribuinte
+  individual do INSS, margem de contribuição e capital de giro
+  (Nível 01 · Empreender); a regra de ultrapassagem do teto do MEI
+  (até 20% vs. mais de 20%), os 5 Anexos do Simples Nacional, a
+  transição da Reforma Tributária (IBS/CBS) em 2026 e o que entra ou
+  não no cálculo do Fator R (Nível 02 · MEI/Simples); a segmentação de
+  presunção do Lucro Presumido acima de R$ 5 milhões trazida pela Lei
+  Complementar 224/2025, adições/exclusões e a "trava dos 30%" do
+  Lucro Real (Nível 03 · Presumido/Real); NF-e vs. NFS-e, CFOP, multa
+  de mora vs. multa de ofício, sublimite de ICMS/ISS, regime de
+  competência vs. caixa e Balanço Patrimonial vs. DRE (Nível 04 ·
+  Obrigações); e os componentes do custo de um CLT, banco de horas,
+  turnover, feedback construtivo, distribuição desproporcional de
+  lucros e a tributação de dividendos altos (Nível 05 · Pessoas).
+- Conteúdo redigido pelo papel de Financial Specialist (5 chamadas
+  paralelas, uma por nível, com verificação via busca antes de
+  publicar qualquer dado tributário) e validado estruturalmente
+  (150/150 perguntas, todo índice `correta` dentro do range) e
+  comportamentalmente (`Business.finishLesson()` real, sem mock).
+- **Com a Onda 8, as 3 trilhas do PolvIn (financeira, história e
+  empreender) estão no mesmo padrão de 10 perguntas/lição** — a
+  expansão continua rumo às ~300 lições por trilha do Blueprint,
+  agora com conteúdo novo (não só retrofit), a ser escolhido em
+  turnos seguintes.
+
 ## [1.35.0] - 2026-08-06
 
 ### Alterado
