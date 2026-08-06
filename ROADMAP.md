@@ -57,6 +57,14 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 
 ## Cidade Financeira — jogo de simulação de vida
 
+- ✅ **RFC-023 — PolvIn 3D dentro do jogo 2D** (v1.44.0): o token jogável
+  deixou de ser uma imagem plana e virou um personagem 3D modelado por
+  geometria procedural (esfera + tentáculos articulados + olhos + óculos),
+  com sombreamento toon/cel-shading — mapa e construções continuam 2D, a
+  pedido explícito do usuário. Renderizado via Three.js num overlay
+  transparente sincronizado por frame com a posição real do jogador
+  (câmera/movimento/proximidade das 5 construções sem nenhuma mudança).
+  Base pronta pra uma futura Personalização de Personagem (cor/acessório).
 - ✅ **RFC-022, Fase 6 — mais construções, fim do painel legado** (v1.43.0):
   as últimas 4 seções que ainda viviam num card de dashboard "temporário"
   (Educação, Veículos, Imóveis, Emprego/Negócio) ganharam construções

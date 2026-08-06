@@ -1335,8 +1335,13 @@ tr.row-best td {
 }
 .city-game-canvas canvas { display: block; width: 100% !important; height: 100% !important; cursor: pointer; }
 
+/* RFC-023: overlay 3D do PolvIn — por cima do canvas do Phaser (mapa/
+   construções continuam 2D), mas atrás do balão/diálogo (z-index abaixo). */
+.city-game-polvin3d { position: absolute; top: 0; left: 0; z-index: 1; pointer-events: none; }
+
 .city-game-prompt {
   position: absolute;
+  z-index: 2;
   transform: translate(-50%, -100%);
   background: rgba(255, 255, 255, 0.97);
   color: var(--ink);

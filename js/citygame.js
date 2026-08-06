@@ -9,6 +9,10 @@
    Fase 6 generaliza a fundação da Fase 5 (que tinha só o Banco hardcoded)
    pra uma lista de construções (BUILDINGS) — proximidade/balão/diálogo são
    genéricos, cada construção só define posição, desenho e o que abrir.
+
+   RFC-023: o sprite 2D do PolvIn (this.player) fica invisível — a
+   representação visual dele passa a ser o overlay 3D (js/citypolvin3d.js,
+   CityPolvin3D), mantendo mapa/construções 100% 2D como o usuário pediu.
    ========================================================================= */
 
 const CityGame = {
@@ -129,10 +133,14 @@ const CityGame = {
 
     this.BUILDINGS.forEach((b) => b.draw(scene, b));
 
-    // PolvIn jogável
-    this.player = scene.add.image(180, 260, "polvin").setDisplaySize(58, 58);
+    // PolvIn jogável — a partir do RFC-023, a representação visual é o
+    // overlay 3D (CityPolvin3D); este sprite 2D continua existindo só como
+    // alvo de câmera/física/proximidade (invisível, nunca desenhado).
+    this.player = scene.add.image(180, 260, "polvin").setDisplaySize(58, 58).setVisible(false);
     this.playerBaseScale = this.player.scaleX; // preserva a proporção do displaySize — ver update()
     scene.cameras.main.startFollow(this.player, true, 0.09, 0.09);
+
+    if (typeof CityPolvin3D !== "undefined") CityPolvin3D.init(document.getElementById("cityGameCanvas"), this.VIEW_W, this.VIEW_H);
 
     scene.input.on("pointerdown", (pointer) => {
       if (this.dialogueOpen) return;
@@ -141,28 +149,45 @@ const CityGame = {
     });
   },
 
+  /* Converte um ponto do mundo pra fração 0..1 da viewport da câmera —
+     mesma matemática usada por positionPrompt() e, desde o RFC-023, pelo
+     overlay 3D do PolvIn (CityPolvin3D.setScreenPosition). */
+  relPos(scene, x, y) {
+    const cam = scene.cameras.main;
+    return {
+      relX: (x - cam.worldView.x) / cam.worldView.width,
+      relY: (y - cam.worldView.y) / cam.worldView.height,
+    };
+  },
+
   update(scene, time, delta) {
     const player = this.player;
+    let moving = false;
+    let dx = 0;
+    let dy = 0;
+    let bounce = 1;
     if (this.targetPos && player) {
-      const dx = this.targetPos.x - player.x;
-      const dy = this.targetPos.y - player.y;
+      dx = this.targetPos.x - player.x;
+      dy = this.targetPos.y - player.y;
       const dist = Math.hypot(dx, dy);
       if (dist > 4) {
+        moving = true;
         const step = this.MOVE_SPEED * (delta / 1000);
         const ratio = Math.min(1, step / dist);
         player.x += dx * ratio;
         player.y += dy * ratio;
-        const bounce = 1 - 0.08 * Math.abs(Math.sin(time / 90));
-        player.setScale(this.playerBaseScale, this.playerBaseScale * bounce);
-        player.rotation = Math.atan2(dy, dx) * 0.12;
+        bounce = 1 - 0.08 * Math.abs(Math.sin(time / 90));
       } else {
         this.targetPos = null;
-        player.setScale(this.playerBaseScale, this.playerBaseScale);
-        player.rotation = 0;
       }
     }
 
     if (!player) return;
+
+    if (typeof CityPolvin3D !== "undefined") {
+      const { relX, relY } = this.relPos(scene, player.x, player.y);
+      CityPolvin3D.render({ relX, relY, scaleY: bounce, moving, dx, dy, elapsed: time });
+    }
 
     // A construção mais próxima (dentro do raio) ganha o balão — evita
     // ambiguidade se o jogador ficar perto de 2 construções ao mesmo tempo.
@@ -277,9 +302,7 @@ const CityGame = {
     const el = document.getElementById("cityGamePrompt");
     const canvasEl = scene.game.canvas;
     if (!el || !canvasEl) return;
-    const cam = scene.cameras.main;
-    const relX = (building.x - cam.worldView.x) / cam.worldView.width;
-    const relY = (building.y - 65 - cam.worldView.y) / cam.worldView.height;
+    const { relX, relY } = this.relPos(scene, building.x, building.y - 65);
     el.style.left = `${relX * canvasEl.clientWidth}px`;
     el.style.top = `${relY * canvasEl.clientHeight}px`;
   },

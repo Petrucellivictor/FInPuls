@@ -4,6 +4,23 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.44.0] - 2026-08-06
+
+### Alterado
+- **Cidade Financeira — PolvIn 3D dentro do jogo 2D** (RFC-023): o token
+  jogável, antes uma imagem plana (`Polvin-logo.png` redimensionado),
+  agora é um personagem 3D real — modelado por geometria procedural
+  (esfera + 6 tentáculos articulados + olhos + óculos redondos), com
+  sombreamento toon/cel-shading (3 bandas de luz, contorno preto), nas
+  cores da identidade visual do PolvIn. Mapa e construções continuam
+  100% 2D, por decisão explícita do usuário — só o personagem ganhou
+  volume. Renderizado via Three.js (CDN, sem build step) num canvas
+  transparente por cima do canvas do Phaser, sincronizado por frame com a
+  posição real do jogador (câmera, movimento e proximidade das 5
+  construções continuam exatamente como antes — zero regressão). Base
+  pronta pra uma futura Personalização de Personagem (cor/acessório no
+  mesmo rig).
+
 ## [1.43.0] - 2026-08-06
 
 ### Alterado
