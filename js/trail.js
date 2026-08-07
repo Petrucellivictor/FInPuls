@@ -56,9 +56,29 @@ const Trail = {
     return !!this.getProgress(entry.fonte)[entry.lesson.id];
   },
 
+  /* Destravamento por CONTAGEM de lições concluídas na trilha inteira,
+     não por "a lição imediatamente anterior nesta ordem está concluída".
+     Motivo: levels()/flatLessons() intercalam COURSE e HISTORY_COURSE por
+     índice numérico — inserir um nível novo no MEIO de qualquer um dos
+     dois arrays desloca a posição de tudo que vem depois, então "a lição
+     imediatamente anterior" deixa de ser a mesma lição que era antes da
+     inserção. Progresso é lido por lesson.id (isDone), não por posição,
+     então lições já concluídas continuam concluídas — mas o critério por
+     posição relativa passava a exigir a lição nova (ainda não feita) antes
+     de liberar qualquer coisa depois dela, re-travando a trilha inteira
+     para quem já tinha avançado. Contagem total reduz drasticamente esse
+     dano: para progresso 100% sequencial (sem inserção no meio), doneCount
+     e "o prefixo contíguo concluído" são sempre o mesmo número, então nada
+     muda no caso comum. Depois de uma inserção no meio, pode sobrar um gap
+     pequeno bem na fronteira da inserção (comprovado em QA: até `doneCount`
+     alcançar a nova posição), mas ele fecha assim que QUALQUER uma das
+     lições novas é concluída — elas destravam juntas, não em sequência
+     rígida entre si — em vez da cascata de dezenas de lições travadas que
+     o bug original causava. */
   isUnlocked(flatIdx) {
     if (flatIdx === 0) return true;
-    return this.isDone(this.flatLessons()[flatIdx - 1]);
+    const doneCount = this.flatLessons().filter((e) => this.isDone(e)).length;
+    return doneCount >= flatIdx;
   },
 
   nextEntry() {

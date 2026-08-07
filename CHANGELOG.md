@@ -4,6 +4,63 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.47.0] - 2026-08-07
+
+### Adicionado
+- **Onda 9 da expansão para 300 lições — trilha "Brasil: História &
+  Economia" ganha conteúdo genuinamente novo** (RFC-028): diferente das
+  Ondas 1-8 (todas retrofit de perguntas em lições já existentes), esta
+  é a primeira Onda a inserir um **nível inteiro novo**. `hnivel_imperio`
+  — "Independência, Corte e Império: um país que nasce endividado" — foi
+  inserido no índice 1 de `HISTORY_COURSE`, entre `hnivel1` (Colônia) e o
+  antigo `hnivel2` (Café/Vargas), fechando o gap cronológico 1808-1888
+  que a trilha nunca tinha coberto (`h4_2` já citava a Lei de Terras de
+  1850 sem esse período nunca ter sido ensinado). 3 lições novas, 10
+  perguntas + variante cada (30 perguntas + 30 variantes): `himp_1`
+  (chegada da Corte em 1808, abertura dos portos, 1º Banco do Brasil),
+  `himp_2` (Independência em 1822 e a indenização de 2 milhões de libras
+  ao reconhecimento português via Tratado do Rio de 1825) e `himp_3` (as
+  4 leis do fim do tráfico à abolição — Eusébio de Queirós, Ventre
+  Livre, Sexagenários, Lei Áurea — sem duplicar a pergunta já existente
+  de `h4_2` sobre a Lei de Terras). Tom mantido factual e não-partidário
+  em todo o conteúdo sensível (escravidão/abolição/dívida externa), com
+  todas as datas/valores verificados via busca antes da escrita.
+  `hnivel1`-`hnivel4` (as 9 lições originais) permanecem 100% intactos —
+  a trilha História & Economia passa de **4 para 5 níveis, de 9 para 12
+  lições**. Testado ao vivo (QA Engineer, Playwright), incluindo o fluxo
+  completo de quiz (conto → pergunta → erro → variante → acerto →
+  conclusão → XP/moedas) sem erro de console.
+
+### Corrigido
+- **Destravamento sequencial da trilha re-travava lições já alcançadas
+  quando conteúdo novo era inserido no MEIO de uma trilha, não só
+  anexado ao final** (RFC-028, achado do QA Engineer durante a validação
+  da própria Onda 9): `Trail.isUnlocked()` (`js/trail.js`) e
+  `Business.isUnlocked()` (`js/business.js`) destravavam uma lição
+  checando se **a lição imediatamente anterior na lista achatada**
+  estava concluída — um critério por posição relativa que funciona
+  enquanto conteúdo só é anexado ao final (o caso de todas as Ondas
+  1-8), mas quebra assim que algo é inserido no meio: a posição de tudo
+  que vem depois muda, e "a lição anterior" deixa de ser a mesma lição
+  que era antes da inserção, forçando (transitivamente) a completar o
+  conteúdo novo antes de liberar qualquer coisa depois dele — mesmo para
+  quem já tinha avançado bem além daquele ponto. Corrigido generalizando
+  o critério para **contagem total de lições concluídas na trilha >=
+  posição da lição**, equivalente ao critério antigo durante progressão
+  100% sequencial (nenhuma mudança de comportamento no caso comum), mas
+  correto também após uma inserção no meio — o único resíduo possível é
+  um gap do tamanho do próprio conteúdo inserido, que se fecha
+  completando qualquer uma das lições novas, em qualquer ordem (em vez
+  da cascata de dezenas de lições travadas do bug original). Aplicado
+  nos dois módulos (`js/trail.js` e, preventivamente, `js/business.js`,
+  que tinha o mesmo padrão de risco embora `BUSINESS_COURSE` não tenha
+  recebido inserção nesta Onda) porque toda Onda futura pode inserir
+  conteúdo no meio de qualquer uma das 3 trilhas, não só anexar ao
+  final. Revalidado pelo QA Engineer com simulação determinística
+  (algoritmo antigo vs. novo, mesmo progresso simulado) e teste real em
+  navegador nas 3 trilhas — zero regressão na progressão sequencial de
+  um usuário novo, zero erro de console.
+
 ## [1.46.0] - 2026-08-06
 
 ### Adicionado

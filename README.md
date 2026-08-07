@@ -351,10 +351,11 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   produto específico; o Nível 2 "Renda Fixa" foi expandido de 3 para 20
   lições, cobrindo Tesouro, CDB/LCI/LCA/CRI/CRA, debêntures, rating,
   duration, marcação a mercado, curva de juros e fundos DI) e a trilha
-  "Brasil: História & Economia" (4 níveis, 9
-  lições, cada uma com um pequeno conto — moedas do Réis ao Real, ciclos
-  econômicos, Vargas, milagre econômico, Plano Real, desigualdade e o
-  papel do Estado) não são abas separadas: os níveis se alternam em **um
+  "Brasil: História & Economia" (5 níveis, 12
+  lições, cada uma com um pequeno conto — moedas do Réis ao Real, a
+  chegada da Corte portuguesa e a Independência com dívida (Onda 9),
+  ciclos econômicos, Vargas, milagre econômico, Plano Real, desigualdade
+  e o papel do Estado) não são abas separadas: os níveis se alternam em **um
   único caminho sequencial** (financeira → história → financeira →
   história...), como capítulos de uma mesma jornada. Uma lição só
   destrava a próxima depois de concluída, seja ela de qual das duas

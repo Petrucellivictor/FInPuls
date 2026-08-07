@@ -55,6 +55,13 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 
 - ✅ **RFC-016** (v1.37.0): cotação automática de ações/FIIs individuais via [brapi.dev](https://brapi.dev/) (4 tickers de teste sem cadastro — PETR4, MGLU3, VALE3, ITUB4 — e qualquer ticker com um token gratuito), revisitando uma decisão antiga documentada no próprio código (`js/stocks.js`) de que isso não era viável sem API paga — o pressuposto mudou. A "Rentabilidade estimada" do simulador de juros compostos (`#simTaxa`) deixa de ser um "12" fixo no HTML e passa a vir preenchida com a Selic real (via `Market`/BCB), sempre editável pra simular outro cenário — e um bug de ordenação de inicialização (o comparador nunca era re-renderizado quando a cotação da Selic chegava) foi corrigido junto.
 
+## Expansão das trilhas de conteúdo (rumo a ~300 lições cada)
+
+Ver README, "Roadmap sugerido", item 0, para o blueprint modular completo. Registro por Onda (detalhe de cada uma em `CHANGELOG.md`):
+
+- ✅ **Ondas 1-8** (v1.13.0 a v1.36.0): expansão por **retrofit** — lições já existentes nas 3 trilhas (financeira, história, Empreender) elevadas ao padrão de 10 perguntas/lição, e onde entrou lição nova (ex.: Onda 3/5), sempre **anexada ao final** de um nível já existente, nunca inserida no meio de uma trilha.
+- ✅ **Onda 9 — primeiro nível genuinamente novo, e primeira inserção no MEIO de uma trilha** (v1.47.0, RFC-028): a trilha "Brasil: História & Economia" ganhou `hnivel_imperio` ("Independência, Corte e Império", cobrindo 1808-1888), inserido entre `hnivel1` (Colônia) e o antigo `hnivel2` (Café/Vargas) para preservar a leitura cronológica — de **4→5 níveis, 9→12 lições**. A partir desta Onda, "Onda" deixa de significar só retrofit: passa a incluir conteúdo genuinamente novo, inclusive inserido no meio de um array de trilha já publicado (não só anexado ao final). Essa mudança de padrão expôs um bug real de destravamento sequencial (`Trail.isUnlocked`/`Business.isUnlocked` dependiam de posição relativa, não de contagem de lições concluídas) — encontrado pelo QA Engineer e corrigido na mesma RFC, generalizando o critério para qualquer Onda futura que insira conteúdo no meio de qualquer uma das 3 trilhas (ver `CHANGELOG.md`, entrada "Corrigido" da v1.47.0).
+
 ## Cidade Financeira — jogo de simulação de vida
 
 - ✅ **RFC-025 — aposentadoria, HUD de idade e Relatório de Fim de
@@ -143,7 +150,7 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 
 ## Iniciativa grande, escopada mas não iniciada
 
-- **Migração de armazenamento para Supabase (conta obrigatória)**: o usuário confirmou que quer a nuvem como fonte de verdade — toda conta precisa de login, os dados moram no Supabase, o navegador guarda só um cache local. Isso é uma reversão deliberada do princípio "100% funcional sem conta" documentado no README e em RFCs anteriores (não um erro a corrigir, uma prioridade nova que supera a anterior). Afeta todo módulo que hoje lê/grava via `Store`/`localStorage` — merece sua própria RFC, bem testada, antes de somar mais uma frente grande em cima. **Sequenciamento confirmado pelo usuário 2026-08-06**: essa migração só começa depois que TODAS as fases da Cidade Financeira (acima) estiverem prontas — "o jogo" vem primeiro, a migração de dados vem depois.
+- **Migração de armazenamento para Supabase (conta obrigatória)**: o usuário confirmou que quer a nuvem como fonte de verdade — toda conta precisa de login, os dados moram no Supabase, o navegador guarda só um cache local. Isso é uma reversão deliberada do princípio "100% funcional sem conta" documentado no README e em RFCs anteriores (não um erro a corrigir, uma prioridade nova que supera a anterior). Afeta todo módulo que hoje lê/grava via `Store`/`localStorage` — merece sua própria RFC, bem testada, antes de somar mais uma frente grande em cima, e passa a ser conduzida via RFC-027. **Sequenciamento confirmado pelo usuário 2026-08-06**: essa migração só começaria depois que TODAS as fases da Cidade Financeira (acima) estivessem prontas — "o jogo" vem primeiro, a migração de dados vem depois. **Sequenciamento invertido pelo usuário em 2026-08-07**: essa ordem foi trocada — a migração para Supabase (RFC-027) e a expansão das trilhas de conteúdo (Onda 9, RFC-028, ver seção acima) passam a ter prioridade agora; a Cidade Financeira (RFC-026, em andamento) fica pausada e é retomada depois.
 
 ## Bugs conhecidos (backlog técnico)
 

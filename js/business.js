@@ -50,9 +50,21 @@ const Business = {
     return !!this.getProgress()[entry.lesson.id];
   },
 
+  /* Mesmo fix de causa raiz aplicado em js/trail.js (ver comentário lá):
+     destravar por CONTAGEM de lições concluídas na trilha inteira, não
+     por "a lição imediatamente anterior nesta posição está concluída".
+     BUSINESS_COURSE é um único array sequencial (sem intercalação), mas
+     sofre do mesmo problema: se uma Onda futura inserir um nível novo no
+     MEIO do array (em vez de só anexar ao final, como até agora), a
+     posição de todo o conteúdo depois do ponto de inserção muda, e o
+     critério por posição relativa re-travaria lições já alcançáveis para
+     quem já tinha progresso. Contagem total é equivalente ao critério
+     antigo enquanto o conteúdo só for anexado ao final (o caso de hoje) e
+     correta também no caso de inserção no meio. */
   isUnlocked(flatIdx) {
     if (flatIdx === 0) return true;
-    return this.isDone(this.flatLessons()[flatIdx - 1]);
+    const doneCount = this.flatLessons().filter((e) => this.isDone(e)).length;
+    return doneCount >= flatIdx;
   },
 
   nextEntry() {
