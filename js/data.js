@@ -9755,12 +9755,12 @@ const SHOP_ITEMS = [
   /* Cores do POLVIn (RFC-011) — aplicadas via filtro CSS sobre a arte já
      existente (Polvin-logo.png), sem re-ilustrar o mascote. `filtro` é o
      valor de `filter` calibrado visualmente (ver js/polvin.js). */
-  { id: "cor_esmeralda", tipo: "cor", emoji: "🟩", nome: "Verde Esmeralda", preco: 70, desc: "Um verde vibrante, cor de crescimento.", filtro: "hue-rotate(243deg) saturate(1.3)" },
-  { id: "cor_oceano", tipo: "cor", emoji: "🟦", nome: "Azul Oceano", preco: 70, desc: "Combina com o fundo do mar da Cidade.", filtro: "hue-rotate(303deg) saturate(1.15)" },
-  { id: "cor_rosa", tipo: "cor", emoji: "🟪", nome: "Rosa Choque", preco: 70, desc: "Pra ninguém passar despercebido.", filtro: "hue-rotate(68deg) saturate(1.4)" },
-  { id: "cor_fogo", tipo: "cor", emoji: "🟥", nome: "Vermelho Fogo", preco: 80, desc: "Tão intenso quanto sua ofensiva.", filtro: "hue-rotate(103deg) saturate(1.5)" },
-  { id: "cor_dourada", tipo: "cor", emoji: "🟨", nome: "Dourado Lendário", preco: 100, desc: "Pra quem chegou a Lenda Financeira.", filtro: "hue-rotate(143deg) saturate(1.5) brightness(1.15)" },
-  { id: "cor_neon", tipo: "cor", emoji: "🩵", nome: "Ciano Neon", preco: 90, desc: "Um brilho elétrico e moderno.", filtro: "hue-rotate(283deg) saturate(2) brightness(1.1)" },
+  { id: "cor_esmeralda", tipo: "cor", emoji: "🟩", nome: "Verde Esmeralda", preco: 70, desc: "Um verde vibrante, cor de crescimento.", filtro: "hue-rotate(243deg) saturate(1.3)", hex3d: { base: 0x3fae5a, light: 0x74d68a } },
+  { id: "cor_oceano", tipo: "cor", emoji: "🟦", nome: "Azul Oceano", preco: 70, desc: "Combina com o fundo do mar da Cidade.", filtro: "hue-rotate(303deg) saturate(1.15)", hex3d: { base: 0x2f74b8, light: 0x6ba8dd } },
+  { id: "cor_rosa", tipo: "cor", emoji: "🟪", nome: "Rosa Choque", preco: 70, desc: "Pra ninguém passar despercebido.", filtro: "hue-rotate(68deg) saturate(1.4)", hex3d: { base: 0xd94fb0, light: 0xe98ad0 } },
+  { id: "cor_fogo", tipo: "cor", emoji: "🟥", nome: "Vermelho Fogo", preco: 80, desc: "Tão intenso quanto sua ofensiva.", filtro: "hue-rotate(103deg) saturate(1.5)", hex3d: { base: 0xd8452f, light: 0xea7a5f } },
+  { id: "cor_dourada", tipo: "cor", emoji: "🟨", nome: "Dourado Lendário", preco: 100, desc: "Pra quem chegou a Lenda Financeira.", filtro: "hue-rotate(143deg) saturate(1.5) brightness(1.15)", hex3d: { base: 0xb8842e, light: 0xe6bd6a } },
+  { id: "cor_neon", tipo: "cor", emoji: "🩵", nome: "Ciano Neon", preco: 90, desc: "Um brilho elétrico e moderno.", filtro: "hue-rotate(283deg) saturate(2) brightness(1.1)", hex3d: { base: 0x1fd6dc, light: 0x74f0f2 } },
 ];
 
 /* -------------------------------------------------------------------------
