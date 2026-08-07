@@ -1579,6 +1579,58 @@ tr.row-best td {
 .account-avatar-lg, .account-avatar-lg.account-avatar-fallback {
   width: 52px; height: 52px; border-radius: 50%; object-fit: cover; font-size: 20px;
 }
+
+/* RFC-027 — sessão expirada em segundo plano: reentrada é modal, nunca
+   tela cheia (o app continua usável com o cache local) — só o chip do
+   cabeçalho muda de aparência. */
+.account-chip.session-expired {
+  background: rgba(217, 83, 79, 0.18);
+  color: #ffd0ce;
+}
+.account-chip.session-expired .account-avatar,
+.account-chip.session-expired .account-avatar-fallback {
+  filter: grayscale(1) opacity(0.6);
+}
+.account-chip.session-expired::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--coral);
+  animation: sessionExpiredPulse 1.6s ease-in-out infinite;
+}
+@keyframes sessionExpiredPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* RFC-027 — indicador de falha ao sincronizar (chip persistente no
+   header, nunca um toast — uma queda de rede pode falhar várias vezes
+   seguidas). Reaproveita .tip-trigger (js/tooltip.js) só pelo
+   comportamento de hover/toque; o bloco .tip-trigger reseta as
+   dimensões fixas do "?" para as de um .stat-chip normal. */
+.stat-chip.sync-status {
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+.stat-chip.sync-status.tip-trigger {
+  width: auto; height: auto; margin-left: 0; border-radius: 20px;
+  font-size: 13px; font-weight: 600; vertical-align: middle;
+}
+.stat-chip.sync-status.error {
+  background: rgba(232, 163, 61, 0.3);
+  color: #ffe3b0;
+}
+.stat-chip.sync-status.error:hover,
+.stat-chip.sync-status.error:focus-visible {
+  background: rgba(232, 163, 61, 0.45);
+  color: #ffe3b0;
+}
+
 .auth-modal .auth-current { display: flex; align-items: center; gap: 14px; margin: 14px 0; }
 .auth-divider {
   display: flex; align-items: center; text-align: center; color: var(--ink-soft);
@@ -1587,6 +1639,106 @@ tr.row-best td {
 .auth-divider::before, .auth-divider::after { content: ""; flex: 1; border-bottom: 1px solid var(--border); }
 .auth-divider::before { margin-right: 10px; }
 .auth-divider::after { margin-left: 10px; }
+
+#authForgotRow { text-align: right; margin: -6px 0 14px; }
+#authForgotRow a { color: var(--ink-soft); text-decoration: none; font-size: 12.5px; }
+#authForgotRow a:hover { text-decoration: underline; color: var(--primary); }
+
+/* =========================================================================
+   RFC-027 — GATES DE CONTA/NUVEM (boot bloqueante, ver js/app.js)
+   As 4 telas cheias reaproveitam .onboarding-screen/.onboarding-card 1:1
+   (nenhum overlay novo) — só o que é específico de cada uma fica aqui.
+   ========================================================================= */
+
+/* Gate 1 (#authGateScreen): soma, por cima do gradiente padrão do
+   .onboarding-screen, o mesmo glow radial dourado do .hero-card-wow — é o
+   token visual que já significa "momento de destaque do POLVIn" na
+   Início, reaproveitado aqui em vez de um brilho novo. */
+.onboarding-screen.gate-screen {
+  background:
+    radial-gradient(circle at 82% 12%, rgba(232, 163, 61, 0.4), transparent 45%),
+    linear-gradient(160deg, var(--primary-dark), var(--ink) 120%);
+}
+
+.gate-loading-card { text-align: center; }
+
+.auth-gate-hero { margin-bottom: 18px; }
+.auth-gate-hero .polvin-bubble-text { min-height: 2.6em; }
+.auth-gate-trust { text-align: center; margin: 16px 0 0; }
+
+@media (max-width: 640px) {
+  /* Empilha avatar acima do balão só neste contexto — .polvin-bubble-row
+     é usado em muitos outros lugares do app lado a lado, então o ajuste
+     fica escopado ao gate em vez de mudar o componente compartilhado. */
+  .auth-gate-hero .polvin-bubble-row { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+  .auth-gate-hero .polvin-bubble::before { display: none; }
+}
+
+/* Gate "ambiente não configurado" (#cloudUnavailableScreen) — tom
+   deliberadamente diferente das outras 3: sem glow, mascote pequeno e
+   parado ao lado do título (não centralizado/heroico). */
+.cloud-unavailable-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.cloud-unavailable-mascot { width: 56px; height: 56px; margin: 0; flex-shrink: 0; }
+.cloud-unavailable-head h2 { margin: 0; }
+
+/* Tela de colisão de sincronização (#syncCollisionScreen) */
+.sync-collision-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 16px 0;
+}
+@media (max-width: 640px) {
+  .sync-collision-options { grid-template-columns: 1fr; }
+}
+
+.sync-collision-card {
+  position: relative;
+  text-align: left;
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 16px;
+  border: 2px solid var(--border);
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.sync-collision-card:hover { transform: translateY(-1px); }
+.sync-collision-card.cloud { border-color: var(--blue); }
+.sync-collision-card.local { border-color: var(--primary); }
+.sync-collision-card.cloud.armed { box-shadow: 0 0 0 4px rgba(59, 110, 143, 0.25); }
+.sync-collision-card.local.armed { box-shadow: 0 0 0 4px rgba(108, 79, 207, 0.25); }
+/* padding-right reserva o espaço do selo "✓ Selecionado" (absoluto, topo
+   direito) para não sobrepor o título quando ele quebra em 2 linhas —
+   reservado sempre, não só quando .armed, para o layout não "pular" ao
+   armar a escolha. */
+.sync-collision-card-title { font-family: var(--font-display); font-weight: 700; font-size: 15px; margin-bottom: 6px; padding-right: 84px; }
+.sync-collision-armed-badge {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--green-dark);
+  background: #e7f5e6;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.sync-collision-card.armed .sync-collision-armed-badge { display: inline-block; }
+
+/* Fileira de mini stat-chip dentro de cada card — mesmo componente do
+   header, por isso vive num fundo escuro (o texto branco dos .stat-chip
+   foi desenhado para o cabeçalho, não para o card claro do onboarding). */
+.sync-compare-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  background: var(--primary-dark);
+  border-radius: 12px;
+  padding: 8px 10px;
+  margin-top: 10px;
+}
+
+.sync-collision-reassure { text-align: center; margin: 4px 0 16px; }
 
 /* =========================================================================
    COMPRAS PARCELADAS
@@ -1722,7 +1874,11 @@ tr.row-best td {
   .story-box, .confetti-piece, .trail-node.current, .trail-level,
   .polvin-3d-inner, .talking .polvin-avatar-img,
   .polvin-fab, .polvin-chat-panel,
-  .city-game-age-ring.pulse, .city-game-age-hud.aposentado {
+  .city-game-age-ring.pulse, .city-game-age-hud.aposentado,
+  /* RFC-027: ponto pulsante do chip "sessão expirada" — mesmo motivo dos
+     demais itens desta lista (loop contínuo, não um efeito de disparo
+     único): fica estático e visível em vez de "piscar" a 0.01ms. */
+  .account-chip.session-expired::after {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
@@ -1795,6 +1951,66 @@ tr.row-best td {
 @keyframes fxScreenEnter {
   0% { opacity: 0; transform: translateY(10px) scale(0.995); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* RFC-027 — contraparte de saída que faltava para Fx.screenEnter, usada
+   pelas 4 telas cheias de gate do boot (Fx.screenTransition(el,"exit")). */
+.fx-screen-exit { animation: fxScreenExit 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes fxScreenExit {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-8px) scale(0.985); }
+}
+
+/* RFC-027 — Fx.mascotWave: aceno de boas-vindas do POLVIn no
+   #authGateScreen (ver js/fx.js). */
+.polvin-3d.waving .polvin-avatar-img { animation: polvinWave 0.8s ease-in-out; }
+@keyframes polvinWave {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  20% { transform: rotate(-12deg) translateY(-4px); }
+  40% { transform: rotate(8deg) translateY(-2px); }
+  60% { transform: rotate(-10deg) translateY(-3px); }
+  80% { transform: rotate(6deg) translateY(0); }
+}
+/* Fallback de redução de movimento do aceno — selo fixo com fade-in único
+   em vez do gesto animado (mantém a identidade do "aceno" sem o
+   movimento, conforme o manifesto de acessibilidade do projeto). */
+.fx-wave-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  font-size: 18px;
+  animation: fxWaveBadgeFadeIn 0.6s ease-out;
+}
+@keyframes fxWaveBadgeFadeIn {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* RFC-027 — Fx.shake: tremor de validação num campo específico (não o
+   card inteiro). */
+.fx-shake { animation: fxShake 0.45s ease-in-out; }
+@keyframes fxShake {
+  0%, 100% { transform: translateX(0); box-shadow: none; }
+  20% { transform: translateX(-6px); box-shadow: 0 0 0 3px rgba(217, 83, 79, 0.25); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); box-shadow: 0 0 0 3px rgba(217, 83, 79, 0.25); }
+  80% { transform: translateX(3px); }
+}
+/* Exceção própria (não faz parte da lista compartilhada acima): sob
+   redução de movimento, o tremor não é apenas desligado — vira só um
+   pulso de brilho na borda, preservando o sinal de "algo está errado
+   aqui" sem deslocar o elemento. Especificidade de classe já garante que
+   isto vença o `* { animation-duration: 0.01ms !important }` genérico
+   mais abaixo, então a ordem no arquivo não importa aqui. */
+@media (prefers-reduced-motion: reduce) {
+  .fx-shake {
+    animation: fxShakeGlowOnly 0.4s ease-in-out !important;
+    transform: none !important;
+  }
+}
+@keyframes fxShakeGlowOnly {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 83, 79, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(217, 83, 79, 0.35); }
 }
 
 .fx-loading-orbit {

@@ -23,7 +23,7 @@ const Profile = {
   renderHeader() {
     const container = document.getElementById("profileAvatarArea");
     if (!container) return;
-    const acc = Store.get(STORAGE_KEYS.ACCOUNT, null);
+    const acc = Auth.getAccount();
     container.innerHTML = `
       <div class="profile-header">
         ${Polvin.avatarHtml("lg")}

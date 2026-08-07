@@ -7,6 +7,10 @@
 const Fx = {
   CONFETTI_COLORS: ["#6C4FCF", "#4FAE4A", "#E8A33D", "#D9534F", "#3B6E8F"],
 
+  prefersReducedMotion() {
+    return typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  },
+
   confetti(container, count = 26) {
     if (!container) return;
     for (let i = 0; i < count; i++) {
@@ -251,5 +255,70 @@ const Fx = {
     const polvinArea = container.querySelector("#cityLifePolvin");
     if (polvinArea) this.mascotCelebrate(polvinArea);
     if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
+  },
+
+  /* =======================================================================
+     RFC-027 — novas entradas pedidas pela UX/UI Designer (seção 3, item 7)
+     para os gates de conta/nuvem do boot (js/app.js).
+     ======================================================================= */
+
+  /* Aceno de boas-vindas do POLVIn — só usado em #authGateScreen, nunca em
+     telas repetidas/rotineiras (diferente de mascotCelebrate, reservado
+     para recompensa concedida). Aceita o wrapper `.polvin-3d` diretamente
+     ou um container que o contenha. Redução de movimento: em vez de
+     desligar o gesto inteiro, mostra um selo 👋 fixo com fade-in único
+     (mantém a identidade do "aceno", sem o movimento). */
+  mascotWave(el) {
+    if (!el) return;
+    const avatarEl = el.classList && el.classList.contains("polvin-3d") ? el : el.querySelector(".polvin-3d");
+    if (!avatarEl) return;
+    const inner = avatarEl.querySelector(".polvin-3d-inner") || avatarEl;
+
+    if (this.prefersReducedMotion()) {
+      if (inner.querySelector(".fx-wave-badge")) return;
+      const badge = document.createElement("span");
+      badge.className = "fx-wave-badge";
+      badge.textContent = "👋";
+      inner.appendChild(badge);
+      return;
+    }
+
+    avatarEl.classList.remove("waving");
+    void avatarEl.offsetWidth;
+    avatarEl.classList.add("waving");
+    setTimeout(() => avatarEl.classList.remove("waving"), 800);
+  },
+
+  /* Tremor de validação aplicado ao wrapper `.field` específico que falhou
+     (não ao card inteiro — mais preciso, menos "tremor geral"). Sob
+     redução de movimento, o CSS (.fx-shake dentro do bloco
+     prefers-reduced-motion) troca a animação por uma versão que só pulsa
+     a borda, sem deslocar o elemento. */
+  shake(el) {
+    if (!el) return;
+    el.classList.remove("fx-shake");
+    void el.offsetWidth;
+    el.classList.add("fx-shake");
+    setTimeout(() => el.classList.remove("fx-shake"), 450);
+  },
+
+  /* Generaliza a entrada que Fx.screenEnter já fazia (mode: "enter"
+     delega a ela) e adiciona a contraparte que faltava (mode: "exit"),
+     usada pelas telas cheias de gate do boot ao sair — garante que todo
+     gate saia com a mesma sensação, em vez de cada tela inventar seu
+     próprio fade. Retorna uma Promise para quem chama poder esperar o fim
+     da transição antes de esconder/remover o elemento de verdade. */
+  screenTransition(el, mode) {
+    if (!el) return Promise.resolve();
+    if (mode === "enter") {
+      this.screenEnter(el);
+      return Promise.resolve();
+    }
+    return new Promise((resolve) => {
+      el.classList.remove("fx-screen-exit");
+      void el.offsetWidth;
+      el.classList.add("fx-screen-exit");
+      setTimeout(resolve, this.prefersReducedMotion() ? 20 : 320);
+    });
   },
 };

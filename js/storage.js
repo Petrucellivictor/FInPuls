@@ -24,7 +24,6 @@ const STORAGE_KEYS = {
   STOCK_PRICES: "if_stock_prices",
   LESSON_LOG: "if_lesson_log",
   INSTALLMENTS: "if_installments",
-  ACCOUNT: "if_account",
   HISTORY_PROGRESS: "if_history_progress",
   BUSINESS_PROGRESS: "if_business_progress",
   ENERGY: "if_energy",
@@ -104,10 +103,31 @@ const Store = {
     if (typeof Cloud !== "undefined") Cloud.removeKey(key);
   },
 
-  clearAll() {
+  /* Limpa só o cache local deste navegador (localStorage + estado do
+     cofre) — NÃO toca a nuvem. Com a conta obrigatória e o Supabase como
+     fonte de verdade (RFC-027), isso é seguro de usar em qualquer fluxo
+     "esqueci uma senha local": ao recarregar, o boot re-hidrata os dados a
+     partir da nuvem normalmente, já que a sessão de conta continua válida
+     — nada de real é perdido, só o cache. */
+  clearLocalOnly() {
     Object.values(STORAGE_KEYS).forEach((k) => localStorage.removeItem(k));
     if (typeof Vault !== "undefined") Vault.reset();
-    if (typeof Cloud !== "undefined") Cloud.deleteAll();
+  },
+
+  /* Apaga de verdade os dados desta conta na nuvem (Supabase) — a fonte de
+     verdade. Só deve ser chamado por um fluxo que o usuário entende
+     explicitamente como "apagar tudo, em todo lugar", nunca como efeito
+     colateral de resetar algo puramente local (ex.: senha do cofre). */
+  clearCloudData() {
+    if (typeof Cloud !== "undefined") return Cloud.deleteAll();
+  },
+
+  /* Reset completo (local + nuvem). Mantido para os fluxos que realmente
+     pedem "apagar tudo" (ex.: botão de reset do onboarding) — o botão
+     "esqueci a senha do cofre" NÃO deve usar isto, ver clearLocalOnly(). */
+  clearAll() {
+    this.clearLocalOnly();
+    this.clearCloudData();
   },
 
   /* ---------- backup manual (exportar/importar JSON) ---------- */

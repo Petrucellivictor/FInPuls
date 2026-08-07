@@ -50,6 +50,73 @@
   </div>
 
   <!-- =========================================================
+       RFC-027 — GATES DE CONTA/NUVEM (bloqueantes, boot)
+       Ver js/app.js (App.ensureCloudAvailable/ensureAuthenticated/
+       ensurePasswordReset/ensureCloudResolved) para a ordem exata em
+       que aparecem e a lógica de quando cada uma é mostrada.
+       ========================================================= -->
+
+  <!-- Gate 0: sem Supabase configurado — tela terminal, sem ação
+       possível além de fechar a aba (App.ensureCloudAvailable()). -->
+  <div id="cloudUnavailableScreen" class="onboarding-screen hidden">
+    <div class="onboarding-card cloud-unavailable-card">
+      <div class="cloud-unavailable-head">
+        <img src="Polvin-logo.png" alt="" class="mascot-img cloud-unavailable-mascot" />
+        <h2>🔧 Ambiente não configurado</h2>
+      </div>
+      <p class="mono text-sm">Este PolvIn não está conectado a um projeto Supabase. Isso normalmente significa que <span class="mono">SUPABASE_URL</span>/<span class="mono">SUPABASE_ANON_KEY</span> em <span class="mono">js/supabase-config.js</span> estão vazios ou incorretos.</p>
+      <p class="text-sm text-soft">Se você é quem está configurando este ambiente, veja as instruções no <span class="mono">README.md</span>. Se você chegou aqui como usuário final, isso é um erro de quem publicou este link — não há nada que você possa fazer por aqui.</p>
+      <button class="btn btn-outline btn-block mt-16" id="cloudUnavailableCloseBtn">Fechar esta aba</button>
+      <p class="text-sm text-soft mt-16" style="text-align:center">Se a aba não fechar sozinha (a maioria dos navegadores bloqueia isso), pode fechar manualmente.</p>
+    </div>
+  </div>
+
+  <!-- Gate 1: conta obrigatória (App.ensureAuthenticated()). O
+       formulário em si vem de Auth.authFormHtml()/Auth.bindAuthForm(),
+       injetado em #authGateFormArea — mesma peça usada no modal de
+       conta não bloqueante, sem duplicar a implementação. -->
+  <div id="authGateScreen" class="onboarding-screen gate-screen hidden">
+    <div class="onboarding-card">
+      <div class="auth-gate-hero" id="authGateHero"><!-- preenchido via JS (App.renderAuthGateHero) --></div>
+      <h2>Sua jornada, guardada com você</h2>
+      <p class="text-soft text-sm">Leva menos de 1 minuto. Sem isso, o PolvIn não tem como guardar seu progresso com segurança.</p>
+      <div id="authGateFormArea"><!-- preenchido via JS (Auth.authFormHtml) --></div>
+      <p class="text-sm text-soft auth-gate-trust">🔒 Seus dados financeiros ficam protegidos e só você tem acesso.</p>
+    </div>
+  </div>
+
+  <!-- Desvio condicional (App.ensurePasswordReset()): só aparece quando
+       o usuário volta de um link de "esqueci minha senha"
+       (Cloud.recoveryMode), checado antes do gate de autenticação
+       normal acima. -->
+  <div id="passwordResetScreen" class="onboarding-screen hidden">
+    <div class="onboarding-card">
+      <div id="passwordResetHero"><!-- preenchido via JS (Polvin.renderBubble) --></div>
+      <h2>Defina sua nova senha</h2>
+      <p class="text-soft text-sm">Depois de salvar, você já entra automaticamente — sem precisar digitar a senha antiga.</p>
+      <div class="field">
+        <label for="newPasswordInput">Nova senha</label>
+        <input type="password" id="newPasswordInput" placeholder="Mínimo 6 caracteres" />
+        <p class="text-sm text-soft">Mínimo de 6 caracteres</p>
+      </div>
+      <div class="field">
+        <label for="newPasswordConfirmInput">Confirmar nova senha</label>
+        <input type="password" id="newPasswordConfirmInput" placeholder="Repita a nova senha" />
+      </div>
+      <div class="alert-box danger hidden" id="passwordResetError" role="alert"></div>
+      <button class="btn btn-primary btn-block" id="passwordResetBtn">Salvar nova senha</button>
+    </div>
+  </div>
+
+  <!-- Gate 2 (App.ensureCloudResolved()): só aparece em colisão de
+       verdade (nuvem E local com dados) — conteúdo montado via JS
+       (App.renderSyncCollisionScreen) porque depende dos números reais
+       de cada lado. -->
+  <div id="syncCollisionScreen" class="onboarding-screen hidden">
+    <div class="onboarding-card"><!-- preenchido via JS (App.renderSyncCollisionScreen) --></div>
+  </div>
+
+  <!-- =========================================================
        CABEÇALHO
        ========================================================= -->
   <header class="app-header">

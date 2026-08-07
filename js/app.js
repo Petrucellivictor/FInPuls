@@ -3,9 +3,32 @@
    ========================================================================= */
 
 const App = {
-  async init() {
-    if (typeof Cloud !== "undefined") await Cloud.init(); // restaura sessão e sincroniza antes de decidir o que renderizar
+  // RFC-027 — estado dos indicadores não bloqueantes do header (sessão
+  // expirada / falha de sincronização). _booted só vira true depois que a
+  // cadeia de gates termina: é o que permite distinguir "sessão que caiu
+  // em segundo plano" de "nunca logou" a partir do mesmo evento
+  // account:updated (Auth.getAccount() === null sozinho não diferencia
+  // os dois casos — ver seção 5/Backend Engineer da RFC-027).
+  _booted: false,
+  _lastKnownAccount: null,
+  _syncErrorKeys: new Set(),
 
+  async init() {
+    this.showGateLoading();
+
+    if (typeof Cloud !== "undefined") await Cloud.init(); // RFC-027: só restaura a sessão — quem decide o que fazer com os dados é ensureCloudResolved()
+
+    // Cadeia de gates bloqueantes (RFC-027), cada um no mesmo padrão de
+    // ensureVaultUnlocked() (Promise que só resolve com a tela cheia
+    // escondida): 0) Supabase configurado -> 1) retorno de recuperação de
+    // senha (condicional) -> 2) autenticado -> 3) sincronização resolvida
+    // -> 4) cofre local desbloqueado (já existia, inalterado, por último).
+    await this.ensureCloudAvailable(); // nunca resolve se o Supabase não estiver configurado (tela terminal)
+    await this.ensurePasswordReset();
+    await this.ensureAuthenticated();
+    await this.ensureCloudResolved();
+
+    this.hideGateLoading();
     const desbloqueado = await this.ensureVaultUnlocked();
     if (!desbloqueado) return; // usuário fechou a aba na tela de bloqueio; nada mais deve rodar
 
@@ -38,11 +61,360 @@ const App = {
     Books.init();
     Privacy.init();
 
+    this._booted = true;
+    this._lastKnownAccount = Auth.getAccount();
+
     this.renderHeaderStats();
     this.renderHome();
     this.playHeroEntrance();
     this.bindGlobalEvents();
     this.bindBackupButtons();
+  },
+
+  /* =======================================================================
+     RFC-027 — GATES DE CONTA/NUVEM (bloqueantes, boot)
+     ======================================================================= */
+
+  /* Overlay genérico "Preparando o PolvIn…", usado só para cobrir os
+     trechos ASSÍNCRONOS entre gates (ex.: a busca de dados na nuvem em
+     Cloud.syncOnLogin()) — sem ele, haveria um instante sem nenhuma tela
+     cheia visível assim que um gate anterior escondesse a própria tela,
+     exatamente o "flash" que esta cadeia inteira existe para evitar. Cada
+     gate que mostra sua própria tela chama hideGateLoading() antes e, se a
+     etapa seguinte também for assíncrona, showGateLoading() de novo antes
+     de resolver. Não faz parte do contrato de telas da RFC (não tem nome
+     próprio no documento) — é um detalhe de implementação do Frontend. */
+  showGateLoading() {
+    let el = document.getElementById("gateLoadingScreen");
+    if (el) {
+      el.classList.remove("hidden");
+      return;
+    }
+    el = document.createElement("div");
+    el.id = "gateLoadingScreen";
+    el.className = "onboarding-screen";
+    el.innerHTML = `<div class="onboarding-card gate-loading-card">${Fx.loadingOrbitHtml()}<p class="text-soft mt-16">Preparando o PolvIn…</p></div>`;
+    document.body.appendChild(el);
+  },
+
+  hideGateLoading() {
+    document.getElementById("gateLoadingScreen")?.remove();
+  },
+
+  /* GATE 0: sem Supabase configurado não existe mais "modo local
+     completo" como caminho de produção (Software Architect, decisão 5) —
+     a Promise NUNCA resolve, de propósito: é uma tela terminal, não um
+     obstáculo temporário que o usuário supera. */
+  ensureCloudAvailable() {
+    if (typeof Cloud !== "undefined" && Cloud.isAvailable()) return Promise.resolve(true);
+
+    this.hideGateLoading();
+    return new Promise(() => {
+      const screen = document.getElementById("cloudUnavailableScreen");
+      screen.classList.remove("hidden");
+      document.getElementById("cloudUnavailableCloseBtn")?.addEventListener("click", () => window.close());
+    });
+  },
+
+  /* Gate condicional: só aparece quando o usuário voltou de um link de
+     "esqueci minha senha" (Cloud.recoveryMode, setado por
+     onAuthStateChange no evento PASSWORD_RECOVERY). Checado logo após
+     Cloud.init(), antes do gate de autenticação normal — entrar direto
+     numa tela de login logo depois de clicar num link cujo propósito era
+     justamente não precisar da senha antiga seria um passo a mais inútil. */
+  ensurePasswordReset() {
+    if (typeof Cloud === "undefined" || !Cloud.recoveryMode) return Promise.resolve(true);
+
+    this.hideGateLoading();
+    return new Promise((resolve) => {
+      const screen = document.getElementById("passwordResetScreen");
+      const card = screen.querySelector(".onboarding-card");
+      Polvin.renderBubble(document.getElementById("passwordResetHero"), "Vamos criar uma senha nova! Escolhe algo que só você lembra.", { withListen: false });
+      screen.classList.remove("hidden");
+
+      const pass1 = document.getElementById("newPasswordInput");
+      const pass2 = document.getElementById("newPasswordConfirmInput");
+      const errorBox = document.getElementById("passwordResetError");
+      const btn = document.getElementById("passwordResetBtn");
+
+      const showError = (message, fieldEl) => {
+        errorBox.textContent = message;
+        errorBox.classList.remove("hidden");
+        if (fieldEl) Fx.shake(fieldEl.closest(".field"));
+      };
+
+      const trySave = async () => {
+        errorBox.classList.add("hidden");
+        if (pass1.value.length < 6) return showError("A senha precisa ter pelo menos 6 caracteres.", pass1);
+        if (pass1.value !== pass2.value) return showError("As senhas não coincidem.", pass2);
+
+        btn.disabled = true;
+        btn.innerHTML = Fx.loadingOrbitHtml();
+        const result = await Cloud.updatePassword(pass1.value);
+        if (!result.ok) {
+          btn.disabled = false;
+          btn.textContent = "Salvar nova senha";
+          showError(result.message, pass1);
+          return;
+        }
+
+        btn.innerHTML = "✓ Senha atualizada!";
+        Fx.successGlow(card);
+        setTimeout(() => {
+          Fx.screenTransition(screen, "exit").then(() => {
+            screen.classList.add("hidden");
+            this.showGateLoading();
+            resolve(true);
+          });
+        }, 900);
+      };
+
+      btn.addEventListener("click", trySave);
+      [pass1, pass2].forEach((input) => input.addEventListener("keydown", (e) => e.key === "Enter" && trySave()));
+    });
+  },
+
+  /* GATE 1: autenticação obrigatória. Reaproveita o mesmo formulário do
+     modal de conta (Auth.authFormHtml/bindAuthForm) dentro da tela cheia
+     — nenhuma lógica de conta é duplicada aqui, só orquestração visual. */
+  ensureAuthenticated() {
+    if (typeof Cloud !== "undefined" && Cloud.isLoggedIn()) return Promise.resolve(true);
+
+    this.hideGateLoading();
+    return new Promise((resolve) => {
+      const screen = document.getElementById("authGateScreen");
+      const card = screen.querySelector(".onboarding-card");
+      const formArea = document.getElementById("authGateFormArea");
+
+      this.renderAuthGateHero(document.getElementById("authGateHero"));
+      formArea.innerHTML = Auth.authFormHtml();
+      Auth.bindAuthForm(formArea);
+      screen.classList.remove("hidden");
+
+      const submitBtn = formArea.querySelector("#authSubmitBtn");
+      const errorBox = formArea.querySelector("#authError");
+      const infoBox = formArea.querySelector("#authInfo");
+
+      formArea.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && (e.target.id === "authEmail" || e.target.id === "authPassword")) {
+          e.preventDefault();
+          submitBtn.click();
+        }
+      });
+
+      // Feedback de "enviando"/"erro" observado por fora do formulário
+      // compartilhado, sem duplicar a lógica de negócio de
+      // Auth.submitCloudAuth (RFC-027, UX/UI seção 1, "Estados"). Este
+      // listener é registrado DEPOIS do que Auth.bindAuthForm já ligou,
+      // então roda em seguida a cada clique.
+      submitBtn.addEventListener("click", () => {
+        submitBtn.disabled = true;
+        submitBtn.dataset.loading = "1";
+        submitBtn.innerHTML = Fx.loadingOrbitHtml();
+      });
+
+      const revertSubmitBtn = () => {
+        if (!submitBtn.dataset.loading) return;
+        delete submitBtn.dataset.loading;
+        submitBtn.disabled = false;
+        submitBtn.textContent = Auth.authTab === "signup" ? "Criar conta" : "Entrar";
+      };
+
+      const watchAlert = (box, onShow) => {
+        new MutationObserver(() => {
+          if (!box.classList.contains("hidden")) onShow();
+        }).observe(box, { attributes: true, attributeFilter: ["class"] });
+      };
+      watchAlert(errorBox, () => {
+        revertSubmitBtn();
+        const email = formArea.querySelector("#authEmail").value.trim();
+        const password = formArea.querySelector("#authPassword").value;
+        const badFieldSelector = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? "#authEmail" : "#authPassword";
+        const fieldWrap = formArea.querySelector(badFieldSelector)?.closest(".field");
+        if (fieldWrap) Fx.shake(fieldWrap);
+        navigator.vibrate?.(30);
+      });
+      watchAlert(infoBox, revertSubmitBtn);
+
+      // Sucesso: Cloud dispara account:updated (contrato documentado pelo
+      // Backend Engineer) quando o login/cadastro é concluído. Login e
+      // cadastro bem-sucedidos recarregam a página logo em seguida
+      // (Auth.submitCloudAuth) para rodar a cadeia de gates do zero — a
+      // animação de saída abaixo é por isso "best-effort": começa a
+      // tempo de dar uma sensação de conclusão, mesmo que o reload a
+      // interrompa antes do fim dos ~900ms.
+      const onAccountUpdated = () => {
+        if (!Cloud.isLoggedIn()) return;
+        document.removeEventListener("account:updated", onAccountUpdated);
+        Fx.successGlow(card);
+        setTimeout(() => {
+          Fx.screenTransition(screen, "exit").then(() => {
+            screen.classList.add("hidden");
+            this.showGateLoading();
+            resolve(true);
+          });
+        }, 900);
+      };
+      document.addEventListener("account:updated", onAccountUpdated);
+    });
+  },
+
+  /* Balão de boas-vindas do #authGateScreen — duas variantes de copy
+     (RFC-027, UX/UI seção 1) decididas por um dado real e observável (XP/
+     moedas já salvos neste navegador), nunca um placeholder: se o número
+     mostrado estivesse errado, o "Wow Moment" vira desconfiança (risco
+     sinalizado pela própria UX/UI Designer). */
+  renderAuthGateHero(container) {
+    if (!container) return;
+    const xp = Store.get(STORAGE_KEYS.XP, 0);
+    const coins = Store.get(STORAGE_KEYS.COINS, 0);
+    const hasProgress = xp > 0 || coins > 0;
+
+    container.innerHTML = `
+      <div class="polvin-bubble-row">
+        ${Polvin.avatarHtml("md")}
+        <div class="polvin-bubble">
+          <b class="polvin-bubble-title">POLVIn</b>
+          <p class="polvin-bubble-text" id="authGateBubbleText"></p>
+        </div>
+      </div>`;
+
+    const avatarEl = container.querySelector(".polvin-3d");
+    Fx.mascotWave(avatarEl);
+    const textEl = container.querySelector("#authGateBubbleText");
+
+    if (hasProgress) {
+      // O número sobe (Fx.countUp) antes da frase completa — que já
+      // inclui o mesmo valor real — terminar de ser digitada.
+      const counter = document.createElement("span");
+      textEl.appendChild(counter);
+      Fx.countUp(counter, 0, xp, 650, " XP");
+      setTimeout(() => {
+        Polvin.typewrite(
+          textEl,
+          `Show, você já tem ${xp} XP guardado aqui! Cria sua conta pra eu não deixar isso se perder — e você ainda leva pra qualquer aparelho.`,
+          avatarEl,
+          14
+        );
+      }, 700);
+    } else {
+      Polvin.typewrite(
+        textEl,
+        "Oi, eu sou o POLVIn 🐙 Antes de começar, cria uma conta rapidinho — é assim que eu guardo sua jornada em qualquer lugar que você abrir o app.",
+        avatarEl,
+        16
+      );
+    }
+  },
+
+  /* GATE 2: resolve a sincronização inicial com a nuvem. Só mostra UI
+     quando há colisão de verdade (nuvem E local com dados) — os outros 3
+     casos já foram resolvidos sozinhos por Cloud.syncOnLogin(), sem
+     nenhuma tela. */
+  async ensureCloudResolved() {
+    const result = await Cloud.syncOnLogin();
+    if (result.case !== "collision") return true;
+
+    this.hideGateLoading();
+    return new Promise((resolve) => {
+      const screen = document.getElementById("syncCollisionScreen");
+      this.renderSyncCollisionScreen(screen, result.rows, resolve);
+      screen.classList.remove("hidden");
+    });
+  },
+
+  /* Leitura local direta (não via Store.get) porque este gate roda ANTES
+     do cofre (js/vault.js) desbloquear — mas XP/moedas/streak nunca são
+     chaves sensíveis (Vault.SENSITIVE_KEYS), então já estão em texto
+     puro no localStorage neste ponto do boot, cofre ativado ou não. */
+  localStat(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw === null ? fallback : JSON.parse(raw);
+    } catch (e) {
+      return fallback;
+    }
+  },
+
+  cloudStat(rows, key, fallback) {
+    const row = rows.find((r) => r.key === key);
+    return row ? row.value : fallback;
+  },
+
+  /* Fileira de mini stat-chip usada nos dois cards da tela de colisão —
+     mesmo componente visual do header (RFC-027, UX/UI seção 2), só que
+     sobre um fundo escuro (o texto claro dos .stat-chip foi pensado para
+     o cabeçalho, não para o card claro do onboarding). */
+  statChipsHtml(xp, coins, streakDias) {
+    return `
+      <div class="sync-compare-chips">
+        <span class="stat-chip xp"><span class="ico">⭐</span>${xp} XP</span>
+        <span class="stat-chip coins"><span class="ico">🪙</span>${coins}</span>
+        <span class="stat-chip streak"><span class="ico">🔥</span>${streakDias} dia${streakDias === 1 ? "" : "s"}</span>
+      </div>`;
+  },
+
+  renderSyncCollisionScreen(screen, rows, resolve) {
+    const card = screen.querySelector(".onboarding-card");
+    const localXp = this.localStat(STORAGE_KEYS.XP, 0);
+    const localCoins = this.localStat(STORAGE_KEYS.COINS, 0);
+    const localStreak = (this.localStat(STORAGE_KEYS.STREAK, { dias: 0 }) || {}).dias || 0;
+    const cloudXp = this.cloudStat(rows, STORAGE_KEYS.XP, 0);
+    const cloudCoins = this.cloudStat(rows, STORAGE_KEYS.COINS, 0);
+    const cloudStreak = (this.cloudStat(rows, STORAGE_KEYS.STREAK, { dias: 0 }) || {}).dias || 0;
+
+    card.innerHTML = `
+      <h2>Encontramos dois progressos diferentes</h2>
+      <p class="text-soft text-sm">Este aparelho tem dados salvos aqui, e sua conta já tem dados guardados na nuvem. Escolha qual dos dois você quer manter — não dá pra usar os dois ao mesmo tempo.</p>
+      <div class="sync-collision-options">
+        <button type="button" class="sync-collision-card cloud" data-choice="cloud">
+          <span class="sync-collision-armed-badge">✓ Selecionado</span>
+          <div class="sync-collision-card-title">☁️ Usar dados da nuvem</div>
+          <p class="text-sm">Vamos trazer o progresso salvo na sua conta. Tudo que está só neste aparelho agora (XP, moedas, histórico) será substituído.</p>
+          ${this.statChipsHtml(cloudXp, cloudCoins, cloudStreak)}
+        </button>
+        <button type="button" class="sync-collision-card local" data-choice="local">
+          <span class="sync-collision-armed-badge">✓ Selecionado</span>
+          <div class="sync-collision-card-title">📱 Usar dados deste aparelho</div>
+          <p class="text-sm">Vamos manter o que está aqui agora. O que estava guardado na nuvem para esta conta será substituído por isso.</p>
+          ${this.statChipsHtml(localXp, localCoins, localStreak)}
+        </button>
+      </div>
+      <p class="text-sm text-soft sync-collision-reassure">Isso não afeta sua senha nem o acesso à sua conta — é só sobre o progresso salvo.</p>
+      <button type="button" class="btn btn-primary btn-block hidden" id="syncCollisionConfirmBtn"></button>
+    `;
+
+    // Confirmação em duas etapas (RFC-027, UX/UI seção 2): clicar num
+    // card só "arma" a escolha — nada é aplicado até o botão de
+    // confirmação (que nomeia explicitamente o que foi escolhido) ser
+    // clicado. Sem cancelar/voltar por decisão do Software Architect:
+    // é binário e bloqueante de propósito.
+    let armedChoice = null;
+    const cards = card.querySelectorAll(".sync-collision-card");
+    const confirmBtn = card.querySelector("#syncCollisionConfirmBtn");
+
+    cards.forEach((c) => {
+      c.addEventListener("click", () => {
+        armedChoice = c.dataset.choice;
+        cards.forEach((other) => other.classList.toggle("armed", other === c));
+        confirmBtn.classList.remove("hidden");
+        confirmBtn.textContent = armedChoice === "cloud" ? "Confirmar: usar dados da nuvem" : "Confirmar: usar dados deste aparelho";
+      });
+    });
+
+    confirmBtn.addEventListener("click", async () => {
+      confirmBtn.disabled = true;
+      confirmBtn.innerHTML = Fx.loadingOrbitHtml();
+      cards.forEach((c) => (c.disabled = true));
+
+      if (armedChoice === "cloud") await Cloud.applyCloudWins(rows);
+      else await Cloud.applyLocalWins();
+
+      await Fx.screenTransition(screen, "exit");
+      screen.classList.add("hidden");
+      this.showGateLoading();
+      resolve(true);
+    });
   },
 
   /* Se o cofre (js/vault.js) estiver ativado, trava a inicialização do app
@@ -84,7 +456,12 @@ const App = {
       });
       forgotBtn.addEventListener("click", () => {
         if (confirm("Isso vai apagar TODOS os dados salvos neste navegador (perfil, transações, progresso e o cofre) e não pode ser desfeito. Continuar?")) {
-          Store.clearAll();
+          // RFC-027: NUNCA usar Store.clearAll() aqui — isso apagaria a
+          // conta na nuvem inteira por causa de uma senha secundária local
+          // esquecida. clearLocalOnly() só limpa o cache deste navegador;
+          // com a sessão de conta ainda válida, o boot re-hidrata a partir
+          // da nuvem (fonte de verdade) normalmente após o reload.
+          Store.clearLocalOnly();
           location.reload();
         }
       });
@@ -92,6 +469,36 @@ const App = {
   },
 
   bindGlobalEvents() {
+    // RFC-027 — sessão expirada em segundo plano: como a cadeia de gates
+    // já garante que o app nunca renderiza sem sessão, qualquer
+    // account:updated com Auth.getAccount() nulo DEPOIS do boot (_booted)
+    // é necessariamente uma sessão que caiu — nunca "nunca logou". É essa
+    // distinção que Auth.getAccount() sozinho não dá (ver seção 5/Backend
+    // Engineer da RFC). Reentrada continua sendo o modal de conta já
+    // existente (Auth.openModal()), nunca uma tela cheia — o app segue
+    // usável com os dados do cache local (critério de aceite 6).
+    document.addEventListener("account:updated", () => {
+      if (!this._booted) return;
+      const acc = Auth.getAccount();
+      if (acc) {
+        this._lastKnownAccount = acc;
+        this.clearSessionExpiredChip();
+      } else {
+        this.renderSessionExpiredChip(this._lastKnownAccount);
+      }
+    });
+
+    // RFC-027 — indicador de falha ao sincronizar: chip persistente no
+    // header, nunca um toast (uma queda de rede pode falhar várias vezes
+    // seguidas, e um toast reaparecendo a cada tentativa seria o
+    // "histérico" que o Product Owner pediu para evitar).
+    document.addEventListener("cloud:sync-error", (e) => {
+      const isFirst = this._syncErrorKeys.size === 0;
+      this._syncErrorKeys.add(e.detail.key);
+      this.renderSyncErrorChip();
+      if (isFirst) navigator.vibrate?.(20);
+    });
+
     document.addEventListener("profile:updated", () => {
       this.renderHeaderStats();
       this.renderHome();
@@ -137,6 +544,94 @@ const App = {
         }
       }
     });
+  },
+
+  /* RFC-027 — chip "⚠️ Reconectar": mantém o avatar/nome da última conta
+     conhecida (esmaecido) quando existir, para o usuário reconhecer que é
+     ELE que precisa reconectar, não uma conta desconhecida. */
+  renderSessionExpiredChip(lastKnown) {
+    const el = document.getElementById("accountBtn");
+    if (!el) return;
+    el.classList.add("session-expired");
+    if (lastKnown) {
+      const inicial = lastKnown.nome.trim().charAt(0).toUpperCase();
+      el.innerHTML = lastKnown.foto
+        ? `<img src="${lastKnown.foto}" alt="" class="account-avatar" /> ⚠️ Reconectar`
+        : `<span class="account-avatar account-avatar-fallback">${inicial}</span> ⚠️ Reconectar`;
+    } else {
+      el.innerHTML = `⚠️ Reconectar`;
+    }
+  },
+
+  clearSessionExpiredChip() {
+    document.getElementById("accountBtn")?.classList.remove("session-expired");
+  },
+
+  /* RFC-027 — chip "⚠️ Sincronização pendente" (item 6, UX/UI): sempre um
+     único chip, mesmo com várias chaves pendentes ao mesmo tempo (vira um
+     contador). Inserido dinamicamente ao lado de #accountBtn — sai do DOM
+     de verdade quando resolvido, não fica só escondido. */
+  renderSyncErrorChip() {
+    const accountBtn = document.getElementById("accountBtn");
+    if (!accountBtn) return;
+    let chip = document.getElementById("syncStatusChip");
+    if (this._syncErrorKeys.size === 0) {
+      chip?.remove();
+      return;
+    }
+    if (!chip) {
+      chip = document.createElement("button");
+      chip.type = "button";
+      chip.id = "syncStatusChip";
+      chip.className = "stat-chip sync-status error tip-trigger";
+      chip.setAttribute("aria-live", "polite");
+      chip.dataset.tip = "Não conseguimos salvar sua última alteração na nuvem. Ela continua segura neste aparelho — toque para tentar de novo.";
+      accountBtn.insertAdjacentElement("afterend", chip);
+      chip.addEventListener("click", () => this.retrySyncErrors());
+    }
+    const n = this._syncErrorKeys.size;
+    chip.innerHTML =
+      n === 1 ? `<span class="ico">⚠️</span><span>Sincronização pendente</span>` : `<span class="ico">⚠️</span><span>${n} pendentes</span>`;
+  },
+
+  /* Reenvia o valor ATUAL de cada chave pendente (não o valor antigo que
+     falhou) — mais correto do que reenviar um snapshot obsoleto, e o
+     upsert por (user_id,key) já é idempotente de qualquer forma. */
+  async retrySyncErrors() {
+    const chip = document.getElementById("syncStatusChip");
+    if (!chip || this._syncErrorKeys.size === 0) return;
+    const keys = Array.from(this._syncErrorKeys);
+    chip.disabled = true;
+    chip.innerHTML = Fx.loadingOrbitHtml();
+
+    const stillFailing = new Set();
+    const onError = (e) => stillFailing.add(e.detail.key);
+    document.addEventListener("cloud:sync-error", onError);
+
+    await Promise.all(
+      keys.map(async (key) => {
+        let value;
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw === null) return; // chave não existe mais localmente — nada para reenviar
+          value = JSON.parse(raw);
+        } catch (e) {
+          return;
+        }
+        await Cloud.pushKey(key, value);
+      })
+    );
+
+    document.removeEventListener("cloud:sync-error", onError);
+    this._syncErrorKeys = stillFailing;
+    chip.disabled = false;
+
+    if (this._syncErrorKeys.size === 0) {
+      Fx.successGlow(chip);
+      setTimeout(() => chip.remove(), 900);
+    } else {
+      this.renderSyncErrorChip();
+    }
   },
 
   bindBackupButtons() {

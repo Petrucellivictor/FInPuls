@@ -1,31 +1,35 @@
 /* =========================================================================
-   CLOUD.JS — Sincronização multiusuário via Supabase (opcional).
+   CLOUD.JS — Sincronização com Supabase (RFC-027: Supabase é a fonte de
+   verdade dos dados; conta obrigatória).
 
    Se js/supabase-config.js não tiver URL/chave configuradas, este módulo
-   fica inerte e o PolvIn funciona exatamente como antes (100% local). Com o
-   Supabase configurado, cada conta (e-mail/senha ou Google) passa a ter
-   seus dados sincronizados numa tabela protegida por RLS (ver
-   supabase/schema.sql) — cada pessoa só acessa as próprias linhas.
+   fica inerte (Cloud.isAvailable() === false) — nesse caso o boot do app
+   (js/app.js, gate anterior a qualquer outro) mostra uma tela terminal
+   explicando que o ambiente não está configurado para uso real; não existe
+   mais um "modo 100% local" como caminho de produção.
 
    Arquitetura (mesmo padrão do cofre local em js/vault.js): a leitura e a
-   escrita síncronas via Store.get/set continuam funcionando exatamente
-   como hoje, sempre contra o localStorage. Este módulo só entra em ação
-   em três pontos assíncronos: (1) no boot, restaurando a sessão e "puxando"
-   os dados da nuvem para dentro do localStorage; (2) em segundo plano,
-   "empurrando" cada escrita local para a nuvem (debounced); (3) nas ações
-   explícitas de entrar/criar conta/sair.
+   escrita síncronas via Store.get/set continuam contra o localStorage, que
+   passa a ser só um cache local de leitura/escrita otimista — a fonte de
+   verdade é a tabela `user_data` no Supabase. Este módulo entra em ação em
+   pontos assíncronos: (1) no boot, só restaurando a sessão (init()) — quem
+   decide o que fazer com os dados é o gate App.ensureCloudResolved(), que
+   chama syncOnLogin() explicitamente; (2) em segundo plano, "empurrando"
+   cada escrita local para a nuvem (debounced); (3) nas ações explícitas de
+   entrar/criar conta/sair/recuperar senha.
 
-   IMPORTANTE (limitação honesta): como é uma ferramenta em fase de testes,
-   a sincronização não faz merge inteligente entre dispositivos — ao logar
-   ou abrir o app com uma sessão já ativa, os dados da nuvem sempre
-   sobrescrevem os dados locais deste navegador (a não ser na primeira vez,
-   quando a nuvem ainda está vazia: nesse caso os dados locais são enviados
-   para a nuvem). Use um dispositivo por vez com a mesma conta para evitar
-   perder alterações feitas offline.
+   IMPORTANTE (limitação honesta, ver cabeçalho anterior a esta RFC): a
+   sincronização não faz merge inteligente entre dispositivos logados e
+   ativos ao mesmo tempo — cada um empurra seu próprio blob debounced sem
+   nenhuma heurística de "colisão" (essa só existe no momento do login, via
+   syncOnLogin()). Ficou registrado como risco aceito conscientemente na
+   RFC-027 (Software Architect, decisão 6); merge de verdade é uma RFC
+   futura.
    ========================================================================= */
 
 const Cloud = {
   session: null,
+  recoveryMode: false,
   _pushTimers: {},
 
   isAvailable() {
@@ -36,19 +40,29 @@ const Cloud = {
     return this.isAvailable() && !!this.session;
   },
 
+  /* Só restaura a sessão (se houver) e passa a escutar mudanças futuras.
+     NÃO decide sozinho o que fazer com os dados — isso é responsabilidade
+     do gate App.ensureCloudResolved(), que chama syncOnLogin() de forma
+     explícita depois de App.ensureAuthenticated() confirmar que há sessão. */
   async init() {
     if (!this.isAvailable()) return;
 
     const { data } = await sb.auth.getSession();
     this.session = data.session || null;
 
-    sb.auth.onAuthStateChange((_event, session) => {
+    sb.auth.onAuthStateChange((event, session) => {
       this.session = session || null;
+      // Retorno do link de "esqueci minha senha": o Supabase entrega uma
+      // sessão de recuperação temporária e dispara este evento. Expomos
+      // como estado para App.init() decidir se mostra a tela de "defina
+      // uma nova senha" antes do gate de autenticação normal.
+      if (event === "PASSWORD_RECOVERY") this.recoveryMode = true;
+      // Mesmo evento de identidade já usado no projeto (antes disparado só
+      // por Auth.setLocalAccount/logout) — agora é o próprio Cloud quem
+      // avisa qualquer módulo interessado (Profile, Auth, etc.) sempre que
+      // a sessão muda: login, logout, ou perda de sessão em segundo plano.
+      document.dispatchEvent(new CustomEvent("account:updated"));
     });
-
-    if (this.session) {
-      await this.syncOnLogin();
-    }
   },
 
   /* ---------- ações de conta ---------- */
@@ -60,7 +74,13 @@ const Cloud = {
     if (!this.session) {
       return { ok: true, needsConfirmation: true };
     }
-    await this.syncOnLogin();
+    // Não chama syncOnLogin() aqui: quem faz login/cadastro sempre recarrega
+    // a página em seguida (ver Auth.submitCloudAuth) e o gate
+    // App.ensureCloudResolved() cuida da sincronização uma única vez, já no
+    // boot seguinte. Chamar aqui também duplicaria a detecção de colisão —
+    // um push/hydrate feito antes do reload faria o segundo diagnóstico (já
+    // com os dois lados populados) reportar colisão mesmo quando os dados
+    // são idênticos.
     return { ok: true, needsConfirmation: false };
   },
 
@@ -68,7 +88,6 @@ const Cloud = {
     const { data, error } = await sb.auth.signInWithPassword({ email, password });
     if (error) return { ok: false, message: this.translateError(error) };
     this.session = data.session || null;
-    await this.syncOnLogin();
     return { ok: true };
   },
 
@@ -76,7 +95,6 @@ const Cloud = {
     const { data, error } = await sb.auth.signInWithIdToken({ provider: "google", token: idToken });
     if (error) return { ok: false, message: this.translateError(error) };
     this.session = data.session || null;
-    await this.syncOnLogin();
     return { ok: true };
   },
 
@@ -86,11 +104,30 @@ const Cloud = {
     this.session = null;
   },
 
+  async resetPasswordForEmail(email) {
+    const { error } = await sb.auth.resetPasswordForEmail(email);
+    if (error) return { ok: false, message: this.translateError(error) };
+    return { ok: true, message: "Enviamos um link de recuperação para o seu e-mail. Verifique também a caixa de spam." };
+  },
+
+  async updatePassword(newPassword) {
+    const { error } = await sb.auth.updateUser({ password: newPassword });
+    if (error) return { ok: false, message: this.translateError(error) };
+    // Fluxo de recuperação concluído: a sessão de recuperação temporária já
+    // vale como sessão normal a partir daqui (Supabase não exige novo
+    // login), então o boot não precisa mais tratar isso como recuperação.
+    this.recoveryMode = false;
+    return { ok: true, message: "Senha atualizada com sucesso." };
+  },
+
   translateError(error) {
     const msg = (error && error.message) || "";
     if (msg.includes("Invalid login credentials")) return "E-mail ou senha incorretos.";
     if (msg.includes("User already registered")) return "Já existe uma conta com este e-mail — tente entrar em vez de criar.";
     if (msg.includes("Password should be at least")) return "A senha precisa ter pelo menos 6 caracteres.";
+    if (msg.includes("New password should be different")) return "A nova senha precisa ser diferente da senha atual.";
+    if (msg.includes("For security purposes")) return "Por segurança, aguarde um pouco antes de pedir outro link de recuperação.";
+    if (msg.toLowerCase().includes("auth session missing")) return "Sua sessão de recuperação expirou. Solicite um novo link de redefinição de senha.";
     if (msg.toLowerCase().includes("provider is not enabled")) return "Login com Google via Supabase ainda não foi habilitado neste projeto (peça para o administrador ativar o provedor Google em Authentication → Providers).";
     return msg || "Não foi possível completar a operação. Tente novamente.";
   },
@@ -111,16 +148,42 @@ const Cloud = {
     return data || [];
   },
 
-  /* Decide, no momento do login, se a nuvem está vazia (primeiro acesso
-     desta conta: sobe os dados locais) ou já tem dados (baixa e substitui
-     os locais). Chamado uma única vez por login/signup/boot-com-sessão. */
+  /* "Dado real do usuário" presente neste navegador — exclui as 4 chaves de
+     metadado do cofre (if_vault_*), que não contam para fins de detecção de
+     colisão (RFC-027, decisão do Software Architect item 2). */
+  hasLocalData() {
+    return Object.values(STORAGE_KEYS).some((key) => key.indexOf("if_vault_") !== 0 && localStorage.getItem(key) !== null);
+  },
+
+  /* Decide, no momento do login, o estado relativo entre a nuvem (fonte de
+     verdade) e o cache local deste navegador. Detecção de colisão é
+     binária e sem heurística de timestamp, de propósito (ver RFC-027):
+     nuvem com ≥1 linha E localStorage com ≥1 chave de dado real = colisão.
+
+     Contrato novo: retorna sempre { case, rows }, nunca muta nada sozinho
+     quando há colisão — quem decide o que fazer é a UI (App.ensureCloudResolved
+     -> #syncCollisionScreen -> applyCloudWins/applyLocalWins). Nos outros 3
+     casos, continua agindo sozinho exatamente como antes (push/hydrate),
+     sem que a UI precise inspecionar `rows`. Chamado uma única vez por
+     boot-com-sessão (o próprio App.ensureCloudResolved), nunca de dentro de
+     signIn/signUp/signInWithGoogleIdToken (ver comentário em signUp). */
   async syncOnLogin() {
     const rows = await this.fetchRemoteRows();
-    if (rows.length === 0) {
-      await this.pushAllLocal();
-    } else {
-      this.hydrateLocalFrom(rows);
+    const cloudHasData = rows.length > 0;
+    const localHasData = this.hasLocalData();
+
+    if (cloudHasData && localHasData) {
+      return { case: "collision", rows };
     }
+    if (!cloudHasData && !localHasData) {
+      return { case: "both-empty", rows };
+    }
+    if (!cloudHasData && localHasData) {
+      await this.pushAllLocal();
+      return { case: "cloud-empty", rows };
+    }
+    this.hydrateLocalFrom(rows);
+    return { case: "local-empty", rows };
   },
 
   hydrateLocalFrom(rows) {
@@ -131,6 +194,31 @@ const Cloud = {
         console.warn("Cloud: falha ao gravar localmente a chave", key, e);
       }
     });
+  },
+
+  /* "Usar dados da nuvem" na tela de colisão: limpa todas as STORAGE_KEYS
+     locais (exceto if_vault_*, que são metadado do cofre deste aparelho,
+     não dado de conta) e então aplica `rows`. A limpeza prévia é o que
+     evita uma chave que só existisse localmente sobreviver "escondida"
+     mesmo depois de escolher a nuvem. */
+  applyCloudWins(rows) {
+    Object.values(STORAGE_KEYS)
+      .filter((key) => key.indexOf("if_vault_") !== 0)
+      .forEach((key) => localStorage.removeItem(key));
+    this.hydrateLocalFrom(rows);
+  },
+
+  /* "Usar dados deste aparelho" na tela de colisão: sobe tudo que existe
+     localmente (pushAllLocal) e apaga na nuvem qualquer chave que não
+     exista mais localmente — sem isso, o "espelho" ficaria inconsistente
+     com o lado escolhido como vencedor (uma chave só-nuvem sobreviveria
+     escondida mesmo depois de escolher o aparelho). */
+  async applyLocalWins() {
+    const remoteRows = await this.fetchRemoteRows();
+    await this.pushAllLocal();
+    const localKeys = new Set(Object.values(STORAGE_KEYS).filter((key) => localStorage.getItem(key) !== null));
+    const staleKeys = remoteRows.map((row) => row.key).filter((key) => !localKeys.has(key));
+    await Promise.all(staleKeys.map((key) => this.removeKey(key)));
   },
 
   async pushAllLocal() {
@@ -164,18 +252,20 @@ const Cloud = {
     const { error } = await sb
       .from("user_data")
       .upsert({ user_id: this.userId(), key, value, updated_at: new Date().toISOString() }, { onConflict: "user_id,key" });
-    if (error) console.warn("Cloud: falha ao sincronizar", key, error.message);
+    if (error) {
+      console.warn("Cloud: falha ao sincronizar", key, error.message);
+      // Além do log, avisa qualquer UI interessada (chip de "sincronização
+      // pendente" no header, RFC-027) — antes disso, uma falha de escrita
+      // era só um console.warn, sem nenhum jeito de o usuário saber ou
+      // tentar de novo sem recarregar a página.
+      document.dispatchEvent(new CustomEvent("cloud:sync-error", { detail: { key, error: error.message } }));
+    }
   },
 
-  removeKey(key) {
+  async removeKey(key) {
     if (!this.isLoggedIn()) return;
-    sb.from("user_data")
-      .delete()
-      .eq("user_id", this.userId())
-      .eq("key", key)
-      .then(({ error }) => {
-        if (error) console.warn("Cloud: falha ao remover", key, error.message);
-      });
+    const { error } = await sb.from("user_data").delete().eq("user_id", this.userId()).eq("key", key);
+    if (error) console.warn("Cloud: falha ao remover", key, error.message);
   },
 
   async deleteAll() {

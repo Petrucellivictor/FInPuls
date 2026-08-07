@@ -117,7 +117,7 @@ const Leagues = {
     if (!container) return;
     const leagues = this.getLeagues();
     const myScore = Learn.totalScore();
-    const acc = Store.get(STORAGE_KEYS.ACCOUNT, null);
+    const acc = Auth.getAccount();
     const myName = acc ? acc.nome.split(" ")[0] : "Você";
 
     if (!leagues.length) {

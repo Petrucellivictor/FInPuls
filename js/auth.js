@@ -1,22 +1,22 @@
 /* =========================================================================
-   AUTH.JS — Conta do usuário: login real via Supabase (e-mail/senha ou
-   Google) quando configurado, com fallback para um perfil só local (sem
-   senha, sem sincronização) quando não há Supabase configurado.
+   AUTH.JS — Conta do usuário (RFC-027: conta obrigatória, Supabase é a
+   única fonte de identidade).
 
-   Com Supabase configurado (ver js/supabase-config.js e js/cloud.js):
-   - "Criar conta"/"Entrar" cria uma sessão real, e os dados passam a
-     sincronizar entre dispositivos (protegidos por RLS no Supabase).
-   - O botão do Google passa a abrir uma sessão real via
-     Cloud.signInWithGoogleIdToken (token do Google validado pelo próprio
-     Supabase) — para isso, o provedor Google precisa estar habilitado em
-     Authentication → Providers no painel do Supabase.
+   Não existe mais um "perfil local sem senha" como estado final: toda
+   identidade de exibição (nome, e-mail, foto) deriva sempre de
+   Cloud.session.user — sem sessão, Auth.getAccount() retorna null. Quem
+   garante que o app nunca funcione sem sessão é o gate bloqueante de boot
+   em js/app.js (App.ensureAuthenticated(), Frontend Engineer), não este
+   módulo — Auth só cuida de exibir a conta e dos formulários de entrada.
 
-   Sem Supabase configurado, tudo funciona exatamente como antes: um
-   perfil local sem senha, só para personalizar a saudação, sem nenhuma
-   sincronização entre dispositivos.
+   O formulário de e-mail/senha + botão do Google (authFormHtml/bindAuthForm)
+   é reaproveitado tanto pelo modal de conta não bloqueante daqui quanto
+   pela tela cheia de gate de autenticação do boot (js/app.js) — mesma peça
+   de UI, dois contextos diferentes, sem duplicar a implementação.
 
-   Para o botão do Google aparecer (em qualquer um dos dois modos), ainda é
-   preciso configurar um Client ID do Google (ver instruções abaixo).
+   Para o botão do Google aparecer, ainda é preciso configurar um Client ID
+   do Google (ver instruções abaixo) e um provedor Google habilitado no
+   Supabase (Authentication → Providers).
 
    Para o login com Google funcionar de verdade, é preciso:
    1) Criar um OAuth Client ID gratuito em https://console.cloud.google.com/
@@ -35,99 +35,105 @@ const Auth = {
   init() {
     this.renderHeaderChip();
     document.getElementById("accountBtn")?.addEventListener("click", () => this.openModal());
+    // account:updated agora é disparado pelo próprio Cloud (login, logout,
+    // ou perda de sessão em segundo plano) — Auth precisa reagir para
+    // manter o chip do cabeçalho correto sem depender de reload.
+    document.addEventListener("account:updated", () => this.renderHeaderChip());
   },
 
   cloudReady() {
     return typeof Cloud !== "undefined" && Cloud.isAvailable();
   },
 
-  /* Conta atualmente "logada" para exibição. Se houver sessão real no
-     Supabase, deriva os dados dela (sempre em memória, nunca depende do
-     cofre/localStorage). Senão, cai no perfil local antigo. */
+  /* Conta atualmente "logada" para exibição — único ramo, sempre derivado
+     da sessão real do Supabase. Sem sessão, não existe mais um "perfil
+     local" de fallback: retorna null. */
   getAccount() {
-    if (this.cloudReady() && Cloud.isLoggedIn()) {
-      const u = Cloud.session.user;
-      const meta = u.user_metadata || {};
-      return {
-        tipo: "cloud",
-        nome: meta.full_name || meta.name || u.email,
-        email: u.email,
-        foto: meta.avatar_url || meta.picture || null,
-      };
-    }
-    return Store.get(STORAGE_KEYS.ACCOUNT, null);
-  },
-
-  setLocalAccount(acc) {
-    Store.set(STORAGE_KEYS.ACCOUNT, acc);
-    this.renderHeaderChip();
-    document.dispatchEvent(new CustomEvent("account:updated"));
-    this.closeModal();
+    if (!this.cloudReady() || !Cloud.isLoggedIn()) return null;
+    const u = Cloud.session.user;
+    const meta = u.user_metadata || {};
+    return {
+      tipo: "cloud",
+      nome: meta.full_name || meta.name || u.email,
+      email: u.email,
+      foto: meta.avatar_url || meta.picture || null,
+    };
   },
 
   async logout() {
     if (!confirm("Sair da conta? Seus dados financeiros continuam salvos neste navegador.")) return;
-    if (this.cloudReady() && Cloud.isLoggedIn()) {
-      await Cloud.signOut();
-      location.reload();
-      return;
-    }
-    Store.remove(STORAGE_KEYS.ACCOUNT);
-    this.renderHeaderChip();
-    document.dispatchEvent(new CustomEvent("account:updated"));
-  },
-
-  decodeJwtPayload(token) {
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const json = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map((c) => "%" + c.charCodeAt(0).toString(16).padStart(2, "0"))
-        .join("")
-    );
-    return JSON.parse(json);
+    await Cloud.signOut();
+    location.reload();
   },
 
   async handleGoogleCredential(response) {
-    if (this.cloudReady()) {
-      const result = await Cloud.signInWithGoogleIdToken(response.credential);
-      if (!result.ok) {
-        alert(result.message);
-        return;
-      }
-      location.reload();
+    const result = await Cloud.signInWithGoogleIdToken(response.credential);
+    if (!result.ok) {
+      alert(result.message);
       return;
     }
-    try {
-      const payload = this.decodeJwtPayload(response.credential);
-      this.setLocalAccount({
-        tipo: "google",
-        nome: payload.name || payload.email,
-        email: payload.email,
-        foto: payload.picture || null,
-        criadoEm: new Date().toISOString(),
-      });
-    } catch (e) {
-      alert("Não foi possível ler os dados do Google. Tente novamente.");
-    }
+    location.reload();
   },
 
-  createLocalEmailAccount() {
-    const nome = document.getElementById("authNome").value.trim();
-    const email = document.getElementById("authEmail").value.trim();
-    if (!nome || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      alert("Informe um nome e um e-mail válido.");
-      return;
-    }
-    this.setLocalAccount({ tipo: "email", nome, email, foto: null, criadoEm: new Date().toISOString() });
+  /* ---------- formulário reutilizável (modal de conta + gate de boot) ---------- */
+
+  /* HTML do formulário de e-mail/senha + botão do Google + link "esqueci
+     minha senha". Não injeta nenhum comportamento — chame bindAuthForm()
+     depois de inserir este HTML no DOM. */
+  authFormHtml() {
+    return `
+      <div id="googleSignInArea" class="mt-16"></div>
+      <div class="auth-divider">ou</div>
+      <div class="auth-tabs" style="display:flex;gap:8px">
+        <button class="btn btn-sm ${this.authTab === "signin" ? "btn-primary" : "btn-outline"}" id="authTabSignin" style="flex:1">Entrar</button>
+        <button class="btn btn-sm ${this.authTab === "signup" ? "btn-primary" : "btn-outline"}" id="authTabSignup" style="flex:1">Criar conta</button>
+      </div>
+      <div class="field mt-16"><label for="authEmail">E-mail</label><input type="email" id="authEmail" placeholder="seu@email.com" /></div>
+      <div class="field"><label for="authPassword">Senha</label><input type="password" id="authPassword" placeholder="Mínimo 6 caracteres" /></div>
+      <div id="authForgotRow" class="${this.authTab === "signin" ? "" : "hidden"}">
+        <a href="#" id="authForgotBtn" class="text-sm">Esqueci minha senha</a>
+      </div>
+      <div class="alert-box danger hidden" id="authError" role="alert"></div>
+      <div class="alert-box info hidden" id="authInfo" role="alert"></div>
+      <button class="btn btn-primary btn-block" id="authSubmitBtn">${this.authTab === "signup" ? "Criar conta" : "Entrar"}</button>
+    `;
   },
 
-  async submitCloudAuth() {
-    const email = document.getElementById("authEmail").value.trim();
-    const password = document.getElementById("authPassword").value;
-    const errorBox = document.getElementById("authError");
-    const infoBox = document.getElementById("authInfo");
+  /* Liga os eventos do formulário produzido por authFormHtml(). `container`
+     é o elemento (modal-box, onboarding-card, etc.) que já contém o HTML —
+     todas as buscas de elemento são escopadas a ele, para que o mesmo
+     formulário possa existir em telas diferentes sem colidir por id. */
+  bindAuthForm(container) {
+    this.renderGoogleButton(container);
+
+    const submitBtn = container.querySelector("#authSubmitBtn");
+    const forgotRow = container.querySelector("#authForgotRow");
+    const tabSignin = container.querySelector("#authTabSignin");
+    const tabSignup = container.querySelector("#authTabSignup");
+
+    const setTab = (tab) => {
+      this.authTab = tab;
+      tabSignin.className = `btn btn-sm ${tab === "signin" ? "btn-primary" : "btn-outline"}`;
+      tabSignup.className = `btn btn-sm ${tab === "signup" ? "btn-primary" : "btn-outline"}`;
+      submitBtn.textContent = tab === "signup" ? "Criar conta" : "Entrar";
+      forgotRow?.classList.toggle("hidden", tab !== "signin");
+    };
+
+    tabSignin.addEventListener("click", () => setTab("signin"));
+    tabSignup.addEventListener("click", () => setTab("signup"));
+    submitBtn.addEventListener("click", () => this.submitCloudAuth(container));
+    container.querySelector("#authForgotBtn")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.submitForgotPassword(container);
+    });
+  },
+
+  async submitCloudAuth(container) {
+    const root = container || document;
+    const email = root.querySelector("#authEmail").value.trim();
+    const password = root.querySelector("#authPassword").value;
+    const errorBox = root.querySelector("#authError");
+    const infoBox = root.querySelector("#authInfo");
     errorBox.classList.add("hidden");
     infoBox.classList.add("hidden");
 
@@ -148,8 +154,37 @@ const Auth = {
       infoBox.classList.remove("hidden");
       return;
     }
+    // Reload garante um boot limpo, com a cadeia de gates de App.init()
+    // (autenticação -> sincronização -> cofre) rodando do zero para esta
+    // sessão recém-criada — inclusive a sincronização inicial (RFC-027).
     location.reload();
   },
+
+  async submitForgotPassword(container) {
+    const root = container || document;
+    const email = root.querySelector("#authEmail").value.trim();
+    const errorBox = root.querySelector("#authError");
+    const infoBox = root.querySelector("#authInfo");
+    errorBox.classList.add("hidden");
+    infoBox.classList.add("hidden");
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errorBox.textContent = "Informe o e-mail da sua conta no campo acima para receber o link de recuperação.";
+      errorBox.classList.remove("hidden");
+      return;
+    }
+
+    const result = await Cloud.resetPasswordForEmail(email);
+    if (!result.ok) {
+      errorBox.textContent = result.message;
+      errorBox.classList.remove("hidden");
+      return;
+    }
+    infoBox.textContent = result.message;
+    infoBox.classList.remove("hidden");
+  },
+
+  /* ---------- exibição ---------- */
 
   renderHeaderChip() {
     const el = document.getElementById("accountBtn");
@@ -178,7 +213,6 @@ const Auth = {
     overlay.id = "authModalOverlay";
 
     if (acc) {
-      const tipoLabel = { cloud: "Conta sincronizada (Supabase)", google: "Conectado com Google", email: "Perfil local por e-mail" }[acc.tipo] || "";
       overlay.innerHTML = `
         <div class="modal-box auth-modal">
           <button class="modal-close">✕</button>
@@ -188,69 +222,26 @@ const Auth = {
             <div>
               <b>${acc.nome}</b>
               <div class="text-soft text-sm">${acc.email}</div>
-              <div class="text-soft text-sm">${tipoLabel}</div>
+              <div class="text-soft text-sm">Conta sincronizada (Supabase)</div>
             </div>
           </div>
-          ${
-            acc.tipo === "cloud"
-              ? `<div class="alert-box info text-sm">☁️ Seus dados estão sincronizados na nuvem e disponíveis em qualquer dispositivo em que você entrar com esta conta.</div>`
-              : `<div class="alert-box warn text-sm">Este perfil só existe neste navegador — não há sincronização entre dispositivos.</div>`
-          }
+          <div class="alert-box info text-sm">☁️ Seus dados estão sincronizados na nuvem e disponíveis em qualquer dispositivo em que você entrar com esta conta.</div>
           <button class="btn btn-outline btn-block mt-16" id="authLogoutBtn">Sair</button>
         </div>
       `;
       document.body.appendChild(overlay);
       document.getElementById("authLogoutBtn").addEventListener("click", () => this.logout());
-    } else if (this.cloudReady()) {
-      overlay.innerHTML = `
-        <div class="modal-box auth-modal">
-          <button class="modal-close">✕</button>
-          <h2>Entrar no PolvIn</h2>
-          <p class="text-soft text-sm">Crie uma conta para sincronizar seus dados (transações, investimentos, progresso) entre dispositivos.</p>
-          <div id="googleSignInArea" class="mt-16"></div>
-          <div class="auth-divider">ou</div>
-          <div class="auth-tabs" style="display:flex;gap:8px">
-            <button class="btn btn-sm ${this.authTab === "signin" ? "btn-primary" : "btn-outline"}" id="authTabSignin" style="flex:1">Entrar</button>
-            <button class="btn btn-sm ${this.authTab === "signup" ? "btn-primary" : "btn-outline"}" id="authTabSignup" style="flex:1">Criar conta</button>
-          </div>
-          <div class="field mt-16"><label for="authEmail">E-mail</label><input type="email" id="authEmail" placeholder="seu@email.com" /></div>
-          <div class="field"><label for="authPassword">Senha</label><input type="password" id="authPassword" placeholder="Mínimo 6 caracteres" /></div>
-          <div class="alert-box danger hidden" id="authError"></div>
-          <div class="alert-box info hidden" id="authInfo"></div>
-          <button class="btn btn-primary btn-block" id="authSubmitBtn">${this.authTab === "signup" ? "Criar conta" : "Entrar"}</button>
-        </div>
-      `;
-      document.body.appendChild(overlay);
-      this.renderGoogleButton();
-
-      const submitBtn = document.getElementById("authSubmitBtn");
-      const setTab = (tab) => {
-        this.authTab = tab;
-        document.getElementById("authTabSignin").className = `btn btn-sm ${tab === "signin" ? "btn-primary" : "btn-outline"}`;
-        document.getElementById("authTabSignup").className = `btn btn-sm ${tab === "signup" ? "btn-primary" : "btn-outline"}`;
-        submitBtn.textContent = tab === "signup" ? "Criar conta" : "Entrar";
-      };
-      document.getElementById("authTabSignin").addEventListener("click", () => setTab("signin"));
-      document.getElementById("authTabSignup").addEventListener("click", () => setTab("signup"));
-      submitBtn.addEventListener("click", () => this.submitCloudAuth());
     } else {
       overlay.innerHTML = `
         <div class="modal-box auth-modal">
           <button class="modal-close">✕</button>
           <h2>Entrar no PolvIn</h2>
-          <p class="text-soft text-sm">Isso só personaliza sua saudação. Seus dados financeiros continuam salvos neste navegador — não há sincronização entre dispositivos.</p>
-          <div id="googleSignInArea" class="mt-16"></div>
-          <div class="auth-divider">ou</div>
-          <h3>Criar perfil com e-mail</h3>
-          <p class="text-soft text-sm">Sem senha — é só um identificador local para personalizar sua experiência neste navegador.</p>
-          <div class="field"><label for="authNome">Nome</label><input type="text" id="authNome" placeholder="Seu nome" /></div>
-          <div class="field"><label for="authEmail">E-mail</label><input type="email" id="authEmail" placeholder="seu@email.com" /></div>
-          <button class="btn btn-primary btn-block" id="authEmailBtn">Criar perfil</button>
+          <p class="text-soft text-sm">Crie uma conta para sincronizar seus dados (transações, investimentos, progresso) entre dispositivos.</p>
+          ${this.authFormHtml()}
         </div>
       `;
       document.body.appendChild(overlay);
-      document.getElementById("authEmailBtn").addEventListener("click", () => this.createLocalEmailAccount());
-      this.renderGoogleButton();
+      this.bindAuthForm(overlay);
     }
 
     overlay.querySelector(".modal-close").addEventListener("click", () => this.closeModal());
@@ -259,8 +250,9 @@ const Auth = {
     });
   },
 
-  renderGoogleButton() {
-    const area = document.getElementById("googleSignInArea");
+  renderGoogleButton(container) {
+    const root = container || document;
+    const area = root.querySelector("#googleSignInArea");
     if (!area) return;
 
     if (location.protocol === "file:") {
