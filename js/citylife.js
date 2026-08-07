@@ -19,6 +19,14 @@
    concluída), cursos que custam patrimônio simulado, e 4 opções de
    investimento novas — 2 delas só ficam disponíveis depois de satisfazer
    um requisito, sempre visível mesmo bloqueada (nunca escondida).
+
+   RFC-025: fecha o loop — idade derivada do contador de semanas
+   (18 anos iniciais, aposentadoria aos 45), Relatório de Fim de
+   Temporada ("Legado da Sua Vida Financeira") ao atingir a aposentadoria,
+   e novaTemporada()/freshState() pra recomeçar resetando só este estado.
+   getState() passa a persistir qualquer migração de campo ausente
+   (this.setState() quando algo muda), corrigindo o bug de boot em saves
+   antigos documentado no ROADMAP.md.
    ========================================================================= */
 
 const CityLife = {
@@ -39,22 +47,58 @@ const CityLife = {
     ultimoCenarioId: null,
     decisaoPendente: null,
     historico: [],
+    aposentado: false, // RFC-025
+    temporadasCompletadas: 0, // RFC-025
+  },
+
+  // RFC-025: idade derivada do contador de semanas já existente. Cada
+  // "semana" já representa ~1 mês de vida (ver cabeçalho do arquivo) —
+  // SEMANAS_POR_ANO formaliza essa taxa em vez de deixá-la como número
+  // mágico espalhado. IDADE_APOSENTADORIA=45 é o valor final da
+  // reconciliação Gamification Designer × Financial Specialist (RFC-025,
+  // seção 5) — framing deliberado de aposentadoria antecipada (FIRE), não
+  // a idade real do INSS.
+  IDADE_INICIAL: 18,
+  SEMANAS_POR_ANO: 12,
+  IDADE_APOSENTADORIA: 45,
+
+  idadeAtual(state) {
+    return this.IDADE_INICIAL + Math.floor(state.semana / this.SEMANAS_POR_ANO);
+  },
+
+  // Clone profundo de DEFAULT_STATE — usado como fallback de getState() e
+  // por novaTemporada(). Store.get(key, fallback) devolve o fallback POR
+  // REFERÊNCIA quando a chave ainda não existe; sem clonar, a primeira
+  // mutação de um array/objeto aninhado (ex. cursosComprados.push) mutaria
+  // DEFAULT_STATE diretamente, contaminando o template pro resto da sessão.
+  freshState() {
+    return JSON.parse(JSON.stringify(this.DEFAULT_STATE));
   },
 
   getState() {
-    const state = Store.get(STORAGE_KEYS.CITY_LIFE, this.DEFAULT_STATE);
+    const state = Store.get(STORAGE_KEYS.CITY_LIFE, this.freshState());
     // Migração de saves da Fase 1 (RFC-017), que guardavam `emprego` como
     // objeto fixo em vez de `empregoId` — Fase 1 só tinha o cargo inicial,
     // então a migração é exata, sem perda. Fase 3 (RFC-019) adiciona
     // `bensComprados`/`status`; Fase 4 (RFC-020) adiciona `negocio`/
-    // `reputacao`, ausentes em saves anteriores.
-    if (!state.empregoId) state.empregoId = "auxiliar";
-    if (!state.cursosComprados) state.cursosComprados = [];
-    if (!state.bensComprados) state.bensComprados = {};
-    if (state.status === undefined) state.status = 20;
-    if (state.reputacao === undefined) state.reputacao = 20;
-    if (state.negocio === undefined) state.negocio = null;
-    delete state.emprego;
+    // `reputacao`; RFC-025 adiciona `aposentado`/`temporadasCompletadas`,
+    // ausentes em saves anteriores. `migrated` evita um Store.set/
+    // JSON.stringify a cada leitura — só grava quando algo de fato mudou.
+    let migrated = false;
+    if (!state.empregoId) { state.empregoId = "auxiliar"; migrated = true; }
+    if (!state.cursosComprados) { state.cursosComprados = []; migrated = true; }
+    if (!state.bensComprados) { state.bensComprados = {}; migrated = true; }
+    if (state.status === undefined) { state.status = 20; migrated = true; }
+    if (state.reputacao === undefined) { state.reputacao = 20; migrated = true; }
+    if (state.negocio === undefined) { state.negocio = null; migrated = true; }
+    // === undefined (não !state.campo): aposentado/temporadasCompletadas
+    // podem ser legitimamente false/0 na maior parte do jogo — usar `!x`
+    // faria getState() reescrever o estado a cada chamada mesmo sem
+    // migração real (ex. false sendo tratado como "ausente").
+    if (state.aposentado === undefined) { state.aposentado = false; migrated = true; } // RFC-025
+    if (state.temporadasCompletadas === undefined) { state.temporadasCompletadas = 0; migrated = true; } // RFC-025 (Database Engineer, seção 6)
+    if (state.emprego !== undefined) { delete state.emprego; migrated = true; }
+    if (migrated) this.setState(state);
     return state;
   },
 
@@ -287,7 +331,7 @@ const CityLife = {
 
   avancarSemana() {
     const state = this.getState();
-    if (state.decisaoPendente) return; // precisa resolver a decisão da semana atual antes de avançar
+    if (state.decisaoPendente || state.aposentado) return; // precisa resolver a decisão da semana atual antes de avançar; nada a avançar depois de aposentado
 
     const cenario = this.pickScenario(state.ultimoCenarioId);
     const selicNova = this.clamp(state.selicAtual + this.randInRange(cenario.selicDeltaPP), 2, 25);
@@ -316,10 +360,25 @@ const CityLife = {
     state.ultimoCenarioId = cenario.id;
     // RFC-024: avisa a Cidade Financeira (js/citygame.js) do novo cenário
     // sorteado — mesmo padrão de market:updated/tab:changed, sem dependência
-    // direta entre módulos. CityGame reage recolorindo o mar/clima.
+    // direta entre módulos. CityGame reage recolorindo o mar/clima. Dispara
+    // incondicionalmente, inclusive na semana da aposentadoria — o clima/mar
+    // não devem "congelar" antes do relatório final aparecer.
     document.dispatchEvent(new CustomEvent("citylife:scenario", { detail: { cenarioId: cenario.id } }));
-    state.decisaoPendente = { cenarioId: cenario.id, indicadores, sobra, salario, manutencao, aluguel, despesasTotais };
-    this.setState(state);
+
+    const idade = this.idadeAtual(state);
+    if (idade >= this.IDADE_APOSENTADORIA) {
+      // Não há próxima semana pra resolver uma decisão pendente que o
+      // jogador nunca vai poder ver — a sobra final é poupada
+      // automaticamente. RFC-025.
+      state.patrimonio += sobra;
+      state.aposentado = true;
+      state.decisaoPendente = null;
+      this.setState(state);
+      document.dispatchEvent(new CustomEvent("citylife:aposentadoria", { detail: { idade } }));
+    } else {
+      state.decisaoPendente = { cenarioId: cenario.id, indicadores, sobra, salario, manutencao, aluguel, despesasTotais };
+      this.setState(state);
+    }
 
     if (typeof Achievements !== "undefined") Achievements.checkAll();
     this._refreshActive();
@@ -513,7 +572,119 @@ const CityLife = {
     `;
   },
 
+  /* ---------- Relatório de Fim de Temporada (RFC-025) ---------- */
+
+  /* Todos os campos vêm de dados já existentes no estado + lookups já
+     existentes em js/data.js — nenhum dado novo precisa ser calculado ou
+     armazenado (Software Architect, seção 2, item 5). */
+  montarRelatorioFinal(state) {
+    return {
+      idadeFinal: this.idadeAtual(state),
+      semanasTotais: state.semana,
+      patrimonioFinal: state.patrimonio,
+      emprego: this.currentJob(state),
+      cursos: state.cursosComprados.map((id) => CITY_LIFE_COURSES.find((c) => c.id === id)).filter(Boolean),
+      bens: Object.keys(state.bensComprados).map((id) => ({
+        asset: CITY_LIFE_ASSETS.find((a) => a.id === id),
+        valorAtual: state.bensComprados[id],
+      })).filter((b) => b.asset),
+      negocio: (() => {
+        const biz = state.negocio ? CITY_LIFE_BUSINESSES.find((b) => b.id === state.negocio.businessId) : null;
+        return biz ? { ...state.negocio, biz } : null;
+      })(),
+      reputacao: state.reputacao,
+      status: state.status,
+      felicidade: state.felicidade,
+      saude: state.saude,
+      disciplina: state.disciplina,
+    };
+  },
+
+  /* Mensagem final do POLVIn: cruza o eixo patrimonial ("quanto construiu")
+     com o eixo de bem-estar ("como chegou lá") — matriz definida pelo
+     Financial Specialist (RFC-025, seção 5) — e prioriza o marco de
+     independência financeira ("regra dos 4%"/"regra do 25x": patrimônio
+     total >= 25x a despesa anual estimada) quando cruzado, checado só no
+     momento do relatório final (versão mínima sem histórico semanal,
+     explicitamente aceita nessa seção como suficiente pro MVP).
+     Nota de implementação: a RFC especifica os 5 textos e as faixas do
+     eixo bem-estar (baixo <40, médio 40-69, alto >=70, já usadas nas
+     barras visuais), mas não fixa um corte numérico para "patrimônio alto"
+     nem para colapsar a faixa "médio" de bem-estar num binário Alto/Baixo
+     (a matriz do Financial Specialist só tem 2 colunas). Uso bem-estar
+     médio (felicidade+saúde+disciplina)/3 >= 55 (ponto médio da faixa
+     "médio") e patrimônio total >= 10x a despesa anual (uma fração
+     relevante, mas deliberadamente abaixo do próprio limiar de 25x da
+     independência financeira, pra as duas mensagens não colidirem) como
+     limiares — sinalizado para o Gamification Designer revisar o tom se o
+     QA achar a classificação estranha em algum teste. */
+  falaPolvinRelatorioFinal(state, relatorio) {
+    const somaValorBens = relatorio.bens.reduce((soma, b) => soma + b.valorAtual, 0);
+    const despesaAnualEstimada = (state.despesasFixas + this.manutencaoTotalMensal(state)) * 12;
+    const patrimonioTotal = relatorio.patrimonioFinal + somaValorBens;
+    const bemEstarMedio = (relatorio.felicidade + relatorio.saude + relatorio.disciplina) / 3;
+    const independenciaFinanceira = despesaAnualEstimada > 0 && patrimonioTotal >= despesaAnualEstimada * 25;
+    const patrimonioAlto = despesaAnualEstimada > 0 ? patrimonioTotal >= despesaAnualEstimada * 10 : patrimonioTotal >= 50000;
+    const bemEstarAlto = bemEstarMedio >= 55;
+    const idadeFinal = relatorio.idadeFinal;
+
+    if (independenciaFinanceira) {
+      return `Reparou que seu patrimônio já sustentava seu padrão de vida antes da aposentadoria? Isso é o que se chama de independência financeira — na vida real, é exatamente esse tipo de conquista que quem escolhe "Me aposentar bem" ou "Viver de renda" está buscando: não parar de trabalhar por obrigação, e sim ter a opção de escolher.`;
+    }
+    if (patrimonioAlto && bemEstarAlto) {
+      return `Você chegou à aposentadoria aos ${idadeFinal} anos com patrimônio construído e vida em equilíbrio — isso não foi sorte, foi disciplina toda semana. 🐙💙`;
+    }
+    if (patrimonioAlto && !bemEstarAlto) {
+      return `Seu patrimônio impressiona, mas felicidade e saúde ficaram para trás no caminho. Dinheiro guardado só vale a pena se sobrar vida pra aproveitar — na próxima temporada, vale testar um pouco mais de equilíbrio.`;
+    }
+    if (!patrimonioAlto && bemEstarAlto) {
+      return `Você aproveitou cada semana da sua vida na Cidade — só que sobrou pouco patrimônio pra aposentadoria. Guardar um pouco também é cuidar do seu eu do futuro.`;
+    }
+    return `Essa temporada foi dura, mas o jogo não acabou aqui — toda Nova Temporada é uma chance de testar uma estratégia diferente. Até quem entende de dinheiro de verdade já teve um ano ruim.`;
+  },
+
+  /* Reaproveita 100% o mesmo painel de diálogo do ciclo semanal — chamado
+     de dentro de renderCicloHtml() quando state.aposentado. KPI row e
+     barras de atributos (patrimônio final, último emprego, felicidade/
+     saúde/disciplina/status/reputação) já aparecem automaticamente via
+     renderCicloInto(), que concatena renderKpisHtml()+renderAtributosHtml()
+     incondicionalmente antes de renderCicloHtml() — não duplicados aqui. */
+  renderRelatorioFinalHtml(state) {
+    const r = this.montarRelatorioFinal(state);
+    const somaValorAtualDosBens = r.bens.reduce((soma, b) => soma + b.valorAtual, 0);
+    const temporadaTexto = state.temporadasCompletadas > 0 ? ` Essa foi a sua ${state.temporadasCompletadas + 1}ª aposentadoria.` : "";
+    return `
+      <h2 class="city-life-final-title">Legado da Sua Vida Financeira</h2>
+      <p class="city-life-final-subtitle text-soft">⚓ Você chegou à aposentadoria! Conheça o legado da sua vida financeira.${temporadaTexto}</p>
+      <div class="city-life-final-hero">
+        <span class="city-life-final-badge">🏆</span>
+        <h3>Você se aposentou aos ${r.idadeFinal} anos!</h3>
+        <p class="text-soft">${r.semanasTotais} semanas de jornada na Cidade Financeira.</p>
+      </div>
+      <div id="cityLifePolvin"></div>
+      <div class="grid grid-2 kpi-row">
+        <div class="card kpi">
+          <div class="label">🏠 Bens possuídos</div>
+          <div class="value">${r.bens.length}</div>
+          <div class="text-soft text-sm">${this.fmt(somaValorAtualDosBens)} em valor atual</div>
+        </div>
+        <div class="card kpi">
+          <div class="label">🏢 Negócio</div>
+          ${
+            r.negocio
+              ? `<div class="value" style="font-size:16px">${r.negocio.biz.emoji} ${r.negocio.biz.nome}</div><div class="text-soft text-sm">${r.negocio.funcionarios} funcionário(s)</div>`
+              : `<div class="value text-soft" style="font-size:14px">Nenhum negócio aberto</div>`
+          }
+        </div>
+      </div>
+      <p class="text-sm text-soft mt-8">🎓 ${r.cursos.length} curso(s) concluído(s) ao longo da vida.</p>
+      <p class="text-sm text-soft mt-16">Na Cidade, a aposentadoria chega aos ${this.IDADE_APOSENTADORIA} anos — bem antes da idade oficial do INSS (hoje, regra geral: 65 anos para homens e 62 para mulheres, mais tempo de contribuição, com regras de transição que mudam com a lei). É de propósito: aqui você está simulando aposentadoria antecipada, o conceito por trás do movimento FIRE (Financial Independence, Retire Early) — juntar patrimônio suficiente pra parar de trabalhar bem antes da idade padrão. Na vida real, isso exige um nível de poupança bem acima da média; é possível, mas não é o caminho mais comum.</p>
+      <button class="btn city-life-new-season-btn btn-block mt-16" id="cityLifeNovaTemporadaBtn">🌅 Nova Temporada</button>
+    `;
+  },
+
   renderCicloHtml(state, resultado) {
+    if (state.aposentado) return this.renderRelatorioFinalHtml(state);
     if (resultado) {
       const opcao = resultado.ultimaEscolha;
       return `
@@ -576,7 +747,9 @@ const CityLife = {
 
     const polvinArea = container.querySelector("#cityLifePolvin");
     if (polvinArea && typeof Polvin !== "undefined") {
-      const fala = resultado
+      const fala = state.aposentado
+        ? this.falaPolvinRelatorioFinal(state, this.montarRelatorioFinal(state))
+        : resultado
         ? "Vamos ver o que essa decisão fez pela sua vida financeira!"
         : state.decisaoPendente
         ? "Chegou a notícia da semana — vamos entender o que ela significa antes de decidir."
@@ -588,6 +761,28 @@ const CityLife = {
       btn.addEventListener("click", () => this.resolverDecisao(btn.dataset.opt));
     });
     container.querySelector("#cityLifeNextBtn")?.addEventListener("click", () => this.avancarSemana());
+    container.querySelector("#cityLifeNovaTemporadaBtn")?.addEventListener("click", () => {
+      if (confirm("Isso reinicia sua vida na Cidade do zero (patrimônio, bens, negócio, emprego). Continuar?")) this.novaTemporada();
+    });
+  },
+
+  /* "Nova Temporada": reset limpo (freshState()) de STORAGE_KEYS.CITY_LIFE
+     — só XP/moedas/conquistas reais do resto do app permanecem intocados,
+     por serem chaves de storage completamente disjuntas (Software
+     Architect, seção 2, item 6). Única exceção cosmética que sobrevive ao
+     reset: temporadasCompletadas (Gamification Designer, seção 4, item 3)
+     — não afeta nenhuma fórmula da simulação, é só um selo de exibição. */
+  novaTemporada() {
+    const state = this.getState();
+    const temporadasCompletadas = (state.temporadasCompletadas || 0) + 1;
+    const fresh = this.freshState();
+    fresh.temporadasCompletadas = temporadasCompletadas;
+    this.setState(fresh);
+    // Reaproveita o evento já existente (não cria um novo): um estado
+    // fresco tem ultimoCenarioId=null, e "neutro" é exatamente a cor/clima
+    // que CityGame já usa como fallback nesse caso.
+    document.dispatchEvent(new CustomEvent("citylife:scenario", { detail: { cenarioId: "neutro" } }));
+    this._refreshActive();
   },
 
   /* Universidade (RFC-022) — cursos. */

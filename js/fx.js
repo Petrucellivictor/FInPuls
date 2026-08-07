@@ -96,10 +96,15 @@ const Fx = {
   },
 
   /* Anima um número subindo de `from` até `to` dentro do elemento,
-     usado no contador de XP para dar sensação de progresso "ao vivo". */
-  countUp(el, from, to, duration = 650, suffix = " XP") {
+     usado no contador de XP para dar sensação de progresso "ao vivo".
+     `format`, opcional (RFC-025), estende — sem quebrar nenhum uso
+     existente com `suffix` — pra permitir formatação além de "número +
+     sufixo", ex.: CityLife.fmt() (moeda BRL) no Relatório de Fim de
+     Temporada. Quando fornecida, `format(val)` decide o texto final e
+     `suffix` é ignorado. */
+  countUp(el, from, to, duration = 650, suffix = " XP", format) {
     if (!el || from === to) {
-      if (el) el.textContent = `${to}${suffix}`;
+      if (el) el.textContent = format ? format(to) : `${to}${suffix}`;
       return;
     }
     const start = performance.now();
@@ -107,7 +112,7 @@ const Fx = {
       const p = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - p, 3);
       const val = Math.round(from + (to - from) * eased);
-      el.textContent = `${val}${suffix}`;
+      el.textContent = format ? format(val) : `${val}${suffix}`;
       if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
@@ -218,5 +223,33 @@ const Fx = {
     void avatarEl.offsetWidth;
     avatarEl.classList.add("celebrating");
     setTimeout(() => avatarEl.classList.remove("celebrating"), 750);
+  },
+
+  /* Pulso rápido no anel do HUD de idade (RFC-025) quando o jogador "faz
+     aniversário" (a cada 12 semanas) — nunca a cada avanço de semana, só
+     quando o número de fato muda, senão vira ruído visual constante.
+     Chamado por CityGame.updateAgeHud(). */
+  ageHudPulse(ringEl) {
+    if (!ringEl) return;
+    ringEl.classList.remove("pulse");
+    void ringEl.offsetWidth;
+    ringEl.classList.add("pulse");
+    if (navigator.vibrate) navigator.vibrate(15);
+  },
+
+  /* Orquestra o "momento herói" do fim de temporada (RFC-025) — reaproveita
+     3 efeitos que já existem (confete, desbloqueio de troféu, POLVIn
+     comemorando) em vez de inventar um mecanismo novo. Chamar 1x sempre
+     que o painel do Relatório de Fim de Temporada for renderizado (a cada
+     vez, inclusive se o jogador fechar e reabrir o Banco depois de
+     aposentado — ver de novo é um bônus, não um bug). */
+  retirementCelebration(container) {
+    if (!container) return;
+    this.confetti(container, 40); // acima do padrão (26) — é o maior momento do jogo
+    const badge = container.querySelector(".city-life-final-badge");
+    if (badge) this.badgeUnlock(badge);
+    const polvinArea = container.querySelector("#cityLifePolvin");
+    if (polvinArea) this.mascotCelebrate(polvinArea);
+    if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
   },
 };

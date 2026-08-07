@@ -1358,7 +1358,92 @@ tr.row-best td {
 }
 @keyframes cityGamePromptBob { 0%, 100% { margin-top: 0; } 50% { margin-top: -6px; } }
 
+/* ---------- Cidade Financeira: HUD de idade (RFC-025) ---------- */
+.city-game-age-hud {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 4;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(20, 14, 48, 0.68); /* primary-dark escurecido, opaco o bastante pra
+    garantir contraste independente do clima/hora do dia por baixo (mar ciano do Boom,
+    céu claro do dia) — o efeito "vidro" é reforço, não a fonte de contraste. */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(232, 163, 61, 0.55); /* --gold translúcido, mesmo peso
+    visual do border dourado do .city-game-prompt (2px sólido) mas mais discreto,
+    pra não competir com o balão de interação quando os dois aparecem juntos. */
+  border-radius: 999px;
+  padding: 4px 12px 4px 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35); /* fallback de separação visual em
+    navegadores sem suporte a backdrop-filter — bg opaco a 68% já resolve contraste
+    sozinho nesse caso. */
+}
+
+.city-game-age-ring {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+  background: conic-gradient(var(--gold) calc(var(--pct, 0) * 1%), rgba(255, 255, 255, 0.18) 0);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.6s ease; /* só anima de verdade em navegadores que suportam
+    @property abaixo — nos demais, a mudança de --pct é instantânea (degrada bem,
+    nunca quebra). */
+}
+@property --pct { syntax: '<number>'; inherits: false; initial-value: 0; }
+
+.city-game-age-ring .n {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 11px; font-weight: 700;
+  color: #ffe3b0; /* mesmo tom já usado em .stat-chip.xp — reaproveita um token de cor
+    já validado pra "dourado sobre fundo escuro", não inventa um novo. */
+}
+.city-game-age-hud.aposentado .city-game-age-ring .n { font-size: 15px; } /* emoji 🏖️ precisa de mais espaço que 2 dígitos */
+
+.city-game-age-text { display: flex; flex-direction: column; line-height: 1.2; }
+.city-game-age-text .lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255, 255, 255, 0.65); }
+.city-game-age-text .sub { font-size: 11px; font-weight: 700; color: #ffe3b0; }
+.city-game-age-hud.aposentado .city-game-age-text .sub { color: var(--gold); }
+
+/* Pulso de "aniversário" — dispara só quando o número de anos muda de fato
+   (a cada 12 semanas), nunca a cada avanço semanal (evitaria virar ruído visual). */
+@keyframes cityGameAgeHudPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(232, 163, 61, 0.6); }
+  50% { transform: scale(1.18); box-shadow: 0 0 0 6px rgba(232, 163, 61, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(232, 163, 61, 0); }
+}
+.city-game-age-ring.pulse { animation: cityGameAgeHudPulse 500ms ease-out; }
+
+/* Brilho idle contínuo e sutil só depois de aposentado — sinaliza "jogo concluído"
+   mesmo com o HUD fora de foco. */
+@keyframes cityGameAgeHudGlow {
+  0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.35), 0 0 0 0 rgba(232,163,61,0.35); }
+  50% { box-shadow: 0 2px 8px rgba(0,0,0,0.35), 0 0 0 5px rgba(232,163,61,0); }
+}
+.city-game-age-hud.aposentado { animation: cityGameAgeHudGlow 2.6s ease-in-out infinite; }
+
+@media (max-width: 640px) {
+  .city-game-age-hud { padding: 3px 10px 3px 3px; gap: 6px; }
+  .city-game-age-ring { width: 30px; height: 30px; }
+  .city-game-age-ring .n { width: 23px; height: 23px; font-size: 10px; }
+}
+@media (max-width: 380px) {
+  .city-game-age-text .lbl { display: none; } /* só "idade" some; número + "sub" seguem visíveis */
+}
+
 .city-game-dialogue {
+  position: relative; /* contém os .confetti-piece (position:absolute) do
+    Fx.retirementCelebration (RFC-025) — sem isso, as peças posicionariam
+    relativo ao <body>. Não interfere com .close-dialogue { float:right }. */
+  overflow: hidden;
   background: var(--surface-2);
   border-radius: var(--radius);
   border-top: 4px solid var(--primary);
@@ -1373,6 +1458,41 @@ tr.row-best td {
 .city-life-course.owned { border-color: var(--gold); background: #fdf3e3; }
 .quiz-option.locked { opacity: 0.6; cursor: not-allowed; background: var(--surface); }
 .quiz-option.locked:hover { border-color: var(--border); }
+
+/* ---------- Cidade Financeira: Relatório de Fim de Temporada (RFC-025) ---------- */
+.city-life-final-title {
+  font-family: var(--font-display);
+  color: var(--gold-dark);
+  margin: 4px 0 2px;
+}
+.city-life-final-subtitle { margin-bottom: 0; }
+
+.kpi-final-glow {
+  border-left-color: var(--gold);
+  background: radial-gradient(ellipse at top left, rgba(232, 163, 61, 0.14), var(--surface-2) 70%);
+}
+
+.city-life-final-hero {
+  text-align: center;
+  padding: 20px 12px;
+  margin: 16px 0;
+  border-radius: var(--radius);
+  background: radial-gradient(ellipse at center, rgba(232, 163, 61, 0.18), transparent 70%);
+}
+.city-life-final-badge {
+  display: inline-block;
+  font-size: 48px;
+  position: relative; /* exigido pelo .fx-badge-unlock (::after de brilho) */
+  overflow: visible;
+}
+.city-life-final-hero h3 { font-family: var(--font-display); color: var(--gold-dark); margin: 8px 0 4px; }
+
+.city-life-new-season-btn {
+  background: linear-gradient(135deg, var(--primary), var(--gold));
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+.city-life-new-season-btn:hover { filter: brightness(1.08); box-shadow: 0 4px 16px rgba(232, 163, 61, 0.35); }
 
 .achievement-toast {
   position: fixed;
@@ -1601,7 +1721,8 @@ tr.row-best td {
   .quiz-box, .quiz-option, .quiz-option.correct, .quiz-option.wrong, .quiz-result-emoji,
   .story-box, .confetti-piece, .trail-node.current, .trail-level,
   .polvin-3d-inner, .talking .polvin-avatar-img,
-  .polvin-fab, .polvin-chat-panel {
+  .polvin-fab, .polvin-chat-panel,
+  .city-game-age-ring.pulse, .city-game-age-hud.aposentado {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;

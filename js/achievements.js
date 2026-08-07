@@ -60,9 +60,16 @@ const Achievements = {
     primeiro_certificado: () => Object.keys(Store.get(STORAGE_KEYS.BOOKS_COMPLETED, {})).length > 0,
     vida_na_cidade_iniciada: () => Store.get(STORAGE_KEYS.CITY_LIFE, { semana: 0 }).semana >= 1,
     vida_na_cidade_1_ano: () => Store.get(STORAGE_KEYS.CITY_LIFE, { semana: 0 }).semana >= 12,
-    primeiro_curso_cidade: () => Store.get(STORAGE_KEYS.CITY_LIFE, { cursosComprados: [] }).cursosComprados.length > 0,
-    primeiro_bem_cidade: () => Object.keys(Store.get(STORAGE_KEYS.CITY_LIFE, { bensComprados: {} }).bensComprados || {}).length > 0,
-    primeiro_negocio_cidade: () => !!Store.get(STORAGE_KEYS.CITY_LIFE, { negocio: null }).negocio,
+    // RFC-025: usam CityLife.getState() em vez de Store.get(...) direto —
+    // getState() migra saves antigos (campos ausentes) e persiste a
+    // migração, em vez de ler o objeto cru do localStorage. Segue seguro
+    // apesar da ordem de <script> (achievements.js carrega antes de
+    // citylife.js): CityLife só é referenciado no corpo da função, quando
+    // ela é *chamada* por Achievements.checkAll(), não na definição.
+    primeiro_curso_cidade: () => CityLife.getState().cursosComprados.length > 0,
+    primeiro_bem_cidade: () => Object.keys(CityLife.getState().bensComprados || {}).length > 0,
+    primeiro_negocio_cidade: () => !!CityLife.getState().negocio,
+    aposentadoria_alcancada: () => CityLife.getState().aposentado === true,
   },
 
   getUnlocked() {

@@ -22,6 +22,13 @@
    nenhuma regra. Dívida técnica registrada (não bloqueante): o overlay de
    dia/noite só afeta o canvas do Phaser — o PolvIn 3D (canvas separado,
    Three.js) não escurece junto; sincronizar isso fica pra uma fase futura.
+
+   RFC-025: updateAgeHud() mantém #cityGameAgeHud sincronizado com
+   CityLife.idadeAtual() (chamado em create() e a cada "citylife:scenario",
+   sem evento novo pra isso). Listener de "citylife:aposentadoria" em
+   init() dispara celebrateRetirement() — brilho dourado no jogador +
+   "punch" de câmera do Phaser, pulando o punch quando
+   prefers-reduced-motion está ativo.
    ========================================================================= */
 
 const CityGame = {
@@ -135,6 +142,9 @@ const CityGame = {
     // Registrado aqui (não em create()) porque init() só roda 1 vez —
     // create() é recriado se o Phaser.Game algum dia for reiniciado.
     document.addEventListener("citylife:scenario", (e) => this.onScenarioChanged(e.detail.cenarioId));
+    // RFC-025: dispara 1x, exatamente na semana em que avancarSemana()
+    // detecta a aposentadoria — mesmo padrão do listener acima.
+    document.addEventListener("citylife:aposentadoria", (e) => this.onAposentadoria(e.detail.idade));
   },
 
   preload(scene) {
@@ -157,6 +167,7 @@ const CityGame = {
     this.seaColorCurrent = initialScenario ? Phaser.Display.Color.HexStringToColor(initialScenario.corAgua).color : 0x3f8fa6;
     this.drawSeaPath(scene, this.seaColorCurrent);
     if (initialScenario) this.buildWeather(scene, initialScenario.id);
+    this.updateAgeHud(); // RFC-025 — mesmo bloco que já lê CityLife.getState() acima
 
     // Tint ambiente de dia/noite — decorativo, contínuo, não ligado a
     // nenhuma regra de jogo. Fica por cima de tudo dentro do canvas do
@@ -234,6 +245,17 @@ const CityGame = {
     this.seaTransitioning = true;
 
     this.buildWeather(this.scene, cenarioId);
+
+    // RFC-025: mantém o HUD de idade sincronizado — citylife:scenario já
+    // dispara toda semana (inclusive na semana da aposentadoria), então é
+    // o gancho natural, sem evento novo só pra isso. Adiado para o próximo
+    // tick (setTimeout 0): CityLife.avancarSemana() dispara este evento
+    // ANTES de persistir a semana/estado novos (this.setState() só roda
+    // depois, no fim de avancarSemana()) — ler CityLife.getState() aqui
+    // dentro, de forma síncrona, pegaria o estado da semana ANTERIOR. Um
+    // requestAnimationFrame/setTimeout(0) empurra a leitura pra depois que
+    // avancarSemana() termina de rodar (ele é 100% síncrono).
+    setTimeout(() => this.updateAgeHud(), 0);
   },
 
   /* Partículas de clima por categoria de cenário (RFC-024, specs exatas do
@@ -563,7 +585,18 @@ const CityGame = {
     panel.innerHTML = `<button class="btn btn-outline btn-sm close-dialogue">✕ Saída</button><div id="cityGameDialogueContent"></div>`;
     panel.querySelector(".close-dialogue").addEventListener("click", () => this.closeDialogue());
 
-    if (typeof CityLife !== "undefined") building.open(document.getElementById("cityGameDialogueContent"));
+    if (typeof CityLife !== "undefined") {
+      const content = document.getElementById("cityGameDialogueContent");
+      building.open(content);
+      // RFC-025: cobre o caso de reabrir o Banco já aposentado (o outro
+      // caso — virar aposentado em tempo real — é coberto por
+      // onAposentadoria()). Só o Banco mostra o Relatório de Fim de
+      // Temporada; nas outras construções a checagem de state.aposentado
+      // dentro de celebrateReportIfRetired() só olha o container, então
+      // restringimos por building.id pra não tentar "comemorar" um painel
+      // que não é o relatório.
+      if (building.id === "banco") this.celebrateReportIfRetired(content);
+    }
   },
 
   closeDialogue() {
@@ -572,5 +605,138 @@ const CityGame = {
     if (panel) panel.classList.add("hidden");
     if (this.scene) this.scene.cameras.main.pan(this.player.x, this.player.y, 350, "Sine.easeInOut");
     if (typeof CityLife !== "undefined") CityLife.clearActiveContainer();
+  },
+
+  /* ---------- Aposentadoria / Relatório de Fim de Temporada (RFC-025) ---------- */
+
+  _lastAgeHudIdade: undefined,
+
+  /* Mantém #cityGameAgeHud (fora do diálogo, sobre o canvas do Phaser)
+     sincronizado com CityLife.getState() — chamado 1x em create() e de
+     novo em onScenarioChanged() (ver comentário lá sobre o setTimeout).
+     Dispara Fx.ageHudPulse() só quando o número de anos muda de fato,
+     nunca a cada chamada (senão viraria ruído visual a cada avanço de
+     semana). */
+  updateAgeHud() {
+    const el = document.getElementById("cityGameAgeHud");
+    if (!el || typeof CityLife === "undefined") return;
+    const state = CityLife.getState();
+    const idade = CityLife.idadeAtual(state);
+    const aposentado = state.aposentado;
+    const totalAnos = CityLife.IDADE_APOSENTADORIA - CityLife.IDADE_INICIAL;
+    const pct = aposentado ? 100 : CityLife.clamp(Math.round(((idade - CityLife.IDADE_INICIAL) / totalAnos) * 100), 0, 100);
+
+    el.classList.toggle("aposentado", aposentado);
+    el.innerHTML = `
+      <div class="city-game-age-ring" style="--pct:${pct}">
+        <span class="n">${aposentado ? "🏖️" : idade}</span>
+      </div>
+      <div class="city-game-age-text">
+        <span class="lbl">idade</span>
+        <span class="sub">${aposentado ? "aposentado(a)" : `${CityLife.IDADE_APOSENTADORIA - idade} p/ aposentar`}</span>
+      </div>
+    `;
+
+    const anoMudou = this._lastAgeHudIdade !== undefined && this._lastAgeHudIdade !== idade;
+    this._lastAgeHudIdade = idade;
+    if (anoMudou && typeof Fx !== "undefined") Fx.ageHudPulse(el.querySelector(".city-game-age-ring"));
+  },
+
+  /* Handler de "citylife:aposentadoria" (disparado 1x por
+     CityLife.avancarSemana(), no exato momento em que a idade cruza
+     IDADE_APOSENTADORIA). Dispara a celebração no mapa (câmera/partícula,
+     imediata) e agenda a celebração do painel do Banco (confete/troféu/
+     POLVIn) pro próximo tick — ver celebrateReportIfRetired(). */
+  onAposentadoria() {
+    this.updateAgeHud();
+    this.celebrateRetirement();
+    // CityLife.avancarSemana() ainda está no meio da própria execução
+    // síncrona quando este listener roda (o dispatch do evento acontece
+    // ANTES de _refreshActive() re-renderizar o painel do Banco com o
+    // Relatório de Fim de Temporada) — adia pro próximo tick pra garantir
+    // que o HTML do relatório (badge/#cityLifePolvin/kpi-row) já esteja no
+    // DOM antes de procurar esses elementos.
+    setTimeout(() => this.celebrateReportIfRetired(), 0);
+  },
+
+  /* Reação visual no mapa 2D: brilho dourado em burst na posição do
+     jogador (mesma técnica de partícula do clima "Boom" do RFC-024, só
+     que em burst em vez de loop contínuo) + "punch" de câmera (zoom in/
+     out via API nativa do Phaser, nenhuma dependência nova). O brilho é
+     pequeno/estacionário e roda mesmo com prefers-reduced-motion; só o
+     "punch" de câmera (risco real de desconforto) é pulado nesse caso. */
+  celebrateRetirement() {
+    const scene = this.scene;
+    if (!scene || !this.player) return;
+
+    const px = this.player.x;
+    const py = this.player.y;
+    for (let i = 0; i < 24; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 10 + Math.random() * 18;
+      const dot = scene.add.circle(px, py, 2 + Math.random(), 0xffe9b8, 1);
+      scene.tweens.add({
+        targets: dot,
+        x: px + Math.cos(angle) * dist,
+        y: py + Math.sin(angle) * dist - 30 - Math.random() * 20,
+        alpha: 0,
+        duration: 2200 + Math.random() * 500,
+        delay: Math.random() * 300,
+        ease: "Sine.easeOut",
+        onComplete: () => dot.destroy(),
+      });
+    }
+
+    const reducedMotion = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reducedMotion) {
+      scene.cameras.main.zoomTo(1.12, 700, "Sine.easeInOut");
+      scene.time.delayedCall(700, () => scene.cameras.main.zoomTo(1, 700, "Sine.easeInOut"));
+    }
+  },
+
+  /* Orquestra a celebração dentro do painel do Banco (confete/troféu/
+     POLVIn + o glow/contagem do KPI de patrimônio) sempre que o Relatório
+     de Fim de Temporada estiver de fato renderizado no DOM — cobre tanto
+     a transição em tempo real (via onAposentadoria(), com o atraso de 1
+     tick já explicado ali) quanto reabrir o Banco depois de já aposentado
+     (via openBuilding()). Fica em CityGame, não em CityLife: efeitos Fx/DOM de
+     apresentação são responsabilidade do Frontend Engineer — js/citylife.js
+     só devolve HTML puro (RFC-025, seção 7 do Backend Engineer), os
+     ids/classes que essa celebração usa (`.city-life-final-badge`,
+     `#cityLifePolvin`, `.grid-3.kpi-row`) já estão no markup pra isso ser
+     plugado por fora. */
+  celebrateReportIfRetired(container) {
+    if (typeof CityLife === "undefined" || typeof Fx === "undefined") return;
+    const box = container || document.getElementById("cityGameDialogueContent");
+    if (!box) return;
+    const state = CityLife.getState();
+    if (!state.aposentado) return;
+
+    this.applyFinalKpiStyling(box, state);
+    Fx.retirementCelebration(box);
+  },
+
+  /* Ajustes condicionais de copy/estilo no KPI de patrimônio/emprego, só
+     no estado aposentado (RFC-025, seção 3 do UX/UI Designer) — o
+     Backend Engineer deixou renderKpisHtml() em js/citylife.js sem essa
+     lógica de propósito, atribuída ao Frontend Engineer. Localiza os
+     cards pelo texto do rótulo (não por índice) pra não depender da
+     ordem exata em que renderKpisHtml() monta o HTML. */
+  applyFinalKpiStyling(container, state) {
+    const topRow = container.querySelector(".grid-3.kpi-row");
+    if (!topRow) return;
+    topRow.querySelectorAll(".kpi").forEach((card) => {
+      const labelEl = card.querySelector(".label");
+      if (!labelEl) return;
+      if (labelEl.textContent === "Patrimônio simulado") {
+        if (card.classList.contains("kpi-final-glow")) return; // já aplicado — evita re-contar o número a cada re-render
+        card.classList.add("kpi-final-glow");
+        labelEl.textContent = "🏆 Patrimônio final";
+        const valueEl = card.querySelector(".value");
+        if (valueEl && typeof Fx.countUp === "function") Fx.countUp(valueEl, 0, state.patrimonio, 1400, "", (n) => CityLife.fmt(n));
+      } else if (labelEl.textContent === "Emprego atual") {
+        labelEl.textContent = "Última carreira";
+      }
+    });
   },
 };

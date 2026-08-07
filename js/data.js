@@ -9724,6 +9724,7 @@ const ACHIEVEMENTS = [
   { id: "primeiro_bem_cidade", emoji: "🏠", titulo: "Patrimônio de verdade", descricao: "Você comprou seu primeiro imóvel ou item de luxo na sua vida financeira da Cidade." },
   { id: "primeiro_negocio_cidade", emoji: "🏢", titulo: "Empreendedor de verdade", descricao: "Você abriu seu primeiro negócio na sua vida financeira da Cidade." },
   { id: "primeiro_certificado", emoji: "🏅", titulo: "Primeiro certificado", descricao: "Você completou seu primeiro livro (resumo + quiz) e ganhou um certificado." },
+  { id: "aposentadoria_alcancada", emoji: "⚓", titulo: "Porto Seguro", descricao: "Você levou sua vida financeira simulada na Cidade até a aposentadoria." },
 ];
 
 /* -------------------------------------------------------------------------
@@ -9860,6 +9861,7 @@ const CITY_BUILDINGS = [
   { id: "trilha_unificada_completa", emoji: "👑", nome: "Monumento da Lenda Financeira", descricaoConstruida: "O monumento máximo da sua cidade: toda a Academia PolvIn concluída, financeira e história." },
   { id: "vida_na_cidade_iniciada", emoji: "🪸", nome: "Recife da Vida", descricaoConstruida: "O ponto de partida da sua vida financeira simulada — erguido na sua primeira semana." },
   { id: "vida_na_cidade_1_ano", emoji: "🏝️", nome: "Ilha de 1 Ano", descricaoConstruida: "12 semanas de decisões (1 ano fictício) construíram essa ilha na sua vida financeira." },
+  { id: "aposentadoria_alcancada", emoji: "⚓", nome: "Farol do Porto Seguro", descricaoConstruida: "Erguido ao levar sua vida financeira simulada na Cidade até a aposentadoria — o fim seguro de uma longa jornada de decisões." },
 ];
 
 /* -------------------------------------------------------------------------

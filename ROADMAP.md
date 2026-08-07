@@ -57,6 +57,35 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 
 ## Cidade Financeira — jogo de simulação de vida
 
+- ✅ **RFC-025 — aposentadoria, HUD de idade e Relatório de Fim de
+  Temporada** (v1.46.0): fecha o loop infinito do ciclo semanal
+  (RFC-017 a RFC-024) com um objetivo e um momento de celebração,
+  reaproveitando 100% o contador de semanas já existente — sem sistema
+  paralelo novo. Idade visível o tempo todo no mapa (HUD em anel
+  dourado, `#cityGameAgeHud`), aposentadoria aos **45 anos** (18 anos
+  iniciais + 1 ano a cada 12 semanas). O número final passou por uma
+  reconciliação em duas etapas: o default original de 65 anos
+  implicava 564 cliques em "Avançar semana" até o fim de jogo — o
+  Gamification Designer propôs 40 (framing de aposentadoria
+  antecipada/FIRE) pra cortar isso a um ritmo alcançável numa sessão
+  casual, e o Financial Specialist ajustou pra 45 por 40 soar como
+  promessa fácil demais mesmo dentro do próprio conceito FIRE (a
+  maioria dos casos reais documentados fica entre 40 e 50, não nos 30-
+  40 citados como extremo). Ao atingir a aposentadoria, o ciclo semanal
+  para e o painel do Banco vira o Relatório de Fim de Temporada
+  ("Legado da Sua Vida Financeira") — patrimônio final com contagem
+  animada, bens/negócio/cursos, fala do POLVIn adaptada ao resultado
+  (matriz patrimônio × bem-estar), confete e celebração no mapa (brilho
+  dourado + "punch" de câmera, com fallback para `prefers-reduced-
+  motion`). Nova conquista `aposentadoria_alcancada` (⚓ "Porto Seguro",
+  badge + monumento "Farol do Porto Seguro") — sem XP/moeda, mesmo
+  padrão das outras 2 pontes de conquista de Cidade, pra não abrir
+  brecha de XP fácil num loop sem gate de energia. Botão "Nova
+  Temporada" reseta só `STORAGE_KEYS.CITY_LIFE` (zero bônus de New
+  Game+ — decisão didática deliberada). Corrige também, na mesma
+  passada, o bug de migração de estado já registrado em "Bugs
+  conhecidos" abaixo (`Achievements.CHECKERS` de Cidade lançando
+  `TypeError` no boot para saves antigos).
 - ✅ **RFC-024 — clima por cenário econômico e ciclo dia/noite** (v1.45.0):
   fecha um loop de um dado que já existia desde a Fase 1 (`corAgua` de
   cada cenário, RFC-017) mas nunca tinha uso visual — o mar do mapa
@@ -110,7 +139,7 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 - ✅ **RFC-018, Fase 2** (v1.39.0): emprego, educação e catálogo de investimentos. 5 empregos com salário crescente (`CITY_LIFE_JOBS`), cada um exigindo um curso simulado ou um nível real da trilha Aprender — promoção aparece como banner (nunca bloqueia o ciclo, aceitar é opcional). 5 cursos que custam patrimônio simulado (`CITY_LIFE_COURSES`), cada um desbloqueando 1 emprego ou 1 opção de investimento. 4 opções de investimento novas (FIIs, ETFs, Criptomoedas, Ouro) somadas às 4 da Fase 1 — 2 delas exigem requisito (curso OU trilha real concluída, o mesmo padrão "múltiplos caminhos" do `js/progression.js`), sempre visíveis mesmo bloqueadas, com o requisito exato escrito. Direção dos retornos de cada ativo por cenário validada pelo Financial Specialist (corrigiu, por exemplo, que FIIs **caem** — não sobem menos — em Inflação Alta, por marcação a mercado).
 - ✅ **RFC-019, Fase 3** (v1.40.0): patrimônio físico — mercado imobiliário e sistema de luxo unificados num só catálogo (`CITY_LIFE_ASSETS`, 6 bens), por serem mecanicamente idênticos. Comprar um imóvel de valor justo não reduz patrimônio (só converte dinheiro em ativo equivalente); comprar um item de luxo reduz exatamente pelo "ágio de status" (`custo - valorInicial`, nunca recuperável — carro de luxo perde R$50 mil só de ágio na saída da loja). Todo bem possuído soma manutenção mensal às despesas (e aluguel à renda, pros imóveis alugáveis) e valoriza/deprecia toda semana — imóveis conforme o cenário sorteado, veículos numa taxa fixa que deprecia mesmo em Boom (validado pelo Financial Specialist: perda por uso/idade não desaparece numa alta de mercado). Novo atributo ⭐ Status Social, subindo uma vez a cada compra.
 - ✅ **RFC-020, Fase 4** (v1.41.0): empresas com fluxo de caixa e reputação — a primeira fase a dar uso real ao emprego "Empresário(a)" (Fase 2). 3 tipos de negócio (Cafeteria, Loja de Roupas, Consultoria), receita reagindo ao cenário econômico da semana, funcionários (0-5) aumentando receita potencial E despesa. Lucro/prejuízo real soma ao patrimônio toda semana; Reputação sobe em semana lucrativa, cai um pouco em prejuízo. Fechar o negócio não devolve o investimento de abertura — risco real de empreender, deliberadamente diferente da regra "sem penalidade" das decisões semanais de investimento (abrir empresa é uma aposta consciente, não uma alocação de sobra mensal).
-- **Fases seguintes, ainda não escopadas em detalhe**: cenário isométrico animado, linha do tempo dos 18 anos à aposentadoria, e relatório de fim de temporada. Uma fase por vez, mesma disciplina das Fases 2A/2B/2C de identidade visual (RFC-008/010/011).
+- **Fases seguintes, ainda não escopadas em detalhe**: cenário isométrico animado (única peça de visual ainda pendente); linha do tempo dos 18 anos à aposentadoria e relatório de fim de temporada foram concluídos pela RFC-025 (ver entrada acima). Além disso, a visão de longo prazo do usuário segue não escopada: NPCs com diálogo próprio, Quest System, Audio Manager, Character Customization, World Events. Uma fase por vez, mesma disciplina das Fases 2A/2B/2C de identidade visual (RFC-008/010/011).
 
 ## Iniciativa grande, escopada mas não iniciada
 
@@ -120,13 +149,14 @@ Com a Etapa 3 concluída, **as 13 ideias originais trazidas pelo usuário em 202
 
 Itens encontrados durante o desenvolvimento/QA de uma RFC, mas fora do escopo dela — registrados aqui em vez de ficarem só na conversa que os encontrou, até ganharem uma RFC própria de correção.
 
-- **`Achievements.CHECKERS.primeiro_curso_cidade` pode lançar `TypeError` no boot** (encontrado pelo QA Engineer durante o RFC-024, fora do escopo daquela RFC — confirmado pré-existente, `js/citygame.js`/`js/citylife.js` não tocam esse arquivo). Gravidade: **média-alta**.
+- ✅ **RESOLVIDO na RFC-025 (v1.46.0)** — `Achievements.CHECKERS.primeiro_curso_cidade` pode lançar `TypeError` no boot (encontrado pelo QA Engineer durante o RFC-024, fora do escopo daquela RFC — confirmado pré-existente, `js/citygame.js`/`js/citylife.js` não tocam esse arquivo). Gravidade original: **média-alta**. Mantido aqui como histórico do achado; a correção aplicada foi validada ao vivo pelo QA Engineer da RFC-025, reproduzindo exatamente o cenário de reprodução descrito abaixo — zero erro de console, migração confirmada persistida no `localStorage`.
   - **Onde**: `js/achievements.js:63` lê `Store.get(STORAGE_KEYS.CITY_LIFE, { cursosComprados: [] }).cursosComprados.length` direto do `localStorage`, sem passar pela migração que `CityLife.getState()` faz (`js/citylife.js:44-59`) para preencher `cursosComprados`/`bensComprados`/`negocio`/`status`/`reputacao` quando ausentes de saves de fases anteriores.
   - **Por que quebra**: essa migração só existe no objeto em memória devolvido por `getState()` — nunca é persistida de volta via `setState()`. Se o `if_city_life` salvo no `localStorage` de um usuário real não tiver `cursosComprados` (save de antes da Fase 2/RFC-018, nunca reaberto na Cidade desde então), `Store.get` retorna o objeto salvo como está (o `default` do 2º argumento só vale quando a chave não existe) — `.cursosComprados` fica `undefined`, e `.length` lança `TypeError: Cannot read properties of undefined (reading 'length')`.
   - **Por que é média-alta e não só um detalhe da aba Cidade**: o stack trace passa por `app.js init() → Engagement.init() → Engagement.renderHome() → Achievements.checkAwards() → Achievements.checkAll()`, ou seja, roda no **boot da aplicação**, não só ao abrir a aba Cidade — para o usuário real cujo save antigo dispara essa condição, o erro pode interromper silenciosamente o resto da cadeia síncrona de boot antes que a pessoa toque em nada.
   - **Como reproduzir**: `localStorage.setItem("if_city_life", JSON.stringify({ semana: 3, ultimoCenarioId: "crise" }))` (sem `cursosComprados`) + um perfil válido qualquer (pra pular o onboarding) + recarregar a página.
   - **Correção sugerida (QA Engineer)**: (a) `CityLife.getState()` passar a persistir o patch de migração (`this.setState(state)` ao final do próprio método, não só devolver o objeto em memória) — resolve na raiz para qualquer consumidor futuro que leia `STORAGE_KEYS.CITY_LIFE` direto via `Store.get`; ou (b), mais local, os 3 checkers de Cidade em `achievements.js:63-65` (`primeiro_curso_cidade`, `primeiro_bem_cidade`, `primeiro_negocio_cidade`) chamarem `CityLife.getState()` em vez de `Store.get(STORAGE_KEYS.CITY_LIFE, ...)` direto, reaproveitando a migração já escrita.
-  - **Donos sugeridos**: Backend Engineer (dono de `js/citylife.js`/persistência) com Frontend Engineer em cópia (dono de `js/achievements.js`). Ainda sem RFC própria.
+  - **Implementado na RFC-025**: ambas as abordagens (a) e (b) foram aplicadas, não só uma — o Software Architect da RFC-025 determinou que não são redundantes (cada uma fecha uma janela de crash diferente; ver seção 2 da RFC-025 para o raciocínio completo).
+  - **Donos**: Software Architect + Backend Engineer (dono de `js/citylife.js`/persistência) com Frontend Engineer em cópia (dono de `js/achievements.js`), via RFC-025.
 
 ## Ideias futuras (fora do backlog original das 13 ideias)
 

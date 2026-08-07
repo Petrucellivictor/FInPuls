@@ -4,6 +4,56 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.46.0] - 2026-08-06
+
+### Adicionado
+- **Cidade Financeira — fim de jogo: aposentadoria, HUD de idade e
+  Relatório de Fim de Temporada "Legado da Sua Vida Financeira"**
+  (RFC-025): o ciclo semanal (RFC-017 a RFC-024) deixa de ser um loop
+  infinito sem objetivo — agora tem um fim declarado e comemorativo.
+  Idade calculada 100% a partir do contador de semanas já existente
+  (18 anos iniciais, 1 ano a cada 12 semanas), com aposentadoria aos
+  **45 anos** — valor final de uma reconciliação entre o Gamification
+  Designer (que propôs 40, pra reduzir os 564 cliques originais do
+  default de 65 anos a um ritmo alcançável numa sessão casual) e o
+  Financial Specialist (que ajustou pra 45, por 40 soar como promessa
+  fácil demais mesmo dentro do framing de aposentadoria antecipada/FIRE
+  — Financial Independence, Retire Early). Novo HUD de idade sempre
+  visível no mapa (`#cityGameAgeHud`, anel dourado no estilo do
+  `.level-ring` já usado no resto do app), atualizado toda semana.
+  Ao atingir a aposentadoria, o ciclo semanal para e o painel do Banco
+  passa a mostrar o Relatório de Fim de Temporada — patrimônio final
+  (com contagem animada), bens, negócio, cursos, atributos, fala do
+  POLVIn adaptada ao resultado (patrimônio × bem-estar), confete e
+  celebração no mapa (brilho dourado no jogador + "punch" de câmera,
+  com fallback sem movimento para `prefers-reduced-motion`). Nova
+  conquista **`aposentadoria_alcancada`** (⚓ "Porto Seguro"), badge +
+  monumento "Farol do Porto Seguro" na grade da Cidade — sem XP/moeda,
+  mesmo padrão das outras pontes de conquista de Cidade (nenhuma dá
+  recompensa material, só narrativa, pra não abrir brecha de XP fácil
+  num loop sem gate de energia). Botão **"Nova Temporada"** reseta só
+  `STORAGE_KEYS.CITY_LIFE` do zero (XP/moedas/conquistas reais e a
+  grade de construções permanentes ficam intocados) — sem bônus de New
+  Game+, decisão didática deliberada (resultado vem de decisão
+  consistente, não de vantagem herdada); só o contador
+  `temporadasCompletadas` sobrevive ao reset, puramente de exibição.
+
+### Corrigido
+- **Migração de estado da Cidade Financeira não era persistida,
+  podendo travar o boot com `TypeError`** (RFC-025): fecha o item já
+  registrado em "Bugs conhecidos" do `ROADMAP.md`
+  (`Achievements.CHECKERS.primeiro_curso_cidade` e os outros 2 checkers
+  de Cidade liam `Store.get(STORAGE_KEYS.CITY_LIFE, ...)` direto, sem
+  passar pela migração de `CityLife.getState()`, e essa migração nunca
+  era salva de volta — saves antigos sem `cursosComprados` lançavam
+  `TypeError` já no boot). Corrigido em duas frentes: `getState()`
+  agora persiste a migração (`setState()` quando qualquer campo
+  ausente é preenchido) e os 3 checkers de Cidade em `achievements.js`
+  passam a chamar `CityLife.getState()` em vez de ler o `Store` direto.
+  Testado ao vivo (QA Engineer, Playwright/CDP) reproduzindo o cenário
+  exato do bug — zero erro de console, migração confirmada persistida
+  no `localStorage`.
+
 ## [1.45.0] - 2026-08-06
 
 ### Adicionado
