@@ -9,19 +9,22 @@ para ajudar qualquer pessoa — do zero absoluto ao investidor experiente —
 a entender o mercado financeiro, controlar gastos e aprender investimentos
 de forma gamificada.
 
-Funciona 100% localmente (dados salvos em `localStorage`, sem nenhuma
-conta) e, **opcionalmente**, pode sincronizar os dados na nuvem via
-**Supabase** (Postgres + autenticação), o que permite hospedar o site
+Requer uma conta (e-mail/senha ou Google) e sincroniza os dados na nuvem
+via **Supabase** (Postgres + autenticação) — isso permite hospedar o site
 publicamente (ex.: **Vercel**) e ter múltiplas pessoas usando com contas e
-dados isolados de verdade. Sem configurar o Supabase, tudo continua
-funcionando exatamente como um app 100% local.
+dados isolados de verdade, com progresso disponível em qualquer
+dispositivo em que a pessoa fizer login. O `localStorage` continua
+existindo como cache local de leitura/escrita otimista, mas não é mais a
+fonte de verdade — não há mais um "modo 100% local sem conta" como
+caminho de produção.
 
 ## Como usar
 
 Basta abrir `index.html` em um navegador. Não há build nem instalação de
-dependências — tudo roda no navegador. Sem o Supabase configurado (ver
-seção abaixo), os dados ficam só em `localStorage` (no seu próprio
-computador/navegador).
+dependências — tudo roda no navegador. Para o app funcionar de verdade,
+o Supabase precisa estar configurado (ver seção "Sincronização
+multiusuário com Supabase" abaixo) — sem isso, o app mostra uma tela
+explicando que o ambiente não está pronto para uso, em vez de abrir.
 
 > Para os indicadores de mercado e as cotações de cripto funcionarem, o
 > navegador precisa de acesso à internet (os dados vêm de APIs públicas
@@ -64,14 +67,14 @@ escondê-lo) — a API só devolve cotações públicas, então o único risco �
 outra pessoa consumir a sua cota gratuita, não exposição de dado sensível.
 Se a cota se esgotar, o app volta a pedir a cotação manualmente, sem quebrar.
 
-## Sincronização multiusuário com Supabase (opcional)
+## Sincronização multiusuário com Supabase (obrigatória)
 
-Por padrão o PolvIn não tem banco de dados nem servidor — é esse o motivo de
-não existirem "credenciais de acesso" a um banco para te passar quando
-ninguém configurou nada. Se você quer publicar o site para vários usuários
-testarem com contas e dados próprios, o PolvIn já vem com a integração
-pronta para o **Supabase** (Postgres gerenciado + autenticação, com plano
-gratuito). Veja como ativar:
+O PolvIn precisa de um projeto Supabase configurado para funcionar — é a
+fonte de verdade dos dados, não um espelho opcional. Se você for rodar sua
+própria instância (fork/self-host), precisa configurar o seu próprio
+projeto antes de o app sair da tela de bloqueio inicial. O PolvIn já vem
+com a integração pronta para o **Supabase** (Postgres gerenciado +
+autenticação, com plano gratuito). Veja como ativar:
 
 1. **Crie um projeto gratuito** em [supabase.com](https://supabase.com/) →
    New Project (guarde a senha do banco que você definir ali, não é
@@ -97,8 +100,9 @@ gratuito). Veja como ativar:
    Google em **Authentication → Providers → Google**, usando o mesmo
    Client ID/Secret do OAuth criado na seção anterior.
 
-A partir daí, qualquer pessoa que criar uma conta (e-mail/senha ou Google)
-pelo botão "👤 Entrar" passa a ter transações, orçamentos, cofrinhos,
+A partir daí, o app exige que qualquer pessoa crie uma conta (e-mail/senha
+ou Google) antes de usar qualquer aba — não é possível pular esse passo.
+Depois de logada, a pessoa passa a ter transações, orçamentos, cofrinhos,
 investimentos, progresso e conquistas sincronizados entre dispositivos —
 protegidos por login, e nunca visíveis para outra conta. Se o cofre local
 de criptografia (Perfil → Segurança) estiver ativo, o Supabase nunca chega
@@ -143,16 +147,18 @@ graça, a limitação do login com Google que exige `http`/`https` (não
 
 ## Segurança e privacidade (LGPD)
 
-- **Sem Supabase configurado**: nenhum dado financeiro seu é transmitido
-  ou armazenado fora do seu navegador — comportamento padrão do projeto.
-- **Com Supabase configurado** (sincronização multiusuário, seção acima):
-  seus dados passam a ser armazenados também no banco Postgres do seu
-  projeto Supabase, protegidos por autenticação e por políticas de Row
-  Level Security (cada conta só lê/escreve as próprias linhas — ver
-  `supabase/schema.sql`). Isso é uma transmissão de dados pessoais que
-  passa a existir só a partir do momento em que a própria pessoa cria uma
-  conta — quem não criar conta continua 100% local. Ver o texto completo
-  em **Política de Privacidade** (link no rodapé do site, `js/privacy.js`).
+- **Instância sem Supabase configurado** (ex.: um fork rodado antes de
+  configurar o próprio projeto): o app não abre — mostra uma tela
+  explicando que o ambiente não está pronto para uso, em vez de operar em
+  algum "modo local". Não é um caminho de uso normal, só o estado de uma
+  instância mal configurada.
+- **No uso normal do PolvIn** (Supabase configurado, como nesta instância):
+  toda pessoa precisa criar uma conta (e-mail/senha ou Google) para usar o
+  app, e seus dados passam a ser armazenados no banco Postgres do projeto
+  Supabase, protegidos por autenticação e por políticas de Row Level
+  Security (cada conta só lê/escreve as próprias linhas — ver
+  `supabase/schema.sql`). Ver o texto completo em **Política de
+  Privacidade** (link no rodapé do site, `js/privacy.js`).
 - **Cofre de criptografia opcional** (`js/vault.js`, aba **Perfil →
   Segurança**): cifra com AES-256 (chave derivada por PBKDF2, 150.000
   iterações) os dados sensíveis — perfil, conta, transações, orçamentos,
@@ -268,7 +274,7 @@ fin-plus/
 │   ├── books.js                                                  → aba Biblioteca PolvIn: recomendações de livros
 │   └── app.js                                                      → orquestrador geral / dashboard
 ├── supabase/
-│   └── schema.sql                  → script SQL (tabela + Row Level Security) para o Supabase opcional
+│   └── schema.sql                  → script SQL (tabela + Row Level Security) para o Supabase, obrigatório desde a RFC-027
 ├── .claude/agents/                 → definições dos 12 agentes especializados (ver seção abaixo)
 └── README.md
 ```
