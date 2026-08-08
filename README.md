@@ -237,8 +237,8 @@ fin-plus/
 │   ├── leagues.js                        → aba Desafios: seu placar e Ligas locais manuais
 │   ├── storage.js                     → camada de persistência (localStorage) + exportar/importar backup
 │   ├── vault.js                        → cofre opcional de criptografia local (AES-256) dos dados sensíveis
-│   ├── supabase-config.js               → credenciais do Supabase (opcional, em branco por padrão)
-│   ├── cloud.js                          → sincronização multiusuário via Supabase (opcional)
+│   ├── supabase-config.js               → credenciais do Supabase (obrigatórias desde a RFC-027 — sem elas o app não inicia)
+│   ├── cloud.js                          → sincronização multiusuário via Supabase (obrigatória desde a RFC-027, fonte de verdade dos dados)
 │   ├── privacy.js                       → modal da Política de Privacidade (LGPD)
 │   ├── fx.js                           → efeitos visuais compartilhados (confete, toast de subida de nível)
 │   ├── polvin.js                        → mascote interativo: avatar SVG animado em 3D (CSS), fala com

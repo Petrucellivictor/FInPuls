@@ -18,12 +18,14 @@
    RLS — colocá-la no navegador equivale a publicar a senha mestra do
    banco de dados.
 
-   Se deixar os dois valores em branco, o PolvIn continua funcionando 100%
-   normalmente no modo local (localStorage), exatamente como antes — a
-   sincronização na nuvem só fica indisponível.
+   Desde a migração para nuvem obrigatória (RFC-027), estes dois valores
+   NÃO são mais opcionais: se ficarem em branco, `Cloud.isAvailable()`
+   retorna false e o app inteiro fica bloqueado atrás da tela terminal
+   `#cloudUnavailableScreen` (js/app.js, `ensureCloudAvailable()`) — não
+   existe mais um modo 100% local como caminho de produção.
    ========================================================================= */
 
-const SUPABASE_URL = ""; // cole aqui a "Project URL" (https://xxxx.supabase.co) — Project Settings → API
+const SUPABASE_URL = "https://nfqwjmzzsuycmseyjwrr.supabase.co"; // Project Settings → API
 const SUPABASE_ANON_KEY = "sb_publishable_-iqp9-voacIiyxNz3AGYAw_gDCHjAXM"; // chave publishable/anon — segura para o navegador
 
 /* NUNCA cole aqui uma chave "sb_secret_..." (ou a antiga "service_role").

@@ -4,6 +4,11 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.48.1] - 2026-08-07
+
+### Corrigido
+- **App inteiro inacessível: `SUPABASE_URL` vazio travava qualquer sessão nova**. Desde a migração para nuvem obrigatória (RFC-027), o app exige `Cloud.isAvailable()` para sair da tela terminal `#cloudUnavailableScreen` — mas `js/supabase-config.js` tinha a `SUPABASE_ANON_KEY` preenchida e a `SUPABASE_URL` em branco, então ninguém (conta nova ou existente) conseguia passar do gate. Preenchida com a Project URL real do projeto Supabase do usuário. Comentários desatualizados em `js/supabase-config.js` e `README.md` (que ainda prometiam um "modo 100% local" opcional) também corrigidos. Validado ao vivo em Chrome real via CDP: gate destravado, tela de criação de conta renderizando normalmente, zero erro de console.
+
 ## [1.48.0] - 2026-08-07
 
 ### Adicionado
