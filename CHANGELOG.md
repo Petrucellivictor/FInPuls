@@ -4,6 +4,38 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.52.0] - 2026-08-08
+
+### Adicionado
+- **Onda 13 da expansão para 300 lições — trilha financeira "Do Zero ao
+  Avançado" fecha as lacunas de Alfa, Drawdown e os usos de derivativos
+  além do hedge** (RFC-032): segunda Onda a tocar `COURSE`, depois da
+  Onda 12. Assim como a Onda 12, não insere nível novo — expande
+  `nivel6` ("Mercado Avançado (Pro)") com 3 lições apendadas ao final,
+  após `l6_6`: `l6_7` (Drawdown — queda percentual entre pico e vale já
+  ocorrido, medida histórica/retrospectiva, diferenciada explicitamente
+  de VaR, `dr_05`/Onda 12, que é uma estimativa prospectiva; inclui a
+  assimetria de recuperação, queda de 50% exige alta de 100%), `l6_8`
+  (Alfa — retorno acima/abaixo do esperado dado o risco via CAPM,
+  conectado explicitamente com Beta já ensinado em `l6_1`; deixa
+  explícito que alfa histórico não garante repetição futura) e `l6_9`
+  (Especulação e arbitragem — os dois usos de derivativos que a própria
+  lição `l6_5` prometia no título mas nunca ensinava, além do hedge;
+  aviso explícito de risco de alavancagem e chamada de margem, tom
+  estritamente informativo, nunca prescritivo). 10 perguntas + variante
+  cada (30 perguntas + 30 variantes), `xp: 50`, mesmo padrão de
+  `l6_1`-`l6_6`. Zero sobreposição literal com `l6_1` (Beta/Sharpe/
+  desvio padrão), `dr_05` (VaR) e `l6_5` (hedge/call/put/futuros).
+  Fórmulas de Alfa de Jensen (CAPM) e Maximum Drawdown verificadas via
+  `WebSearch` antes da publicação. `nivel1`-`nivel5` e as 6 lições
+  pré-existentes de `nivel6` permanecem 100% intactos — `nivel6` passa
+  de **6 para 9 lições**, e a trilha financeira de **96 para 99
+  lições** (6 níveis: 35+20+22+8+5+9). Testado ao vivo pelo QA Engineer
+  via Chrome DevTools Protocol (Node indisponível no ambiente), fluxo
+  completo de quiz das 3 lições (incluindo erro proposital → variante),
+  XP/moedas conferidos passo a passo, checagem de `Trail.isUnlocked()`
+  na fronteira pós-inserção sem regressão, zero erro de console.
+
 ## [1.51.0] - 2026-08-08
 
 ### Adicionado

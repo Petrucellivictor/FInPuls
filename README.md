@@ -350,7 +350,7 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
 
 ### Gamificação ("Academia PolvIn")
 - **Trilha única e intercalada**: a trilha financeira "Do Zero ao
-  Avançado" (6 níveis, **96 lições**: Nível 1 "Fundamentos e
+  Avançado" (6 níveis, **99 lições**: Nível 1 "Fundamentos e
   Comportamento Financeiro" com **35** lições, cobrindo desde receita e
   despesa até score de crédito, INSS e viés comportamental, com perfil
   de investidor e juros compostos nos fundamentos, antes de qualquer
@@ -362,7 +362,9 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   hedge cambial, risco de crédito, **risco de liquidez**, **Value at
   Risk (VaR)** e alocação de ativos por horizonte de tempo); Nível 5
   "Avançado" com **5** lições; e Nível 6 "Mercado Avançado (Pro)" com
-  **6** lições, incluindo Índice de Sharpe, desvio padrão e Beta) e a
+  **9** lições, incluindo Índice de Sharpe, desvio padrão, Beta,
+  **Drawdown**, **Alfa** e os usos de derivativos para **especulação e
+  arbitragem** além do hedge (Onda 13, RFC-032)) e a
   trilha "Brasil: História & Economia" (6 níveis, 15
   lições, cada uma com um pequeno conto — moedas do Réis ao Real, a
   chegada da Corte portuguesa e a Independência com dívida (Onda 9), a
