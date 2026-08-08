@@ -4,6 +4,59 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.50.0] - 2026-08-08
+
+### Adicionado
+- **Onda 12 da expansão para 300 lições — trilha financeira "Do Zero ao
+  Avançado" ganha a taxonomia de risco completa** (RFC-031): a primeira
+  Onda a tocar `COURSE` desde que a série começou (Ondas 9-11 focaram
+  História e Empreender). Diferente das Ondas 9-11, não insere nível
+  novo — expande `nivel4` ("Diversificação e Risco"), o nível
+  proporcionalmente mais fraco da trilha (5 lições contra 20-22 dos
+  vizinhos), com 3 lições apendadas ao final, após `dr_03`: `dr_04`
+  (risco de liquidez — 4ª categoria nomeada da família de risco já
+  ensinada, ao lado de sistemático/não sistemático, crédito e cambial;
+  diferencia iliquidez temporária de perda permanente de valor), `dr_05`
+  (Value at Risk — definido até então só no dicionário do mercado;
+  intuição estatística, os dois parâmetros obrigatórios — horizonte de
+  tempo e nível de confiança — e a ressalva explícita, verificada via
+  `WebSearch`, de que VaR não é garantia de perda máxima absoluta nem
+  captura eventos de cauda extrema) e `dr_06` (alocação de ativos por
+  horizonte de tempo, conectando perfil de investidor e metas de prazo
+  já ensinados sem repeti-los). 10 perguntas + variante cada (30
+  perguntas + 30 variantes), `xp: 35`, mesmo padrão de `dr_01`-`dr_03`.
+  Zero sobreposição literal com `f1_09`/`rv_08` (liquidez), `l6_1`
+  (Sharpe/desvio padrão) e `l4_1`/`dr_01`/`f1_15` (perfil/metas).
+  `nivel1`, `nivel2`, `nivel3`, `nivel5`, `nivel6` e as 5 lições
+  pré-existentes de `nivel4` permanecem 100% intactos — `nivel4` passa
+  de **5 para 8 lições**, e a trilha financeira de **93 para 96
+  lições** (6 níveis: 35+20+22+8+5+6). Testado ao vivo (QA Engineer, via
+  Chrome DevTools Protocol com o engine JS real, Node indisponível no
+  ambiente): fluxo completo de quiz das 3 lições (aula → pergunta →
+  erro → variante → acerto → conclusão → +35 XP/+5 moedas), gap
+  residual de destravamento de `nivel5`/`nivel6` confirmado do tamanho
+  esperado (no máximo 3 lições, mesmo padrão já documentado nas Ondas
+  9-11), zero erro de console.
+
+### Corrigido
+- **Contagem incorreta da trilha financeira no README** (achado do
+  Product Owner da RFC-031, pré-existente, não causado por esta Onda):
+  a seção "Gamificação" afirmava que `COURSE` tinha 67 lições. O número
+  real, confirmado por leitura direta de `js/data.js` por dois agentes
+  independentes (Product Owner e QA Engineer da RFC-031), era 93 antes
+  desta Onda — a trilha já estava a 31% da meta de 300, não a 22% como
+  o número errado sugeria. Corrigido para refletir os 6 níveis
+  individualmente (antes o README só detalhava `nivel1`/`nivel2`).
+- **Referência circular vazia ao "blueprint modular (17-21 módulos por
+  trilha)"** no README ("Roadmap sugerido", item 0) e no `ROADMAP.md`
+  (achado do Product Owner da RFC-031): investigado via busca textual
+  em `rfcs/`, `ROADMAP.md`, `README.md` e `js/data.js` — esse blueprint
+  não existe registrado em lugar nenhum do repositório; o `ROADMAP.md`
+  apontava para o item 0 do README, e o item 0 só mencionava que o
+  blueprint existia, sem nunca listá-lo. Reescrito para não prometer um
+  documento inexistente, mantendo só a meta numérica (~300 lições por
+  trilha, em Ondas revisáveis).
+
 ## [1.49.1] - 2026-08-07
 
 ### Corrigido

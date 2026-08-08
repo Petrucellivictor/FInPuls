@@ -350,14 +350,20 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
 
 ### Gamificação ("Academia PolvIn")
 - **Trilha única e intercalada**: a trilha financeira "Do Zero ao
-  Avançado" (6 níveis, 67 lições — o Nível 1 "Fundamentos e Comportamento
-  Financeiro" foi expandido de 5 para 35 lições, cobrindo desde receita
-  e despesa até score de crédito, INSS e viés comportamental, com perfil
+  Avançado" (6 níveis, **96 lições**: Nível 1 "Fundamentos e
+  Comportamento Financeiro" com **35** lições, cobrindo desde receita e
+  despesa até score de crédito, INSS e viés comportamental, com perfil
   de investidor e juros compostos nos fundamentos, antes de qualquer
-  produto específico; o Nível 2 "Renda Fixa" foi expandido de 3 para 20
-  lições, cobrindo Tesouro, CDB/LCI/LCA/CRI/CRA, debêntures, rating,
-  duration, marcação a mercado, curva de juros e fundos DI) e a trilha
-  "Brasil: História & Economia" (6 níveis, 15
+  produto específico; Nível 2 "Renda Fixa" com **20** lições, cobrindo
+  Tesouro, CDB/LCI/LCA/CRI/CRA, debêntures, rating, duration, marcação a
+  mercado, curva de juros e fundos DI; Nível 3 "Renda Variável" com
+  **22** lições; Nível 4 "Diversificação e Risco" com **8** lições
+  (Onda 12, RFC-031: risco sistemático/não sistemático, correlação,
+  hedge cambial, risco de crédito, **risco de liquidez**, **Value at
+  Risk (VaR)** e alocação de ativos por horizonte de tempo); Nível 5
+  "Avançado" com **5** lições; e Nível 6 "Mercado Avançado (Pro)" com
+  **6** lições, incluindo Índice de Sharpe, desvio padrão e Beta) e a
+  trilha "Brasil: História & Economia" (6 níveis, 15
   lições, cada uma com um pequeno conto — moedas do Réis ao Real, a
   chegada da Corte portuguesa e a Independência com dívida (Onda 9), a
   redemocratização de 1945, o Plano de Metas de JK e a crise
@@ -488,12 +494,15 @@ não tem, e não deveria simular de forma enganosa:
 
 ## Roadmap sugerido (próximas etapas)
 
-0. **Expansão das 3 trilhas para ~300 lições cada** — já existe um
-   blueprint modular (17-21 módulos por trilha, pedagogicamente ordenado
-   com base em referências reais de currículo financeiro/históricos/MBA)
-   rumo ao conteúdo "do zero ao mestrado" em Financeira, História &
-   Economia e Empreender. A escrita do conteúdo em si acontece em ondas
-   revisáveis nas próximas atualizações — não é uma tarefa de uma vez só.
+0. **Expansão das 3 trilhas para ~300 lições cada** — meta numérica rumo
+   ao conteúdo "do zero ao mestrado" em Financeira, História & Economia
+   e Empreender, sem um blueprint modular fixo pré-definido: cada Onda
+   é investigada e proposta a partir do conteúdo já publicado (lacunas
+   pedagógicas, termos citados sem contexto, níveis proporcionalmente
+   mais fracos — ver `ROADMAP.md`, seção "Expansão das trilhas de
+   conteúdo", para o registro de cada Onda). A escrita do conteúdo em si
+   acontece em ondas revisáveis nas próximas atualizações — não é uma
+   tarefa de uma vez só.
 1. **Ranking/Ligas ao vivo** — agora que existe um backend (Supabase),
    dá para expor um ranking público de XP/moedas/streak e ligas
    sincronizadas de verdade, em vez de manuais/locais.
