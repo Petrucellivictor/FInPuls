@@ -381,16 +381,20 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   Planejador → Investidor → Construtor de Patrimônio → Mestre PolvIn, com o
   contador de XP no cabeçalho "subindo" com animação ao ganhar pontos.
 - **Trilha "Empreender"** (nova!): uma trilha independente, no mesmo
-  estilo, para quem quer abrir ou já tem uma empresa — 5 níveis, 15 mini
+  estilo, para quem quer abrir ou já tem uma empresa — 6 níveis, 18 mini
   aulas didáticas com quiz. Cobre a diferença entre empreender e ser
-  empresário, os 4 regimes tributários (MEI, Simples Nacional, Lucro
-  Presumido, Lucro Real — o que é cada um, limites e quando compensa
-  migrar), obrigações fiscais/contábeis (notas fiscais, prazos, como
-  preparar a entrega mensal para o contador) e gestão de pessoas e
-  finanças (custo real de um funcionário, como reter talento, separar
-  finanças pessoais da empresa). Conteúdo educativo — não é consultoria
-  contábil, tributária ou trabalhista, e valores de limites/alíquotas
-  mudam por lei; confirme sempre com seu contador.
+  empresário, a estrutura de um modelo de negócio (segmento de cliente,
+  proposta de valor, canais, fontes de receita, estrutura de custo),
+  validação da ideia com clientes reais (MVP) antes de escalar,
+  precificação e primeiros canais de aquisição de cliente, os 4 regimes
+  tributários (MEI, Simples Nacional, Lucro Presumido, Lucro Real — o
+  que é cada um, limites e quando compensa migrar), obrigações
+  fiscais/contábeis (notas fiscais, prazos, como preparar a entrega
+  mensal para o contador) e gestão de pessoas e finanças (custo real de
+  um funcionário, como reter talento, separar finanças pessoais da
+  empresa). Conteúdo educativo — não é consultoria contábil, tributária
+  ou trabalhista, e valores de limites/alíquotas mudam por lei; confirme
+  sempre com seu contador.
 - **Desafios diários**, **missão da semana** e **evento aleatório do dia**
   (cenários educativos), com detecção automática de progresso.
 - **Conquistas**: 19 badges desbloqueadas pelo uso real do app, incluindo

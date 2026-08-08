@@ -4,6 +4,47 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.49.0] - 2026-08-07
+
+### Adicionado
+- **Onda 11 da expansão para 300 lições — trilha "Empreender" ganha
+  conteúdo genuinamente novo pela primeira vez** (RFC-030): a trilha
+  citava "modelo de negócio" duas vezes (`e1_1`, `e1_2`) sem nunca ter
+  ensinado o que isso significa, e não tinha nenhum conteúdo comercial
+  ou de marketing. `enivel_modelo` — "Modelo de negócio: validando a
+  ideia e conquistando os primeiros clientes" — foi inserido no índice
+  1 de `BUSINESS_COURSE`, entre `enivel1` e `enivel2`, com 3 lições
+  novas, 10 perguntas + variante cada (30 perguntas + 30 variantes):
+  `emod_1` (estrutura de um modelo de negócio — versão simplificada do
+  Business Model Canvas: segmento de cliente, proposta de valor,
+  canais, fontes de receita, estrutura de custo), `emod_2` (MVP e
+  validação com clientes reais antes de escalar, ciclo
+  construir-medir-aprender da Lean Startup) e `emod_3` (precificação
+  cost-plus x valor percebido e primeiros canais de aquisição de
+  cliente de baixo custo, com alerta explícito contra promessas de
+  "fórmula mágica de crescimento"). `xp: 30` por lição, cor `#0097A7`
+  (distinta das 17 já em uso nas 3 trilhas). **Decisão de
+  nomenclatura**: o nível novo não usa o prefixo "Nível N" no título —
+  diferente de `enivel1`-`enivel5` — porque inserir no meio do array
+  com um título numerado obrigaria renomear os 4 níveis seguintes,
+  alterando conteúdo já publicado; mesmo precedente já usado 2x em
+  `HISTORY_COURSE` (Ondas 9/10, `hnivel_imperio`/`hnivel_jk`). Zero
+  sobreposição com `e1_3` (nenhum cálculo de ponto de equilíbrio,
+  margem de contribuição ou capital de giro refeito) e zero menção a
+  regimes tributários específicos (MEI/Simples/Lucro
+  Presumido/Real) além de uma frase de transição neutra no fechamento
+  de `emod_3`. `enivel1`-`enivel5` (15 lições originais) permanecem
+  100% intactos, incluindo os títulos "Nível 2" a "Nível 5" sem
+  renumeração — a trilha Empreender passa de **5 para 6 níveis, de 15
+  para 18 lições**. Testado ao vivo (QA Engineer, via Chrome DevTools
+  Protocol com o engine JS real, Node não disponível no ambiente):
+  fluxo completo de quiz (aula → pergunta → erro → variante → acerto →
+  conclusão → +30 XP/+5 moedas), lição reprovada sem conceder
+  recompensa, energia zerada bloqueando início de lição, gap residual
+  de destravamento em `Business.isUnlocked()` confirmado do tamanho
+  esperado (no máximo 3 lições, mesmo padrão já documentado nas Ondas
+  9/10), zero cor duplicada entre as 3 trilhas, zero erro de console.
+
 ## [1.48.1] - 2026-08-07
 
 ### Corrigido
