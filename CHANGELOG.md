@@ -4,6 +4,47 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.48.0] - 2026-08-07
+
+### Adicionado
+- **Onda 10 da expansão para 300 lições — trilha "Brasil: História &
+  Economia" fecha o vácuo cronológico de 1945 a 1963** (RFC-029): a
+  Onda 9 (v1.47.0) já tinha sinalizado o gap — `h3_1` citava "regime
+  militar (1964–1985)" entre parênteses sem que a trilha jamais tivesse
+  explicado como ele começou. `hnivel_jk` — "Redemocratização, JK e a
+  véspera de uma crise institucional (1945-1963)" — foi inserido no
+  índice 3 de `HISTORY_COURSE`, entre `hnivel2` e `hnivel3`, com 3
+  lições novas, 10 perguntas + variante cada (30 perguntas + 30
+  variantes): `hjk_1` (fim do Estado Novo, eleições de 1945,
+  Constituição de 1946, retorno de Vargas pelo voto em 1950 e seu
+  suicídio em 1954), `hjk_2` (Plano de Metas de JK, "50 anos em 5",
+  construção de Brasília e a inflação gerada pelo financiamento via
+  emissão monetária e dívida externa) e `hjk_3` (renúncia de Jânio
+  Quadros, crise de posse de Jango, solução parlamentarista, Plano
+  Trienal de Celso Furtado e o plebiscito de 1963 que devolveu o
+  presidencialismo). **Recorte cronológico deliberado**: o nível
+  termina em 1963, parando explicitamente antes dos eventos de
+  março-abril de 1964 — a última lição fecha com um gancho neutro
+  ("essa tensão institucional seria resolvida de forma abrupta em
+  1964 — tema de um capítulo futuro desta trilha"), sem nomear atores
+  ou qualificar o desfecho; o mérito/legitimidade do golpe fica para
+  uma Onda futura própria, com processo de revisão mais cuidadoso. O
+  suicídio de Vargas (1954) foi tratado como fato histórico neutro
+  (carta-testamento como documento de arquivo, sem teoria de
+  conspiração), mesmo padrão de neutralidade já validado em `himp_3`
+  (escravidão/abolição, Onda 9). Zero sobreposição com `h2_2`
+  (Petrobras/CLT/1953) e com `h3_1` (regime militar/AI-5/dívida
+  1968-1973). `hnivel1`, `hnivel_imperio`, `hnivel2`, `hnivel3` e
+  `hnivel4` permanecem 100% intactos — a trilha passa de **5 para 6
+  níveis, de 12 para 15 lições**. Testado ao vivo (QA Engineer, via
+  Chrome DevTools Protocol com o engine JS real, Node não disponível
+  no ambiente): fluxo completo de quiz (conto → pergunta → erro →
+  variante → acerto → conclusão → +25 XP/+5 moedas), zero cor
+  duplicada entre as 3 trilhas, zero erro de console, e o gap residual
+  de destravamento na fronteira da inserção confirmado do tamanho
+  esperado (no máximo 3 lições, mesmo comportamento já documentado na
+  Onda 9, não um bug novo).
+
 ## [1.47.0] - 2026-08-07
 
 ### Adicionado
