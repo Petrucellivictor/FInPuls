@@ -4,6 +4,11 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.49.1] - 2026-08-07
+
+### Corrigido
+- **`README.md` ainda descrevia Supabase/conta como opcionais**. Cumpre o critério de aceite #8 da RFC-027 (nunca executado, pois aquela RFC pausou antes da etapa de Documentation Specialist): removidas as afirmações "Funciona 100% localmente... sem nenhuma conta" e "Supabase (opcional)" — falsas desde que a conta se tornou obrigatória. Seções "Como usar", "Sincronização multiusuário com Supabase", "Segurança e privacidade" e a árvore de arquivos reescritas para refletir o comportamento real.
+
 ## [1.49.0] - 2026-08-07
 
 ### Adicionado
