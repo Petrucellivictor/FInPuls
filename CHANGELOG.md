@@ -4,6 +4,47 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.53.0] - 2026-08-08
+
+### Adicionado
+- **Onda 14 da expansão para 300 lições — trilha financeira "Do Zero ao
+  Avançado" ganha análise técnica de indicadores (RSI, candlestick) e
+  valuation por fluxo de caixa descontado no Nível 5 "Avançado"**
+  (RFC-033): terceira Onda a tocar `COURSE`, depois da Onda 12
+  (`nivel4`) e da Onda 13 (`nivel6`). Também não insere nível novo —
+  expande `nivel5` ("Avançado"), até então o nível proporcionalmente
+  mais fraco da trilha (5 lições), com 3 lições apendadas ao final,
+  após `av_03`: `av_04` (Índice de Força Relativa/RSI — oscilador de
+  momentum 0-100, zonas de sobrecompra >70/sobrevenda <30, fechando a
+  lacuna do próprio termo já citado como opção incorreta em `l5_2` sem
+  nunca ter sido ensinado), `av_05` (Candlestick — anatomia da vela:
+  abertura, máxima, mínima, fechamento, corpo e sombra, sem lista de
+  padrões de reversão nomeados, tom estritamente informativo) e `av_06`
+  (Fluxo de caixa descontado/DCF — valor presente de fluxos de caixa
+  futuros, contrastado em prosa com os múltiplos comparativos de `l5_2`
+  sem reensiná-los, mantendo abordagem conceitual com um único tipo de
+  cálculo numérico simples). 10 perguntas + variante cada (30 perguntas
+  + 30 variantes), `xp: 40`, mesmo padrão de `l5_2`/`l5_3`/`av_01`-
+  `av_03`. `av_04`/`av_05` deixam explícito, na aula e em perguntas
+  dedicadas, que são ferramentas probabilísticas, não garantias. Zero
+  sobreposição literal com `l5_2` (P/L, P/VP), `av_01` (tendência,
+  suporte, resistência, médias móveis) e `av_02` (Balanço/DRE). 3 novas
+  entradas no `GLOSSARY` (RSI, Candlestick, Fluxo de Caixa Descontado),
+  todas `nivel: "avancado"` (39 → 42 entradas). RSI, candlestick e DCF
+  verificados via `WebSearch` antes da publicação (Fidelity, StockCharts,
+  TradingView, Britannica Money, FinWiz, Datarails, HBS Online, Eqvista).
+  `nivel1`-`nivel4`, `nivel6` e as 5 lições pré-existentes de `nivel5`
+  permanecem 100% intactos — `nivel5` passa de **5 para 8 lições**, e a
+  trilha financeira de **99 para 102 lições** (6 níveis:
+  35+20+22+8+8+9), com `nivel4` e `nivel5` agora empatados como os
+  níveis proporcionalmente mais enxutos da trilha. Testado ao vivo pelo
+  QA Engineer via Chrome DevTools Protocol (Node/Python indisponíveis
+  no ambiente), incluindo fluxo completo de quiz de `av_04` via DOM real
+  (erro proposital → variante → conclusão, XP/moedas conferidos),
+  simulação de `Trail.isUnlocked()` em múltiplos cenários de progresso
+  via `localStorage`, e zero erro de console. Mudança puramente aditiva
+  em `js/data.js` (708 inserções, 0 remoções).
+
 ## [1.52.0] - 2026-08-08
 
 ### Adicionado
