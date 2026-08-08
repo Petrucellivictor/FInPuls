@@ -367,9 +367,10 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   **9** lições, incluindo Índice de Sharpe, desvio padrão, Beta,
   **Drawdown**, **Alfa** e os usos de derivativos para **especulação e
   arbitragem** além do hedge (Onda 13, RFC-032)) e a
-  trilha "Brasil: História & Economia" (6 níveis, 15
+  trilha "Brasil: História & Economia" (6 níveis, 18
   lições, cada uma com um pequeno conto — moedas do Réis ao Real, a
-  chegada da Corte portuguesa e a Independência com dívida (Onda 9), a
+  chegada da Corte portuguesa e a Independência com dívida, a Guerra do
+  Paraguai e seu financiamento por dívida (Onda 9 e Onda 15), a
   redemocratização de 1945, o Plano de Metas de JK e a crise
   institucional pré-1964 (Onda 10), ciclos econômicos, Vargas, milagre
   econômico, Plano Real, desigualdade e o papel do Estado) não são abas

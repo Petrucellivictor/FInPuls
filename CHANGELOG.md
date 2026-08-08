@@ -4,6 +4,51 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.54.0] - 2026-08-08
+
+### Adicionado
+- **Onda 15 da expansão para 300 lições — trilha "Brasil: História &
+  Economia" ganha a Guerra do Paraguai, seu financiamento por dívida e
+  o legado institucional que precede 1889** (RFC-034): quinta Onda a
+  tocar `HISTORY_COURSE`, depois das Ondas 9 (`hnivel_imperio`, novo) e
+  10 (`hnivel_jk`, novo) — trilha pausada desde então enquanto as Ondas
+  11-14 avançaram Empreender e Financeira. Diferente das Ondas 9/10,
+  não insere nível novo — expande `hnivel_imperio` ("Independência,
+  Corte e Império: um país que nasce endividado") com 3 lições
+  apendadas ao final, após `himp_3`: `himp_4` (a Guerra do Paraguai,
+  1864-1870 — causas, Tratado da Tríplice Aliança, duração e custo
+  humano, com ressalva explícita de que as estimativas de baixas
+  variam por historiador e o curso não toma partido; abre reconhecendo
+  o recuo cronológico em relação a `himp_3`, que fecha em 1888),
+  `himp_5` (como a guerra foi paga — apólices internas e empréstimos
+  ingleses da Casa Rothschild, emissão de papel-moeda sem lastro pleno
+  e o efeito inflacionário, conectando em prosa, sem reensinar, com o
+  mesmo fio dívida→inflação já presente em `himp_2`/`hjk_2`/`h3_1`) e
+  `himp_6` (o legado — libertação de escravizados que serviram no
+  Exército referenciando, sem reensinar, a Lei do Ventre Livre e a Lei
+  Áurea já cobertas por `himp_3`, e o fortalecimento político do
+  Exército no pós-guerra, fechando de forma estritamente factual e
+  neutra na Proclamação da República em 15/nov/1889, sem apontar causa
+  única e sem prometer conteúdo além desse ponto). Fecha o padrão
+  "termo citado sem contexto": "Guerra do Paraguai" só existia até
+  aqui como distrator numa pergunta de `h2_2`, nunca ensinada. **Zero
+  menção, direta ou indireta, a 1964/regime militar/ditadura/golpe** —
+  o gap 1964-1985 continua deliberadamente pausado, mesma decisão das
+  Ondas 9, 10 e 11; confirmado por leitura linha a linha de `himp_6`
+  mais busca por regex restrita ao bloco das 3 lições novas, sem
+  nenhuma ocorrência. `hnivel1`, `hnivel2`, `hnivel_jk`, `hnivel3`,
+  `hnivel4` e `himp_1`-`himp_3` permanecem 100% intactos —
+  `hnivel_imperio` passa de **3 para 6 lições**, e a trilha história
+  de **15 para 18 lições** (6 níveis: 2+6+2+3+2+3). Datas e valores
+  (Tratado da Tríplice Aliança, custo da guerra em contos de réis,
+  empréstimos Rothschild, decreto de libertação de 1866) verificados
+  via `WebSearch`. Testado ao vivo pelo QA Engineer via Chrome
+  DevTools Protocol (Node/Python indisponíveis no ambiente), fluxo
+  completo de quiz das 3 lições incluindo caminho de erro/variante e
+  caminho de reprovação sem vazamento de XP, checagem de
+  `Trail.isUnlocked()` sem regressão, zero erro de console. Mudança
+  puramente aditiva em `js/data.js` (705 inserções, 0 remoções).
+
 ## [1.53.0] - 2026-08-08
 
 ### Adicionado
