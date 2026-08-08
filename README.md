@@ -251,7 +251,7 @@ fin-plus/
 │   │                                       efeito de digitação + voz nativa do navegador, e o assistente
 │   │                                       flutuante "Pergunte ao POLVIn" (busca por palavras-chave)
 │   ├── tabs.js                            → navegação entre abas
-│   ├── auth.js                       → login (Supabase real quando configurado, ou perfil local por e-mail/Google)
+│   ├── auth.js                       → login/cadastro sempre via Supabase Auth (e-mail/senha ou Google, obrigatório desde a RFC-027 — sem sessão válida não há identidade)
 │   ├── onboarding.js                  → diagnóstico inicial: "sobre você" + 5 perguntas de perfil de risco
 │   ├── investments.js                  → guia de investimentos com filtros e modal
 │   ├── simulator.js                     → simulador de juros compostos (investir x não investir)
@@ -304,12 +304,12 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
 ## O que já funciona (v7 — com moedas, loja, medalhas, ligas e perfil)
 
 ### Conta e personalização
-- **Login com Google ou e-mail**: por padrão, é só um perfil local (sem
-  senha) que personaliza a saudação com nome/foto, sem sincronização entre
-  dispositivos. Com o Supabase configurado (nova! ver seção "Sincronização
-  multiusuário" acima), o mesmo botão passa a criar uma conta real
-  (e-mail+senha, ou Google validado pelo Supabase), com dados sincronizados
-  entre dispositivos e isolados por conta via Row Level Security.
+- **Login com Google ou e-mail (obrigatório)**: toda conta é criada via
+  Supabase Auth (e-mail+senha, ou Google validado pelo Supabase) — não
+  existe mais um "perfil local" sem senha como estado final (ver seção
+  "Sincronização multiusuário" acima). Nome/foto vêm do próprio provedor
+  de autenticação, e os dados ficam sincronizados entre dispositivos e
+  isolados por conta via Row Level Security.
 - **Onboarding em duas etapas**: "sobre você" (idade, situação
   profissional, faixa de renda, objetivo principal com ícones — entre 9
   opções, incluindo aposentadoria e investir em estudos — e o **valor real

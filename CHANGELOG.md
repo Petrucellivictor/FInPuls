@@ -4,6 +4,109 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.51.0] - 2026-08-08
+
+### Adicionado
+- **Conta obrigatória via Supabase Auth + Supabase como fonte de verdade
+  dos dados** (RFC-027, fecha a etapa Documentation Specialist depois de
+  QA aprovar): reverte a arquitetura de persistência do PolvIn — antes o
+  `localStorage` era a fonte de verdade e o Supabase um espelho opcional;
+  agora toda conta é obrigatória (e-mail/senha ou Google, via Supabase
+  Auth), a tabela `user_data` do Supabase é a fonte de verdade, e o
+  `localStorage` passa a ser só um cache local de leitura/escrita
+  otimista. Não existe mais um "modo 100% local sem conta" como caminho
+  de produção. Boot da aplicação ganhou uma cadeia de 4 gates bloqueantes
+  sequenciais (mesmo padrão já usado por `ensureVaultUnlocked()`): (0)
+  `#cloudUnavailableScreen` (ambiente sem Supabase configurado — tela
+  terminal, sem caminho de "modo dev"); (1) `#authGateScreen` (login/
+  cadastro obrigatório, com POLVIn mostrando XP/moedas já salvos
+  localmente como incentivo real para criar conta, nunca placeholder);
+  (2) `#syncCollisionScreen` (aviso explícito, com confirmação em duas
+  etapas, quando local e nuvem divergem de verdade — nunca "mesclar"
+  automático); (3) `#passwordResetScreen` (fluxo completo de "esqueci
+  minha senha" via `Cloud.resetPasswordForEmail`/`updatePassword`, novo
+  requisito de MVP desta RFC — antes não existia nenhum caminho de
+  recuperação). Estado não bloqueante de "sessão expirada" no chip de
+  conta do cabeçalho (reentrada via modal, nunca tela cheia — os dados
+  locais continuam legíveis e usáveis enquanto a sessão não é retomada) e
+  chip persistente de "sincronização pendente" com retry manual quando
+  uma escrita para a nuvem falha. `STORAGE_KEYS.ACCOUNT` e os dois
+  "ramos locais" de `js/auth.js` (perfil sem senha, perfil Google
+  decorativo) foram removidos — identidade de exibição passa a derivar
+  sempre de `Cloud.session.user`.
+
+### Corrigido
+- **Colisão de sincronização detectada por mera coexistência de dados,
+  não por divergência real de conteúdo** (Bug 1, crítico, achado do QA
+  Engineer da RFC-027 num re-teste ponta a ponta contra o Supabase real
+  em produção): `Cloud.syncOnLogin()` declarava `case: "collision"`
+  sempre que havia dado em ambos os lados (local e nuvem), mesmo com os
+  dois idênticos byte a byte — na prática, a tela de colisão bloqueante
+  aparecia em **todo** reload de página para qualquer usuário já
+  sincronizado, indefinidamente, treinando a pessoa a clicar sem ler um
+  aviso cujo propósito inteiro era evitar perda de dado. Corrigido com
+  `Cloud._stableStringify()` (serialização canônica, chaves de objeto
+  ordenadas recursivamente, para não confundir diferença de *ordem* de
+  serialização entre `localStorage` e o retorno `jsonb` do Postgres com
+  diferença de *conteúdo*) e `Cloud._hasDivergentCommonKeys()` (só
+  compara as chaves presentes nos dois lados; chave que existe só de um
+  lado nunca é conflito — é união, resolvida sozinha). Novo caso
+  `"reconciled"` no contrato de `syncOnLogin()`: nuvem e local com dado
+  mas nada divergente de verdade → concilia e segue sem UI. Nenhuma
+  mudança na regra de "quem vence" uma colisão real (segue sem heurística
+  de timestamp, decisão original do Software Architect) nem na
+  confirmação em duas etapas da tela de colisão — só a *detecção* de
+  quando ela deve aparecer foi corrigida. Re-testado pelo QA Engineer com
+  3 e depois 4 reloads consecutivos sem alteração de dados, contra o
+  Supabase real: zero aparição indevida da tela, zero divergência entre
+  local e nuvem em 11-12 chaves comparadas byte a byte.
+- **XSS armazenado via nome/foto vindos de `user_metadata` (Google/
+  e-mail)** (achado ALTA do Cyber Security Specialist da RFC-027, sem
+  escape em `innerHTML`): `js/auth.js` (chip do cabeçalho, modal "Sua
+  conta"), `js/profile.js` (aba Perfil) e `js/app.js` (chip de sessão
+  expirada) interpolavam `acc.nome`/`acc.foto` direto em HTML — hoje é
+  self-XSS, mas qualquer XSS permite roubar o token de sessão do Supabase
+  guardado em `localStorage` e agir como o usuário via API. Corrigido
+  construindo os elementos via DOM (`textContent`, `createTextNode`,
+  `.src` de `<img>` por propriedade, nunca concatenação de string) nos
+  pontos citados e em `js/leagues.js` (nome de liga/participante, via
+  `Polvin.escapeHtml`, já existente no projeto). Confirmado pelo QA
+  Engineer contra o backend real, injetando `<img src=x onerror=...>` em
+  `full_name` via `sb.auth.updateUser`: renderizado como texto literal em
+  todos os pontos, zero execução.
+- **Dependência de CDN sem versão travada nem Subresource Integrity**
+  (achado MÉDIA do Cyber Security Specialist): o SDK do Supabase
+  (`@supabase/supabase-js@2`, flutuante) e o Phaser/Three.js (versão
+  travada, mas sem SRI) carregavam sem `integrity`/`crossorigin` — um
+  CDN comprometido teria acesso total à página, inclusive ao token de
+  sessão. Travadas as 3 tags em versão exata
+  (`supabase-js@2.112.2`, `phaser@3.80.1`, `three@0.150.0`) com
+  `integrity`/`crossorigin` (hashes SRI publicados pelo jsdelivr).
+- **Senha mínima do cofre local (2ª senha, criptografia AES-256) subiu de
+  6 para 8+ caracteres** (achado BAIXA do Cyber Security Specialist):
+  agora que toda conta sincroniza sempre, quem obtiver o token de sessão
+  (ex.: via o XSS acima, antes de corrigido) conseguiria baixar
+  salt/canary/blob cifrados do cofre e rodar força bruta offline sem
+  rate limit — PBKDF2 a 150 mil iterações já é um custo real por
+  tentativa, mas não compensava um mínimo de 6. A senha da **conta**
+  (Supabase Auth) não muda (mínimo 6, padrão do próprio Supabase).
+- **Copy do `confirm()` de "Resetar progresso" desatualizada** (achado
+  BAIXA do Cyber Security Specialist): não deixava claro que a ação
+  agora apaga também a conta na nuvem, em todos os dispositivos,
+  permanentemente — mesmo tipo de descompasso texto/comportamento já
+  corrigido para o fluxo irmão de "esqueci a senha do cofre".
+- **Balão de tooltip órfão** depois que o chip de "sincronização
+  pendente" se remove do DOM ao ter sucesso num retry — o clique
+  acionava simultaneamente o tooltip (`.tip-trigger`) e a remoção do
+  próprio elemento-gatilho, e nenhum evento de saída de mouse/foco
+  disparava mais para escondê-lo.
+- **`README.md` (árvore de arquivos e seção "Conta e personalização")
+  ainda descreviam `auth.js` pelo modelo de identidade antigo** (dois
+  ramos: conta Supabase real vs. perfil local por e-mail/Google) — esse
+  modelo foi removido por esta mesma RFC-027 (`setLocalAccount`/
+  `createLocalEmailAccount` não existem mais). Atualizado para refletir
+  que a conta é sempre via Supabase, obrigatória.
+
 ## [1.50.0] - 2026-08-08
 
 ### Adicionado

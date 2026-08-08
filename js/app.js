@@ -553,13 +553,15 @@ const App = {
     const el = document.getElementById("accountBtn");
     if (!el) return;
     el.classList.add("session-expired");
+    el.innerHTML = "";
+    // nome/foto vêm da última conta conhecida (user_metadata) — construídos
+    // via DOM (Auth.avatarEl) e texto puro, nunca interpolados em innerHTML
+    // (RFC-027, auditoria de segurança, achado 1).
     if (lastKnown) {
-      const inicial = lastKnown.nome.trim().charAt(0).toUpperCase();
-      el.innerHTML = lastKnown.foto
-        ? `<img src="${lastKnown.foto}" alt="" class="account-avatar" /> ⚠️ Reconectar`
-        : `<span class="account-avatar account-avatar-fallback">${inicial}</span> ⚠️ Reconectar`;
+      el.appendChild(Auth.avatarEl(lastKnown, "account-avatar"));
+      el.appendChild(document.createTextNode(" ⚠️ Reconectar"));
     } else {
-      el.innerHTML = `⚠️ Reconectar`;
+      el.textContent = "⚠️ Reconectar";
     }
   },
 
@@ -628,6 +630,11 @@ const App = {
 
     if (this._syncErrorKeys.size === 0) {
       Fx.successGlow(chip);
+      // Fecha o tooltip antes de remover o gatilho (Bug 2, QA da RFC-027):
+      // sem isso, o balão de dica fica órfão na tela — Tooltip.hide() só é
+      // chamado por eventos de saída de mouse/foco/scroll, nenhum dos quais
+      // dispara quando o próprio elemento-gatilho desaparece do DOM.
+      if (typeof Tooltip !== "undefined") Tooltip.hide();
       setTimeout(() => chip.remove(), 900);
     } else {
       this.renderSyncErrorChip();

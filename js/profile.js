@@ -24,15 +24,22 @@ const Profile = {
     const container = document.getElementById("profileAvatarArea");
     if (!container) return;
     const acc = Auth.getAccount();
+    // nome/email vêm da conta (user_metadata) — nunca interpolados em
+    // innerHTML, sempre via .textContent (RFC-027, auditoria de
+    // segurança, achado 1).
     container.innerHTML = `
       <div class="profile-header">
         ${Polvin.avatarHtml("lg")}
         <div>
-          <h2>${acc ? acc.nome : "Visitante"}</h2>
-          <div class="text-soft text-sm">${acc ? acc.email : "Ainda sem conta — clique em ”👤 Entrar” no topo da tela"}</div>
+          <h2 id="profileAccountName"></h2>
+          <div class="text-soft text-sm" id="profileAccountEmail"></div>
         </div>
       </div>
     `;
+    container.querySelector("#profileAccountName").textContent = acc ? acc.nome : "Visitante";
+    container.querySelector("#profileAccountEmail").textContent = acc
+      ? acc.email
+      : "Ainda sem conta — clique em ”👤 Entrar” no topo da tela";
   },
 
   renderStats() {
@@ -180,7 +187,7 @@ const Profile = {
         <p class="text-sm text-soft"><b>Atenção:</b> se você esquecer essa senha, não há como recuperar os dados cifrados depois — nenhum servidor guarda uma cópia dela. Exporte um backup (⬇️ Exportar, no topo da tela) antes de ativar, por segurança.</p>
         <div class="field">
           <label for="vaultSetupPass">Criar senha do cofre</label>
-          <input type="password" id="vaultSetupPass" placeholder="Mínimo 6 caracteres" />
+          <input type="password" id="vaultSetupPass" placeholder="Mínimo 8 caracteres" />
         </div>
         <div class="field">
           <label for="vaultSetupPass2">Confirmar senha</label>
@@ -207,7 +214,7 @@ const Profile = {
         </div>
         <div class="field">
           <label for="vaultNewPass">Nova senha</label>
-          <input type="password" id="vaultNewPass" placeholder="Mínimo 6 caracteres" />
+          <input type="password" id="vaultNewPass" placeholder="Mínimo 8 caracteres" />
         </div>
         <div class="alert-box danger hidden" id="vaultChangePassError"></div>
         <button class="btn btn-primary btn-sm" id="vaultConfirmChangeBtn">Confirmar troca</button>
@@ -227,8 +234,8 @@ const Profile = {
     const errorBox = document.getElementById("vaultSetupError");
     errorBox.classList.add("hidden");
 
-    if (pass1.length < 6) {
-      errorBox.textContent = "Use uma senha com pelo menos 6 caracteres.";
+    if (pass1.length < 8) {
+      errorBox.textContent = "Use uma senha com pelo menos 8 caracteres.";
       errorBox.classList.remove("hidden");
       return;
     }
@@ -255,8 +262,8 @@ const Profile = {
     const errorBox = document.getElementById("vaultChangePassError");
     errorBox.classList.add("hidden");
 
-    if (newPass.length < 6) {
-      errorBox.textContent = "A nova senha precisa ter pelo menos 6 caracteres.";
+    if (newPass.length < 8) {
+      errorBox.textContent = "A nova senha precisa ter pelo menos 8 caracteres.";
       errorBox.classList.remove("hidden");
       return;
     }

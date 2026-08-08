@@ -16,7 +16,16 @@ const Onboarding = {
     }
     document.getElementById("redoOnboardingBtn")?.addEventListener("click", () => this.show());
     document.getElementById("resetBtn")?.addEventListener("click", () => {
-      if (confirm("Isso vai limpar todos os seus dados salvos (perfil, transações e progresso). Continuar?")) {
+      // RFC-027: clearAll() = clearLocalOnly() + clearCloudData() — apaga
+      // também a conta na nuvem, em todos os dispositivos, para sempre. A
+      // copia precisa deixar isso explícito antes da confirmação (auditoria
+      // de segurança, achado 6), no mesmo espírito da confirmação já usada
+      // para "esqueci a senha do cofre" (js/app.js).
+      if (
+        confirm(
+          "Isso vai apagar TUDO para sempre: perfil, transações e progresso — não só neste navegador, mas também na nuvem, em qualquer dispositivo em que você entrar com esta conta. Não há como desfazer nem recuperar depois. Continuar?"
+        )
+      ) {
         Store.clearAll();
         location.reload();
       }

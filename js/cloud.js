@@ -155,16 +155,59 @@ const Cloud = {
     return Object.values(STORAGE_KEYS).some((key) => key.indexOf("if_vault_") !== 0 && localStorage.getItem(key) !== null);
   },
 
+  /* Serialização canônica: ordena chaves de objetos recursivamente antes de
+     comparar, para que diferença de ORDEM de serialização entre o localStorage
+     (escrito pelo próprio app) e o retorno jsonb do Postgres (via driver do
+     Supabase) nunca seja confundida com diferença de CONTEÚDO. Arrays mantêm
+     a ordem original — ordem em array é dado, não é estrutura de objeto.
+     (RFC-027, revisão do Software Architect pós-QA sobre o Bug 1.) */
+  _stableStringify(value) {
+    if (Array.isArray(value)) {
+      return "[" + value.map((v) => this._stableStringify(v)).join(",") + "]";
+    }
+    if (value && typeof value === "object") {
+      return "{" + Object.keys(value).sort()
+        .map((k) => JSON.stringify(k) + ":" + this._stableStringify(value[k]))
+        .join(",") + "}";
+    }
+    return JSON.stringify(value);
+  },
+
+  /* true só se existir ao menos uma chave presente NOS DOIS LADOS (local e
+     nuvem) com conteúdo diferente. Chave que só existe de um lado nunca conta
+     como divergência aqui — isso não é colisão, é união (ver syncOnLogin). */
+  _hasDivergentCommonKeys(rows) {
+    const remoteByKey = new Map(rows.map((r) => [r.key, r.value]));
+    return Object.values(STORAGE_KEYS)
+      .filter((key) => key.indexOf("if_vault_") !== 0)
+      .some((key) => {
+        const raw = localStorage.getItem(key);
+        if (raw === null || !remoteByKey.has(key)) return false; // só existe de um lado: não é conflito
+        let localValue;
+        try {
+          localValue = JSON.parse(raw);
+        } catch (e) {
+          return true; // JSON local ilegível: não dá pra provar igualdade -> trata como divergente
+        }
+        return this._stableStringify(localValue) !== this._stableStringify(remoteByKey.get(key));
+      });
+  },
+
   /* Decide, no momento do login, o estado relativo entre a nuvem (fonte de
      verdade) e o cache local deste navegador. Detecção de colisão é
-     binária e sem heurística de timestamp, de propósito (ver RFC-027):
-     nuvem com ≥1 linha E localStorage com ≥1 chave de dado real = colisão.
+     sem heurística de timestamp, de propósito (ver RFC-027): quando os dois
+     lados têm dado, colisão real é definida por DIVERGÊNCIA DE CONTEÚDO em
+     alguma chave comum (_hasDivergentCommonKeys), não pela mera coexistência
+     de dados nos dois lados — correção de bug pós-QA (Bug 1), revisão do
+     Software Architect: a decisão original ("binário, sem timestamp") era
+     sobre quem vence um conflito, não sobre se existe conflito.
 
-     Contrato novo: retorna sempre { case, rows }, nunca muta nada sozinho
-     quando há colisão — quem decide o que fazer é a UI (App.ensureCloudResolved
-     -> #syncCollisionScreen -> applyCloudWins/applyLocalWins). Nos outros 3
-     casos, continua agindo sozinho exatamente como antes (push/hydrate),
-     sem que a UI precise inspecionar `rows`. Chamado uma única vez por
+     Contrato: retorna sempre { case, rows }, nunca muta nada sozinho
+     quando há colisão real — quem decide o que fazer é a UI (App.ensureCloudResolved
+     -> #syncCollisionScreen -> applyCloudWins/applyLocalWins). Nos outros
+     casos (incluindo o novo "reconciled"), continua agindo sozinho
+     (push/hydrate), sem que a UI precise inspecionar `rows` — App.ensureCloudResolved
+     já trata qualquer case !== "collision" genericamente. Chamado uma única vez por
      boot-com-sessão (o próprio App.ensureCloudResolved), nunca de dentro de
      signIn/signUp/signInWithGoogleIdToken (ver comentário em signUp). */
   async syncOnLogin() {
@@ -172,18 +215,28 @@ const Cloud = {
     const cloudHasData = rows.length > 0;
     const localHasData = this.hasLocalData();
 
-    if (cloudHasData && localHasData) {
-      return { case: "collision", rows };
-    }
-    if (!cloudHasData && !localHasData) {
-      return { case: "both-empty", rows };
-    }
+    if (!cloudHasData && !localHasData) return { case: "both-empty", rows };
     if (!cloudHasData && localHasData) {
       await this.pushAllLocal();
       return { case: "cloud-empty", rows };
     }
+    if (cloudHasData && !localHasData) {
+      this.hydrateLocalFrom(rows);
+      return { case: "local-empty", rows };
+    }
+
+    // cloudHasData && localHasData: só é colisão de verdade se alguma chave
+    // presente nos dois lados tiver conteúdo diferente.
+    if (this._hasDivergentCommonKeys(rows)) {
+      return { case: "collision", rows };
+    }
+
+    // Chaves em comum são idênticas; chaves só de um lado (se houver) não são
+    // conflito — resolve sozinho, sem UI, unindo os dois lados. Idempotente
+    // para as chaves já iguais (hydrate/push não mudam nada nelas).
     this.hydrateLocalFrom(rows);
-    return { case: "local-empty", rows };
+    await this.pushAllLocal();
+    return { case: "reconciled", rows };
   },
 
   hydrateLocalFrom(rows) {

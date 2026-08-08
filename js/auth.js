@@ -186,17 +186,37 @@ const Auth = {
 
   /* ---------- exibição ---------- */
 
+  /* Constrói o avatar da conta (foto ou iniciais) via DOM, nunca por
+     interpolação de string: acc.foto/acc.nome vêm de user_metadata do
+     Supabase (nome no Google, e-mail digitado no cadastro), controláveis
+     pelo dono da própria conta — inseri-los direto em innerHTML permite
+     XSS armazenado (RFC-027, auditoria de segurança, achado 1). Atribuir
+     .src como propriedade (em vez de concatenar a URL numa string HTML)
+     evita também o caso mais sutil de injeção via atributo. */
+  avatarEl(acc, sizeClass) {
+    if (acc.foto) {
+      const img = document.createElement("img");
+      img.src = acc.foto;
+      img.alt = "";
+      img.className = sizeClass;
+      return img;
+    }
+    const span = document.createElement("span");
+    span.className = `${sizeClass} account-avatar-fallback`;
+    span.textContent = acc.nome.trim().charAt(0).toUpperCase();
+    return span;
+  },
+
   renderHeaderChip() {
     const el = document.getElementById("accountBtn");
     if (!el) return;
     const acc = this.getAccount();
+    el.innerHTML = "";
     if (acc) {
-      const inicial = acc.nome.trim().charAt(0).toUpperCase();
-      el.innerHTML = acc.foto
-        ? `<img src="${acc.foto}" alt="" class="account-avatar" /> ${acc.nome.split(" ")[0]}`
-        : `<span class="account-avatar account-avatar-fallback">${inicial}</span> ${acc.nome.split(" ")[0]}`;
+      el.appendChild(this.avatarEl(acc, "account-avatar"));
+      el.appendChild(document.createTextNode(" " + acc.nome.split(" ")[0]));
     } else {
-      el.innerHTML = `👤 Entrar`;
+      el.textContent = "👤 Entrar";
     }
   },
 
@@ -213,15 +233,18 @@ const Auth = {
     overlay.id = "authModalOverlay";
 
     if (acc) {
+      // nome/email/foto vêm da conta (user_metadata) e nunca são
+      // interpolados em innerHTML — ver Auth.avatarEl() acima e o uso de
+      // .textContent abaixo (RFC-027, auditoria de segurança, achado 1).
       overlay.innerHTML = `
         <div class="modal-box auth-modal">
           <button class="modal-close">✕</button>
           <h2>Sua conta</h2>
           <div class="auth-current">
-            ${acc.foto ? `<img src="${acc.foto}" alt="" class="account-avatar-lg" />` : `<span class="account-avatar-lg account-avatar-fallback">${acc.nome.charAt(0).toUpperCase()}</span>`}
+            <div id="authModalAvatarSlot"></div>
             <div>
-              <b>${acc.nome}</b>
-              <div class="text-soft text-sm">${acc.email}</div>
+              <b id="authModalName"></b>
+              <div class="text-soft text-sm" id="authModalEmail"></div>
               <div class="text-soft text-sm">Conta sincronizada (Supabase)</div>
             </div>
           </div>
@@ -229,6 +252,9 @@ const Auth = {
           <button class="btn btn-outline btn-block mt-16" id="authLogoutBtn">Sair</button>
         </div>
       `;
+      overlay.querySelector("#authModalAvatarSlot").appendChild(this.avatarEl(acc, "account-avatar-lg"));
+      overlay.querySelector("#authModalName").textContent = acc.nome;
+      overlay.querySelector("#authModalEmail").textContent = acc.email;
       document.body.appendChild(overlay);
       document.getElementById("authLogoutBtn").addEventListener("click", () => this.logout());
     } else {

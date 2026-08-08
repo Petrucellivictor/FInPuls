@@ -125,6 +125,10 @@ const Leagues = {
       return;
     }
 
+    // league.nome e p.nome são texto digitado pelo próprio usuário (nome da
+    // liga, "Nome do amigo", e o próprio acc.nome via myName) — escapados
+    // antes de entrar em innerHTML para evitar XSS armazenado, mesmo que
+    // hoje seja self-XSS (RFC-027, auditoria de segurança, achado 1).
     container.innerHTML = leagues
       .map((league) => {
         const todos = [{ id: "__you__", nome: `${myName} (você)`, pontos: myScore, isYou: true }, ...league.participantes];
@@ -133,7 +137,7 @@ const Leagues = {
         return `
         <div class="card league-card mt-16">
           <div class="flex-between">
-            <h3 style="margin:0">🏆 ${league.nome}</h3>
+            <h3 style="margin:0">🏆 ${Polvin.escapeHtml(league.nome)}</h3>
             <button class="btn btn-outline btn-sm" data-remove-league="${league.id}">Remover liga</button>
           </div>
           <div class="table-scroll"><table class="compare-table mt-8">
@@ -144,7 +148,7 @@ const Leagues = {
                   (p, i) => `
                 <tr class="${i === 0 ? "row-best" : ""}">
                   <td>${i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1}</td>
-                  <td>${p.nome}</td>
+                  <td>${Polvin.escapeHtml(p.nome)}</td>
                   <td class="mono">
                     ${
                       p.isYou
