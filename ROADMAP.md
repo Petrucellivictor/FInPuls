@@ -99,12 +99,39 @@ visual e nas Fases 1-6 da Cidade Financeira. Detalhe completo em
   pergunta 9 testando um conceito diferente da base) — já corrigido antes
   do fechamento da fase. Ver `CHANGELOG.md`, v1.56.0.
 - **Fase 3C — rollout do sistema de revisão para a trilha unificada
-  Aprender (Financeira + História), ainda não iniciada.** Mais complexa que
-  o piloto: precisa lidar com duas fontes de conteúdo intercaladas por
-  nível (`COURSE`/`HISTORY_COURSE`, contagem "7 pontos" unificada já
-  decidida pelo Software Architect na Fase 3A) e com o efeito colateral já
-  registrado na RFC de que a revisão também vai contar para o gatilho de
-  história interativa a cada 3 lições financeiras, sem filtro novo.
+  Aprender (Financeira + História), em andamento (Onda de Revisão 1 de 4
+  concluída, Ondas 2-4 pendentes).** Mais complexa que o piloto: lida com
+  duas fontes de conteúdo intercaladas por nível (`COURSE`/`HISTORY_COURSE`,
+  contagem "7 pontos" unificada já decidida pelo Software Architect na
+  Fase 3A) e com o efeito colateral já registrado na RFC de que a revisão
+  também conta para o gatilho de história interativa a cada 3 lições
+  financeiras, sem filtro novo. O Software Architect mapeou as ~120 lições
+  já publicadas na trilha unificada em **17 blocos de revisão possíveis**
+  (`revU_01`-`revU_17`), fatiados em 4 Ondas de Revisão de 4-5 blocos cada,
+  na mesma ordem cronológica/pedagógica em que o conteúdo foi publicado —
+  cada Onda só começa depois que a anterior fecha QA sem ressalvas graves.
+  - ✅ **Onda de Revisão 1 — blocos 1-4** (v1.57.0): `COURSE_REVIEWS` em
+    `js/data.js` (`revU_01`-`revU_04`), cobrindo o Nível 1 "Fundamentos e
+    Comportamento Financeiro" por completo (28 lições-fonte), todas
+    ancoradas em `COURSE` (uniforme, sem mistura de fonte). `Trail.levels()`
+    generalizado (`js/trail.js`) para clonar e inserir revisões
+    independentemente em `COURSE` e `HISTORY_COURSE`, ambos consultando o
+    mesmo `COURSE_REVIEWS`, sem nunca mutar os arrays canônicos — o caminho
+    de inserção em `HISTORY_COURSE`, nunca exercitado em produção até aqui
+    (o piloto da Fase 3B só provou `BUSINESS_COURSE`), foi validado com um
+    teste dirigido antes desta Onda fechar, então a Onda 3 (1º bloco real
+    ancorado em História) reaproveita um caminho já testado, não um caminho
+    novo. QA aprovou sem ressalvas. Ver `CHANGELOG.md`, v1.57.0.
+  - **Onda de Revisão 2 — blocos 5-8, ainda não iniciada.** Fim do Nível 1 +
+    Nível 2 (Renda Fixa) até `rf_14`; primeiro bloco misto
+    (Financeira+História, bloco 6), mas ainda ancorado em `COURSE`.
+  - **Onda de Revisão 3 — blocos 9-12, ainda não iniciada.** Fim do Nível 2
+    + Nível 3 (Renda Variável) até `rv_19`; contém o bloco 9, a **primeira
+    âncora real em `HISTORY_COURSE`** publicada como conteúdo.
+  - **Onda de Revisão 4 — blocos 13-17, ainda não iniciada.** Níveis 4, 5, 6
+    (Diversificação/Avançado/Pro) + fim de História; fecha a cobertura de
+    tudo publicado hoje, incluindo mais 2 âncoras em `HISTORY_COURSE` e um
+    caso real de inserção no meio de um nível.
 
 ## Cidade Financeira — jogo de simulação de vida
 

@@ -2896,3 +2896,1904 @@ Fase 2 já concluídas na v1.55.0).
   a Fase 3C ser escopada, momento em que o Orchestrator deve reabrir o
   workflow a partir do Product Owner/Software Architect para essa fase
   específica.
+
+### 19. Software Architect (Fase 3C — Planejamento do rollout na trilha unificada Aprender)
+
+Leitura prévia confirmada por leitura direta do código real, não só desta
+RFC: `js/data.js` (`COURSE`, `HISTORY_COURSE` inteiros, estrutura de nível e
+lição) e `js/trail.js` (`levels()`, `flatLessons()`, `isUnlocked()`,
+`isDone()`, `maybePickStory()`, `startLesson()`, `finishLesson()`). Como o
+arquivo `js/data.js` tem ~850KB só no array `COURSE`, a extração de
+estrutura (níveis, ids de lição em ordem de documento, XP) foi feita por um
+parser Python escrito para esta etapa (tokenizer consciente de string/
+comentário JS + contagem de profundidade de `[`/`{`/`(`, sem dependência de
+`node`, indisponível neste ambiente desde as fases anteriores desta RFC) —
+não por leitura manual linha a linha, que seria inviável e propensa a erro
+num arquivo desse tamanho. O script e sua saída bruta ficam no scratchpad
+desta sessão; os números abaixo foram conferidos cruzando contagem de
+lições por nível contra o resultado do parser.
+
+#### 1. Sequência flat unificada hoje — números confirmados
+
+- `COURSE`: **6 níveis, 102 lições** (Nível 1 "Fundamentos e Comportamento
+  Financeiro": 35 lições; Nível 2 "Renda Fixa": 20; Nível 3 "Renda
+  Variável": 22; Nível 4 "Diversificação e Risco": 8; Nível 5 "Avançado": 8;
+  Nível 6 "Mercado Avançado (Pro)": 9).
+- `HISTORY_COURSE`: **6 níveis, 18 lições** (Colônia: 2; Independência/Corte/
+  Império: 6; Café/Vargas: 2; Redemocratização/JK: 3; Ditadura/moedas: 2;
+  Plano Real/desigualdade: 3).
+- `Trail.levels()` intercala por ÍNDICE de nível (`financeira[i]` depois
+  `historia[i]`, para `i` de 0 a 5) — hoje os dois arrays têm exatamente 6
+  níveis cada, então o pareamento é 1:1 sem sobra em nenhum lado
+  (coincidência atual, não uma garantia estrutural — ver risco 6.4).
+- `Trail.flatLessons()` resultante hoje: **120 lições** (102+18), na ordem:
+  todas as lições do Nível 1 financeira, depois todas as do Nível 1
+  história, depois Nível 2 financeira, Nível 2 história, ..., até Nível 6
+  história.
+- **17 blocos completos de 7** (119 lições cobertas) + **1 lição avulsa**
+  (`h4_3`, a última publicada) que ainda não fecha um 18º bloco — bate
+  exatamente com a estimativa "~120 lições ⇒ ~17 blocos" do enunciado desta
+  tarefa.
+
+#### 2. Os 17 blocos — âncora, fontes, array de inserção e XP herdado
+
+Cada linha é um bloco (`refLessonIds` na ordem em que aparecem na sequência
+flat; a âncora é sempre o 7º/último). "Array de inserção" segue a decisão
+já registrada na Fase 3A (seção 12, item 3): a revisão é inserida no MESMO
+array/nível físico da lição-âncora — nunca um array separado, nunca decidido
+por votação das 7 fontes. XP herdado segue a decisão já registrada na Fase
+3B (seção 13, item 1): igual ao XP da lição-âncora, lido diretamente de
+`COURSE`/`HISTORY_COURSE`.
+
+| Bloco | `refLessonIds` (últimas 7 lições cobertas) | Âncora | Fonte/nível da âncora | Array de inserção | XP herdado | Mistura de fontes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | `f1_01, f1_02, f1_03, f1_04, l1_1, f1_05, f1_06` | `f1_06` | financeira, nível 0 | `COURSE[0]` | 20 | uniforme |
+| 2 | `l5_1, f1_07, f1_08, l1_2, f1_09, f1_10, l1_3` | `l1_3` | financeira, nível 0 | `COURSE[0]` | 20 | uniforme |
+| 3 | `f1_11 .. f1_17` | `f1_17` | financeira, nível 0 | `COURSE[0]` | 20 | uniforme |
+| 4 | `f1_18 .. f1_24` | `f1_24` | financeira, nível 0 | `COURSE[0]` | 20 | uniforme |
+| 5 | `f1_25, f1_26, f1_27, f1_28, f1_29, f1_30, l4_1` | `l4_1` | financeira, nível 0 | `COURSE[0]` | 35 | uniforme |
+| 6 | `h1_1, h1_2, l2_1, l2_2, rf_16, rf_05, l2_3` | `l2_3` | financeira, nível 1 | `COURSE[1]` | 25 | **mista** (2 história + 5 financeira) |
+| 7 | `rf_17, rf_08, rf_09, rf_06, rf_07, rf_10, rf_11` | `rf_11` | financeira, nível 1 | `COURSE[1]` | 25 | uniforme |
+| 8 | `rf_01, rf_02, rf_04, rf_03, rf_12, rf_13, rf_14` | `rf_14` | financeira, nível 1 | `COURSE[1]` | 25 | uniforme |
+| 9 | `rf_15, himp_1, himp_2, himp_3, himp_4, himp_5, himp_6` | `himp_6` | **história, nível 1** | `HISTORY_COURSE[1]` | 25 | **mista** (1 financeira + 6 história) |
+| 10 | `l3_1, l3_2, rv_01, rv_02, rv_03, rv_04, rv_05` | `rv_05` | financeira, nível 2 | `COURSE[2]` | 30 | uniforme |
+| 11 | `rv_06 .. rv_12` | `rv_12` | financeira, nível 2 | `COURSE[2]` | 30 | uniforme |
+| 12 | `rv_13 .. rv_19` | `rv_19` | financeira, nível 2 | `COURSE[2]` | 30 | uniforme |
+| 13 | `rv_20, h2_1, h2_2, l4_2, l4_3, dr_01, dr_02` | `dr_02` | financeira, nível 3 | `COURSE[3]` | 35 | **mista** (2 história + 5 financeira) |
+| 14 | `dr_03, dr_04, dr_05, dr_06, hjk_1, hjk_2, hjk_3` | `hjk_3` | **história, nível 3** | `HISTORY_COURSE[3]` | 25 | **mista** (4 financeira + 3 história) |
+| 15 | `l5_2, l5_3, av_01, av_02, av_03, av_04, av_05` | `av_05` | financeira, nível 4 | `COURSE[4]` | 40 | uniforme |
+| 16 | `av_06, h3_1, h3_2, l6_1, l6_2, l6_3, l6_4` | `l6_4` | financeira, nível 5 | `COURSE[5]` | 50 | **mista** (1 história + 6 financeira) |
+| 17 | `l6_5, l6_6, l6_7, l6_8, l6_9, h4_1, h4_2` | `h4_2` | **história, nível 5** | `HISTORY_COURSE[5]` | 35 | **mista** (5 financeira + 2 história) |
+
+Leftover sem âncora ainda: `h4_3` (última lição publicada de História) —
+não fecha bloco, nenhuma revisão nova aparece até uma próxima Onda de
+conteúdo publicar mais uma lição depois dela.
+
+Dois achados concretos que confirmam, com conteúdo real (não mais só em
+tese), decisões já tomadas nas Fases 3A/3B:
+
+- **3 dos 17 blocos (9, 14, 17) ancoram em `HISTORY_COURSE`**, não em
+  `COURSE` — é a primeira vez que o mecanismo de inserção "no array da
+  âncora" (Fase 3A, seção 12, item 3) precisa rotear para o array de
+  História de verdade. O piloto da Fase 3B (`Business.levels()`) só provou
+  o caminho de inserção contra UM único array canônico
+  (`BUSINESS_COURSE`) — o caminho de inserção em `HISTORY_COURSE` nunca
+  rodou em produção até hoje. Ver risco 6.1.
+- **Bloco 17 é um exemplo real (não hipotético) de âncora no MEIO de um
+  nível**: `h4_2` é a 2ª das 3 lições do nível "Plano Real, desigualdade e o
+  papel do Estado" — a revisão `revU_17` entra entre `h4_2` e `h4_3`, não no
+  fim do nível. Confirma ao vivo, com conteúdo real, a garantia que a Fase
+  3A já dava por construção ("não depende de limites de nível") — não
+  precisa de nenhum tratamento especial, mas é o primeiro caso real onde
+  isso é observável, então vale como item de teste dirigido, não só
+  confiança na lógica.
+
+#### 3. Decisão de faseamento do conteúdo — 4 Ondas de Revisão, não uma RFC monolítica
+
+**Decisão: 170 perguntas novas (17 blocos × 10) NÃO são escritas de uma vez.
+Fatiar em 4 "Ondas de Revisão", cada uma cobrindo 4-5 blocos consecutivos da
+tabela acima, na MESMA ordem em que aparecem na sequência flat (ordem
+cronológica/pedagógica — as duas coincidem aqui, já que o conteúdo foi
+publicado nível a nível ao longo das Ondas 1-15).**
+
+| Onda de Revisão | Blocos | IDs sugeridos (`COURSE_REVIEWS`) | Conteúdo coberto | Observação estrutural |
+| --- | --- | --- | --- | --- |
+| **1** | 1-4 | `revU_01`..`revU_04` | Nível 1 completo (Fundamentos) | 100% uniforme-financeira, todas ancoram em `COURSE[0]` — menor risco possível, valida o mecanismo generalizado em escala antes de qualquer caso misto |
+| **2** | 5-8 | `revU_05`..`revU_08` | Fim do Nível 1 + Nível 2 (Renda Fixa) até `rf_14` | Primeiro bloco misto (6, história+financeira) — ainda ancorando em `COURSE`, então não exercita o caminho de inserção em `HISTORY_COURSE` |
+| **3** | 9-12 | `revU_09`..`revU_12` | Fim do Nível 2 + Nível 3 (Renda Variável) até `rv_19` | **Contém o bloco 9 — primeira âncora real em `HISTORY_COURSE`.** Onda mais sensível do ponto de vista técnico, não de conteúdo |
+| **4** | 13-17 | `revU_13`..`revU_17` | Nível 4, 5, 6 (Diversificação/Avançado/Pro) + fim de História | Fecha a cobertura de tudo publicado hoje; contém mais 2 âncoras em `HISTORY_COURSE` (14, 17) e o caso de inserção no meio de nível (17) |
+
+Por que 4 Ondas de ~4-5 blocos em vez de outras divisões possíveis:
+
+- **Por que não uma RFC/rodada só com as 17**: é exatamente a mesma ordem
+  de grandeza (170 perguntas) que levou ao cancelamento da Fase 4 original
+  desta RFC (~690 perguntas, mas o motivo do cancelamento não foi só o
+  volume absoluto — foi "pressa e volume são inimigos diretos de clareza",
+  citado literalmente na Motivação desta RFC). Escrever, implementar e
+  validar 170 perguntas novas numa única passada reintroduziria o mesmo
+  risco, numa escala menor mas ainda real.
+- **Por que não 1 bloco por rodada (17 rodadas)**: overhead de processo
+  (QA, changelog, registro de RFC) por rodada não se paga para um único
+  bloco de 10 perguntas — o próprio padrão de "Ondas" já usado neste
+  projeto para conteúdo normal (Ondas 1-15, `CHANGELOG.md`) sempre agrupou
+  várias lições por Onda, nunca uma por vez.
+- **Por que 4-5, não um número fixo maior**: replica o tamanho já validado
+  do padrão de "Onda" de conteúdo deste projeto (ordem de grandeza de
+  3-6 lições por Onda nas Ondas 13-15, últimas 3 antes desta RFC) — cada
+  Onda de Revisão end-to-end (Financial Specialist escreve, Frontend
+  Engineer insere no array, QA valida) fica no mesmo porte de esforço já
+  comprovado sustentável.
+- **Por que a Onda 3 não foi redesenhada para adiar o primeiro anchor em
+  `HISTORY_COURSE`**: seria possível reordenar os blocos para que o
+  primeiro anchor em História caísse mais tarde, mas isso quebraria a
+  ordem cronológica/pedagógica sem ganho real — o código que insere em
+  `HISTORY_COURSE` (item 4 abaixo) tem que ser validado de qualquer forma
+  antes de qualquer bloco real depender dele, e adiar isso só adiaria
+  quando o bug (se existir) seria descoberto. A mitigação correta não é
+  reordenar conteúdo, é testar os dois caminhos de inserção ANTES de
+  qualquer Onda de conteúdo real ir ao ar — ver item 4 e risco 6.1.
+- **QA obrigatório entre Ondas, sem exceção**: cada Onda de Revisão só
+  libera a próxima depois de um ciclo de QA independente (mesmo padrão já
+  seguido pela Fase 3B, seção 17) — não em paralelo, para que um problema
+  estrutural encontrado numa Onda não se propague para as 3 seguintes antes
+  de ser corrigido.
+
+**IDs**: contador único e contínuo em `COURSE_REVIEWS` (`revU_01` a
+`revU_17`, na ordem da tabela acima), não reiniciado a cada Onda — mesmo
+padrão de numeração contínua já usado em `BUSINESS_REVIEWS`/`revE_01`.
+
+#### 4. Ajuste técnico em `Trail.levels()` — generalização de `Business.levels()` para DOIS arrays canônicos
+
+`Business.levels()` (Fase 3B, seção 16) clona `licoes` e insere a revisão
+ancorada por id contra UM único array (`BUSINESS_COURSE`). `Trail.levels()`
+precisa do mesmo mecanismo aplicado **independentemente a `COURSE` e a
+`HISTORY_COURSE`, ambos os passes consultando o MESMO array
+`COURSE_REVIEWS`**, antes de intercalar por índice de nível (lógica de
+intercalação já existente, inalterada):
+
+```js
+levels() {
+  if (this._levels) return this._levels;
+
+  // Mesmo mecanismo de Business.levels() (Fase 3B) — clona licoes, insere a
+  // revisão ancorada por id — mas aplicado como uma função genérica, uma vez
+  // para cada array canônico. Os dois passes leem o MESMO COURSE_REVIEWS;
+  // cada um só "acha" (e insere) as revisões cuja âncora (refLessonIds[6])
+  // é, de fato, uma lição daquele array — nunca as duas passes acham a
+  // mesma revisão, porque um id de lição só existe em um dos dois arrays.
+  // É isso que resolve "em qual array a revisão entra" sem nenhum branch
+  // explícito de "se a âncora é história, insere aqui; se é financeira,
+  // insere ali" — o roteamento é automático, decorrente de `.find()` só
+  // casar contra as lições que realmente estão no array sendo processado.
+  const withReviews = (courseArr, fonte) =>
+    courseArr.map((lvl) => {
+      const licoes = [];
+      lvl.licoes.forEach((lesson) => {
+        licoes.push(lesson);
+        const review = COURSE_REVIEWS.find((r) => r.refLessonIds[6] === lesson.id);
+        if (review) licoes.push(review);
+      });
+      return { ...lvl, licoes, fonte };
+    });
+
+  const financeira = withReviews(COURSE, "financeira");
+  const historia = withReviews(HISTORY_COURSE, "historia");
+  const unificado = [];
+  const max = Math.max(financeira.length, historia.length);
+  for (let i = 0; i < max; i++) {
+    if (financeira[i]) unificado.push(financeira[i]);
+    if (historia[i]) unificado.push(historia[i]);
+  }
+  this._levels = unificado;
+  return unificado;
+},
+```
+
+Consequências e pontos de atenção para o Frontend Engineer:
+
+- **`fonte` passa a ser atribuída DENTRO de `withReviews`**, não mais num
+  `.map()` separado depois — comportamento idêntico ao atual (cada nível
+  ainda ganha `fonte: "financeira"`/`"historia"`), só reorganizado para
+  poder clonar `licoes` e atribuir `fonte` no mesmo passe. Nenhuma mudança
+  de shape do objeto nível resultante.
+- **Clone obrigatório dos DOIS arrays, não só um.** O risco 1 já registrado
+  na Fase 3A (seção 12) — esquecer de clonar `licoes` muta o array
+  canônico — agora se aplica em dobro: é preciso confirmar, por teste em
+  runtime (não só leitura de código), que **nem `COURSE` nem
+  `HISTORY_COURSE`** ganham entradas `tipo:"revisao"` depois de
+  `Trail.levels()`/`Trail.render()` rodar. O script de verificação que a
+  Fase 3B deixou pendente para o QA Engineer (seção 12, risco 1) precisa
+  ser estendido para checar os dois arrays, não só repetir o que já foi
+  feito para `BUSINESS_COURSE`.
+- **`levelHtml()` ganha o mesmo branch `isRevisao` que `business.js` já
+  tem** (seção 16, item 4), adaptado para preservar o branch `isHistoria`
+  que já existe em `trail.js` (ao contrário de `business.js`, que não
+  tinha essa variável): `icon = done ? "✅" : unlocked ? (isRevisao ? "🔁" :
+  isHistoria ? "📜" : "📘") : "🔒"`. Mesmo raciocínio para a classe CSS
+  `revisao` e a tag `.trail-node-tag`, reaproveitando 100% do CSS já
+  escrito na Fase 3B (seção 15/16) — nenhuma regra nova de CSS necessária,
+  só o HTML de `trail.js` passando a gerar as mesmas classes que
+  `business.js` já gera.
+- **`finishLesson()` em `trail.js` ganha o mesmo branch de título/subtexto**
+  que `business.js` já tem (seção 13, item 4), mas como `trail.js` já
+  tinha um ternário de 2 vias (`isHistoria ? "Capítulo concluído!" : "Lição
+  concluída!"`), vira um condicional de 3 vias:
+  `isRevisao ? "Revisão dominada!" : isHistoria ? "Capítulo concluído!" :
+  "Lição concluída!"`. Mesma posição/condição (`passed && !alreadyDone`)
+  para o subtexto extra já definido na Fase 3B.
+- **Nenhuma mudança em `flatLessons()`, `isDone()`, `isUnlocked()`,
+  `nextEntry()`, `gridHtml()`, `startLesson()`, `answerQuestion()`,
+  `nextQuestion()`, `maybePickStory()`** — todos já operam genericamente
+  sobre `level.licoes`/`this.levels()`, exatamente como a Fase 3A previu
+  para o caso de um único array e como a Fase 3B confirmou em produção
+  para `BUSINESS_COURSE`. A generalização para dois arrays não exige
+  reabrir nenhum desses métodos.
+- **Nenhuma `STORAGE_KEYS` nova, nenhum `CustomEvent` novo** — mesma
+  conclusão da Fase 3A, agora confirmada para os dois arrays: progresso de
+  revisão continua gravado em `COURSE_PROGRESS` (se inserida em `COURSE`)
+  ou `HISTORY_PROGRESS` (se inserida em `HISTORY_COURSE`), via
+  `progressKey(level.fonte)`, já existente e já correto para qualquer
+  entrada de `licoes`, revisão incluída.
+
+#### 5. Confirmação: decisões da Fase 3A/3B se sustentam sem exceção com 2 arrays
+
+Revisitando explicitamente cada ponto que o enunciado desta tarefa pediu
+para confirmar:
+
+- **`maybePickStory()` conta a revisão quando o nível é
+  `fonte:"financeira"` (Fase 3B, seção 13, item 3b)** — decisão já tomada
+  antes de ter efeito prático (o piloto era só Empreender, sem esse hook).
+  Agora, com 14 dos 17 blocos ancorando em `COURSE` (financeira), essa
+  decisão passa a ter efeito real pela primeira vez: `maybePickStory()` lê
+  `Object.keys(this.getProgress("financeira")).length` — como revisões
+  inseridas em `COURSE` gravam em `COURSE_PROGRESS` pela mesma chave
+  `progressKey`, elas somam nessa contagem sem nenhuma mudança de código.
+  **Confirmado: nenhuma exceção necessária.** Efeito concreto esperado: a
+  cada 3 lições financeiras concluídas (revisão incluída na contagem), uma
+  história interativa é oferecida — em algumas Ondas de Revisão isso vai
+  disparar exatamente NA conclusão de uma revisão, o que a Fase 3B (seção
+  13) já havia argumentado ser um bom momento emocional, não um bug.
+- **Missão semanal "complete N lições" conta a revisão sem filtro** (Fase
+  3B, seção 13, item 3a) — `LESSON_LOG` não distingue fonte nem tipo, então
+  isso já vale automaticamente para revisões inseridas em qualquer um dos
+  dois arrays, sem exceção. **Confirmado.**
+- **Cross-módulo — `achievements.js`/`progression.js`/`events.js`/
+  `career.js`/`citylife.js` não veem revisões** (Fase 3A, seção 12, item
+  5) — a garantia depende inteiramente do clone de `licoes` nunca vazar
+  para os arrays canônicos. Com 2 arrays sendo clonados agora em vez de 1,
+  a superfície onde esse clone pode ser esquecido dobra (ver risco 6.2) —
+  a DECISÃO em si (revisões não contam para essas conquistas) não muda,
+  mas a validação em runtime precisa cobrir os dois arrays explicitamente,
+  não só repetir o teste que a Fase 3B já fez para `BUSINESS_COURSE`.
+  **Confirmado, com a ressalva de que a verificação de QA precisa dobrar
+  de escopo, não só de confiança.**
+- **XP da revisão = XP da lição-âncora** (Fase 3B, seção 13, item 1) — regra
+  já é agnóstica a qual array a âncora pertence (a tabela da seção 2 acima
+  já aplica essa regra diretamente aos 17 blocos, lendo o XP real de
+  `COURSE`/`HISTORY_COURSE`). **Confirmado, sem ajuste.**
+- **Energia cobrada normalmente, sem isenção** (Fase 3B, seção 13, item 2)
+  — não depende de array, já que `Energy.tryStart()` é chamado por
+  `startLesson()` de forma genérica. **Confirmado, sem ajuste.**
+
+#### 6. Riscos identificados nesta fase (além dos já mapeados nas Fases 3A/3B)
+
+1. **Caminho de inserção em `HISTORY_COURSE` nunca rodou em produção.** O
+   piloto da Fase 3B só provou o mecanismo contra um único array
+   (`BUSINESS_COURSE`). Recomendação explícita ao Frontend Engineer: antes
+   de considerar a Onda de Revisão 1 "pronta" (que só usa `COURSE`),
+   validar também — com uma entrada de teste temporária em
+   `COURSE_REVIEWS`, não commitada como conteúdo real, ou usando
+   diretamente o bloco 9/`revU_09` adiantado — que a inserção em
+   `HISTORY_COURSE[1]` funciona e que `HISTORY_COURSE` permanece intocado
+   depois. Não adiar essa validação até a Onda 3 (quando o bloco 9 é
+   publicado de fato): um bug nesse caminho ficaria dormente em produção
+   por 2 Ondas antes de ser descoberto, exatamente o tipo de risco que o
+   faseamento em Ondas pequenas deveria evitar, não introduzir.
+2. **Risco de mutação dobra de superfície.** Ver item 5 acima — o script de
+   verificação estrutural já recomendado pela Fase 3A (risco 3 da seção 12)
+   e pendente desde a Fase 3B precisa, nesta fase, checar **os dois**
+   arrays canônicos (`COURSE` e `HISTORY_COURSE`) antes/depois de
+   `Trail.render()`, e validar que `COURSE_REVIEWS` tem exatamente 17
+   entradas (ao final da Fase 3C), cada uma com exatamente 7
+   `refLessonIds`, todos existentes em `COURSE` OU `HISTORY_COURSE` (nunca
+   nos dois, nunca em nenhum), sem sobreposição entre blocos consecutivos —
+   confirmado por construção nesta etapa (a tabela da seção 2 não tem
+   nenhum id repetido entre blocos), mas deve ser validado
+   automaticamente, não só por esta análise manual.
+3. **Pareamento de nível por índice (`financeira[i]`/`historia[i]`) é uma
+   coincidência atual (6=6), não uma garantia.** Se uma Onda de conteúdo
+   futura adicionar um 7º nível só a `COURSE` (sem equivalente em
+   `HISTORY_COURSE`), a intercalação de `Trail.levels()` já lida com isso
+   hoje (`if (financeira[i])`/`if (historia[i])`, checagem independente) —
+   não é um risco NOVO desta fase, é um comportamento pré-existente que
+   `Trail.levels()` generalizado (item 4) preserva sem alteração. Registrado
+   aqui só para não ser confundido com um risco introduzido pelas revisões.
+4. **`refLessonIds` de blocos futuros (18º em diante) ainda não existem.**
+   A trava de segurança já garantida pela Fase 3A (a revisão só aparece
+   quando a âncora existe) cobre isso automaticamlmente — quando `h4_3` for
+   seguido de mais 6 lições publicadas em Onda de conteúdo futura, um 18º
+   bloco passa a existir e precisa da mesma disciplina (nova entrada em
+   `COURSE_REVIEWS`, nova Onda de Revisão) — não é uma ação pendente desta
+   fase, é o processo se repetindo à medida que a trilha cresce.
+5. **Volume de conteúdo (170 perguntas) — risco já mitigado pelo
+   faseamento da seção 3**, registrado aqui só por completude: se qualquer
+   Onda de Revisão individual (4-5 blocos) ainda parecer grande demais
+   durante a execução real, subdividir ainda mais (ex.: 2 blocos por rodada)
+   é uma opção sempre disponível e não exige nova decisão de arquitetura —
+   só ajusta o tamanho do lote, não o mecanismo.
+
+#### Registro da etapa
+
+- **Resumo da etapa**: confirmada a estrutura real de `COURSE` (102 lições,
+  6 níveis) e `HISTORY_COURSE` (18 lições, 6 níveis) — 120 lições na
+  sequência flat unificada, 17 blocos de revisão completos possíveis hoje
+  (mais 1 lição avulsa sem bloco ainda). Tabela completa dos 17 blocos
+  produzida (âncora, `refLessonIds`, array de inserção, XP herdado,
+  mistura de fontes) — 3 blocos (9, 14, 17) ancoram em `HISTORY_COURSE`,
+  14 em `COURSE`. Decidido fatiar o conteúdo em 4 Ondas de Revisão de 4-5
+  blocos cada, na ordem cronológica/pedagógica da trilha (1-4, 5-8, 9-12,
+  13-17), com QA obrigatório entre Ondas. Especificado o ajuste técnico em
+  `Trail.levels()` — generalização de `Business.levels()` aplicando o
+  mesmo mecanismo de clone+inserção por âncora independentemente a
+  `COURSE` e `HISTORY_COURSE`, ambos consultando o mesmo array
+  `COURSE_REVIEWS`, com roteamento automático (sem branch explícito) para
+  o array correto. Confirmado, ponto a ponto, que as decisões de
+  cross-módulo/`maybePickStory()`/missão semanal/XP/energia da Fase 3A/3B
+  se sustentam sem exceção com dois arrays.
+- **Decisões tomadas**: seções 1-4 acima (estrutura real, faseamento em 4
+  Ondas, ajuste técnico de `Trail.levels()`). Nenhum módulo novo, nenhuma
+  `STORAGE_KEYS` nova, nenhum `CustomEvent` novo — mesma conclusão da Fase
+  3A, agora confirmada para dois arrays.
+- **Pendências para os próximos agentes**:
+  - **Financial Specialist**: escrever as 10 perguntas de cada um dos 4
+    blocos da **Onda de Revisão 1** (`revU_01`..`revU_04`, `refLessonIds`
+    e XP na tabela da seção 2), cobrindo o Nível 1 completo da trilha
+    financeira — mesmo formato/recomendação já usada na Fase 3B (variações/
+    situações-problema novas, não cópia literal das perguntas originais).
+  - **Frontend Engineer**: implementar o ajuste em `Trail.levels()`
+    especificado na seção 4, incluindo os branches de `levelHtml()` e
+    `finishLesson()` adaptados de `business.js`, e — antes de considerar a
+    Onda 1 pronta — validar explicitamente o caminho de inserção em
+    `HISTORY_COURSE` com um teste dirigido (risco 6.1), não só o caminho em
+    `COURSE` que a Onda 1 de fato exercita.
+  - **QA Engineer**: estender o script de verificação estrutural (7 ids
+    únicos por `refLessonIds`, existentes em `COURSE` OU `HISTORY_COURSE`,
+    sem sobreposição) e o teste de não-mutação para cobrir os DOIS arrays
+    canônicos, não repetir o escopo de checagem de `BUSINESS_COURSE` da
+    Fase 3B.
+  - **Ondas de Revisão 2, 3 e 4**: repetem o mesmo ciclo (Financial
+    Specialist → Frontend Engineer insere no array `COURSE_REVIEWS`,
+    sem mudança de mecanismo → QA), uma de cada vez, cada uma só começando
+    depois da anterior fechar QA sem ressalvas graves. A Onda 3 merece
+    atenção redobrada de QA por conter a primeira âncora real em
+    `HISTORY_COURSE` publicada como conteúdo (bloco 9) — ainda que o
+    caminho de código já deva ter sido validado antes, na Onda 1 (risco
+    6.1).
+- **Riscos**: ver seção 6 acima, em ordem de gravidade. O mais crítico
+  (6.1, caminho de `HISTORY_COURSE` nunca testado em produção) tem
+  mitigação explícita: validar com teste dirigido antes da Onda 1 fechar,
+  não esperar a Onda 3.
+- **Próximo agente responsável**: **Financial Specialist** (conteúdo dos 4
+  blocos da Onda de Revisão 1, `revU_01`..`revU_04`) — em paralelo ou logo
+  antes do **Frontend Engineer** (ajuste em `Trail.levels()` + validação
+  dirigida do caminho `HISTORY_COURSE`), mesmo padrão de sequenciamento já
+  usado na Fase 3B (seção 13 → 14 → 16).
+
+### 20. Financial Specialist (Fase 3C — Conteúdo da Onda de Revisão 1, blocos 1-4)
+
+Leitura prévia confirmada por leitura direta de `js/data.js`, Nível 1 de
+`COURSE` (`nivel1`, "Fundamentos e Comportamento Financeiro"): o texto
+completo de `aula` e o array `perguntas` (base + `variante`) das 28 lições
+referenciadas pelos 4 blocos desta Onda — `f1_01` a `f1_24`, `l1_1`, `l1_2`,
+`l1_3`, `l5_1` — sem sobreposição de conteúdo entre os 4 blocos, conforme já
+confirmado pelo Software Architect na seção 19 (blocos 1-4, todos ancorando
+em `COURSE[0]`, "uniforme", nenhuma mistura de fonte).
+
+XP de cada bloco confirmado por leitura direta em `js/data.js`, igual ao XP
+da lição-âncora (decisão já registrada na Fase 3B, seção 13, item 1):
+`f1_06.xp = 20`, `l1_3.xp = 20`, `f1_17.xp = 20`, `f1_24.xp = 20` — os 4
+blocos desta Onda usam `xp: 20`, batendo exatamente com a tabela da seção 19
+do Software Architect.
+
+#### 1. Cobertura das 10 perguntas por bloco
+
+Mesmo critério já usado em `revE_01` (Fase 3B, seção 14): nenhuma das 7
+lições de um bloco fica sem pelo menos 1 pergunta, com peso extra nas
+lições mais densas em cálculo/distinção de conceitos.
+
+**`revU_01`** (`f1_01, f1_02, f1_03, f1_04, l1_1, f1_05, f1_06`):
+
+| # | Lição coberta | Conceito testado |
+| - | --- | --- |
+| 1 | `f1_01` | Receita menos despesa = resultado do mês (interpretar falta) |
+| 2 | `f1_02` | Ativo x passivo (identificar qual é qual num par de exemplos) |
+| 3-4 | `f1_03` | Cálculo de patrimônio líquido; por que renda alta não garante PL alto |
+| 5-6 | `f1_04` | Custo de oportunidade (cálculo do valor deixado de ganhar; nomear o conceito) |
+| 7 | `l1_1` | Cálculo/identificação de inflação a partir de variação de preço |
+| 8 | `f1_05` | Inflação percebida x IPCA oficial (peso da cesta pessoal) |
+| 9-10 | `f1_06` | Poder de compra caindo com o tempo (efeito e cálculo) |
+
+**`revU_02`** (`l5_1, f1_07, f1_08, l1_2, f1_09, f1_10, l1_3`):
+
+| # | Lição coberta | Conceito testado |
+| - | --- | --- |
+| 1-2 | `l5_1` | Juros compostos incidem sobre principal + juros acumulados; começar mais tarde exige aportes maiores |
+| 3-4 | `f1_07` | Juro simples x composto (o que muda no cálculo; por que dívida de cartão cresce rápido) |
+| 5 | `f1_08` | Regra dos 72 (nos dois sentidos: anos → taxa e taxa → anos) |
+| 6 | `l1_2` | Para que serve a reserva de emergência |
+| 7 | `f1_09` | Liquidez (comparar bem líquido x iliquido) |
+| 8 | `f1_10` | Seguro: quando compensa (prejuízo grande x pequeno) |
+| 9-10 | `l1_3` | Regra 50-30-20 (cálculo); registrar gastos revela padrões |
+
+**`revU_03`** (`f1_11, f1_12, f1_13, f1_14, f1_15, f1_16, f1_17`):
+
+| # | Lição coberta | Conceito testado |
+| - | --- | --- |
+| 1-2 | `f1_11` | Regra 50-30-20 aplicada a salários reais; dificuldade de seguir a regra com renda baixa |
+| 3 | `f1_12` | Reconhecer uma meta no formato SMART |
+| 4 | `f1_13` | Divisão proporcional das contas da casa |
+| 5 | `f1_14` | Separar o salário em compartimentos desde o primeiro emprego |
+| 6-7 | `f1_15` | Prazo muda a estratégia (curto x longo); risco de usar estratégia de longo prazo numa meta de curto prazo |
+| 8 | `f1_16` | Contabilidade mental (reconhecer e superar o viés) |
+| 9-10 | `f1_17` | Gatilhos de consumo: urgência/escassez; prova social |
+
+**`revU_04`** (`f1_18, f1_19, f1_20, f1_21, f1_22, f1_23, f1_24`):
+
+| # | Lição coberta | Conceito testado |
+| - | --- | --- |
+| 1 | `f1_18` | Reconhecer o padrão de compra por impulso (gatilho emocional + decisão rápida) |
+| 2-3 | `f1_19` | Ancoragem de preço (papel do valor riscado; pergunta protetora antes de comprar) |
+| 4 | `f1_20` | Score de crédito e seu efeito nas condições de crédito |
+| 5-6 | `f1_21` | Rotativo do cartão (o que acontece com o valor não pago; alternativa mais barata) |
+| 7 | `f1_22` | Cheque especial como dívida cara que cresce rápido |
+| 8 | `f1_23` | Por que o consignado costuma ter juros menores que o pessoal |
+| 9-10 | `f1_24` | Por que credores negociam desconto em dívida atrasada; priorizar dívidas de juros mais altos |
+
+Nenhuma pergunta-base é cópia literal de nenhuma pergunta ou variante já
+publicada nas 28 lições referenciadas — todas usam personagens, valores e
+situações novas, preservando o conceito original, conforme exigido pelo
+usuário. Em alguns pontos onde uma primeira redação ficou próxima demais da
+frase original da lição-fonte (ex.: o padrão "Entre segurar um X de RY... e
+comprar garantia estendida para um Z de RW..." de `f1_10`, e o padrão "No
+exemplo de uma etiqueta com 'de RX por RY', qual é o papel do valor 'RX'?"
+de `f1_19`), a pergunta foi reescrita com uma estrutura de frase diferente
+antes de entrar na versão final abaixo — não só números trocados.
+
+#### 2. Precisão factual/financeira — checklist de validação
+
+- Todos os cálculos foram checados à mão antes de fixar a opção `correta`:
+  patrimônio líquido (`f1_03`, `revU_01` Q3/Q4: 21.000-4.500=16.500;
+  8.000-2.800=5.200), custo de oportunidade (`f1_04`, `revU_01` Q5:
+  450 e 560), inflação (`revU_01` Q7: 28/350=8%; 50/500=10%; Q10:
+  8.000×1,25=10.000; 5.000×1,60=8.000), juros compostos (`revU_02` Q3
+  variante: 3.000×1,08×1,08≈3.499; Q4: 800×1,12³≈1.124 vs 800+3×12%×800=1.088),
+  Regra dos 72 (`revU_02` Q5: 72÷12=6; 72÷6=12), regra 50-30-20 (`revU_02`
+  Q9: 5.500×0,20=1.100; 3.600×0,50=1.800; `revU_03` Q1: 6.000×0,20=1.200;
+  2.800×0,50=1.400), percentual de renda comprometida (`revU_03` Q2:
+  1.270÷1.500≈85%). Nenhum resultado diverge da opção marcada como `correta`.
+- Nenhum número novo de lei/regra foi introduzido — todos os 4 blocos desta
+  Onda tratam de conceitos comportamentais e matemáticos genéricos (receita/
+  despesa, ativo/passivo, patrimônio líquido, custo de oportunidade,
+  inflação/IPCA, juros simples/compostos, Regra dos 72, reserva de
+  emergência, liquidez, seguro, orçamento 50-30-20, metas SMART, vieses de
+  consumo, score de crédito, rotativo, cheque especial, consignado x
+  pessoal, negociação de dívida) — nenhum deles depende de uma alíquota,
+  teto ou lei que mude com frequência e precise de ressalva adicional além
+  da já existente nas lições originais (ex.: `f1_20`/`f1_21`/`f1_23` já
+  tratam score/juros/margem consignável como aproximados nas lições-fonte;
+  esta revisão não fixa nenhum número de taxa real, usando sempre taxas
+  fictícias de exemplo, como as próprias lições-fonte já fazem).
+- Nenhuma pergunta ou explicação soa como recomendação personalizada de
+  investimento, crédito ou negociação de dívida — todas descrevem conceitos
+  genéricos e situações fictícias, mesma postura editorial já usada no
+  resto da trilha Financeira.
+- Cada `explicacao` (base e variante) foi escrita para ser compreensível por
+  alguém sem conhecimento prévio, respondendo diretamente "por que a opção
+  marcada como certa está certa" — mesmo critério de aceite já usado no
+  resto do projeto.
+
+#### 3. Checklist do bug da Fase 3B (Q9 de `revE_01`) — revisão par a par
+
+Releitura de todas as 40 perguntas-base (10 por bloco × 4 blocos) contra a
+`variante` correspondente, confirmando que cada par testa o MESMO conceito
+central, só com cenário/nomes/números diferentes — nunca um conceito
+diferente (exatamente o defeito encontrado pelo QA na pergunta 9 de
+`revE_01`):
+
+- **`revU_01`**: todos os 10 pares confirmados mesmo conceito (receita/
+  despesa → resultado do mês em ambos; ativo/passivo → identificar o par em
+  ambos; PL → mesmo cálculo em ambos / mesma comparação renda-alta-x-PL-baixo
+  em ambos; custo de oportunidade → mesmo cálculo em ambos / mesmo
+  nome-o-conceito em ambos; inflação → mesmo cálculo de variação de preço em
+  ambos, ambos QUESTIONs 7 base e variante recalculados de propósito para
+  usar o mesmo tipo de pergunta, evitando o padrão do Bug 1 de misturar
+  "calcular" com "efeito"; inflação percebida x oficial → mesma comparação de
+  cesta pessoal x IPCA em ambos; poder de compra → mesmo efeito/mesmo cálculo
+  em cada par, respectivamente).
+- **`revU_02`**: todos os 10 pares confirmados. Atenção especial na pergunta
+  6 (`l1_2`, reserva de emergência): a primeira redação tinha base sobre
+  "quantos meses guardar" (cálculo) e cogitava variante sobre "para que serve
+  a reserva" (propósito) — dois conceitos da mesma lição, mas diferentes
+  entre si; corrigido para os dois lados do par tratarem do mesmo conceito
+  (propósito da reserva diante de um imprevisto), com dois imprevistos
+  diferentes (perda de emprego x emergência odontológica). Mesmo cuidado na
+  pergunta 8 (`f1_10`, seguro): a primeira redação misturava "seguro grande x
+  pequeno risco" (base) com "garantia estendida redundante com garantia de
+  fábrica" (variante) — são dois argumentos diferentes da mesma lição;
+  corrigido para os dois lados tratarem do mesmo argumento (prejuízo grande e
+  difícil de absorver x prejuízo pequeno e fácil de repor).
+- **`revU_03`**: todos os 10 pares confirmados. Atenção especial nas
+  perguntas 3, 4 e 5 (`f1_12`, `f1_13`, `f1_14`): as primeiras redações
+  misturavam, em cada uma, dois sub-conceitos distintos da mesma lição-fonte
+  (ex.: "reconhecer meta SMART" com "por que o critério Atingível importa";
+  "divisão proporcional" com "revisão periódica do combinado"; "separar o
+  salário em compartimentos" com "hábito formado cedo se mantém") — cada par
+  foi reescrito para os dois lados testarem o mesmo sub-conceito, movendo o
+  sub-conceito descartado para fora do par (sem perder cobertura da lição
+  como um todo, já que cada lição tem no mínimo 1 pergunta dedicada nesta
+  Onda). A pergunta 8 (`f1_16`, contabilidade mental) foi mantida com base
+  testando "reconhecer o viés acontecendo" e variante testando "reconhecer o
+  viés sendo superado" — **isso não é o mesmo defeito do Bug 1**: é o mesmo
+  padrão já usado pela própria lição original `f1_16` (sua pergunta 2 já
+  tinha exatamente essa estrutura de base/variante, um lado mostrando o viés
+  agindo e o outro mostrando a pessoa contornando o mesmo viés), preservado
+  aqui de propósito por já ser um padrão validado no conteúdo publicado.
+- **`revU_04`**: todos os 10 pares confirmados. Atenção especial na pergunta
+  4 (`f1_20`, score de crédito): a primeira redação tinha base sobre "score
+  alto x baixo muda as condições de financiamento" e variante sobre "uso do
+  limite e atraso reduzem o score" — dois sub-conceitos diferentes da mesma
+  lição (efeito do score x causas da queda do score); corrigido para os dois
+  lados tratarem do mesmo sub-conceito (score influenciando as condições de
+  crédito oferecidas, um caso com financiamento, outro com cartão). Mesmo
+  cuidado nas perguntas 7 (`f1_22`, cheque especial: base e variante
+  unificadas em "a dívida cresce rápido por juros altos", não misturadas com
+  "uso recorrente indica problema de orçamento") e 8 (`f1_23`, consignado x
+  pessoal: base e variante unificadas em "por que o consignado tem juros
+  menores", não misturadas com "risco da margem consignável").
+
+**Conclusão da checklist**: nenhum par restante mistura dois conceitos
+diferentes entre pergunta-base e `variante` — os 4 casos em que uma primeira
+redação teria reproduzido o padrão do Bug 1 foram identificados nesta própria
+revisão (antes de entrar na versão final abaixo, não depois) e corrigidos,
+movendo o sub-conceito descartado para outra pergunta do mesmo bloco quando
+fazia sentido, sem perder cobertura de nenhuma das 28 lições.
+
+#### 4. `revU_01` — objeto completo
+
+```js
+{
+  id: "revU_01",
+  tipo: "revisao",
+  titulo: "Revisão: dinheiro, patrimônio e inflação no dia a dia",
+  xp: 20,
+  aula: [
+    "Esses últimos 7 pontos da trilha te deram as bases de qualquer decisão financeira: o que é receita e despesa, a diferença entre ativo e passivo, como calcular seu patrimônio líquido, o que você abre mão ao escolher algo (custo de oportunidade) e como a inflação corrói o poder de compra do dinheiro parado.",
+    "As perguntas aqui não são as mesmas que você já viu — são situações novas, com pessoas e números diferentes, testando se o conceito realmente ficou, e não se você decorou a pergunta original.",
+    "Se errar alguma, não tem problema: a explicação logo abaixo mostra exatamente o porquê da resposta certa. Essa é a parte que faz o conhecimento grudar de verdade.",
+  ],
+  refLessonIds: ["f1_01", "f1_02", "f1_03", "f1_04", "l1_1", "f1_05", "f1_06"],
+  perguntas: [
+    {
+      pergunta: "Fernanda recebeu R$ 4.500 de salário em um mês e gastou R$ 4.900 entre aluguel, contas e lazer. Qual foi o resultado financeiro do mês dela?",
+      opcoes: ["Sobra de R$400", "Falta de R$400 — ela gastou mais do que recebeu", "Resultado exatamente zero", "Não é possível calcular isso"],
+      correta: 1,
+      explicacao: "Receita (R$4.500) menos despesa (R$4.900) dá um resultado negativo de R$400 — ela gastou R$400 a mais do que ganhou nesse mês.",
+      variante: {
+        pergunta: "Gustavo recebeu R$ 3.100 em bicos no mês e gastou R$ 3.450 entre contas e lazer. Qual foi o resultado financeiro do mês dele?",
+        opcoes: ["Sobra de R$350", "Falta de R$350 — ele gastou mais do que recebeu", "Resultado exatamente zero", "Não é possível calcular isso"],
+        correta: 1,
+        explicacao: "Receita (R$3.100) menos despesa (R$3.450) dá um resultado negativo de R$350 — ele gastou R$350 a mais do que recebeu nesse mês.",
+      },
+    },
+    {
+      pergunta: "Camila tem um imóvel alugado que gera R$1.500 de aluguel por mês e um empréstimo pessoal cuja parcela é de R$600 por mês. Qual dos dois é o passivo dela?",
+      opcoes: ["O imóvel alugado", "O empréstimo pessoal, porque a parcela tira dinheiro do bolso dela todo mês", "Os dois são ativos", "Os dois são passivos"],
+      correta: 1,
+      explicacao: "Passivo é o que tira dinheiro do bolso com o tempo — a parcela do empréstimo. O imóvel alugado é o ativo, pois gera renda.",
+      variante: {
+        pergunta: "Bruno tem uma aplicação financeira que rende R$300 por mês e uma dívida de financiamento de moto cuja parcela é R$450 por mês. Qual dos dois é o ativo dele?",
+        opcoes: ["A aplicação financeira, porque coloca dinheiro no bolso dele todo mês", "O financiamento da moto", "Os dois são passivos", "Os dois são ativos"],
+        correta: 0,
+        explicacao: "Ativo é o que gera renda ou pode virar dinheiro — a aplicação financeira. O financiamento da moto é passivo, pois tira dinheiro todo mês via parcela.",
+      },
+    },
+    {
+      pergunta: "Diego tem R$12.000 guardados e uma moto avaliada em R$9.000. Ele deve R$4.000 de um empréstimo pessoal e R$500 no cartão. Qual é o patrimônio líquido de Diego?",
+      opcoes: ["R$16.500", "R$21.000", "R$4.500", "R$25.500"],
+      correta: 0,
+      explicacao: "Bens (12.000+9.000=21.000) menos dívidas (4.000+500=4.500) = R$16.500 de patrimônio líquido.",
+      variante: {
+        pergunta: "Patrícia tem R$5.000 guardados e um notebook avaliado em R$3.000. Ela deve R$2.000 no financiamento de um curso e R$800 no cartão. Qual é o patrimônio líquido de Patrícia?",
+        opcoes: ["R$5.200", "R$8.000", "R$2.800", "R$10.800"],
+        correta: 0,
+        explicacao: "Bens (5.000+3.000=8.000) menos dívidas (2.000+800=2.800) = R$5.200 de patrimônio líquido.",
+      },
+    },
+    {
+      pergunta: "Camila ganha R$18.000 por mês, mas tem R$120.000 em dívidas e apenas R$30.000 em bens. Thiago ganha R$3.500 por mês, não deve nada e tem R$25.000 guardados. Quem tem o patrimônio líquido mais alto?",
+      opcoes: ["Camila, porque ganha mais", "Thiago, porque seu patrimônio líquido (R$25.000) é maior que o de Camila (-R$90.000)", "Os dois têm o mesmo patrimônio líquido", "Não é possível comparar patrimônio líquido entre pessoas diferentes"],
+      correta: 1,
+      explicacao: "O patrimônio líquido de Camila é negativo (30.000-120.000=-90.000); o de Thiago é positivo (25.000-0=25.000) — renda alta não garante patrimônio líquido alto.",
+      variante: {
+        pergunta: "Rogério ganha R$10.000/mês mas tem R$60.000 em dívidas e R$15.000 em bens. Vanessa ganha R$2.800/mês, não deve nada e tem R$12.000 guardados. Quem tem o maior patrimônio líquido?",
+        opcoes: ["Rogério, porque ganha mais", "Vanessa, porque seu patrimônio líquido (R$12.000) é maior que o de Rogério (-R$45.000)", "Os dois têm o mesmo patrimônio líquido", "É impossível saber sem mais dados"],
+        correta: 1,
+        explicacao: "O patrimônio líquido de Rogério é negativo (15.000-60.000=-45.000); o de Vanessa é positivo (12.000-0=12.000). Renda alta não significa patrimônio alto.",
+      },
+    },
+    {
+      pergunta: "Simone tinha R$5.000 e podia escolher entre guardar numa conta que não rende nada ou investir num CDB que renderia R$450 no ano. Ela escolheu deixar parado, sem render nada. Qual foi o custo de oportunidade dessa escolha?",
+      opcoes: ["R$5.000", "R$0", "R$450 — o quanto ela deixou de ganhar ao não escolher o CDB", "R$5.450"],
+      correta: 2,
+      explicacao: "O custo de oportunidade é o quanto ela deixou de ganhar ao não escolher a melhor alternativa disponível: os R$450 que o CDB renderia.",
+      variante: {
+        pergunta: "Otávio tinha R$8.000 e podia investir num CDB que renderia R$560 no ano, mas preferiu deixar o dinheiro parado numa conta que não rende nada. Qual foi o custo de oportunidade dessa escolha?",
+        opcoes: ["R$8.000", "R$0", "R$560 — o quanto ele deixou de ganhar ao não escolher o CDB", "R$8.560"],
+        correta: 2,
+        explicacao: "Custo de oportunidade é o valor que ele deixou de ganhar ao escolher a pior opção disponível: os R$560 que o CDB renderia.",
+      },
+    },
+    {
+      pergunta: "Renata fez um bico de fim de semana que pagou R$500, recusando outro bico que pagaria R$700 no mesmo período. Qual conceito explica o valor que ela deixou de ganhar?",
+      opcoes: ["Inflação", "Custo de oportunidade", "Patrimônio líquido", "Taxa de juros"],
+      correta: 1,
+      explicacao: "O custo de oportunidade é justamente o valor da melhor alternativa não escolhida — nesse caso, os R$200 a menos que ela recebeu.",
+      variante: {
+        pergunta: "Leandro usou R$2.000 guardados para comprar um smartphone em vez de investir. Um ano depois, se tivesse investido, o dinheiro teria rendido R$220 de juros que ele não recebeu. Qual conceito explica esse valor perdido?",
+        opcoes: ["Inflação", "Custo de oportunidade", "Patrimônio líquido", "Score de crédito"],
+        correta: 1,
+        explicacao: "O custo de oportunidade é justamente esse valor deixado de ganhar (R$220) por escolher gastar em vez de investir.",
+      },
+    },
+    {
+      pergunta: "Uma cesta básica custava R$350 em janeiro e passou a custar R$378 em dezembro do mesmo ano, sem mudança nos produtos. O que isso representa?",
+      opcoes: ["Os produtos ficaram melhores", "Houve inflação de 8% no período", "O dinheiro rendeu 8%", "Nada, é só uma promoção ao contrário"],
+      correta: 1,
+      explicacao: "Um aumento de preço sem mudança no produto é inflação — nesse caso, de 8% (R$28/R$350).",
+      variante: {
+        pergunta: "Uma prestação de serviço custava R$500 em um mês e passou a custar R$550 três meses depois, sem nenhuma mudança na qualidade do serviço. O que isso representa?",
+        opcoes: ["O serviço melhorou de qualidade", "Houve inflação de 10% nesse serviço, no período", "O dinheiro do cliente rendeu 10%", "Isso é apenas uma coincidência sem nome"],
+        correta: 1,
+        explicacao: "Um aumento de preço sem mudança no produto/serviço é inflação — nesse caso, de 10% (R$50/R$500).",
+      },
+    },
+    {
+      pergunta: "O IPCA de um mês veio em 0,4%. Mas Roberto gasta a maior parte da renda com aluguel e transporte, itens que subiram 2,5% nesse mês, bem mais que a média nacional. O que é mais provável de acontecer com a inflação percebida por Roberto?",
+      opcoes: ["Ele vai perceber uma inflação menor que 0,4%", "Ele vai perceber uma inflação maior que 0,4%, porque os itens que mais pesam no seu orçamento subiram mais que a média", "A inflação percebida por ele será exatamente 0,4%", "Isso não tem relação com o que ele consome"],
+      correta: 1,
+      explicacao: "Como os itens que pesam mais no orçamento de Roberto (aluguel, transporte) subiram bem mais que a média (2,5% vs 0,4%), ele vai perceber uma inflação bem maior que o IPCA oficial.",
+      variante: {
+        pergunta: "Luana gasta 65% da renda com aluguel e comida (que subiram 9% no ano) e Felipe gasta apenas 15% com esses itens, preferindo lazer e viagens (que subiram 1%). Se o IPCA oficial do ano foi 4%, quem provavelmente vai sentir uma inflação bem mais alta que os 4% oficiais?",
+        opcoes: ["Felipe, porque ele viaja mais", "Luana, porque a maior parte do seu orçamento está em itens que subiram bem mais que a média (9%)", "Os dois vão sentir exatamente 4%, igual ao IPCA", "Isso depende só da renda de cada um, não da composição dos gastos"],
+        correta: 1,
+        explicacao: "Luana concentra o orçamento em itens que subiram 9% (bem acima do IPCA de 4%), então sua inflação pessoal percebida tende a ser maior que a oficial.",
+      },
+    },
+    {
+      pergunta: "Um produto custava R$40 há 8 anos e hoje custa R$80 (o preço dobrou). Uma pessoa guardou R$40 'no colchão' sem investir nesse período. O que aconteceu com o poder de compra desses R$40?",
+      opcoes: ["Continua o mesmo, R$40 ainda compra o mesmo produto", "Caiu à metade — os R$40 agora só compram a metade do produto que comprava antes", "Aumentou, porque dinheiro guardado sempre valoriza", "Não é possível saber sem outras informações"],
+      correta: 1,
+      explicacao: "Como o preço do produto dobrou e o dinheiro guardado não foi corrigido, os mesmos R$40 hoje compram só a metade do que compravam há 8 anos.",
+      variante: {
+        pergunta: "Um serviço custava R$60 há 5 anos e hoje custa R$90 (aumento de 50%). Uma pessoa guardou R$60 sem investir nesse período. O que aconteceu com o poder de compra desses R$60?",
+        opcoes: ["Continua o mesmo", "Caiu — os R$60 já não são suficientes para pagar o mesmo serviço, que agora custa R$90", "Aumentou", "Não é possível saber"],
+        correta: 1,
+        explicacao: "O serviço ficou 50% mais caro, mas o dinheiro guardado não acompanhou esse aumento — por isso os R$60 perderam poder de compra em relação a esse serviço.",
+      },
+    },
+    {
+      pergunta: "Se a inflação acumulada de um período foi de 25% e uma pessoa manteve R$8.000 parados numa conta que não rende nada, aproximadamente quanto ela precisaria ter hoje para manter o mesmo poder de compra que os R$8.000 tinham no início do período?",
+      opcoes: ["R$8.000", "R$10.000", "R$6.000", "R$12.000"],
+      correta: 1,
+      explicacao: "Para manter o mesmo poder de compra após 25% de inflação acumulada, seria preciso ter R$10.000 (R$8.000 + 25% de R$8.000).",
+      variante: {
+        pergunta: "Se a inflação acumulada de um período foi de 60% e uma pessoa manteve R$5.000 parados sem render nada, aproximadamente quanto ela precisaria ter hoje para manter o mesmo poder de compra inicial?",
+        opcoes: ["R$5.000", "R$8.000", "R$3.000", "R$11.000"],
+        correta: 1,
+        explicacao: "Para manter o poder de compra após 60% de inflação acumulada, seria necessário ter R$8.000 (R$5.000 + 60% de R$5.000).",
+      },
+    },
+  ],
+},
+```
+
+#### 5. `revU_02` — objeto completo
+
+```js
+{
+  id: "revU_02",
+  tipo: "revisao",
+  titulo: "Revisão: juros, reserva e as primeiras decisões de proteção",
+  xp: 20,
+  aula: [
+    "Aqui você revisita como o tempo trabalha a seu favor nos juros compostos, o truque de bolso da Regra dos 72, por que toda vida financeira precisa de uma reserva de emergência, o que é liquidez e quando um seguro realmente vale a pena — fechando com a base de qualquer orçamento, a regra 50-30-20.",
+    "De novo: as 10 perguntas abaixo usam situações diferentes das que você já respondeu, para testar se você entendeu o porquê por trás de cada conceito, não a decoreba da frase exata.",
+    "Errar faz parte do processo — a explicação de cada resposta existe justamente para fechar qualquer dúvida que sobrar.",
+  ],
+  refLessonIds: ["l5_1", "f1_07", "f1_08", "l1_2", "f1_09", "f1_10", "l1_3"],
+  perguntas: [
+    {
+      pergunta: "João investe R$ 100 e, no primeiro mês, ganha R$ 1 de juros (ficando com R$101). No segundo mês, sobre quanto valor os novos juros serão calculados, nos juros compostos?",
+      opcoes: ["Só sobre os R$100 originais", "Sobre os R$101 (o valor original mais o juro já ganho)", "Sobre um valor fixo de R$50", "Os juros não se acumulam"],
+      correta: 1,
+      explicacao: "Nos juros compostos, cada novo período de juros incide sobre o total acumulado até ali — os R$101, não só os R$100 iniciais.",
+      variante: {
+        pergunta: "Carla investe R$500 e, no primeiro mês, ganha R$8 de juros (ficando com R$508). No segundo mês, sobre quanto valor os novos juros serão calculados, nos juros compostos?",
+        opcoes: ["Só sobre os R$500 originais", "Sobre os R$508 (o valor original mais o juro já ganho)", "Sobre um valor fixo de R$250", "Os juros não se acumulam"],
+        correta: 1,
+        explicacao: "Nos juros compostos, cada novo período incide sobre o total acumulado até ali — os R$508, não só os R$500 iniciais.",
+      },
+    },
+    {
+      pergunta: "Felipe começa a investir R$300/mês aos 22 anos. Vinícius só começa aos 34, querendo chegar ao mesmo patrimônio na aposentadoria. O que Vinícius provavelmente vai precisar fazer?",
+      opcoes: ["Investir um valor mensal bem menor que o de Felipe", "Investir um valor mensal bem maior que o de Felipe, para compensar os 12 anos de vantagem que ele teve", "Nada, os dois vão chegar ao mesmo lugar investindo igual", "Esperar mais 12 anos resolve sozinho"],
+      correta: 1,
+      explicacao: "Como Felipe teve 12 anos extras de juros compostos trabalhando por ele, Vinícius precisa aportar valores maiores para tentar alcançar o mesmo resultado final.",
+      variante: {
+        pergunta: "Começar a investir 7 anos mais tarde do que se poderia normalmente exige, para chegar ao mesmo resultado final:",
+        opcoes: ["O mesmo valor investido por mês", "Um valor investido mensal bem menor", "Um valor investido mensal bem maior, para compensar o tempo perdido", "Não faz diferença nenhuma"],
+        correta: 2,
+        explicacao: "Como os juros compostos dependem fortemente do tempo, começar mais tarde exige aportes maiores por mês para alcançar o mesmo patrimônio final.",
+      },
+    },
+    {
+      pergunta: "R$2.000 são aplicados a 10% ao ano por 2 anos. No juro simples, os juros de cada ano são sempre calculados sobre os R$2.000 originais. No juro composto, o que muda no cálculo do segundo ano?",
+      opcoes: ["Nada muda, o cálculo é idêntico ao juro simples", "O juro do segundo ano passa a incidir também sobre o juro já ganho no primeiro ano, não só sobre os R$2.000 originais", "O juro do segundo ano é calculado sobre um valor menor", "Juros compostos não existem para prazos de 2 anos"],
+      correta: 1,
+      explicacao: "No juro composto, o rendimento de um período passa a integrar a base de cálculo do período seguinte ('juros sobre juros'); no simples, o cálculo é sempre sobre o valor original.",
+      variante: {
+        pergunta: "Se R$3.000 forem aplicados a 8% ao ano, qual será o valor aproximado ao final de 2 anos, comparando juro simples e juro composto?",
+        opcoes: ["R$3.480 no simples e aproximadamente R$3.499 no composto", "R$3.499 no simples e R$3.480 no composto", "Os dois resultam em exatamente R$3.480", "Os dois resultam em exatamente R$3.499"],
+        correta: 0,
+        explicacao: "No simples, os juros são sempre 8% de R$3.000 (R$240/ano): 3.000+240+240=3.480. No composto, o segundo ano rende 8% sobre R$3.240: 3.000×1,08×1,08≈3.499 — um pouco mais, por causa do 'juro sobre juro'.",
+      },
+    },
+    {
+      pergunta: "Uma dívida de R$800 no cartão de crédito, com juros de 12% ao mês (juros compostos), não é paga por 3 meses. Aproximadamente quanto ela estará valendo depois desses 3 meses?",
+      opcoes: ["R$800 (os juros não afetam cartão de crédito)", "R$1.088 (800 + 12% x 3 meses, como se fosse juros simples)", "Aproximadamente R$1.124, porque os juros incidem também sobre os juros acumulados dos meses anteriores", "R$896, porque os juros são de apenas 12% no total"],
+      correta: 2,
+      explicacao: "Com juros compostos de 12% ao mês: 800 × 1,12 × 1,12 × 1,12 ≈ R$1.124 — bem mais que o cálculo simples (R$1.088), porque os juros incidem também sobre os juros dos meses anteriores.",
+      variante: {
+        pergunta: "Uma dívida de R$1.200 no cartão de crédito, com juros de 10% ao mês, fica sem pagamento por 4 meses. O que explica o fato de o valor final ser bem maior do que simplesmente somar 10% de R$1.200 a cada um dos 4 meses?",
+        opcoes: ["O banco arredonda os valores para cima", "Os juros de cada mês passam a incidir também sobre os juros já acumulados dos meses anteriores, não só sobre os R$1.200 originais", "A inflação é responsável pelo aumento", "Isso não acontece, o valor final seria igual à soma simples"],
+        correta: 1,
+        explicacao: "Como os juros do cartão são compostos, cada mês novo cobra juros sobre a dívida já acrescida dos juros anteriores — por isso o total final é maior do que a soma simples de 10% por mês.",
+      },
+    },
+    {
+      pergunta: "Um investimento rende 12% ao ano. Pela Regra dos 72, em quantos anos aproximadamente esse investimento dobra de valor?",
+      opcoes: ["4 anos", "6 anos", "12 anos", "24 anos"],
+      correta: 1,
+      explicacao: "Pela Regra dos 72: 72 ÷ 12 = 6 anos, aproximadamente, para o valor dobrar.",
+      variante: {
+        pergunta: "Alguém quer que seu dinheiro dobre em aproximadamente 6 anos. Usando a Regra dos 72, a que taxa de juros anual (aproximada) esse investimento precisaria render?",
+        opcoes: ["6% ao ano", "9% ao ano", "12% ao ano", "72% ao ano"],
+        correta: 2,
+        explicacao: "Pela Regra dos 72: 72 ÷ 6 anos = 12% ao ano é a taxa aproximada necessária para dobrar o valor nesse prazo.",
+      },
+    },
+    {
+      pergunta: "Vitor perdeu o emprego de repente e precisa pagar as contas do mês enquanto procura uma nova posição. O que deveria cobrir esse período, idealmente?",
+      opcoes: ["Um saque no cheque especial", "A reserva de emergência guardada previamente", "A venda urgente de ações na baixa", "Não há nada a fazer nesse caso"],
+      correta: 1,
+      explicacao: "Esse é exatamente o cenário para o qual a reserva de emergência existe: cobrir imprevistos sem recorrer a dívidas caras.",
+      variante: {
+        pergunta: "Beatriz teve um problema odontológico urgente e precisou de R$1.800 para o tratamento, um valor que não estava previsto no orçamento do mês. O que deveria cobrir esse tipo de imprevisto, idealmente?",
+        opcoes: ["Um novo cartão de crédito com juros altos", "A reserva de emergência guardada previamente", "Um empréstimo consignado de longo prazo", "Não há nada a fazer nesse caso"],
+        correta: 1,
+        explicacao: "Assim como no caso de perda de emprego, um imprevisto de saúde é exatamente o tipo de situação para a qual a reserva de emergência deveria existir — evitando recorrer a dívidas caras.",
+      },
+    },
+    {
+      pergunta: "Mariana possui um terreno avaliado em R$150.000, difícil de vender rapidamente, e R$3.000 guardados numa conta que podem ser sacados hoje mesmo. Comparando os dois, qual dos dois recursos tem maior liquidez, e por quê?",
+      opcoes: ["O terreno, porque vale muito mais que os R$3.000", "Os R$3.000 na conta, porque podem virar dinheiro na hora, enquanto o terreno pode levar meses para ser vendido", "Os dois têm liquidez igual, pois qualquer bem pode ser convertido em dinheiro", "Não é possível comparar liquidez entre tipos de bens diferentes"],
+      correta: 1,
+      explicacao: "Liquidez não depende do valor do bem, e sim da velocidade de conversão em dinheiro — por isso os R$3.000 disponíveis na hora são mais líquidos que o terreno, mesmo valendo muito menos.",
+      variante: {
+        pergunta: "Mariana perdeu parte da renda e precisa de R$2.500 rápido para uma emergência. Ela só tem o terreno (difícil de vender rapidamente) e nenhuma reserva em dinheiro disponível. O que a falta de liquidez provavelmente vai obrigar Mariana a fazer?",
+        opcoes: ["Esperar tranquilamente a venda ideal do terreno", "Vender o terreno rapidamente por um preço abaixo do valor real, ou recorrer a um empréstimo com juros altos", "Não fazer nada, pois patrimônio alto sempre resolve emergências instantaneamente", "Aumentar seu patrimônio líquido imediatamente"],
+        correta: 1,
+        explicacao: "Sem um bem líquido disponível, Mariana provavelmente terá que vender o terreno com desconto (por pressa) ou pegar um empréstimo caro — o problema não é falta de patrimônio, é falta de liquidez.",
+      },
+    },
+    {
+      pergunta: "Felipe está decidindo se contrata um seguro para a casa da família (avaliada em R$400.000, que eles não teriam como reconstruir do próprio bolso num incêndio) e também um seguro para uma cafeteira de R$200 recém-comprada. Em qual dos dois bens o seguro tende a fazer mais sentido financeiro?",
+      opcoes: ["Na cafeteira, por ser um eletrodoméstico usado todo dia", "Na casa, porque um prejuízo de R$400.000 desestruturaria as finanças da família, enquanto os R$200 da cafeteira são fáceis de repor sozinho", "Nos dois, com o mesmo grau de importância", "Em nenhum dos dois, seguro nunca compensa"],
+      correta: 1,
+      explicacao: "Seguro faz mais sentido quando protege contra um prejuízo grande e difícil de absorver sozinho, como a casa; para um bem barato como a cafeteira, o custo de repor do próprio bolso é pequeno, tornando o seguro extra dispensável.",
+      variante: {
+        pergunta: "Roberta está avaliando se vale a pena contratar um seguro para o carro usado para trabalhar (avaliado em R$45.000, essencial para a renda da família) e também um seguro para um liquidificador de R$180 recém-comprado. Em qual dos dois bens o seguro tende a fazer mais sentido?",
+        opcoes: ["No liquidificador, porque ele quebra com mais frequência", "No carro, porque perder um bem de R$45.000, essencial para a renda, seria um prejuízo muito mais difícil de absorver do que repor um liquidificador de R$180", "Nos dois, com a mesma urgência", "Em nenhum dos dois, pois seguro é sempre dispensável"],
+        correta: 1,
+        explicacao: "Assim como no exemplo da casa e da cafeteira, o seguro compensa mais quando protege contra um prejuízo grande e difícil de absorver sozinho — o carro, nesse caso — e não faz tanto sentido para um bem barato e fácil de substituir, como o liquidificador.",
+      },
+    },
+    {
+      pergunta: "Se a renda mensal de Larissa é R$5.500 e ela segue a regra 50-30-20, quanto ela reservaria, em teoria, para investimentos e pagamento de dívidas (os 20%)?",
+      opcoes: ["R$2.750", "R$1.650", "R$1.100", "R$550"],
+      correta: 2,
+      explicacao: "20% de R$5.500 = R$1.100 destinados a investimentos/dívidas, seguindo a regra 50 (necessidades) - 30 (desejos) - 20 (investir/pagar dívidas).",
+      variante: {
+        pergunta: "Se a renda mensal de Eduardo é R$3.600 e ele segue a regra 50-30-20, quanto ele destinaria, em teoria, para necessidades essenciais (os 50%)?",
+        opcoes: ["R$1.080", "R$1.800", "R$720", "R$2.520"],
+        correta: 1,
+        explicacao: "50% de R$3.600 = R$1.800 é o valor recomendado pela regra 50-30-20 para necessidades essenciais como aluguel, comida e contas.",
+      },
+    },
+    {
+      pergunta: "Depois de anotar os gastos por um mês, Henrique descobriu que gastava R$310 por mês em aplicativos de delivery que ele nem lembrava de ter pedido. O que esse exemplo demonstra?",
+      opcoes: ["Que anotar gastos não serve para nada", "Que anotar gastos revela padrões de consumo que passam despercebidos no dia a dia", "Que delivery é sempre um mau gasto", "Que ele deveria parar de trabalhar"],
+      correta: 1,
+      explicacao: "Registrar gastos frequentemente revela padrões invisíveis — como pedidos recorrentes ou pequenas compras que somam bastante ao longo do mês.",
+      variante: {
+        pergunta: "Patrícia decide anotar cada gasto, por menor que seja, durante 30 dias, e percebe que várias compras de R$15 a R$20 em lanches na rua somaram R$280 no mês — um valor que ela nunca soube que estava gastando. O que essa experiência de Patrícia ilustra sobre o hábito de registrar gastos?",
+        opcoes: ["Que anotar gastos é uma perda de tempo", "Que anotar gastos revela padrões de consumo que passam despercebidos no dia a dia, mesmo em compras pequenas", "Que lanches de rua deveriam ser proibidos", "Que só gastos grandes precisam ser registrados"],
+        correta: 1,
+        explicacao: "Registrar gastos, inclusive os pequenos, costuma revelar padrões de consumo somados que passavam completamente despercebidos até serem colocados no papel — igual aconteceu com Patrícia.",
+      },
+    },
+  ],
+},
+```
+
+#### 6. `revU_03` — objeto completo
+
+```js
+{
+  id: "revU_03",
+  tipo: "revisao",
+  titulo: "Revisão: metas, hábitos e os gatilhos que te fazem gastar",
+  xp: 20,
+  aula: [
+    "Esse bloco reúne como aplicar a regra 50-30-20 na prática, como montar uma meta financeira SMART, como organizar as contas em família, os primeiros hábitos de quem recebe o primeiro salário, por que o prazo de uma meta muda a estratégia, o viés da contabilidade mental e os gatilhos de consumo usados pelo marketing para te fazer comprar mais rápido.",
+    "Como sempre: são situações-problema novas, não as mesmas perguntas de antes — o objetivo é testar se o conceito ficou, não a memória da frase exata.",
+    "Cada resposta errada vem com uma explicação clara logo abaixo, pensada para qualquer pessoa entender o porquê — é assim que a revisão funciona de verdade.",
+  ],
+  refLessonIds: ["f1_11", "f1_12", "f1_13", "f1_14", "f1_15", "f1_16", "f1_17"],
+  perguntas: [
+    {
+      pergunta: "Rodrigo ganha R$6.000 por mês. Seguindo a regra 50-30-20, quanto ele deveria reservar por mês para poupança, investimentos ou pagamento de dívidas (os 20%)?",
+      opcoes: ["R$600", "R$1.200", "R$1.800", "R$3.000"],
+      correta: 1,
+      explicacao: "20% de R$6.000 = R$1.200 é a fatia recomendada pela regra para poupança, investimentos ou pagamento de dívidas.",
+      variante: {
+        pergunta: "Simone ganha R$2.800 por mês. Seguindo a regra 50-30-20, quanto ela deveria destinar para necessidades essenciais (os 50%)?",
+        opcoes: ["R$840", "R$1.400", "R$1.960", "R$560"],
+        correta: 1,
+        explicacao: "50% de R$2.800 = R$1.400 é o valor recomendado pela regra para necessidades essenciais como aluguel, comida e contas.",
+      },
+    },
+    {
+      pergunta: "Uma pessoa ganha R$1.500 por mês (perto de um salário mínimo) e gasta R$1.270 só com aluguel, comida e contas essenciais. Que porcentagem da renda já está sendo usada com necessidades — bem mais ou bem menos que os 50% recomendados pela regra?",
+      opcoes: ["Cerca de 50%, exatamente como recomenda a regra", "Cerca de 85%, bem mais que os 50% recomendados, sobrando pouco espaço para desejos e poupança", "Cerca de 20%, bem menos que o recomendado", "Não é possível calcular essa porcentagem"],
+      correta: 1,
+      explicacao: "R$1.270 ÷ R$1.500 ≈ 85% da renda já vai para necessidades — bem acima dos 50% recomendados, deixando pouco espaço para desejos e poupança.",
+      variante: {
+        pergunta: "Por que a regra 50-30-20 pode ser difícil de seguir 'à risca' para quem tem uma renda baixa e mora numa cidade com aluguel caro?",
+        opcoes: ["Porque a regra só se aplica a quem ganha mais de R$10.000", "Porque, muitas vezes, o custo com necessidades básicas já consome bem mais de 50% de uma renda baixa, sobrando pouco ou nada para desejos e poupança", "Porque rendas baixas não têm despesas com necessidades", "Porque a regra é ilegal para quem ganha pouco"],
+        correta: 1,
+        explicacao: "Com uma renda baixa, itens essenciais como aluguel e comida costumam consumir uma fatia bem maior que 50%, tornando difícil seguir a proporção da regra de forma exata.",
+      },
+    },
+    {
+      pergunta: "Aline quer trocar de notebook, que custa R$3.000. Qual versão dessa meta está no formato SMART?",
+      opcoes: ["Quero trocar de notebook um dia", "Vou guardar R$250 por mês durante 12 meses para trocar o notebook de R$3.000 em dezembro", "Notebook novo é importante pra mim", "Vou ver se sobra dinheiro pro notebook no fim do mês"],
+      correta: 1,
+      explicacao: "A meta SMART transforma o desejo 'trocar de notebook' em um plano com valor mensal, prazo e valor final definidos — específico, mensurável e com prazo.",
+      variante: {
+        pergunta: "Otávio quer fazer uma viagem de R$4.800. Qual versão dessa meta está no formato SMART?",
+        opcoes: ["Quero viajar algum dia", "Vou guardar R$400 por mês durante 12 meses para juntar R$4.800 e viajar em dezembro", "Viajar é um sonho antigo meu", "Vou ver se sobra dinheiro pra viagem no fim do ano"],
+        correta: 1,
+        explicacao: "A meta SMART transforma o desejo 'viajar' em um plano com valor mensal, prazo e valor final definidos — específico, mensurável e com prazo, assim como no caso de Aline.",
+      },
+    },
+    {
+      pergunta: "Lucas ganha R$7.000 e Mariana ganha R$3.500 por mês. Se as contas da casa somam R$2.100 e eles dividem proporcionalmente à renda, quem paga mais e por quê?",
+      opcoes: ["Mariana paga mais, porque ganha menos", "Lucas paga mais, porque ganha o dobro da renda de Mariana, então assume uma parcela maior das contas", "Os dois pagam exatamente R$1.050 cada", "Isso não pode ser calculado sem saber o aluguel"],
+      correta: 1,
+      explicacao: "Na divisão proporcional à renda, quem ganha mais contribui com uma parte maior do valor total, mantendo o esforço relativo parecido para os dois.",
+      variante: {
+        pergunta: "Igor ganha R$4.000 e Paula ganha R$2.000 por mês. Se as contas da casa somam R$1.800 e eles dividem proporcionalmente à renda, qual vantagem essa divisão traz em comparação a dividir 'meio a meio'?",
+        opcoes: ["Nenhuma, o resultado final é sempre idêntico", "Paula, que ganha menos, não fica com um peso desproporcional no orçamento, tornando a divisão mais justa", "Divisão proporcional é sempre mais cara no total", "Meio a meio é sempre a única forma correta de dividir contas"],
+        correta: 1,
+        explicacao: "Quando um dos dois ganha bem menos, como Paula, dividir tudo igualmente sobrecarregaria essa pessoa; dividir proporcionalmente à renda mantém o esforço equilibrado para os dois.",
+      },
+    },
+    {
+      pergunta: "Vitor recebeu seu primeiro salário de R$2.100 e, sem separar nada em compartimentos, gastou R$1.800 nos primeiros 10 dias do mês. O que ele deixou de fazer que poderia ter evitado isso?",
+      opcoes: ["Ele deveria ter gasto tudo ainda mais rápido", "Separar o salário em compartimentos (contas fixas, reserva, gastos livres) assim que ele caiu na conta", "Pedir um empréstimo antes do salário cair", "Nada poderia ter evitado isso, faz parte do primeiro emprego"],
+      correta: 1,
+      explicacao: "Sem separar o dinheiro em partes desde o início, é fácil gastar rápido demais nas primeiras semanas do mês; organizar por compartimentos ajuda a distribuir o gasto ao longo do tempo.",
+      variante: {
+        pergunta: "Sabrina recebeu seu primeiro salário de R$1.900 e, sem separar nada, gastou R$1.600 na primeira semana do mês. O que ela deixou de fazer que poderia ter evitado isso?",
+        opcoes: ["Ela deveria ter gasto tudo ainda mais rápido", "Separar o salário em compartimentos (contas fixas, reserva, gastos livres) assim que ele caiu na conta", "Pedir um adiantamento salarial", "Nada poderia ter evitado isso"],
+        correta: 1,
+        explicacao: "Sem separar o dinheiro em partes desde o início, é fácil gastar rápido demais logo no começo do mês; organizar por compartimentos ajuda a distribuir o gasto ao longo do tempo, como no caso de Vitor.",
+      },
+    },
+    {
+      pergunta: "Bruno vai precisar do dinheiro em 4 meses para pagar um curso, enquanto Débora está guardando dinheiro para usar só daqui a 25 anos, na aposentadoria. Por que a estratégia mais adequada para os dois deveria ser diferente?",
+      opcoes: ["Não deveria ser diferente, os dois deveriam guardar o dinheiro exatamente da mesma forma", "Bruno precisa de algo seguro e disponível em pouco tempo, enquanto Débora tem tempo suficiente para atravessar oscilações e buscar um retorno maior", "Débora deveria escolher algo tão seguro e líquido quanto Bruno, já que 25 anos é pouco tempo", "Bruno deveria assumir mais risco, já que precisa do dinheiro rápido"],
+      correta: 1,
+      explicacao: "Quem precisa do dinheiro em pouco tempo, como Bruno, deve priorizar segurança e disponibilidade; quem tem décadas de prazo, como Débora, tem espaço para buscar retornos maiores assumindo mais oscilação no caminho.",
+      variante: {
+        pergunta: "Yasmin vai usar o dinheiro em 8 meses para dar entrada em um curso técnico, enquanto Marcelo está guardando para usar daqui a 30 anos. Qual estratégia costuma ser mais adequada para cada um?",
+        opcoes: ["Os dois deveriam investir exatamente da mesma forma, já que o valor final é o que importa", "Yasmin deveria priorizar segurança e liquidez; Marcelo tem tempo para assumir mais oscilação em busca de retorno maior", "Marcelo deveria priorizar liquidez extrema, como Yasmin, para não correr riscos", "O prazo não influencia a escolha da estratégia"],
+        correta: 1,
+        explicacao: "Quem tem prazo curto (Yasmin) precisa de segurança e disponibilidade; quem tem décadas de prazo (Marcelo) pode assumir mais oscilação em busca de um retorno maior, pois tem tempo de se recuperar de eventuais quedas.",
+      },
+    },
+    {
+      pergunta: "Igor colocou o dinheiro que ia usar em 3 meses, para pagar a entrada de um curso, numa aplicação de alto risco. Duas semanas antes de precisar do valor, a aplicação caiu 12%. O que esse exemplo mostra sobre usar estratégias de alto risco para metas de curto prazo?",
+      opcoes: ["Que isso é sempre uma boa ideia, pois toda aplicação de risco sempre sobe no final", "Que usar uma aplicação de alto risco para uma meta de curto prazo pode fazer a pessoa perder dinheiro justamente na hora de usá-lo", "Que o valor perdido sempre volta antes do prazo final", "Que metas de curto prazo não deveriam ter prazo definido"],
+      correta: 1,
+      explicacao: "Aplicações de alto risco podem cair de valor em pouco tempo, e usar esse tipo de estratégia para dinheiro que será usado em breve pode comprometer a meta, como aconteceu com Igor.",
+      variante: {
+        pergunta: "Renata investiu o dinheiro que usaria em 2 meses para a mudança de apartamento em uma aplicação de alta oscilação. Dias antes da mudança, o valor da aplicação havia caído 20%, forçando-a a resgatar com prejuízo. O que essa situação ilustra sobre o risco de usar aplicações de alta oscilação para metas de curto prazo?",
+        opcoes: ["Que aplicações de alta oscilação são sempre a melhor escolha para qualquer prazo", "Que o valor investido pode cair justamente na hora em que a pessoa precisa usá-lo, comprometendo a meta de curto prazo", "Que o prejuízo sempre se recupera automaticamente antes do prazo final", "Que metas de curto prazo não deveriam ter valor definido"],
+        correta: 1,
+        explicacao: "Investimentos de alta oscilação podem cair de valor justamente no momento em que o dinheiro precisa ser usado — por isso não são adequados para metas de curto prazo, como mostra o caso de Renata.",
+      },
+    },
+    {
+      pergunta: "Diego recebeu R$600 de restituição do imposto de renda e gastou tudo em roupas novas, algo que ele nunca faria com o salário normal. Que padrão isso ilustra?",
+      opcoes: ["Planejamento financeiro cuidadoso", "Contabilidade mental — tratar esse dinheiro como 'menos sério' por ter vindo de outra origem", "Diversificação de investimentos", "Análise de custo-benefício"],
+      correta: 1,
+      explicacao: "Tratar dinheiro 'inesperado' com regras diferentes do salário normal, mesmo valendo o mesmo, é o padrão clássico da contabilidade mental.",
+      variante: {
+        pergunta: "Se, em vez de gastar o valor de um prêmio recebido no trabalho inteiro em compras, uma pessoa decide investir metade dele visando um objetivo de longo prazo, o que ela está fazendo?",
+        opcoes: ["Cometendo um erro financeiro", "Superando a contabilidade mental e tratando esse dinheiro com a mesma intenção do salário normal", "Isso não tem nome específico", "Perdendo dinheiro"],
+        correta: 1,
+        explicacao: "Decidir com intenção o que fazer com dinheiro 'extra', em vez de gastá-lo automaticamente, é justamente driblar o viés da contabilidade mental.",
+      },
+    },
+    {
+      pergunta: "Um aplicativo de compras mostra 'Apenas 2 unidades restantes neste preço!' assim que você abre a página do produto. Que tipo de gatilho de consumo é esse?",
+      opcoes: ["Prova social", "Gatilho de urgência/escassez, feito para ativar o medo de perder a oportunidade e apressar a decisão", "Um erro do sistema do site", "Uma garantia de reembolso"],
+      correta: 1,
+      explicacao: "Avisos de 'restam poucas unidades' ou tempo limitado são gatilhos de urgência/escassez, criados para fazer você decidir rápido, sem pensar demais.",
+      variante: {
+        pergunta: "Enquanto pesquisava passagens aéreas, Marcelo viu um contador regressivo dizendo 'essa tarifa expira em 5 minutos' e sentiu vontade de comprar na hora, mesmo sem ter decidido a viagem ainda. Qual atitude ajudaria Marcelo a lidar melhor com esse gatilho de urgência?",
+        opcoes: ["Comprar imediatamente, para garantir a tarifa antes que ela suma", "Fazer uma pausa e se perguntar se compraria essa passagem mesmo sem o contador regressivo pressionando", "Fechar o site e nunca mais pesquisar passagens", "Pedir aumento de limite no cartão para garantir a compra"],
+        correta: 1,
+        explicacao: "Assim como no caso do produto com poucas unidades, a pausa para perguntar 'eu compraria isso mesmo sem essa pressa artificial?' ajuda a separar a decisão real de uma reação automática ao gatilho de urgência.",
+      },
+    },
+    {
+      pergunta: "Enquanto navega em um site de eletrônicos, Camila vê '87 pessoas compraram este produto nas últimas 24 horas' e sente mais confiança para comprar na hora. Qual gatilho está sendo usado, e qual seria uma reação mais protegida?",
+      opcoes: ["É prova social; uma reação mais protegida é lembrar que isso não muda se o produto é útil pra você, e avaliar a compra com calma", "É um erro técnico do aplicativo sem nenhuma intenção", "É uma garantia de qualidade do produto", "É prova social; a reação correta é comprar imediatamente para acompanhar as outras pessoas"],
+      correta: 0,
+      explicacao: "Mostrar quantas pessoas estão comprando é um gatilho de prova social; ele não indica se o produto é útil pra você, então vale avaliar a compra com calma mesmo assim.",
+      variante: {
+        pergunta: "Um aplicativo de streaming mostra 'Mais de 500 pessoas assistindo agora' na tela inicial de um filme. Que gatilho de consumo está sendo usado nesse caso?",
+        opcoes: ["Gatilho de urgência", "Prova social — mostrar que muita gente está fazendo a mesma coisa para gerar mais confiança na escolha", "Garantia de satisfação", "Um erro de exibição do aplicativo"],
+        correta: 1,
+        explicacao: "Mostrar quantas pessoas estão fazendo a mesma coisa (assistindo, comprando) é a essência da prova social — um gatilho para aumentar a confiança na decisão, mesmo sem indicar se o conteúdo é realmente bom para você.",
+      },
+    },
+  ],
+},
+```
+
+#### 7. `revU_04` — objeto completo
+
+```js
+{
+  id: "revU_04",
+  tipo: "revisao",
+  titulo: "Revisão: dívidas caras, crédito e como negociar o que já apertou",
+  xp: 20,
+  aula: [
+    "Fechando o Nível 1, esse bloco revisita como identificar uma compra por impulso, o truque da ancoragem de preço nas promoções, o que é e como cuidar do seu score de crédito, como nunca cair no rotativo do cartão, por que o cheque especial é uma das dívidas mais caras do país, a diferença entre consignado e empréstimo pessoal, e como negociar dívidas atrasadas com bancos e credores.",
+    "Você já viu esse conteúdo — mas as perguntas aqui trazem situações novas, com pessoas e números diferentes, para confirmar que o entendimento ficou de verdade, não só a lembrança da pergunta exata.",
+    "Se alguma resposta pegar você de surpresa, a explicação logo abaixo existe para esclarecer, sem deixar dúvida no ar.",
+  ],
+  refLessonIds: ["f1_18", "f1_19", "f1_20", "f1_21", "f1_22", "f1_23", "f1_24"],
+  perguntas: [
+    {
+      pergunta: "Depois de um dia estressante no trabalho, Cauã abre um aplicativo de jogos 'só para ver' e compra um item digital em poucos minutos, sem ter planejado gastar nada naquele dia. O que esse comportamento sugere?",
+      opcoes: ["Uma compra planejada com antecedência", "Um padrão de compra por impulso, provavelmente ligado a aliviar o estresse do dia", "Uma decisão puramente racional sobre necessidade do item", "Um erro do aplicativo"],
+      correta: 1,
+      explicacao: "Comprar rápido, sem plano anterior, logo depois de um momento emocional forte, é um padrão clássico de compra por impulso — buscando alívio emocional, não suprir uma necessidade real.",
+      variante: {
+        pergunta: "Depois de uma notificação de promoção à meia-noite, Tainá compra um par de tênis em poucos minutos, sem ter cogitado comprar calçados antes daquele momento. O que esse comportamento sugere?",
+        opcoes: ["Uma compra planejada com antecedência", "Um padrão de compra por impulso, ativado pelo gatilho da notificação e decidido sem reflexão prévia", "Uma decisão puramente racional sobre necessidade do produto", "Um erro do aplicativo de vendas"],
+        correta: 1,
+        explicacao: "Decidir comprar rápido, sem plano anterior, logo após um gatilho como uma notificação de promoção à meia-noite, é um padrão clássico de compra por impulso.",
+      },
+    },
+    {
+      pergunta: "Uma loja de móveis anuncia um sofá 'de R$6.000 por R$3.000', mas o mesmo modelo é vendido por outras lojas, sem promoção, a R$2.600. O que está acontecendo nesse caso?",
+      opcoes: ["O sofá realmente vale R$6.000 e está com desconto real de 50%", "O valor de R$6.000 provavelmente foi usado como âncora para fazer R$3.000 parecer uma ótima oferta, mesmo sendo mais caro que o preço normal de mercado (R$2.600)", "É obrigatório por lei vender pelo preço 'de'", "Isso significa que a loja está no prejuízo"],
+      correta: 1,
+      explicacao: "Quando o preço 'de' é bem mais alto que o valor real de mercado do produto, ele funciona só como âncora para criar a sensação de desconto — mesmo sendo, na prática, mais caro que o preço normal.",
+      variante: {
+        pergunta: "Bianca vê uma bolsa etiquetada 'de R$900 por R$450' numa vitrine e pensa automaticamente que é uma pechincha imperdível, sem saber quanto a bolsa realmente vale no mercado. Qual é a função do valor 'R$900' nesse tipo de etiqueta?",
+        opcoes: ["É sempre o preço de custo real do produto para a loja", "Funciona como âncora: um número alto mostrado primeiro, que faz o preço final parecer mais baixo por comparação, mesmo sem relação direta com o valor real de mercado", "É uma exigência legal em toda promoção no Brasil", "É o valor do imposto embutido no produto"],
+        correta: 1,
+        explicacao: "O valor riscado ('de R$900') funciona como âncora: ele entra primeiro na percepção de Bianca e faz o R$450 parecer uma ótima oferta, independentemente do valor real de mercado da bolsa — igual acontece no caso do sofá.",
+      },
+    },
+    {
+      pergunta: "Antes de comprar um relógio anunciado 'de R$1.200 por R$600', André se pergunta: 'eu pagaria R$600 por esse relógio se ele estivesse etiquetado direto nesse valor, sem nenhum preço riscado ao lado?'. Ele percebe que a resposta é não, e desiste da compra. Que estratégia André usou para se proteger do efeito da ancoragem?",
+      opcoes: ["Ele comparou o preço com o de outras lojas concorrentes", "Ele avaliou o preço final isoladamente, ignorando o valor riscado, para julgar pelo valor real do produto", "Ele esperou a promoção acabar para ver se o preço subia", "Ele perguntou a opinião de amigos sobre o relógio"],
+      correta: 1,
+      explicacao: "Avaliar o preço final sozinho, sem deixar o valor riscado influenciar o julgamento, é a estratégia que ajuda a decidir pelo valor real do produto, e não pela ilusão criada pela âncora — foi exatamente isso que André fez.",
+      variante: {
+        pergunta: "Larissa vê um vestido 'de R$400 por R$180' e, antes de comprar, se pergunta se pagaria R$180 por aquele vestido caso ele estivesse anunciado direto nesse valor, sem nenhum preço riscado ao lado. O que essa pergunta ajuda Larissa a fazer?",
+        opcoes: ["Calcular exatamente a porcentagem de desconto", "Avaliar a compra pelo valor real do produto, em vez de reagir automaticamente ao tamanho do desconto anunciado", "Descobrir se o vestido vai voltar ao preço original depois", "Decidir qual cor do vestido comprar"],
+        correta: 1,
+        explicacao: "Ignorar o valor riscado e avaliar só o preço final ajuda Larissa a decidir com base no valor real do produto, não na comparação artificial criada pela âncora.",
+      },
+    },
+    {
+      pergunta: "Duas pessoas pedem financiamento no mesmo banco. Uma tem score 780, a outra tem score 280. O que provavelmente é diferente entre as duas propostas?",
+      opcoes: ["Nada, o score não influencia nada", "A pessoa com score mais alto tende a conseguir juros menores e aprovação mais fácil", "A pessoa com score mais baixo sempre paga menos juros", "O score só importa para cartão de crédito"],
+      correta: 1,
+      explicacao: "Score mais alto costuma abrir portas para condições melhores — juros menores e aprovação mais rápida — porque indica menor risco para quem está emprestando.",
+      variante: {
+        pergunta: "Dois clientes pedem o mesmo cartão de crédito em bancos diferentes. Um tem score 900, o outro tem score 150. O que é mais provável de diferenciar as duas aprovações e condições oferecidas?",
+        opcoes: ["Nada, o score não é levado em conta para cartão de crédito", "O cliente com score mais alto tende a ter aprovação mais fácil e condições melhores, como limite maior ou juros menores", "O cliente com score mais baixo sempre recebe as melhores condições", "O score só é usado para financiamento de imóveis"],
+        correta: 1,
+        explicacao: "Assim como no caso do financiamento, um score mais alto costuma significar menor risco percebido pelo credor, o que se traduz em aprovação mais fácil e condições melhores.",
+      },
+    },
+    {
+      pergunta: "Se a fatura do cartão de Juliana é R$1.500 e ela paga apenas R$400, o que acontece com os R$1.100 restantes?",
+      opcoes: ["Eles ficam sem nenhum juro até o próximo mês", "Eles entram no rotativo do cartão e passam a ser cobrados com juros muito altos até serem pagos", "O banco perdoa automaticamente esse valor", "Eles são convertidos em pontos de milhagem"],
+      correta: 1,
+      explicacao: "Qualquer valor da fatura que não é pago no vencimento entra no rotativo, sujeito a um dos juros mais altos do mercado, até ser totalmente pago.",
+      variante: {
+        pergunta: "Se a fatura do cartão de Otávio é R$2.400 e ele paga apenas R$900 no vencimento, o que acontece com os R$1.500 que ficaram em aberto?",
+        opcoes: ["Ficam sem nenhum juro até a próxima fatura", "Entram no rotativo do cartão e passam a ser cobrados com um dos juros mais altos do mercado até serem quitados", "São automaticamente cancelados pelo banco", "Viram um desconto na fatura seguinte"],
+        correta: 1,
+        explicacao: "Qualquer parte da fatura que não é paga no vencimento entra no rotativo, sujeita a um dos juros mais altos do mercado, até ser totalmente quitada — o mesmo aconteceria com os R$1.500 de Otávio.",
+      },
+    },
+    {
+      pergunta: "Denise percebe que só vai conseguir pagar R$500 dos R$1.000 da fatura deste mês. Em vez de deixar o restante no rotativo, uma alternativa financeiramente mais barata costuma ser:",
+      opcoes: ["Deixar os R$500 restantes no rotativo do cartão mesmo assim", "Buscar outra linha de crédito com juros bem menores (como um empréstimo pessoal) para pagar a fatura inteira e evitar o rotativo", "Pagar só R$100 e deixar o resto acumular por mais tempo", "Cancelar o cartão sem pagar a fatura"],
+      correta: 1,
+      explicacao: "Como o rotativo costuma ter os juros mais altos do mercado, buscar outra forma de crédito mais barata para cobrir a diferença normalmente sai mais econômico do que deixar a dívida rolar no cartão.",
+      variante: {
+        pergunta: "Ricardo sabe que só vai conseguir pagar R$800 dos R$2.000 da fatura do cartão neste mês. Em vez de deixar a diferença no rotativo, qual alternativa tende a ser financeiramente mais barata?",
+        opcoes: ["Deixar a diferença no rotativo do cartão mesmo assim", "Buscar um empréstimo pessoal ou consignado, com juros bem menores que o rotativo, para cobrir a diferença e pagar a fatura inteira", "Pagar só uma parte simbólica e deixar o resto acumular", "Pedir um cartão adicional para dividir a dívida"],
+        correta: 1,
+        explicacao: "Como o rotativo tem os juros mais altos do mercado, buscar uma linha de crédito mais barata (empréstimo pessoal ou consignado) para cobrir a diferença costuma sair bem mais barato do que deixar o valor rolar no cartão.",
+      },
+    },
+    {
+      pergunta: "Se alguém usa R$1.500 do cheque especial e deixa por vários meses sem pagar, o que tende a acontecer com essa dívida?",
+      opcoes: ["Ela permanece exatamente em R$1.500", "Ela cresce rapidamente, por causa dos juros altos cobrados mês a mês", "Ela diminui automaticamente", "O banco perdoa a dívida após 30 dias"],
+      correta: 1,
+      explicacao: "Como os juros do cheque especial são altíssimos, uma dívida não paga cresce rapidamente mês após mês.",
+      variante: {
+        pergunta: "Camila usou R$900 do cheque especial num mês de aperto financeiro e não conseguiu pagar nos meses seguintes. O que é mais provável de acontecer com essa dívida com o passar do tempo?",
+        opcoes: ["Ela permanece exatamente em R$900, sem nenhuma cobrança adicional", "Ela cresce de forma acelerada, por causa das taxas de juros muito altas cobradas mês a mês", "Ela diminui automaticamente por lei", "O banco perdoa a dívida depois de 60 dias"],
+        correta: 1,
+        explicacao: "Assim como no caso anterior, os juros do cheque especial são altíssimos, então uma dívida não paga cresce de forma acelerada mês após mês.",
+      },
+    },
+    {
+      pergunta: "Cláudio pode pegar um empréstimo pessoal a 7% ao mês ou um consignado a 1,5% ao mês para o mesmo valor. Por que essa diferença tão grande existe?",
+      opcoes: ["Porque o consignado é ilegal em alguns estados", "Porque o desconto automático em folha reduz o risco do banco de não receber, permitindo taxa menor", "Porque o empréstimo pessoal sempre tem prazo mais curto", "Porque o consignado exige um fiador"],
+      correta: 1,
+      explicacao: "A garantia de recebimento automático do consignado reduz o risco do credor, e por isso a taxa de juros pode ser muito menor do que no empréstimo pessoal comum.",
+      variante: {
+        pergunta: "Camila descobriu que consegue um consignado a 2% ao mês, bem mais barato que o empréstimo pessoal de 9% ao mês oferecido pelo mesmo banco, para o mesmo valor. O que explica essa diferença de taxa?",
+        opcoes: ["O consignado é sempre um golpe", "O desconto automático em folha de pagamento reduz o risco do banco de não receber, permitindo cobrar uma taxa menor", "O empréstimo pessoal sempre tem prazo mais longo", "Consignado só existe para quem já é endividado"],
+        correta: 1,
+        explicacao: "Como a parcela do consignado é descontada automaticamente do salário ou benefício, o risco de o banco não receber é menor — e por isso a taxa de juros tende a ser bem mais baixa que a do empréstimo pessoal.",
+      },
+    },
+    {
+      pergunta: "Marcelo deve R$8.000 no cartão, atrasados há 10 meses. O banco oferece pagar R$3.500 à vista para encerrar a dívida. Por que esse tipo de oferta é comum nesses casos?",
+      opcoes: ["Porque o banco está proibido de cobrar o valor total", "Porque, para o banco, receber uma parte à vista de uma dívida antiga é melhor do que continuar sem receber nada", "Porque toda dívida vencida vira automaticamente metade do valor", "Porque isso é uma armadilha sem nenhuma vantagem para o banco"],
+      correta: 1,
+      explicacao: "Dívidas muito atrasadas têm alto risco de nunca serem pagas, então bancos frequentemente preferem negociar um valor menor à vista do que insistir no valor total e não receber nada.",
+      variante: {
+        pergunta: "Patrícia deve R$4.000 num financiamento pessoal, atrasado há 7 meses, e o credor oferece um acordo de R$1.800 à vista para quitar tudo. Por que credores costumam fazer esse tipo de oferta com dívidas tão atrasadas?",
+        opcoes: ["Porque são obrigados por lei a reduzir qualquer dívida atrasada", "Porque, para o credor, uma dívida muito atrasada tem alto risco de nunca ser recebida, então vale mais aceitar uma parte à vista do que arriscar não receber nada", "Porque toda dívida vencida vira automaticamente menos da metade do valor", "Porque isso é uma armadilha sem nenhuma vantagem real para o credor"],
+        correta: 1,
+        explicacao: "Assim como no caso de Marcelo, uma dívida muito atrasada representa alto risco de nunca ser paga — por isso muitos credores preferem negociar um valor menor à vista a insistir no total e não receber nada.",
+      },
+    },
+    {
+      pergunta: "Renata tem uma dívida de cheque especial a 12% ao mês e um financiamento de móveis a 2% ao mês, ambos em atraso. Qual ela deveria priorizar na negociação?",
+      opcoes: ["O financiamento dos móveis, porque é mais recente", "A dívida do cheque especial, porque os juros mais altos fazem o valor crescer muito mais rápido", "Nenhum dos dois, pois atraso não importa", "Deve dividir igualmente o dinheiro disponível entre os dois, sem prioridade"],
+      correta: 1,
+      explicacao: "Como os juros do cheque especial são muito mais altos, essa dívida cresce mais rápido e deve ser priorizada para evitar que o problema fique maior.",
+      variante: {
+        pergunta: "Bruno tem três dívidas em aberto: cartão de crédito a 13% ao mês, financiamento de celular a 2,5% ao mês e uma mensalidade escolar atrasada sem juros. Qual costuma ser a ordem de prioridade mais eficiente para negociar essas dívidas?",
+        opcoes: ["Negociar a mensalidade escolar primeiro, por ser a mais antiga", "Priorizar primeiro o cartão de crédito, por ter os juros mais altos e crescer mais rápido enquanto não for resolvido", "Negociar todas ao mesmo tempo, sem nenhuma ordem de prioridade", "Priorizar o financiamento do celular, por ser uma dívida mais nova"],
+        correta: 1,
+        explicacao: "Assim como no caso de Renata, dívidas com juros mais altos (aqui, o cartão de crédito) crescem mais rápido e devem ser priorizadas na negociação, para evitar que o problema se agrave ainda mais.",
+      },
+    },
+  ],
+},
+```
+
+#### Registro da etapa
+
+- **Resumo da etapa**: escritas as 10 perguntas (base + variante cada) dos 4
+  blocos da Onda de Revisão 1 (`revU_01`..`revU_04`), cobrindo as 28 lições
+  do Nível 1 "Fundamentos e Comportamento Financeiro" sem sobreposição entre
+  blocos, todas como situações-problema novas (nunca cópia literal de uma
+  pergunta já publicada nas 28 lições-fonte), com `titulo`/`aula` distintos
+  entre os 4 blocos. Todos os 40 pares base+`variante` revisados
+  explicitamente contra o padrão do Bug 1 da Fase 3B (pergunta 9 de
+  `revE_01`) — 4 pares que numa primeira redação misturavam dois
+  sub-conceitos diferentes da mesma lição-fonte entre a base e a variante
+  foram identificados e corrigidos antes de entrar na versão final (seção 3
+  acima detalha cada um). Objetos completos, prontos para colagem em
+  `js/data.js` como o array `COURSE_REVIEWS`, registrados nas seções 4-7.
+- **Decisões tomadas**: distribuição de cobertura por lição em cada bloco
+  (seção 1), texto final de `titulo`/`aula` de cada bloco (dentro de cada
+  objeto, seções 4-7), as 40 perguntas com suas variantes, validação
+  factual/numérica (seção 2), checklist do Bug 1 (seção 3). Nenhum valor
+  numérico de lei/alíquota novo introduzido — todos os 4 blocos tratam de
+  conceitos comportamentais e matemáticos genéricos já publicados nas
+  28 lições-fonte, sem nenhuma cifra real de imposto/taxa fixada.
+- **Pendências para os próximos agentes**:
+  - **Frontend Engineer (Fase 3C, Onda de Revisão 1)**: colar os 4 objetos
+    das seções 4-7 em `js/data.js` como o array `COURSE_REVIEWS` (ordem
+    `revU_01`, `revU_02`, `revU_03`, `revU_04`), implementar o ajuste em
+    `Trail.levels()` especificado pelo Software Architect (seção 19, item
+    4) — que insere as revisões ancoradas por `refLessonIds[6]` em
+    `COURSE`/`HISTORY_COURSE` — e, antes de considerar a Onda 1 pronta,
+    validar explicitamente o caminho de inserção em `HISTORY_COURSE` com um
+    teste dirigido (risco 6.1 da seção 19), já que nenhum dos 4 blocos desta
+    Onda o exercita de verdade (todos ancoram em `COURSE[0]`). Depois de
+    colado, rodar `node --check js/data.js` e o script de validação (ids
+    duplicados, `opcoes.length===4`, `correta` válido, `variante` presente,
+    `refLessonIds` com exatamente 7 ids existentes em `COURSE`, sem
+    sobreposição entre `revU_01`..`revU_04`) — mesmo procedimento já usado
+    em qualquer edição de `js/data.js` nesta RFC.
+  - **QA Engineer**: validar, além do checklist estrutural, que as 4
+    revisões aparecem na trilha unificada Aprender exatamente depois de
+    `f1_06`, `l1_3`, `f1_17` e `f1_24` respectivamente (nunca antes), que
+    `COURSE`/`HISTORY_COURSE` permanecem intocados após `Trail.render()`
+    rodar (teste de não-mutação, seção 19/risco 6.2), e reler as 40
+    perguntas em busca de qualquer ambiguidade residual não capturada nesta
+    revisão — mesmo padrão de QA independente já usado na Fase 3B (seção
+    17).
+  - **Documentation Specialist**: registrar a Onda de Revisão 1 como
+    concluída em `CHANGELOG.md`/`ROADMAP.md` depois do QA, e atualizar o
+    status desta RFC (seções 19-20) quando a Fase 3C avançar para as Ondas
+    de Revisão 2-4.
+- **Riscos**: nenhum risco de conteúdo novo identificado — todas as 40
+  perguntas reaproveitam conceitos e números já validados nas 28 lições
+  originais do Nível 1, sem nenhuma alíquota/teto/definição nova sendo
+  introduzida por esta Onda. O único risco relevante nesta etapa é técnico,
+  já mapeado pelo Software Architect na seção 19 (caminho de inserção em
+  `HISTORY_COURSE` ainda não exercitado por nenhum bloco desta Onda 1) —
+  não é um risco de conteúdo, e já está com mitigação explícita registrada
+  para o Frontend Engineer.
+- **Próximo agente responsável**: Frontend Engineer (Fase 3C, Onda de
+  Revisão 1).
+
+### 21. Frontend Engineer (Fase 3C — Implementação da Onda de Revisão 1 na trilha Aprender)
+
+Confirmado por `git status`/`git diff --stat` no início desta etapa: só a
+própria RFC estava modificada (sessões anteriores), nenhum código pendente —
+esta implementação partiu do zero. Implementado exatamente o que as seções
+19 (Software Architect) e 20 (Financial Specialist) especificaram, em
+`js/data.js` e `js/trail.js`. Escopo confirmado ao final: `js/business.js`
+(trilha Empreender) permanece byte-a-byte como estava — não tocado, conforme
+instruído.
+
+#### 1. `js/data.js` — array `COURSE_REVIEWS`
+
+Colado imediatamente após o fechamento de `HISTORY_COURSE`, antes do
+comentário de cabeçalho da trilha Empreender, com um comentário de cabeçalho
+explicando o mecanismo de ancoragem para os DOIS arrays (mesmo espírito do
+comentário que antecede `BUSINESS_REVIEWS`, adaptado para deixar explícito
+que `COURSE_REVIEWS` é consultado tanto por `COURSE` quanto por
+`HISTORY_COURSE`). Conteúdo dos 4 objetos (`revU_01`..`revU_04`) copiado
+literalmente da seção 20 (Financial Specialist) — nenhum texto/número
+alterado. Validado por script Python (bracket-balance tokenizer consciente
+de string/comentário, já que `node --check` não está disponível neste
+ambiente — mesma limitação das fases anteriores) e por um segundo script que
+extraiu e conferiu, via regex sobre o bloco de `COURSE_REVIEWS`: 4 ids
+(`revU_01`..`revU_04`), 4 `refLessonIds` com exatamente 7 ids cada
+(batendo exatamente com a tabela da seção 20), `xp: 20` nas 4 entradas, e 20
+perguntas por bloco (10 base + 10 `variante`, confirmado descontando um
+falso positivo do regex causado pela frase "André se pergunta:" dentro do
+texto de uma pergunta de `revU_04`, não um erro de estrutura).
+
+#### 2. `js/trail.js` — `Trail.levels()` generalizado
+
+Substituído o corpo de `levels()` pelo código exato da seção 19, item 4: a
+função `withReviews(courseArr, fonte)` clona `licoes` num array **novo** via
+`push` (nunca reaproveita a referência original) e insere a revisão
+ancorada por `refLessonIds[6]`, com `fonte` atribuída no mesmo passe via
+`{ ...lvl, licoes, fonte }`. Aplicada duas vezes — uma para `COURSE`, outra
+para `HISTORY_COURSE` — ambas lendo o mesmo `COURSE_REVIEWS`; o roteamento
+para o array correto é automático (`.find()` só casa contra ids que
+realmente existem naquele array), sem nenhum branch explícito. A lógica de
+intercalação por índice de nível (`financeira[i]`/`historia[i]`) foi
+preservada sem nenhuma alteração. Nenhuma mudança em `flatLessons()`,
+`isDone()`, `isUnlocked()`, `nextEntry()`, `gridHtml()`, `startLesson()`,
+`answerQuestion()`, `nextQuestion()`, `maybePickStory()` — confirmado que
+nenhum precisou de ajuste, exatamente como a seção 19 previu.
+
+#### 3. `js/trail.js` — `levelHtml()` (identidade visual)
+
+Dentro do callback de `gridHtml()`: adicionado
+`const isRevisao = lesson.tipo === "revisao";` e o ícone virou um
+condicional de 3 vias, preservando o `isHistoria` já existente:
+`done ? "✅" : unlocked ? (isRevisao ? "🔁" : isHistoria ? "📜" : "📘") : "🔒"`
+— exatamente a expressão especificada na seção 19. Classe `revisao`
+adicionada à `div.trail-node` quando `isRevisao`, e
+`<div class="trail-node-tag">🔁 Revisão</div>` inserido dentro de
+`.trail-node-inner`, depois de `.trail-node-xp`, condicionado a `isRevisao`
+— mesma posição relativa já usada em `business.js`.
+
+#### 4. `js/trail.js` — `finishLesson()` (título/subtexto)
+
+Adicionado `const isRevisao = lesson.tipo === "revisao";` e o ternário de
+título (que já era de 2 vias, `isHistoria`) virou um condicional de 3 vias:
+`passed ? (isRevisao ? "Revisão dominada!" : level.fonte === "historia" ? "Capítulo concluído!" : "Lição concluída!") : "Quase lá!"`.
+Subtexto extra — `"Você reforçou o que já tinha aprendido — é isso que faz
+o conhecimento ficar de verdade."` — inserido logo abaixo do `<p>` de "Você
+acertou X de Y perguntas", condicionado a `celebrar && isRevisao`, na mesma
+posição usada em `business.js`. Nenhuma outra linha do fluxo de conclusão
+mudou (confete, glow, pop de XP, mascote, moedas, o guard `alreadyDone`,
+`LESSON_LOG`, `Learn.addXp`/`Learn.addCoins`) — tudo reaproveitado sem
+condicional nova.
+
+#### 5. CSS — confirmado que nenhuma regra nova foi necessária
+
+Verificado por grep em `css/style.css` antes de qualquer edição: as 5
+regras escritas na Fase 3B (`.trail-node-tag`, `.trail-node.locked
+.trail-node-tag`, e as 3 variantes de `.trail-node.revisao .trail-node-ring`
+— padrão/`.done`/`.current`) já cobrem exatamente as classes que
+`trail.js` passou a gerar. `css/style.css` não foi tocado nesta etapa — a
+suposição da seção 19 ("nenhuma regra nova de CSS necessária") foi
+confirmada por leitura, não assumida, e depois confirmada de novo
+visualmente (item 7 abaixo).
+
+#### 6. Validação de sintaxe
+
+`node --check` indisponível neste ambiente (confirmado por `command -v
+node`). Escrito um verificador de balanceamento de chaves/colchetes/
+parênteses em Python (tokenizer consciente de string/comentário JS, sem
+dependência de `node`) e rodado contra `js/data.js` e `js/trail.js` — os
+dois reportaram `BALANCED OK`. Confirmação definitiva veio da execução real
+em Chrome via CDP (item 7): qualquer erro de sintaxe teria impedido
+`Trail.levels()`/`Trail.render()` de rodar sem exceção, e nenhuma exceção
+foi lançada em nenhum teste.
+
+#### 7. Teste manual real (Chrome headless via CDP)
+
+Harness montado do zero nesta sessão (o `cdp.py` de fases anteriores não
+persiste entre sessões — scratchpad é isolado por sessão): `python3 -m
+http.server 8899` servindo a raiz do projeto + `chrome.exe --headless=new
+--remote-debugging-port=9333 --remote-allow-origins=* --user-data-dir=<perfil
+no scratchpad>` (Chrome 151.0.7922.76, mesma versão das fases anteriores,
+mesma flag `--remote-allow-origins` necessária) + um driver Python novo
+(`cdp.py`, classe `Tab` sobre `websocket-client`, já instalado no ambiente).
+Contas de teste reais criadas via `Cloud.signUp()` (e-mails `@mailinator.com`),
+login confirmado imediato sem exigir confirmação de e-mail neste ambiente.
+
+Testes executados e resultados:
+
+- **Estado ANTES — arrays canônicos limpos**: `COURSE.length === 6`,
+  `COURSE.map(l => l.licoes.length) === [35,20,22,8,8,9]`,
+  `HISTORY_COURSE.length === 6`, `[2,6,2,3,2,3]`, nenhum dos dois com
+  qualquer entrada `tipo:"revisao"` — confirmado antes de qualquer chamada a
+  `Trail.levels()`.
+- **Inserção correta, âncora por id, os 4 nós nas posições certas**:
+  `Trail.flatLessons()` (124 lições = 120 reais + 4 revisões) tem
+  `revU_01` imediatamente depois de `f1_06` e antes de `l5_1`, `revU_02`
+  depois de `l1_3` e antes de `f1_11`, `revU_03` depois de `f1_17` e antes
+  de `f1_18`, `revU_04` depois de `f1_24` e antes de `f1_25` — exatamente a
+  tabela da seção 19, todos dentro do Nível 1 "Fundamentos".
+- **Trava de segurança da âncora**: numa conta nova (nada concluído),
+  `Trail.isUnlocked(idx de revU_01) === false`. Marcando progresso até
+  `f1_06` (inclusive), `revU_01` passa a `unlocked === true` e, ao
+  renderizar, o nó ganha `class="trail-node  current revisao"`. Repetido
+  para `revU_02`/`revU_03`/`revU_04`: cada um só desbloqueia depois que seu
+  próprio `refLessonIds[6]` é concluído (`revU_02` desbloqueado após
+  `l1_3`; `revU_03`/`revU_04` continuam `false` até suas respectivas
+  âncoras, mesmo com `revU_02` já liberado) — sem destravamento fora de
+  ordem.
+- **Fluxo completo do quiz, XP/energia/moedas/log**: `revU_01` e `revU_02`
+  completados via `Trail.startLesson()` → tela de `aula` → 10 perguntas
+  respondidas corretamente → tela de conclusão com título **"Revisão
+  dominada!"**, subtexto **"Você reforçou o que já tinha aprendido — é isso
+  que faz o conhecimento ficar de verdade."**, `+20 XP e +5 moedas`. Delta
+  de XP medido via `Learn.getXp()` antes/depois: exatamente **+20** nos dois
+  casos, batendo com `xp: 20` da seção 20. `Energy.tryStart()` consumiu 1
+  energia normalmente (sem isenção). `STORAGE_KEYS.LESSON_LOG` ganhou uma
+  entrada `{lessonId:"revU_01", fonte:"financeira", ...}` (e depois
+  `revU_02`) sem filtro algum. `COURSE_PROGRESS["revU_01"] === true` ao
+  fechar a tela.
+- **Teste crítico de não-mutação — DOIS arrays, antes/depois de navegar a
+  trilha inteira, completar as 4 revisões e recarregar (F5)**: snapshot de
+  `COURSE.map(l => l.licoes.map(x => x.id))` e o equivalente para
+  `HISTORY_COURSE` tirado antes de qualquer render, comparado byte-a-byte
+  contra o mesmo snapshot depois de: renderizar, desbloquear e completar as
+  4 revisões (`revU_01`/`revU_02` via quiz completo, `revU_03`/`revU_04` via
+  simulação de progresso — o caminho de conclusão já validado duas vezes),
+  marcar as 120 lições reais como concluídas, e — o teste mais rigoroso —
+  **recarregar a página do zero (F5)**. Em todas as verificações a
+  estrutura dos dois arrays bateu exatamente com o snapshot inicial e
+  `COURSE.some(l => l.licoes.some(x => x.tipo==="revisao")) === false`,
+  idem para `HISTORY_COURSE` — nenhuma entrada de revisão jamais vazou para
+  os arrays canônicos, nos dois. Progresso das 4 revisões persistiu
+  corretamente após o reload (`COURSE_PROGRESS.revU_01..04 === true`).
+- **Teste dirigido do caminho de inserção em `HISTORY_COURSE` (risco 6.1,
+  mitigação explícita pedida pelo Software Architect antes de considerar a
+  Onda 1 pronta)**: como nenhum dos 4 blocos reais desta Onda ancora em
+  `HISTORY_COURSE`, foi injetada em runtime uma entrada de teste temporária
+  em `COURSE_REVIEWS` (`id: "__TEST_REV_HIST__"`, **nunca commitada em
+  `js/data.js`**, removida do array ao final do teste), ancorada em `h1_1`
+  — a 1ª das 2 lições de `HISTORY_COURSE[0]`, ou seja um caso de inserção
+  no MEIO de um nível de 2 lições (mesmo padrão do bloco 17 real, que só
+  será publicado na Onda 4). Resultado: a revisão de teste foi inserida
+  corretamente entre `h1_1` e `h1_2` dentro de `HISTORY_COURSE[0]`
+  (`histLevel0.licoes[idx-1].id === "h1_1"` e `[idx+1].id === "h1_2"`),
+  `flatEntry.fonte === "historia"`, `Trail.progressKey("historia")` roteou
+  para `STORAGE_KEYS.HISTORY_PROGRESS` corretamente, e — o ponto crítico —
+  `HISTORY_COURSE` permaneceu estruturalmente idêntico ao snapshot anterior
+  (`historyCourseUnchanged === true`, `historyCourseHasTestEntry === false`)
+  durante todo o teste. Depois de remover a entrada de teste e invalidar o
+  cache (`Trail._levels = null`), `Trail.flatLessons()` voltou a não conter
+  `__TEST_REV_HIST__`. **O caminho de inserção em `HISTORY_COURSE` está
+  validado e funcionando antes de qualquer bloco real depender dele**,
+  conforme a mitigação pedida pelo Software Architect — a Onda 3 (1º bloco
+  real ancorado em História) não vai exercitar um caminho de código
+  nunca testado.
+- **Nenhuma regressão nas 120 lições reais (102 Financeira + 18 História)**:
+  marcadas as 120 lições reais + as 4 revisões como concluídas,
+  `Trail.flatLessons().length === 124 === doneCount` (100%),
+  `Trail.nextEntry() === null`, `document.querySelectorAll(
+  '#trailContainer .trail-node').length === 124` (`locked: 0`, `done: 124`,
+  `revisao: 4`, `revisao.done: 4`) — nenhum nó preso, nenhum destravamento
+  fora de ordem.
+- **Empreender (`js/business.js`) sem regressão**: `Business.flatLessons()`
+  ainda com 19 lições (18 + `revE_01`, inalterado desde a Fase 3B),
+  `revE_01` ainda na posição 7 imediatamente após `e2_1`,
+  `BUSINESS_COURSE` estruturalmente inalterado, 19 nós renderizados em
+  `#businessTrailContainer` — confirmado ao vivo nesta mesma sessão, não só
+  por não ter editado o arquivo.
+- **Identidade visual, confirmada por captura de tela real** (não só
+  leitura de classes): screenshots em 1400×1200 (desktop) e 375×900
+  (`mobile:true`) mostraram o nó `revU_01` com o accent roxo/dourado no anel
+  (mesmo CSS da Fase 3B, sem nenhuma regra nova) e a tag "🔁 REVISÃO" abaixo
+  do XP, sem corte nem sobreposição em nenhum dos dois viewports — mesmo
+  padrão "recorte aceitável" já validado na Fase 3B.
+- **Console/exceções**: zero `Runtime.exceptionThrown` em toda a sessão
+  (múltiplos cadastros, navegação, quizzes completos, simulação de
+  progresso em massa, reload completo, teste dirigido de
+  `HISTORY_COURSE`). Único aviso de console: a mesma deprecação conhecida e
+  não relacionada do `three.js`, já registrada nas Fases 2 e 3B.
+
+#### 8. Ajustes em relação à especificação original (com justificativa)
+
+Nenhum. O código de `Trail.levels()` foi implementado exatamente como o
+Software Architect especificou na seção 19, item 4 (inclusive a assinatura
+`withReviews(courseArr, fonte)`, sem alteração de nome ou estrutura); os
+branches de `levelHtml()` e `finishLesson()` seguem literalmente o padrão
+de `business.js` (Fase 3B), adaptados apenas para o condicional de 3 vias
+com `isHistoria` que a própria seção 19 já previu e descreveu com a
+expressão exata a usar. Única observação registrada, não uma divergência de
+código: ao testar num navegador com perfil Chrome persistente reaproveitado
+entre scripts desta sessão, uma conta nova criada via `Cloud.signUp()`
+inicialmente exibiu progresso residual de uma conta de teste anterior (o
+`localStorage`/`Store` é escopado por origem, não por conta, até o próximo
+ciclo de sincronização) — comportamento pré-existente do app, não
+introduzido nem afetado por esta mudança, contornado nos testes usando
+snapshots explícitos de progresso em vez de assumir estado limpo por
+padrão.
+
+#### 9. Arquivos alterados
+
+- `js/data.js` — novo array `COURSE_REVIEWS` (4 entradas, `revU_01`..
+  `revU_04`), inserido entre `HISTORY_COURSE` e o comentário de cabeçalho
+  da trilha Empreender. `COURSE` e `HISTORY_COURSE` não foram alterados em
+  conteúdo (confirmado em runtime, item 7 acima).
+- `js/trail.js` — `levels()` reescrito para o mecanismo generalizado de
+  dois arrays (`withReviews`); `levelHtml()` ganhou o branch de
+  ícone/classe `revisao`/tag de 3 vias; `finishLesson()` ganhou o branch de
+  título/subtexto de 3 vias condicionado a `lesson.tipo === "revisao"`.
+- Nenhum outro arquivo tocado: `js/business.js`, `css/style.css` e todo o
+  restante do projeto permanecem exatamente como estavam antes desta etapa.
+
+#### Registro da etapa
+
+- **Resumo da etapa**: implementada a Onda de Revisão 1 na trilha unificada
+  Aprender — `COURSE_REVIEWS`/`revU_01`..`revU_04` em `js/data.js`
+  (conteúdo do Financial Specialist, seção 20, colado sem alteração),
+  `Trail.levels()` generalizado para clonar e inserir revisões ancoradas
+  por id independentemente em `COURSE` e `HISTORY_COURSE` (seção 19, item
+  4, do Software Architect, implementado sem nenhum desvio), e os branches
+  de identidade visual/título de conclusão adaptados de `business.js`
+  preservando o `isHistoria` pré-existente. Validado ao vivo em Chrome real
+  via CDP: as 4 posições de inserção, trava de segurança por âncora, fluxo
+  completo de XP/energia/moedas/log em 2 das 4 revisões, teste de
+  não-mutação nos DOIS arrays canônicos (incluindo reload completo da
+  página), teste dirigido do caminho de inserção em `HISTORY_COURSE` nunca
+  antes exercitado em produção (risco 6.1, mitigado antes de qualquer
+  bloco real depender dele), ausência de regressão nas 120 lições reais e
+  na trilha Empreender, e conferência visual em 2 viewports. Zero exceções
+  de console em toda a sessão de teste.
+- **Decisões tomadas**: nenhuma decisão de produto/arquitetura/conteúdo/
+  design nova — esta etapa só implementou o que as seções 19-20 já haviam
+  decidido, sem nenhum desvio (item 8 acima).
+- **Pendências para os próximos agentes**:
+  - **QA Engineer**: validação independente dos mesmos cenários (inserção,
+    trava de segurança, fluxo de XP/energia/moedas/log, não-mutação dos
+    dois arrays com reload, regressão nas 120 lições reais e no Empreender,
+    estados visuais), e o script de verificação estrutural recomendado pelo
+    Software Architect na seção 19/risco 6.2 (7 ids únicos por
+    `refLessonIds`, existentes em `COURSE` OU `HISTORY_COURSE` — nunca nos
+    dois, nunca em nenhum —, sem sobreposição entre `revU_01`..`revU_04`)
+    formalizado como verificação repetível, não só a checagem manual feita
+    nesta etapa.
+  - **Documentation Specialist**: registrar a Onda de Revisão 1 como
+    concluída em `CHANGELOG.md`/`ROADMAP.md` depois do QA.
+  - **Ondas de Revisão 2, 3 e 4**: repetem o mesmo ciclo (Financial
+    Specialist escreve conteúdo → Frontend Engineer só cola em
+    `COURSE_REVIEWS`, sem nenhuma mudança de mecanismo, já que
+    `Trail.levels()` generalizado suporta qualquer combinação de âncoras em
+    `COURSE`/`HISTORY_COURSE` → QA), cada uma só começando depois da
+    anterior fechar QA sem ressalvas graves. A Onda 3 (bloco 9, 1ª âncora
+    real em `HISTORY_COURSE`) e a Onda 4 (blocos 14/17, mais 2 âncoras em
+    `HISTORY_COURSE` e um caso real de inserção no meio de nível) reaproveitam
+    um caminho de código já testado nesta etapa, não um caminho novo.
+- **Riscos**: nenhum risco novo em aberto. O risco mais crítico apontado
+  pelo Software Architect (6.1 — caminho de inserção em `HISTORY_COURSE`
+  nunca exercitado em produção) foi mitigado com um teste dirigido nesta
+  própria etapa, antes de qualquer bloco real depender dele — não adiado
+  até a Onda 3, conforme a recomendação explícita da seção 19.
+- **Próximo agente responsável**: QA Engineer.
+
+### 22. QA Engineer (validação independente — Fase 3C, Onda de Revisão 1)
+
+Validação feita de forma independente do autorrelato do Frontend Engineer
+(seção 21) — nenhum resultado de lá foi aceito sem reprodução própria.
+Ambiente: `python3 -m http.server 8899` servindo a raiz do projeto; Chrome
+real (`151.0.7922.76`) headless via CDP (`--remote-debugging-port=9333
+--remote-allow-origins=*`), controlado por um driver Python próprio
+(`cdp.py`, escrito nesta sessão sobre `websocket-client`, já disponível no
+ambiente) — mesmo padrão das Fases 1/2/3B desta RFC. `node` segue
+indisponível neste ambiente (`node --version`/`node --check` falham com
+"command not found", confirmado antes de tentar); a validação de sintaxe de
+`js/data.js`/`js/trail.js` veio da execução real em Chrome (qualquer erro de
+sintaxe teria impedido `Trail.levels()`/`Trail.render()` de rodar) e de um
+script de verificação estrutural em runtime (item 4 abaixo).
+
+**Cliques reais, não chamadas diretas de função**: toda navegação de trilha,
+clique em nó, resposta de pergunta e fechamento de tela usou
+`element.click()` sobre o DOM de fato renderizado (disparando os listeners
+reais registrados por `Trail.render()`/`Business.render()`), nunca chamando
+`Trail.startLesson()`/`answerQuestion()`/`finishLesson()` diretamente. Um
+driver JS injetado (`window.__autoplayLesson`/`window.__autoplayBizLesson`)
+automatiza a sequência de cliques (clicar o nó, continuar da aula, clicar
+a alternativa certa/errada escolhida, clicar "Próxima pergunta"/"Concluir
+lição", fechar a tela de resultado), mas cada passo é um clique real sobre
+um elemento do DOM, não uma chamada de função — o mesmo princípio já usado
+pela Fase 3B (seção 17).
+
+#### Achados metodológicos do próprio harness (não são bugs do produto)
+
+Registrados por transparência, como a tarefa exige:
+
+1. **`Cloud.signIn()`/`Cloud.signUp()` chamados diretamente pelo console
+   (contornando o formulário real) deixam o app preso no gate de boot.**
+   `App.init()` (`js/app.js`) só chama `Tabs.init()`/`Trail.init()`/etc.
+   depois que `ensureAuthenticated()` resolve, e essa Promise só resolve
+   através do fluxo real do formulário (`Auth.submitCloudAuth()` seguido de
+   `location.reload()`) — chamar `Cloud.signIn()` isolado no console cria
+   uma sessão válida no Supabase, mas não desbloqueia o gate já pendente.
+   Corrigido usando sempre o formulário real (campos `#authTabSignup`,
+   `#authEmail`, `#authPassword`, `#authSubmitBtn`, com eventos `input`
+   reais disparados) — o que, como efeito colateral positivo, tornou a
+   criação de conta também 100% "clique real", reforçando o rigor pedido.
+2. **Reautenticações repetidas no mesmo perfil de Chrome (múltiplas contas
+   ou múltiplas navegações em sequência rápida) disparam a tela de
+   `syncCollisionScreen` (RFC-027)** — o dispositivo acumula progresso local
+   de testes anteriores que diverge do que já foi sincronizado para a conta
+   nova, e o app bloqueia pedindo para escolher entre "dados da nuvem" ou
+   "dados deste aparelho". Não é um bug desta fase (mecanismo do RFC-027,
+   em `js/app.js`, não tocado por este diff) — mitigado limpando o perfil
+   do Chrome entre baterias de teste com contas diferentes e resolvendo a
+   tela (escolha "local") quando aparecia entre navegações da mesma conta.
+3. **`Trail._flat` é um cache separado de `Trail._levels`.** Ao injetar uma
+   entrada de teste temporária em `COURSE_REVIEWS` e invalidar só
+   `Trail._levels = null`, `Trail.flatLessons()` continuou retornando o
+   array antigo (cache `_flat` não invalidado) — corrigido invalidando os
+   dois caches juntos. Não é um bug de produto (nenhum caminho real do app
+   precisa invalidar `_levels` sem invalidar `_flat` no mesmo passo — os
+   dois são sempre limpos juntos por reload de página), só uma armadilha do
+   próprio script de teste, registrada por transparência.
+4. **`Auth.logout()` usa `confirm()` nativo do navegador**, que o Chrome
+   headless cancela silenciosamente sem um handler de diálogo configurado
+   via CDP nesta sessão — por isso uma tentativa de deslogar para capturar
+   o estado "bloqueado" de um nó de revisão com uma conta 100% nova não
+   funcionou dentro do tempo disponível. Sem efeito no restante da
+   validação (contornado criando contas novas via cadastro em vez de
+   logout+login), mas registrado como limitação de cobertura — ver item 8.
+
+#### Resultado por item pedido
+
+**1. `git status`/`git diff --stat`** — confirmado: só `js/data.js`
+(+548/-0), `js/trail.js` (+40/-5) e esta RFC foram modificados.
+`js/business.js`, `css/style.css`, `index.html` e todo o resto do projeto
+seguem intocados (`git diff --stat` vazio para esses arquivos), batendo
+exatamente com o relatado pelo Frontend Engineer na seção 21.
+
+**2. Navegação end-to-end com clique real, posição dos 4 nós** — conta nova
+criada via o formulário real de cadastro, clique real em `[data-tab=aprender]`
+(124 nós renderizados: 102 Financeira + 18 História + 4 revisões).
+Completadas as 28 lições do Nível 1 em ordem exata da sequência flat
+(`f1_01, f1_02, f1_03, f1_04, l1_1, f1_05, f1_06, revU_01, l5_1, f1_07,
+f1_08, l1_2, f1_09, f1_10, l1_3, revU_02, f1_11 a f1_17, revU_03, f1_18 a
+f1_24, revU_04`) via clique real em cada nó: aula, 10 perguntas, tela de
+conclusão, fechar. Confirmado por leitura de `Trail.isUnlocked()` e da
+classe CSS do nó, antes e imediatamente depois de cada âncora:
+
+| Revisão | Status antes da âncora | Status imediatamente após | Próxima revisão continua travada? |
+| --- | --- | --- | --- |
+| `revU_01` (após `f1_06`) | `unlocked:false` | `unlocked:true`, classe `current revisao` | `revU_02`/`03`/`04`: `false` |
+| `revU_02` (após `l1_3`) | `unlocked:false` | `unlocked:true` | `revU_03`/`04`: `false` |
+| `revU_03` (após `f1_17`) | `unlocked:false` | `unlocked:true` | `revU_04`: `false` |
+| `revU_04` (após `f1_24`) | `unlocked:false` | `unlocked:true` | (não há próxima nesta Onda) |
+
+Nenhuma revisão destravou fora de ordem, nenhuma destravou antes da hora —
+exatamente a tabela de blocos da seção 19 (Software Architect), confirmada
+com conteúdo real.
+
+**3. Conclusão das 4 revisões via clique real (não só 2)** — como o Frontend
+Engineer relatou ter testado `revU_01`/`revU_02` em detalhe e `revU_03`/
+`revU_04` só via simulação de progresso, completei as 4 via clique real
+nesta sessão, com atenção redobrada em `revU_02` e `revU_04` (pedido
+explícito da tarefa):
+
+- `revU_01`: 10 perguntas, todas certas na primeira tentativa, sem variante. `+20 XP` (delta medido via `Learn.getXp()`), `+5 moedas`, energia `5 -> 4` (consumida normalmente por `Energy.tryStart()`, sem isenção), título "Revisão dominada!", `COURSE_PROGRESS.revU_01 === true`, `LESSON_LOG` ganhou `{lessonId:"revU_01", fonte:"financeira", ...}`.
+- `revU_02`: errei deliberadamente a pergunta 0 (cliquei numa alternativa diferente de `correta`) para exercitar o caminho de `variante` — o app mostrou o aviso de reforço e a pergunta-variante substituiu a original; a resposta certa na variante contou para `correctCount`. Resultado final "Você acertou 10 de 10 perguntas (100%)" — a mesma mecânica de qualquer lição normal, sem código novo, confirmando a decisão da Fase 3A (seção 12). `+20 XP`, `+5 moedas`, `COURSE_PROGRESS.revU_02 === true`, `LESSON_LOG` correto.
+- `revU_03`: 10 perguntas, todas certas, `+20 XP`, `+5 moedas`, `COURSE_PROGRESS.revU_03 === true`.
+- `revU_04`: errei deliberadamente duas perguntas (índices 3 e 7) para confirmar que o caminho de `variante` funciona mais de uma vez dentro da mesma revisão sem efeito colateral — ambas corrigidas via variante, resultado final 10/10. `+20 XP`, `+5 moedas`, `COURSE_PROGRESS.revU_04 === true`, `LESSON_LOG` com a entrada final `{lessonId:"revU_04", fonte:"financeira", ...}`.
+
+Texto exato da tela de conclusão capturado via `MutationObserver` (leitura
+do DOM renderizado de fato, não do código) para todas as 4 revisões,
+idêntico em todas: "Revisão dominada!" / "Você acertou 10 de 10 perguntas
+(100%)." / "Você reforçou o que já tinha aprendido — é isso que faz o
+conhecimento ficar de verdade." / "+20 XP e +5 moedas adicionadas à sua
+conta." — bate exatamente com a especificação da seção 13 (Gamification
+Designer) e a implementação relatada na seção 21.
+
+**4. Releitura das 40 perguntas** — reli as 40 perguntas-base + 40
+`variante` (seções 4-7 desta RFC, texto colado literalmente em
+`COURSE_REVIEWS`, confirmado por diff) atrás do defeito específico já
+encontrado uma vez nesta RFC (Bug 1 da Fase 3B, seção 17: par base/variante
+testando conceitos diferentes). Não encontrei nenhuma recorrência desse
+padrão — todos os 40 pares testam o mesmo conceito central da lição
+referenciada, só com cenário/nomes/números diferentes. A autorrevisão do
+Financial Specialist (seção 20, item 3, que relata 4 casos corrigidos antes
+da entrega em `revU_02`/`revU_03`/`revU_04`) se confirma: reli
+especificamente os 4 pontos que o Financial Specialist relatou ter
+corrigido (`l1_2` reserva de emergência, `f1_10` seguro, `f1_12` a `f1_14`
+metas/compartimentos/divisão, `f1_20`/`f1_22`/`f1_23` score/cheque
+especial/consignado) e todos estão, de fato, com base e variante testando
+o mesmo sub-conceito no texto final.
+
+Também conferi manualmente uma amostra dos cálculos numéricos citados no
+checklist do Financial Specialist (seção 20, item 2): patrimônio líquido
+(`revU_01` Q3/Q4), custo de oportunidade (Q5), inflação (Q7/Q10), juro
+composto (`revU_02` Q3/Q4), Regra dos 72 (Q5), regra 50-30-20 (`revU_02`
+Q9, `revU_03` Q1/Q2) — todos batem com a opção marcada como `correta`, sem
+divergência.
+
+4 observações de estilo, registradas por transparência — nenhuma
+classificada como bug, porque, ao contrário do Bug 1 da Fase 3B, em nenhum
+caso a `variante` muda de conceito central; o que varia é o ângulo da
+pergunta dentro do mesmo conceito (ex.: "calcular X" vs. "explicar por que
+X importa"), um padrão que o próprio Financial Specialist já usa
+deliberadamente em outros pontos do conteúdo publicado (citado
+explicitamente na seção 20, item 3, para a pergunta 8 de `revU_03`) e que
+a Fase 3B QA já tratou como aceitável em caso análogo (pergunta 7 de
+`emod_1`, seção 17):
+
+- `revU_02` pergunta 7 (`f1_09`, liquidez): base compara diretamente qual de dois bens é mais líquido; variante pergunta o que a falta de liquidez obriga a fazer numa emergência. Mesmo conceito (liquidez, patrimônio diferente de liquidez), ângulo diferente (comparação direta vs. consequência prática).
+- `revU_03` pergunta 2 (`f1_11`, regra 50-30-20 com renda baixa): base pede para calcular a porcentagem da renda comprometida; variante pede para explicar por que a regra é difícil de seguir com renda baixa. Mesmo insight, um lado numérico, outro conceitual.
+- `revU_03` pergunta 4 (`f1_13`, divisão proporcional das contas): base pede para calcular quem paga mais e por quê; variante pergunta qual vantagem a divisão proporcional traz sobre dividir "meio a meio". Mesmo conceito, mas a variante testa a justificativa/vantagem em vez de repetir o cálculo.
+- `revU_03` pergunta 9 (`f1_17`, gatilho de urgência/escassez): base pede para identificar o tipo de gatilho; variante pede uma atitude de proteção contra o mesmo gatilho já identificado no enunciado. Mesmo conceito, mas a pergunta muda de "reconhecer" para "reagir".
+
+Nenhuma dessas quatro chega a contradizer a UI (o aviso fixo de reforço "o
+mesmo conceito") como o Bug 1 original contradizia — em todas, quem lê a
+`explicacao` da base entende por que a `variante` continua sobre o mesmo
+tema. Registro aqui só para o Financial Specialist avaliar, numa eventual
+rodada de polimento, se prefere uniformizar o ângulo dentro de cada par —
+não bloqueia a Onda 1.
+
+**5. Teste crítico de não-mutação nos dois arrays** — script de verificação
+estrutural (recomendado pela seção 19, risco 6.2) escrito e executado via
+`Runtime.evaluate`, confirmando: `COURSE_REVIEWS.length === 4` (`revU_01`
+a `revU_04`); cada `refLessonIds` com exatamente 7 ids; todos os ids
+existem em `COURSE` ou `HISTORY_COURSE`, nunca nos dois, nunca em nenhum;
+zero sobreposição de `refLessonIds` entre os 4 blocos; todas as 40
+perguntas-base + 40 `variante` com exatamente 4 `opcoes`, `correta` no
+intervalo [0,3], `explicacao` presente; 124 ids totais em
+`COURSE`+`HISTORY_COURSE`+`COURSE_REVIEWS`, todos únicos — zero problemas
+estruturais encontrados.
+
+Snapshot de `COURSE.map(l=>l.licoes.map(x=>x.id))` e o equivalente de
+`HISTORY_COURSE` tirado (a) antes de qualquer navegação, (b) depois de
+`Trail.levels()`/`Trail.render()` rodarem, (c) depois de completar as 28
+lições reais do Nível 1 mais as 4 revisões, e (d) depois de um reload real
+da página (nova navegação HTTP, não só re-render em JS) — em todos os 4
+momentos os dois arrays bateram exatamente com o snapshot inicial;
+`COURSE.some(l=>l.licoes.some(x=>x.tipo==="revisao")) === false`, idem para
+`HISTORY_COURSE`, nos 4 momentos. Depois do reload, as 4 revisões
+reapareceram corretamente como concluídas (progresso persistido via
+`COURSE_PROGRESS`, sem depender do array canônico) e o app não caiu na
+tela de colisão de sincronização (aguardei cerca de 3 segundos após a
+última ação para o push debounced de `js/cloud.js`, 500ms, terminar antes
+de recarregar).
+
+Teste dirigido do caminho de inserção em `HISTORY_COURSE` (risco 6.1),
+repetido de forma independente do relato da seção 21 (que usou uma entrada
+temporária não commitada): injetei em runtime uma revisão de teste
+(`__TEST_REV_HIST__`, nunca escrita em `js/data.js`) ancorada em `h1_1`
+(primeira das 2 lições de `HISTORY_COURSE[0]`, mesmo caso de inserção no
+meio de um nível pequeno que o bloco 17 real vai exercitar na Onda 4).
+Depois de invalidar `Trail._levels` e `Trail._flat` (item 3 dos achados
+metodológicos acima), `Trail.flatLessons()` inseriu a entrada corretamente
+entre `h1_1` e `h1_2`, com `fonte === "historia"`, e
+`Trail.progressKey("historia")` roteando para a chave de progresso de
+história — e, o ponto crítico, `HISTORY_COURSE` permaneceu byte-a-byte
+idêntico ao snapshot anterior durante todo o teste. Depois de remover a
+entrada e invalidar os caches de novo, `COURSE_REVIEWS.length` voltou a 4
+e `Trail.flatLessons().length` voltou a 124. O caminho de inserção em
+`HISTORY_COURSE` está confirmado, de forma independente, funcionando antes
+de qualquer bloco real depender dele (Onda 3, bloco 9).
+
+**6. Regressão na trilha Empreender (`js/business.js`)** — confirmado que
+o arquivo está byte-a-byte intocado (`git diff --stat -- js/business.js`
+vazio) e, ainda assim, testado ao vivo: clique real nos 7 nós `e1_1, e1_2,
+e1_3, emod_1, emod_2, emod_3, e2_1` (escopando corretamente o seletor a
+`#businessTrailContainer` desta vez — a mesma armadilha de seletor já
+registrada como achado metodológico pela Fase 3B, seção 17, evitada aqui
+desde o início), `revE_01` destravou exatamente na posição 7 (imediatamente
+após `e2_1`), completei o quiz inteiro com erro deliberado na pergunta 9
+(a mesma que teve o Bug 1 corrigido — confirmado que a `variante` agora
+testa o mesmo conceito da base, precificação por valor percebido, sem
+reincidência do bug). Resultado: título "Revisão dominada!", `+35 XP` (XP
+da lição-âncora `e2_1`, como definido na Fase 3B), `+5 moedas`,
+`BUSINESS_COURSE.map(l=>l.licoes.length) === [3,3,3,3,3,3]` (inalterado),
+`BUSINESS_PROGRESS.revE_01 === true`. Nenhuma regressão.
+
+**7. Destravamento sequencial (`isUnlocked()`) com Financeira e História
+intercaladas** — confirmado pelo item 2 acima (nenhum destravamento fora
+de ordem em 124 posições) e, adicionalmente, pelo teste de energia zerada
+(item 9 abaixo), que usou `Trail.flatLessons().find(e=>!Trail.isDone(e))`
+para encontrar a próxima lição elegível (`f1_25`, corretamente a próxima
+da sequência unificada logo após `revU_04`) — confirmando que
+`nextEntry()` continua escolhendo a posição certa mesmo com 4 nós de
+revisão inseridos no meio da sequência Financeira e História.
+
+**8. Responsividade (375px vs desktop)** — capturado via
+`Page.captureScreenshot` real com `Emulation.setDeviceMetricsOverride`
+(375x900 mobile vs 1400x1400 desktop) do estado concluído de um nó de
+revisão (as 4 revisões desta Onda ficaram concluídas ao longo dos testes
+anteriores): em ambos os breakpoints o nó exibe corretamente o ícone de
+concluído, o anel com destaque roxo/dourado e a tag de revisão abaixo do
+XP, sem corte nem sobreposição — grid de 3 colunas no mobile, 5 no
+desktop, preservados.
+
+Limitação declarada: não consegui capturar screenshot pixel dos estados
+bloqueado e recém-destravado especificamente desta Onda com uma conta
+nova, por causa do achado metodológico 4 (`confirm()` nativo cancelado
+silenciosamente pelo Chrome headless sem um handler de diálogo configurado
+via CDP, impedindo `Auth.logout()` de completar dentro do tempo desta
+sessão). Mitigação e cobertura equivalente: (a) a lógica dos 3 estados foi
+confirmada ao vivo via `className` do nó em cada transição (locked
+revisao, current revisao, done revisao — exatamente os 4 casos do item 2);
+(b) `css/style.css` está confirmado intocado por este diff — as regras que
+estilizam `.trail-node.revisao` em cada estado são as mesmas já validadas
+com captura de tela pixel-a-pixel pela Fase 3B (seção 17, item 7) para
+`revE_01`, que usa exatamente as mesmas classes CSS. Não considero isso
+uma lacuna de risco (zero CSS novo implica zero risco visual novo), mas
+registro a limitação de cobertura explicitamente, como a tarefa exige.
+
+**9. Conquistas relacionadas ao Nível 1 e à trilha financeira** —
+`Achievements.CHECKERS.nivel1_completo` (`js/achievements.js:18-21`) e
+`trilha_completa` (linha 22-25) leem `COURSE[0]`/`COURSE` diretamente (o
+array canônico, não `Trail.levels()`) — confirmado ao vivo:
+`Achievements.CHECKERS.nivel1_completo() === false` com 28 das 35 lições
+reais do Nível 1 concluídas (as 4 revisões, mesmo concluídas, não entram
+nessa contagem porque não existem em `COURSE[0].licoes`, só em
+`Trail.levels()[0].licoes`); `trilha_completa() === false` pelo mesmo
+motivo; `Achievements.checkAll()` executa sem lançar exceção. Confirma,
+com conteúdo real da Onda 1 (antes só confirmado em tese pela seção 19,
+item 5), que a decisão da Fase 3A (seção 12, item 5) se sustenta sem
+exceção.
+
+#### Cobertura adicional (segurança e performance, padrão do escopo de QA)
+
+- Segurança: `js/supabase-config.js` não foi tocado por este diff e
+  continua usando só a chave publishable/anon (`sb_publishable_-iqp9-...`),
+  nunca uma `sb_secret_.../service_role`. Nenhum segredo novo introduzido.
+- Performance: `js/data.js` cresceu de 1.699.221 para 1.780.197 bytes
+  (cerca de +79KB, batendo com as +548 linhas do diff) — impacto
+  proporcionalmente pequeno num arquivo que já era maior que 1,6MB antes
+  desta fase (questão estrutural pré-existente, fora do escopo desta
+  Onda). Medido via `performance.now()` em runtime: `Trail.levels()` e
+  `Trail.flatLessons()` levam 0ms (resultado cacheado em `_levels`/`_flat`,
+  recalculado só uma vez por sessão/reload); `Trail.render()` completo
+  (124 nós, `container.innerHTML` de 91.608 caracteres) leva cerca de
+  27ms, bem abaixo de qualquer limiar perceptível de travamento da thread
+  principal, mesmo sendo síncrono.
+- Energia: confirmado que o gate de energia funciona igual para nós de
+  revisão e lições normais, sem isenção (decisão da Fase 3B, seção 13,
+  item 2): com energia forçada a 0, clique real num nó destravado-mas-não-
+  feito mostra o modal "Sem energia por hoje", não abre o quiz, XP não
+  muda, energia permanece em 0 (nunca negativa). Também confirmado que a
+  energia nunca ultrapassa o máximo de 5 mesmo com bônus de combo:
+  repetindo uma revisão de 10 perguntas todas certas a partir de energia
+  igual a 3, o saldo final ficou em 5 — o teto de `Energy.bonus()` está
+  confirmado funcionando em runtime, não só por leitura de código.
+- Console e exceções: nenhuma das dezenas de chamadas `Runtime.evaluate`
+  desta sessão lançou exceção (o driver Python levanta erro imediatamente
+  se `exceptionDetails` aparecer, servindo como detector automático de
+  exceção síncrona em cada passo). Uma checagem adicional dedicada
+  (`Log.enable` mais drenagem de eventos por alguns segundos em estado
+  ocioso) não capturou nenhum evento de erro pendente.
+
+#### Bugs encontrados
+
+Nenhum bug de funcionalidade, segurança, performance ou regressão foi
+encontrado. As 4 observações de conteúdo do item 4 acima são registradas
+por transparência, não como bugs — nenhuma reproduz o padrão do Bug 1 da
+Fase 3B (base e variante testando conceitos diferentes); todas testam o
+mesmo conceito por ângulos diferentes, um padrão já usado deliberadamente
+em outros pontos do conteúdo publicado e já considerado aceitável pela
+Fase 3B QA num caso análogo.
+
+#### Veredito final: aprovado
+
+A implementação da Onda de Revisão 1 (Fase 3C) está funcionalmente correta
+e é segura para publicar: mecanismo de inserção generalizado para os dois
+arrays canônicos (`COURSE`/`HISTORY_COURSE`) validado com conteúdo real
+(blocos 1-4, todos ancorados em `COURSE`) e com um teste dirigido
+independente do caminho de `HISTORY_COURSE` (ainda não exercitado por
+conteúdo real nesta Onda, mas confirmado funcional antes da Onda 3
+depender dele); trava de segurança por âncora confirmada nas 4 posições;
+fluxo completo de quiz (10 perguntas, caminho de `variante` testado 3
+vezes em 2 revisões diferentes) confirmado nas 4 revisões via clique real,
+não só 2; XP, energia, moedas, título, subtexto e `LESSON_LOG` batendo
+exatamente com a especificação das Fases 3A/3B; teste de não-mutação nos
+dois arrays canônicos, incluindo um reload real de página, sem nenhuma
+entrada de revisão jamais vazando para `COURSE`/`HISTORY_COURSE`; zero
+regressão na trilha Empreender (arquivo intocado, testado ao vivo mesmo
+assim); conquistas `nivel1_completo`/`trilha_completa` confirmadas lendo
+só os arrays canônicos, sem contar revisões; responsividade do estado
+concluído confirmada em 2 breakpoints, com a lógica dos estados bloqueado
+e atual confirmada via classe CSS (screenshot pixel desses 2 estados não
+obtido nesta sessão por uma limitação do harness de teste, não do produto
+— ver item 8). Não encontrei nenhuma recorrência do Bug 1 da Fase 3B nas
+40 perguntas novas — a autorrevisão do Financial Specialist (seção 20,
+item 3) se confirma efetiva. Nenhuma ressalva bloqueia a publicação desta
+Onda.
+
+- Resumo da etapa: validação independente da Onda de Revisão 1 (Fase 3C)
+  via Chrome real controlado por CDP, com conta de teste criada pelo
+  formulário real e cliques reais em toda a jornada: posição e trava de
+  âncora das 4 revisões, conclusão completa das 4 (não só 2) com caminho
+  de `variante` exercitado 3 vezes, XP/energia/moedas/log, teste de
+  não-mutação nos dois arrays canônicos com reload real, teste dirigido
+  independente do caminho de inserção em `HISTORY_COURSE`, regressão zero
+  na trilha Empreender, conquistas de Nível 1 e trilha financeira,
+  responsividade parcial (concluído confirmado por screenshot; bloqueado
+  e atual confirmados por classe CSS, não por screenshot — limitação
+  declarada), segurança e performance. Releitura das 40 perguntas novas
+  contra o padrão do Bug 1 da Fase 3B: nenhuma recorrência encontrada, 4
+  observações de estilo registradas sem gravidade de bug.
+- Decisões tomadas: nenhuma — QA reporta, não decide nem corrige.
+- Pendências para os próximos agentes:
+  - Documentation Specialist: registrar a Onda de Revisão 1 como concluída
+    em `CHANGELOG.md`/`ROADMAP.md`, incluindo a confirmação de que o
+    caminho de inserção em `HISTORY_COURSE` já está validado (duas vezes,
+    de forma independente) antes da Onda 3 precisar dele.
+  - Financial Specialist (opcional, não bloqueante): avaliar, numa
+    eventual rodada de polimento, se uniformiza o ângulo das 4 perguntas
+    citadas no item 4 acima (`revU_02` Q7, `revU_03` Q2/Q4/Q9) para que
+    base e variante testem o conceito pelo mesmo ângulo — melhoria de
+    consistência, não correção de bug.
+  - Ondas de Revisão 2, 3 e 4: podem prosseguir sem nenhum ajuste de
+    mecanismo — o caminho de inserção em `HISTORY_COURSE` que a Onda 3 vai
+    precisar já está confirmado funcionando (validado de forma
+    independente duas vezes: Frontend Engineer seção 21 e este QA).
+- Riscos: nenhum risco técnico em aberto. O risco mais crítico da fase
+  (6.1, caminho de `HISTORY_COURSE`) está mitigado e confirmado de forma
+  independente. Risco residual de cobertura, não de produto: os estados
+  visuais bloqueado e atual de um nó de revisão nesta Onda não têm
+  screenshot pixel dedicado nesta sessão (limitação do harness, item 8) —
+  recomendo que um QA futuro complete esse par de screenshots com uma
+  conta nova, configurando `Page.handleJavaScriptDialog` antes de chamar
+  `Auth.logout()`, ou simplesmente usando um perfil de Chrome novo por
+  teste desde o início.
+- Próximo agente responsável: Documentation Specialist (fechamento da
+  Onda de Revisão 1 em `CHANGELOG.md`/`ROADMAP.md`).
+
+### 23. Documentation Specialist (fechamento da Fase 3C, Onda de Revisão 1)
+
+Leitura prévia das seções 19-22 (Software Architect, Financial Specialist,
+Frontend Engineer, QA Engineer) e conferência cruzada com as 2-3 entradas
+mais recentes de `CHANGELOG.md` (v1.55.0, v1.56.0) antes de escrever, para
+manter o mesmo nível de detalhe e tom já estabelecido — nenhuma afirmação
+desta etapa foi feita sem base direta nas seções acima ou nos próprios
+arquivos editados.
+
+Documentado:
+
+- **`CHANGELOG.md`**: nova entrada **v1.57.0** — "RFC-035 Fase 3C, Onda de
+  Revisão 1 de 4 — sistema de revisão periódica chega à trilha unificada
+  Aprender". Registra os 4 novos nós (`revU_01`-`revU_04`), o array
+  `COURSE_REVIEWS`, a generalização de `Trail.levels()` (`withReviews`
+  aplicada a `COURSE` e `HISTORY_COURSE`), a validação dirigida do caminho
+  de inserção em `HISTORY_COURSE` (risco 6.1 do Software Architect,
+  mitigado antes de qualquer bloco real depender dele), o escopo explícito
+  (`js/business.js` intocado), o veredito do QA (aprovado sem ressalvas) e
+  — de forma explícita, não implícita — que esta é a **primeira de 4 Ondas
+  de Revisão planejadas**, com as Ondas 2 (blocos 5-8), 3 (blocos 9-12,
+  primeira âncora real em História) e 4 (blocos 13-17) ainda não
+  iniciadas.
+- **`README.md`**: dois ajustes.
+  - A entrada de feature "Revisão periódica a cada 7 pontos da trilha"
+    (seção de features da trilha Aprender) foi generalizada — não é mais
+    descrita como "piloto, exclusivo da trilha Empreender". Agora registra
+    as duas fases (3B/3C), o piloto original em Empreender e a chegada à
+    trilha Aprender pela Onda de Revisão 1 de 4, com as Ondas 2-4
+    explicitamente marcadas como não iniciadas — para não sugerir cobertura
+    completa que ainda não existe.
+  - No diagrama de estrutura de arquivos (bloco `js/trail.js`/
+    `js/business.js`), a linha de `trail.js` passou a citar os nós de
+    revisão (Onda 1 de 4, RFC-035 Fase 3C, v1.57.0) e a linha de
+    `business.js` deixou de dizer "exclusivo desta trilha" (não é mais
+    verdade), passando a se referir a si mesma como "o piloto original do
+    mecanismo".
+- **`ROADMAP.md`**: dentro da seção já existente "Reformulação da trilha de
+  aprendizado (RFC-035)", o item "Fase 3C" — que antes era uma única linha
+  dizendo "ainda não iniciada" — foi expandido para refletir que está **em
+  andamento**: resumo do mapeamento dos 17 blocos/4 Ondas feito pelo
+  Software Architect (seção 19), um sub-item ✅ para a Onda de Revisão 1
+  (blocos 1-4, v1.57.0, com o mesmo nível de detalhe técnico do padrão já
+  usado nas entradas de "Onda" de conteúdo deste arquivo) e 3 sub-itens
+  para as Ondas 2-4 ainda pendentes, cada um com o que especificamente vai
+  cobrir (para quem ler o roadmap sem abrir a RFC inteira saber o que
+  esperar de cada uma, inclusive qual delas é a primeira a tocar
+  `HISTORY_COURSE` de verdade).
+- **Esta RFC**: seção 23 (esta) adicionada ao final do Registro por etapa.
+  Status geral da RFC (linha 3, topo do documento) **mantido como "em
+  andamento"** — a Fase 3C não está completa, restam 3 Ondas de Revisão
+  (2, 3 e 4) antes de considerá-la fechada.
+
+Nenhuma decisão de produto/arquitetura/conteúdo/design nova nesta etapa —
+só documentação do que as seções 19-22 já haviam decidido e validado.
+Nenhum código tocado.
+
+#### Registro da etapa
+
+- **Resumo da etapa**: `CHANGELOG.md` (v1.57.0), `README.md` (feature de
+  revisão generalizada + diagrama de estrutura de arquivos) e `ROADMAP.md`
+  (item "Fase 3C" expandido com a Onda 1 concluída e as Ondas 2-4
+  detalhadas como pendentes) atualizados para refletir a Onda de Revisão 1
+  da Fase 3C. RFC-035 mantida "em andamento".
+- **Decisões tomadas**: nenhuma — só registro do que os agentes anteriores
+  já decidiram/validaram (seções 19-22).
+- **Pendências para os próximos agentes**: quando a Onda de Revisão 2
+  (blocos 5-8) fechar QA, repetir este mesmo ciclo de documentação —
+  `CHANGELOG.md` com a próxima versão, `ROADMAP.md` marcando a Onda 2 como
+  concluída e a Onda 3 como a próxima, e uma nova seção nesta RFC. Quando a
+  Onda de Revisão 4 fechar, a Fase 3C inteira pode ser marcada como
+  concluída no `ROADMAP.md` e a RFC reavaliada para status "concluída" (se
+  não houver mais fase planejada depois dela).
+- **Riscos**: nenhum.
+- **Próximo agente responsável**: nenhum — aguardando o próximo ciclo
+  (Financial Specialist para o conteúdo da Onda de Revisão 2) fora desta
+  etapa de fechamento.

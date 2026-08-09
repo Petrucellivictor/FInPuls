@@ -4,6 +4,60 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.57.0] - 2026-08-09
+
+### Adicionado
+- **RFC-035 Fase 3C, Onda de Revisão 1 de 4 — sistema de "revisão periódica
+  a cada 7 pontos" chega à trilha unificada Aprender (Financeira +
+  História)** (`js/data.js`, `js/trail.js`): generaliza para as duas
+  trilhas reais de conteúdo o mecanismo já validado no piloto isolado da
+  trilha Empreender (Fase 3B, v1.56.0). 4 novos nós de revisão —
+  `revU_01`, `revU_02`, `revU_03`, `revU_04`, novo array
+  `COURSE_REVIEWS` em `js/data.js` — inseridos dentro do Nível 1
+  "Fundamentos e Comportamento Financeiro" de `COURSE`, ancorados por
+  `refLessonIds` (nunca por posição numérica) logo depois de `f1_06`,
+  `l1_3`, `f1_17` e `f1_24` respectivamente, cada um com 10 perguntas
+  autorais (mais 10 variantes de reforço) cobrindo as 7 lições anteriores,
+  sem sobreposição de conteúdo entre os 4 blocos. XP de cada revisão igual
+  ao da lição-âncora (`20` nas 4, mesma regra da Fase 3B). Consome 1
+  energia normalmente, sem isenção, e conta para a missão semanal "complete
+  N lições" como qualquer lição, mesmas decisões já registradas no piloto.
+  `Trail.levels()` foi reescrito (função `withReviews`, aplicada duas vezes
+  — uma para `COURSE`, outra para `HISTORY_COURSE`, ambas consultando o
+  mesmo `COURSE_REVIEWS`) para clonar e inserir as revisões de forma
+  independente nos dois arrays, com roteamento automático para o array
+  correto (uma revisão só "encontra" a âncora que de fato existe naquele
+  array, sem nenhum branch explícito de "se é história, insere aqui") —
+  nunca mutando `COURSE`/`HISTORY_COURSE` originais. `levelHtml()` e
+  `finishLesson()` em `js/trail.js` ganharam o mesmo branch de 3 vias
+  (revisão/história/financeira) que `js/business.js` já tinha de 2 vias
+  desde a Fase 3B. Nenhum CSS novo — as regras de identidade visual
+  escritas na Fase 3B (`.trail-node-tag`, box-shadow roxo do anel) já
+  cobriam exatamente as classes que `trail.js` passou a gerar. Antes de
+  considerar a Onda pronta, o caminho de inserção em `HISTORY_COURSE`
+  (nunca exercitado em produção até aqui, já que o piloto só provou
+  `BUSINESS_COURSE` e esta Onda só ancora em `COURSE`) foi validado com um
+  teste dirigido usando uma entrada temporária de `COURSE_REVIEWS` — nunca
+  commitada como conteúdo real — confirmando inserção correta no meio de
+  um nível de História e zero mutação do array. **Escopo explícito:
+  `js/business.js`/trilha Empreender não foi tocado nesta fase** — continua
+  exatamente como estava desde a v1.56.0. Validado ao vivo pelo QA Engineer
+  via Chrome real controlado por CDP: posição e trava de âncora das 4
+  revisões, conclusão completa das 4 com XP/energia/moedas/`LESSON_LOG`
+  exatos, caminho de pergunta-variante exercitado 3 vezes, não-mutação dos
+  dois arrays canônicos confirmada em múltiplos momentos incluindo reload
+  real de página, zero regressão nas 120 lições reais já publicadas
+  (102 Financeira + 18 História) e na trilha Empreender, conquistas
+  `nivel1_completo`/`trilha_completa` confirmadas lendo só os arrays
+  canônicos (sem contar revisões), responsividade e performance — aprovado
+  sem ressalvas. **Primeira de 4 Ondas de Revisão planejadas para cobrir os
+  17 blocos de revisão possíveis nas ~120 lições já publicadas na trilha
+  unificada** (Software Architect, RFC-035 seção 19): Onda 2 (blocos 5-8,
+  fim do Nível 1 + Renda Fixa, primeiro bloco misto Financeira+História),
+  Onda 3 (blocos 9-12, primeira âncora real em `HISTORY_COURSE`) e Onda 4
+  (blocos 13-17, fecha a cobertura, incluindo um caso de inserção no meio
+  de um nível) ainda **não iniciadas**.
+
 ## [1.56.0] - 2026-08-09
 
 ### Adicionado

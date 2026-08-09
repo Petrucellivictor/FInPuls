@@ -99,10 +99,32 @@ const Trail = {
 
   /* ---------- Estrutura unificada (financeira + história, alternadas) ---------- */
 
+  /* RFC-035 Fase 3C (Software Architect, seção 19, item 4) — mesmo mecanismo
+     de Business.levels() (Fase 3B), generalizado para os DOIS arrays
+     canônicos da trilha Aprender. `withReviews` clona `licoes` (nunca
+     reaproveita a referência original) e insere a revisão ancorada por
+     `refLessonIds[6]`, aplicada independentemente a COURSE e HISTORY_COURSE
+     — os dois passes leem o MESMO COURSE_REVIEWS, mas cada um só "acha" (e
+     insere) as revisões cuja âncora é, de fato, uma lição daquele array,
+     porque um id de lição só existe em um dos dois. Isso resolve "em qual
+     array a revisão entra" sem nenhum branch explícito de "se a âncora é
+     história, insere aqui; se é financeira, insere ali". Nem COURSE nem
+     HISTORY_COURSE são mutados por essa inserção. */
   levels() {
     if (this._levels) return this._levels;
-    const financeira = COURSE.map((lvl) => ({ ...lvl, fonte: "financeira" }));
-    const historia = HISTORY_COURSE.map((lvl) => ({ ...lvl, fonte: "historia" }));
+    const withReviews = (courseArr, fonte) =>
+      courseArr.map((lvl) => {
+        const licoes = [];
+        lvl.licoes.forEach((lesson) => {
+          licoes.push(lesson);
+          const review = COURSE_REVIEWS.find((r) => r.refLessonIds[6] === lesson.id);
+          if (review) licoes.push(review);
+        });
+        return { ...lvl, licoes, fonte };
+      });
+
+    const financeira = withReviews(COURSE, "financeira");
+    const historia = withReviews(HISTORY_COURSE, "historia");
     const unificado = [];
     const max = Math.max(financeira.length, historia.length);
     for (let i = 0; i < max; i++) {
@@ -226,16 +248,18 @@ const Trail = {
 
     const { colTemplate, rowTemplate, nodesHtml, edgesHtml } = this.gridHtml(states, cols, (state, lessonIdx, gridColumn, gridRow) => {
       const { lesson, done, unlocked, isCurrent } = state;
+      const isRevisao = lesson.tipo === "revisao";
       const stateClass = done ? "done" : unlocked ? "" : "locked";
-      const icon = done ? "✅" : unlocked ? (isHistoria ? "📜" : "📘") : "🔒";
+      const icon = done ? "✅" : unlocked ? (isRevisao ? "🔁" : isHistoria ? "📜" : "📘") : "🔒";
       return `
-        <div class="trail-node ${stateClass} ${isCurrent ? "current" : ""}" data-level="${levelIdx}" data-lesson="${lessonIdx}" title="${lesson.titulo}" style="--node-i:${lessonIdx}; grid-column:${gridColumn} / span 1; grid-row:${gridRow} / span 1;">
+        <div class="trail-node ${stateClass} ${isCurrent ? "current" : ""} ${isRevisao ? "revisao" : ""}" data-level="${levelIdx}" data-lesson="${lessonIdx}" title="${lesson.titulo}" style="--node-i:${lessonIdx}; grid-column:${gridColumn} / span 1; grid-row:${gridRow} / span 1;">
           <div class="trail-node-inner">
             <div class="trail-node-ring">
               <div class="trail-node-icon">${icon}</div>
             </div>
             <div class="trail-node-label">${lesson.titulo}</div>
             <div class="trail-node-xp">+${Events.applyMultiplier(lesson.xp)} XP</div>
+            ${isRevisao ? `<div class="trail-node-tag">🔁 Revisão</div>` : ""}
           </div>
         </div>`;
     });
@@ -446,6 +470,11 @@ const Trail = {
     }
 
     const celebrar = passed && !alreadyDone;
+    /* RFC-035 Fase 3C (Software Architect, seção 19, item 4) — mesmo branch de
+       título/subtexto que business.js já tem (Fase 3B, seção 13, item 4),
+       adaptado para preservar o ternário isHistoria que já existia aqui:
+       vira um condicional de 3 vias (revisão > história > lição normal). */
+    const isRevisao = lesson.tipo === "revisao";
     const overlay = document.getElementById("trailQuizOverlay");
     overlay.innerHTML = `
       <div class="quiz-box" style="text-align:center">
@@ -454,8 +483,9 @@ const Trail = {
             ? `<div class="quiz-result-mascot">${Polvin.avatarHtml("md")}</div>`
             : `<div class="quiz-result-emoji">${passed ? "🎉" : "🔁"}</div>`
         }
-        <h2>${passed ? (level.fonte === "historia" ? "Capítulo concluído!" : "Lição concluída!") : "Quase lá!"}</h2>
+        <h2>${passed ? (isRevisao ? "Revisão dominada!" : level.fonte === "historia" ? "Capítulo concluído!" : "Lição concluída!") : "Quase lá!"}</h2>
         <p class="text-soft">Você acertou ${correctCount} de ${total} perguntas (${pct}%).</p>
+        ${celebrar && isRevisao ? `<p class="text-soft">Você reforçou o que já tinha aprendido — é isso que faz o conhecimento ficar de verdade.</p>` : ""}
         ${
           passed
             ? alreadyDone
