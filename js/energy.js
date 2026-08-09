@@ -6,7 +6,7 @@
    na hora, mesmo sem esperar o dia seguinte.
    ========================================================================= */
 
-const ENERGY_MAX = 3;
+const ENERGY_MAX = 5;
 const ENERGY_COMBO = 3;
 
 const Energy = {
@@ -20,11 +20,20 @@ const Energy = {
   ensureFresh() {
     const e = Store.get(STORAGE_KEYS.ENERGY, { atual: ENERGY_MAX, ultimoReset: null });
     const hoje = new Date().toDateString();
+    let dirty = false;
     if (e.ultimoReset !== hoje) {
       e.atual = ENERGY_MAX;
       e.ultimoReset = hoje;
-      Store.set(STORAGE_KEYS.ENERGY, e);
+      dirty = true;
     }
+    if (typeof e.atual !== "number" || !Number.isFinite(e.atual)) {
+      e.atual = ENERGY_MAX;
+      dirty = true;
+    } else if (e.atual < 0 || e.atual > ENERGY_MAX) {
+      e.atual = Math.min(ENERGY_MAX, Math.max(0, e.atual));
+      dirty = true;
+    }
+    if (dirty) Store.set(STORAGE_KEYS.ENERGY, e);
     return e;
   },
 

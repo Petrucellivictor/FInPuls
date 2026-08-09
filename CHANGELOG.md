@@ -4,6 +4,69 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.55.0] - 2026-08-08
+
+### Adicionado
+- **RFC-035 Fase 1 — energia máxima de 3 para 5** (`ENERGY_MAX` em
+  `js/energy.js`): teto diário de lições iniciáveis sobe de 3 para 5,
+  decisão do Gamification Designer para reduzir a frustração de "bati no
+  teto" sem abrir mão do gate de energia como mecânica de retenção — nas
+  ~138 lições publicadas hoje, mesmo no cenário mais rápido (5/dia todo
+  dia) o conteúdo dura ~28 dias, então o teto maior não esvazia a trilha
+  de uma vez. `ENERGY_COMBO` (3 acertos seguidos numa lição = +1 energia)
+  **permanece 3, sem escalar**: mede desempenho dentro de uma lição de
+  tamanho fixo (10 perguntas), não fração do teto diário — mantê-lo em 3
+  com o novo teto de 5 reduz o "auto-resgate" máximo por lição de 100%
+  para 60% do total diário, evitando empilhar dois afrouxamentos do gate
+  ao mesmo tempo. Reset diário continua binário (sem regeneração parcial
+  por hora), decisão explícita de não introduzir esse conceito nesta
+  mudança. Placeholder estático do chip de energia no header
+  (`index.html`) corrigido de `3/3` para `5/5`. Nenhuma migração de dado
+  necessária — `ensureFresh()` já usa a constante viva no fallback e no
+  reset diário.
+- **RFC-035 Fase 2 — layout da trilha muda de vertical sinuoso para
+  zig-zag horizontal** (`js/trail.js`, `js/business.js`, `css/style.css`):
+  algoritmo de posicionamento em CSS Grid (coordenadas coluna/linha
+  calculadas por lição em JS) substitui o zigue-zague lateral leve por
+  CSS antigo. Blocos de `COLS` nós na horizontal + 2 na vertical, sentido
+  invertido a cada bloco, formando um caminho em "S" — `COLS=5` em
+  desktop/tablet (≥641px), `COLS=3` em mobile (≤640px, mesmo breakpoint
+  já usado em todo `style.css`); troca de `COLS` em runtime via
+  `matchMedia("(max-width: 640px)")`. Conectores são sempre estritamente
+  horizontais ou verticais (nunca diagonais), sem depender de SVG. A
+  antiga "espinha" vertical (`.trail-spine`/`.trail-spine-fill`) foi
+  substituída por uma barra de progresso geral horizontal `sticky` no
+  topo do container da trilha. Aplica-se igualmente às duas trilhas
+  (Aprender e Empreender) — `js/business.js` reaproveita as mesmas
+  classes CSS de `js/trail.js` e adota o mesmo layout novo, sem
+  divergência visual entre elas, decisão explícita do UX/UI Designer.
+  Identidade "Conceito B" (mapa de fases estilo jogo): conector como
+  trilha física com glow dourado, nó atual com pino animado (▲),
+  revelação dos nós em stagger; tudo com equivalente estático sob
+  `prefers-reduced-motion`. Três ajustes finos feitos durante a
+  implementação: altura de linha do grid trocada de fixa para
+  `minmax(..., auto)` (corrige overflow de títulos de lição longos),
+  novo wrapper `.trail-node-inner` para o pino do nó atual parar de ser
+  cortado pelo `overflow:hidden` exigido pelo ripple de clique, e um bug
+  de especificidade CSS pré-existente na cor do anel do nó atual
+  corrigido de passagem. Validado ao vivo via Chrome headless real (CDP)
+  pelo QA Engineer: nível de 2 lições e de 35 lições (o maior publicado),
+  os dois breakpoints, clique real e desbloqueio em cascata sem
+  regressão, 0 sobreposições em 120 nós da trilha unificada + 18 da
+  trilha Empreender, 0 erros de console — aprovado sem ressalvas.
+
+### Corrigido
+- **Energia agora se auto-corrige se o saldo salvo estiver corrompido**
+  (`Energy.ensureFresh()` em `js/energy.js`): além de resetar por dia
+  novo, passa a clampar `e.atual` para o intervalo `[0, ENERGY_MAX]` e
+  corrigir valores não numéricos. Achado de baixa gravidade do QA
+  Engineer durante a validação da Fase 1 da RFC-035 — não é alcançável
+  via gameplay normal (`spend()`/`bonus()` já têm guardas que impedem um
+  saldo inválido surgir do próprio app), só via `localStorage` adulterado
+  manualmente ou um payload malformado de sincronização, mas o critério
+  de aceite original da RFC era explícito sobre nunca deixar o saldo
+  negativo ou acima do máximo.
+
 ## [1.54.0] - 2026-08-08
 
 ### Adicionado

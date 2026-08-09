@@ -261,10 +261,12 @@ fin-plus/
 │   ├── portfolio.js                            → carteira de investimentos: alocação real x carteira-modelo
 │   ├── stocks.js                                 → aba Ações & FIIs: posições, dividendos, cripto fracionada
 │   ├── learn.js                                    → utilitários de gamificação (XP, moedas, streak, pontuação total, nível de jogador)
-│   ├── energy.js                                    → sistema de energia (estilo Duolingo): 3/dia, gasta por lição iniciada,
-│   │                                                    renova por dia, +1 por combo de 3 acertos seguidos numa lição
-│   ├── trail.js                                      → trilha única intercalada (financeira + Brasil: História), caminho sinuoso
-│   ├── business.js                                     → trilha "Empreender" (independente): regimes tributários,
+│   ├── energy.js                                    → sistema de energia (estilo Duolingo): 5/dia (RFC-035 Fase 1, v1.55.0;
+│   │                                                    era 3/dia), gasta por lição iniciada, renova por dia, +1 por combo de
+│   │                                                    3 acertos seguidos numa lição (ENERGY_COMBO não escalou com o teto)
+│   ├── trail.js                                      → trilha única intercalada (financeira + Brasil: História), layout em
+│   │                                                      zig-zag horizontal (RFC-035 Fase 2, v1.55.0; era vertical sinuoso)
+│   ├── business.js                                     → trilha "Empreender" (independente, mesmo layout zig-zag): regimes tributários,
 │   │                                                      obrigações fiscais/contábeis e gestão de pessoas/finanças
 │   ├── engagement.js                                   → desafios diários, missão da semana e evento do dia
 │   ├── achievements.js                                   → conquistas desbloqueadas pelo uso real do app
@@ -387,13 +389,19 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   correta e, quando existe, responde uma segunda versão da mesma pergunta
   (outro exemplo/cenário) antes de seguir — para fixar o conceito, não só
   mostrar a resposta certa.
-- **Caminho sinuoso e animado**: os níveis aparecem como estações de um
-  trajeto vertical, com nós de lição em zigue-zague conectados por uma
-  "espinha" que se preenche de cor conforme seu progresso avança. A lição
-  atual pulsa suavemente para indicar o próximo passo; nós, banners e
-  respostas do quiz têm animações de entrada, ondulação ao toque (ripple),
-  confete na conclusão e um toast comemorativo ao subir de "nível de
-  jogador" — tudo respeitando `prefers-reduced-motion`.
+- **Zig-zag horizontal e animado** (RFC-035 Fase 2, v1.55.0 — antes era um
+  caminho vertical sinuoso): os níveis aparecem como um mapa de fases em
+  "S", blocos de nós de lição na horizontal (5 em desktop/tablet, 3 em
+  mobile ≤640px) alternando com trechos verticais de 2 nós, sentido
+  invertido a cada bloco, conectados por trilhas douradas que se preenchem
+  de cor conforme o progresso avança; uma barra de progresso geral fica
+  fixa (`sticky`) no topo, substituindo a antiga "espinha" vertical. A
+  lição atual ganha um pino animado (▲) e pulsa suavemente para indicar o
+  próximo passo; nós, banners e respostas do quiz têm animações de
+  entrada em stagger, ondulação ao toque (ripple), confete na conclusão e
+  um toast comemorativo ao subir de "nível de jogador" — tudo respeitando
+  `prefers-reduced-motion`. Mesmo layout, sem divergência, também na
+  trilha "Empreender".
 - **Níveis de jogador nomeados**: Iniciante → Aprendiz Financeiro →
   Planejador → Investidor → Construtor de Patrimônio → Mestre PolvIn, com o
   contador de XP no cabeçalho "subindo" com animação ao ganhar pontos.

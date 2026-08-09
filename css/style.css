@@ -801,31 +801,56 @@ input:focus, select:focus, textarea:focus {
 .wishlist-item .cd-badge.waiting { background: #fdf3e3; color: #7a5514; }
 
 /* =========================================================================
-   TRILHA ÚNICA (APRENDER) — caminho sinuoso, financeira + história
+   TRILHA ÚNICA (APRENDER) — caminho em zig-zag horizontal (RFC-035 Fase 2)
    ========================================================================= */
-.trail { position: relative; padding: 6px 0 10px; }
-
-.trail-spine, .trail-spine-fill {
-  position: absolute;
-  left: 50%;
-  top: 8px;
-  width: 6px;
-  margin-left: -3px;
-  border-radius: 6px;
-  z-index: 0;
-}
-.trail-spine { bottom: 8px; background: var(--border); }
-.trail-spine-fill {
-  height: 0;
-  background: linear-gradient(to bottom, var(--gold), var(--primary));
-  box-shadow: 0 0 14px rgba(232, 163, 61, 0.45);
-  animation: spineGrow 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-@keyframes spineGrow {
-  to { height: var(--target-pct, 0%); }
+:root {
+  --tz-node-w: clamp(80px, 9vw, 128px);
+  --tz-node-h: 150px;
+  --tz-edge-w: clamp(32px, 4.4vw, 56px);
+  --tz-edge-h: 40px;
 }
 @media (max-width: 640px) {
-  .trail-spine, .trail-spine-fill { display: none; }
+  :root {
+    --tz-node-w: clamp(64px, 20vw, 84px);
+    --tz-node-h: 150px;
+    --tz-edge-w: clamp(20px, 6vw, 32px);
+    --tz-edge-h: 32px;
+  }
+}
+
+.trail { position: relative; padding: 6px 0 10px; }
+
+/* Barra de progresso geral — substitui a antiga .trail-spine/.trail-spine-fill
+   (coluna vertical única), que deixou de fazer sentido geometricamente com
+   os nós espalhados em um grid 2D. Sticky no topo do container: o usuário
+   rola a trilha inteira e sempre vê o progresso total, sem voltar ao topo. */
+.trail-progress-bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 8px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  margin-bottom: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.trail-progress-fill {
+  height: 100%;
+  /* Largura-base já é o valor final (não 0px): sob prefers-reduced-motion a
+     animação abaixo é removida (ver bloco de acessibilidade mais abaixo no
+     arquivo), e sem essa largura-base a barra ficaria travada em 0% em vez
+     de saltar direto pro valor final — ajuste feito na implementação, ver
+     RFC-035 Fase 2, "Implementação — Frontend Engineer". */
+  width: var(--target-pct, 0%);
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--gold), var(--primary));
+  box-shadow: 0 0 14px rgba(232, 163, 61, 0.45);
+  animation: progressGrow 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+@keyframes progressGrow {
+  from { width: 0; }
+  to { width: var(--target-pct, 0%); }
 }
 
 .trail-level {
@@ -868,35 +893,67 @@ input:focus, select:focus, textarea:focus {
 }
 
 .trail-nodes {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 36px;
+  display: grid;
+  justify-content: center;
+  align-content: start;
   position: relative;
 }
+
 .trail-node {
-  --zig: 0px;
+  /* mecanismo antigo de zigue-zague leve (--zig, transform: translateX(),
+     nth-child(odd/even)) substituído pelo posicionamento de grid calculado
+     em JS (RFC-035 Fase 2) via grid-column/grid-row inline por nó. */
   position: relative;
-  width: 128px;
+  width: 100%;
+  cursor: pointer;
+  align-self: center;
+  justify-self: center;
+  /* Revelação em stagger por nó — cada .trail-node recebe style="--node-i:N"
+     inline; some no fade de nível já existente (.trail-level.visible), só
+     atrasa cada nó individualmente. */
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: calc(var(--node-i, 0) * 45ms);
+}
+.trail-level.visible .trail-node { opacity: 1; transform: scale(1); }
+
+/* Wrapper interno: concentra o recorte redondo (overflow:hidden) exigido
+   pelo ripple de clique (Fx.ripple, ver js/fx.js) — precisava sair de
+   .trail-node porque esse overflow:hidden cortava o pino do nó atual
+   (top:-14px, fora da caixa). Achado no teste ao vivo desta fase; ver
+   "Implementação — Frontend Engineer" na RFC-035 Fase 2. */
+.trail-node-inner {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  cursor: pointer;
   overflow: hidden;
   border-radius: 22px;
   padding: 8px 4px 10px;
-  transform: translateX(var(--zig));
-  transition: transform 0.18s ease;
 }
-.trail-nodes .trail-node:nth-child(odd) { --zig: -84px; }
-.trail-nodes .trail-node:nth-child(even) { --zig: 84px; }
-@media (max-width: 640px) {
-  .trail-nodes .trail-node:nth-child(odd) { --zig: -38px; }
-  .trail-nodes .trail-node:nth-child(even) { --zig: 38px; }
+
+/* Nó atual ganha um "pino" além do já existente nodeBreathe — identidade Conceito B (gamer) */
+.trail-node.current::before {
+  content: "▲";
+  position: absolute;
+  top: -14px; left: 50%; transform: translateX(-50%);
+  color: var(--gold-dark);
+  font-size: 13px;
+  animation: pinBob 1.4s ease-in-out infinite;
 }
-.trail-node:hover:not(.locked) { transform: translateX(var(--zig)) translateY(-4px) scale(1.05); }
-.trail-node:active:not(.locked) { transform: translateX(var(--zig)) translateY(-1px) scale(0.97); }
+@keyframes pinBob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-4px); }
+}
+
+/* Hover/clique usam transição própria, mais curta e SEM o transition-delay
+   de stagger da entrada — sem este reset explícito, o delay calculado por
+   --node-i "vazaria" para a interação, atrasando o feedback de hover em até
+   ~1,5s no último nó de um nível grande (ex.: 35 lições × 45ms). */
+.trail-node:hover:not(.locked) { transform: translateY(-4px) scale(1.05); transition: transform 0.18s ease; }
+.trail-node:active:not(.locked) { transform: translateY(-1px) scale(0.97); transition: transform 0.18s ease; }
 .trail-node.locked { cursor: not-allowed; }
 
 .trail-node-ring {
@@ -911,7 +968,14 @@ input:focus, select:focus, textarea:focus {
 .trail-node.locked .trail-node-ring { opacity: 0.5; box-shadow: none; }
 .trail-node:not(.locked):not(.done) .trail-node-ring { border-color: var(--level-color, var(--primary)); }
 .trail-node.done .trail-node-ring { border-color: var(--green); background: #eef8ec; box-shadow: 0 4px 0 rgba(47, 138, 43, 0.18); }
-.trail-node.current .trail-node-ring {
+/* :not(.locked) redundante (nó current nunca é locked) — está aqui só para
+   igualar a especificidade de ".trail-node:not(.locked):not(.done)
+   .trail-node-ring" acima (0,4,0 nos dois), senão essa regra perdia a
+   "corrida" de especificidade e a borda do nó atual nunca ficava dourada
+   (só o glow externo, quase invisível na captura de tela). Bug
+   pré-existente antes da RFC-035 Fase 2, achado e corrigido durante o
+   teste ao vivo desta fase — não uma mudança de design. */
+.trail-node.current:not(.locked) .trail-node-ring {
   border-color: var(--gold);
   box-shadow: 0 0 0 6px rgba(232, 163, 61, 0.2), 0 4px 0 rgba(45, 27, 78, 0.08);
 }
@@ -919,6 +983,34 @@ input:focus, select:focus, textarea:focus {
 
 .trail-node-label { font-size: 11.5px; font-weight: 700; margin-top: 8px; line-height: 1.25; max-width: 120px; }
 .trail-node-xp { font-size: 11px; font-weight: 700; color: var(--gold-dark); margin-top: 3px; }
+
+/* Conectores entre nós — trilha física com glow dourado quando concluída
+   (identidade Conceito B). Sempre estritamente horizontal (mesma nodeRow)
+   ou vertical (mesma coluna), nunca diagonal — garantido pelo algoritmo de
+   posicionamento em "S" (RFC-035 Fase 2), então não precisa de SVG/rotate. */
+.trail-edge {
+  align-self: center;
+  justify-self: center;
+  border-radius: 6px;
+  background: var(--border);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+.trail-edge.horizontal { width: 100%; height: 6px; }
+.trail-edge.vertical   { width: 6px; height: 100%; }
+.trail-edge.done {
+  background: linear-gradient(90deg, var(--gold), var(--primary));
+  box-shadow: 0 0 10px rgba(232, 163, 61, 0.4);
+}
+.trail-edge.vertical.done { background: linear-gradient(180deg, var(--gold), var(--primary)); }
+.trail-edge.current {
+  background: linear-gradient(90deg, var(--border), var(--gold));
+  animation: edgeFlow 1.6s ease-in-out infinite;
+}
+.trail-edge.vertical.current { background: linear-gradient(180deg, var(--border), var(--gold)); }
+@keyframes edgeFlow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
 
 .quiz-overlay {
   position: fixed; inset: 0;
@@ -1832,9 +1924,13 @@ tr.row-best td {
   100% { transform: scale(1); }
 }
 
+/* Sem translateX(var(--zig)) desde a RFC-035 Fase 2: --zig não existe mais
+   em .trail-node (mecanismo de zigue-zague trocado por posicionamento de
+   grid) — manter a referência aqui deixaria o valor de transform inválido
+   nesta keyframe, quebrando o "respirar" do nó atual. */
 @keyframes nodeBreathe {
-  0%, 100% { transform: translateX(var(--zig)) scale(1); }
-  50% { transform: translateX(var(--zig)) scale(1.07); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
 }
 
 .ripple-effect {
@@ -1882,6 +1978,16 @@ tr.row-best td {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  /* RFC-035 Fase 2 (trilha zig-zag): stagger de entrada por nó, pino do nó
+     atual, pulso do conector "atual" e o crescimento da barra de progresso
+     geral são cortes de intensidade, não de identidade — cor de concluído,
+     o pino e o valor final da barra continuam idênticos, só sem o
+     movimento contínuo/escalonado. */
+  .trail-node, .trail-edge.current, .trail-node.current::before, .trail-progress-fill {
+    animation: none !important;
+    transition-delay: 0s !important;
   }
 }
 

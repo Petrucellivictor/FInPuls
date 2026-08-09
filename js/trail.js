@@ -14,6 +14,87 @@ const Trail = {
 
   init() {
     this.render();
+    /* COLS (5 desktop/tablet, 3 mobile) só muda quando a viewport cruza o
+       breakpoint de 640px — não em todo evento de resize (custoso e
+       desnecessário). RFC-035 Fase 2. */
+    window.matchMedia("(max-width: 640px)").addEventListener("change", () => this.render());
+  },
+
+  /* ---------- Layout zig-zag horizontal (RFC-035 Fase 2) ---------- */
+
+  cols() {
+    return window.matchMedia("(max-width: 640px)").matches ? 3 : 5;
+  },
+
+  /* Posição (col, nodeRow) de uma lição dentro do nível, para qualquer
+     tamanho de nível ou COLS: blocos de "COLS horizontal + 2 vertical",
+     alternando direção a cada bloco (caminho em "S"). Ver algoritmo
+     completo na RFC-035 Fase 2 — "Especificação do UX/UI Designer". */
+  nodePosition(i, cols) {
+    const rowsPerBlock = cols + 2;
+    const block = Math.floor(i / rowsPerBlock);
+    const pos = i % rowsPerBlock;
+    const dir = block % 2 === 0 ? 1 : -1;
+    let col, nodeRow;
+    if (pos < cols) {
+      col = dir === 1 ? pos : cols - 1 - pos;
+      nodeRow = block * 3;
+    } else {
+      col = dir === 1 ? cols - 1 : 0;
+      nodeRow = block * 3 + (pos - cols + 1);
+    }
+    return { col, nodeRow };
+  },
+
+  /* Monta o grid de um nível: template de colunas/linhas de .trail-nodes,
+     o HTML de cada nó (via nodeHtmlFor) e o HTML dos conectores entre nós
+     consecutivos. Compartilhado entre trail.js e business.js — mesmo
+     algoritmo, mesma identidade visual nas duas trilhas (decisão explícita
+     da RFC-035 Fase 2: não divergir). */
+  gridHtml(states, cols, nodeHtmlFor) {
+    const positions = states.map((_, i) => this.nodePosition(i, cols));
+    const numNodeRows = states.length ? Math.max(...positions.map((p) => p.nodeRow)) + 1 : 0;
+    const colTemplate = Array(cols).fill("var(--tz-node-w)").join(" var(--tz-edge-w) ");
+    /* minmax(--tz-node-h, auto), não uma altura fixa: títulos de lição mais
+       longos podem quebrar em 2-3 linhas dentro do nó (label com max-width
+       120px), e uma trilha de linha fixa deixava esse conteúdo vazar por
+       cima do próximo nó — testado ao vivo em CDP/Chrome headless, ver
+       RFC-035 Fase 2, "Implementação — Frontend Engineer". minmax mantém
+       150px como padrão (nenhuma mudança visual no caso comum) e só cresce
+       quando algum nó daquela linha realmente precisa. */
+    const rowTemplate = Array(numNodeRows).fill("minmax(var(--tz-node-h), auto)").join(" var(--tz-edge-h) ");
+
+    const nodesHtml = states
+      .map((state, i) => {
+        const { col, nodeRow } = positions[i];
+        return nodeHtmlFor(state, i, col * 2 + 1, nodeRow * 2 + 1);
+      })
+      .join("");
+
+    /* O algoritmo de posicionamento nunca produz salto diagonal entre
+       lições consecutivas — cada conector é estritamente horizontal (mesma
+       nodeRow) ou vertical (mesma coluna). "done" = os dois nós do trecho
+       já concluídos (trecho já percorrido); "current" = trecho que leva ao
+       próximo nó a fazer (pulsa, indicando "é por aqui"). */
+    const edgesHtml = positions
+      .slice(0, -1)
+      .map((prevPos, i) => {
+        const currPos = positions[i + 1];
+        const prevState = states[i];
+        const currState = states[i + 1];
+        const edgeClass = prevState.done && currState.done ? "done" : prevState.done && currState.isCurrent ? "current" : "";
+        if (prevPos.nodeRow === currPos.nodeRow) {
+          const gridColumn = Math.min(prevPos.col, currPos.col) * 2 + 2;
+          const gridRow = prevPos.nodeRow * 2 + 1;
+          return `<div class="trail-edge horizontal ${edgeClass}" style="grid-column:${gridColumn} / span 1; grid-row:${gridRow} / span 1;"></div>`;
+        }
+        const gridColumn = prevPos.col * 2 + 1;
+        const gridRow = Math.min(prevPos.nodeRow, currPos.nodeRow) * 2 + 2;
+        return `<div class="trail-edge vertical ${edgeClass}" style="grid-column:${gridColumn} / span 1; grid-row:${gridRow} / span 1;"></div>`;
+      })
+      .join("");
+
+    return { colTemplate, rowTemplate, nodesHtml, edgesHtml };
   },
 
   /* ---------- Estrutura unificada (financeira + história, alternadas) ---------- */
@@ -94,6 +175,7 @@ const Trail = {
   render() {
     const container = document.getElementById("trailContainer");
     if (!container) return;
+    const cols = this.cols();
     const flat = this.flatLessons();
     const next = this.nextEntry();
     const doneTotal = flat.filter((e) => this.isDone(e)).length;
@@ -101,17 +183,19 @@ const Trail = {
 
     container.innerHTML = `
       <div class="trail">
-        <div class="trail-spine"></div>
-        <div class="trail-spine-fill" style="--target-pct:${overallPct}%"></div>
+        <div class="trail-progress-bar"><div class="trail-progress-fill" style="--target-pct:${overallPct}%"></div></div>
         ${this.levels()
-          .map((level, levelIdx) => this.levelHtml(level, levelIdx, flat, next))
+          .map((level, levelIdx) => this.levelHtml(level, levelIdx, flat, next, cols))
           .join("")}
       </div>
     `;
 
     container.querySelectorAll(".trail-node:not(.locked)").forEach((node) => {
       node.addEventListener("click", (e) => {
-        if (typeof Fx !== "undefined") Fx.ripple(node, e);
+        /* Ripple precisa do wrapper .trail-node-inner (overflow:hidden), não
+           de .trail-node — ver comentário em css/style.css sobre o pino do
+           nó atual (RFC-035 Fase 2). */
+        if (typeof Fx !== "undefined") Fx.ripple(node.querySelector(".trail-node-inner") || node, e);
         this.startLesson(Number(node.dataset.level), Number(node.dataset.lesson));
       });
     });
@@ -122,7 +206,7 @@ const Trail = {
     this.observeReveal();
   },
 
-  levelHtml(level, levelIdx, flat, next) {
+  levelHtml(level, levelIdx, flat, next, cols) {
     const progress = this.getProgress(level.fonte);
     const doneCount = level.licoes.filter((l) => !!progress[l.id]).length;
     const pct = Math.round((doneCount / level.licoes.length) * 100);
@@ -130,24 +214,31 @@ const Trail = {
     const icone = isHistoria ? "🇧🇷" : "📈";
     const tag = isHistoria ? "Brasil: História & Economia" : "Trilha Financeira";
 
-    const nodesHtml = level.licoes
-      .map((lesson, lessonIdx) => {
-        const flatIdx = flat.findIndex((e) => e.lesson.id === lesson.id && e.fonte === level.fonte);
-        const done = !!progress[lesson.id];
-        const unlocked = this.isUnlocked(flatIdx);
-        const isCurrent = !!next && next.lesson.id === lesson.id && next.fonte === level.fonte;
-        const stateClass = done ? "done" : unlocked ? "" : "locked";
-        const icon = done ? "✅" : unlocked ? (isHistoria ? "📜" : "📘") : "🔒";
-        return `
-        <div class="trail-node ${stateClass} ${isCurrent ? "current" : ""}" data-level="${levelIdx}" data-lesson="${lessonIdx}" title="${lesson.titulo}">
-          <div class="trail-node-ring">
-            <div class="trail-node-icon">${icon}</div>
+    const states = level.licoes.map((lesson) => {
+      const flatIdx = flat.findIndex((e) => e.lesson.id === lesson.id && e.fonte === level.fonte);
+      return {
+        lesson,
+        done: !!progress[lesson.id],
+        unlocked: this.isUnlocked(flatIdx),
+        isCurrent: !!next && next.lesson.id === lesson.id && next.fonte === level.fonte,
+      };
+    });
+
+    const { colTemplate, rowTemplate, nodesHtml, edgesHtml } = this.gridHtml(states, cols, (state, lessonIdx, gridColumn, gridRow) => {
+      const { lesson, done, unlocked, isCurrent } = state;
+      const stateClass = done ? "done" : unlocked ? "" : "locked";
+      const icon = done ? "✅" : unlocked ? (isHistoria ? "📜" : "📘") : "🔒";
+      return `
+        <div class="trail-node ${stateClass} ${isCurrent ? "current" : ""}" data-level="${levelIdx}" data-lesson="${lessonIdx}" title="${lesson.titulo}" style="--node-i:${lessonIdx}; grid-column:${gridColumn} / span 1; grid-row:${gridRow} / span 1;">
+          <div class="trail-node-inner">
+            <div class="trail-node-ring">
+              <div class="trail-node-icon">${icon}</div>
+            </div>
+            <div class="trail-node-label">${lesson.titulo}</div>
+            <div class="trail-node-xp">+${Events.applyMultiplier(lesson.xp)} XP</div>
           </div>
-          <div class="trail-node-label">${lesson.titulo}</div>
-          <div class="trail-node-xp">+${Events.applyMultiplier(lesson.xp)} XP</div>
         </div>`;
-      })
-      .join("");
+    });
 
     return `
       <div class="trail-level ${isHistoria ? "historia" : "financeira"}" style="--level-color:${level.cor}">
@@ -160,7 +251,7 @@ const Trail = {
             <h3>${level.titulo}</h3>
           </div>
         </div>
-        <div class="trail-nodes">${nodesHtml}</div>
+        <div class="trail-nodes" style="grid-template-columns:${colTemplate}; grid-template-rows:${rowTemplate};">${nodesHtml}${edgesHtml}</div>
       </div>`;
   },
 

@@ -19,6 +19,74 @@ const Business = {
       chip.addEventListener("click", () => this.goSection(chip.dataset.academia));
     });
     this.render();
+    /* Mesmo mecanismo de trail.js: COLS (5 desktop/tablet, 3 mobile) só
+       muda quando a viewport cruza o breakpoint de 640px. RFC-035 Fase 2 —
+       a trilha Empreender adota o mesmo layout, sem divergência. */
+    window.matchMedia("(max-width: 640px)").addEventListener("change", () => this.render());
+  },
+
+  /* ---------- Layout zig-zag horizontal (RFC-035 Fase 2) ----------
+     Mesmo algoritmo de js/trail.js (ver comentários lá para detalhes) —
+     duplicado aqui em vez de extraído para um módulo compartilhado por
+     seguir o padrão já existente no projeto (trail.js/business.js já
+     duplicam isUnlocked/render/levelHtml/observeReveal e o fluxo de
+     quiz inteiro, sem um módulo comum entre as duas trilhas). */
+
+  cols() {
+    return window.matchMedia("(max-width: 640px)").matches ? 3 : 5;
+  },
+
+  nodePosition(i, cols) {
+    const rowsPerBlock = cols + 2;
+    const block = Math.floor(i / rowsPerBlock);
+    const pos = i % rowsPerBlock;
+    const dir = block % 2 === 0 ? 1 : -1;
+    let col, nodeRow;
+    if (pos < cols) {
+      col = dir === 1 ? pos : cols - 1 - pos;
+      nodeRow = block * 3;
+    } else {
+      col = dir === 1 ? cols - 1 : 0;
+      nodeRow = block * 3 + (pos - cols + 1);
+    }
+    return { col, nodeRow };
+  },
+
+  gridHtml(states, cols, nodeHtmlFor) {
+    const positions = states.map((_, i) => this.nodePosition(i, cols));
+    const numNodeRows = states.length ? Math.max(...positions.map((p) => p.nodeRow)) + 1 : 0;
+    const colTemplate = Array(cols).fill("var(--tz-node-w)").join(" var(--tz-edge-w) ");
+    /* minmax(--tz-node-h, auto) — mesmo ajuste de js/trail.js (ver comentário
+       lá): evita que um título de lição longo (2-3 linhas) vaze por cima do
+       próximo nó quando a linha tem altura fixa. */
+    const rowTemplate = Array(numNodeRows).fill("minmax(var(--tz-node-h), auto)").join(" var(--tz-edge-h) ");
+
+    const nodesHtml = states
+      .map((state, i) => {
+        const { col, nodeRow } = positions[i];
+        return nodeHtmlFor(state, i, col * 2 + 1, nodeRow * 2 + 1);
+      })
+      .join("");
+
+    const edgesHtml = positions
+      .slice(0, -1)
+      .map((prevPos, i) => {
+        const currPos = positions[i + 1];
+        const prevState = states[i];
+        const currState = states[i + 1];
+        const edgeClass = prevState.done && currState.done ? "done" : prevState.done && currState.isCurrent ? "current" : "";
+        if (prevPos.nodeRow === currPos.nodeRow) {
+          const gridColumn = Math.min(prevPos.col, currPos.col) * 2 + 2;
+          const gridRow = prevPos.nodeRow * 2 + 1;
+          return `<div class="trail-edge horizontal ${edgeClass}" style="grid-column:${gridColumn} / span 1; grid-row:${gridRow} / span 1;"></div>`;
+        }
+        const gridColumn = prevPos.col * 2 + 1;
+        const gridRow = Math.min(prevPos.nodeRow, currPos.nodeRow) * 2 + 2;
+        return `<div class="trail-edge vertical ${edgeClass}" style="grid-column:${gridColumn} / span 1; grid-row:${gridRow} / span 1;"></div>`;
+      })
+      .join("");
+
+    return { colTemplate, rowTemplate, nodesHtml, edgesHtml };
   },
 
   goSection(section) {
@@ -74,6 +142,7 @@ const Business = {
   render() {
     const container = document.getElementById("businessTrailContainer");
     if (!container) return;
+    const cols = this.cols();
     const flat = this.flatLessons();
     const next = this.nextEntry();
     const doneTotal = flat.filter((e) => this.isDone(e)).length;
@@ -81,15 +150,17 @@ const Business = {
 
     container.innerHTML = `
       <div class="trail">
-        <div class="trail-spine"></div>
-        <div class="trail-spine-fill" style="--target-pct:${overallPct}%"></div>
-        ${BUSINESS_COURSE.map((level, levelIdx) => this.levelHtml(level, levelIdx, flat, next)).join("")}
+        <div class="trail-progress-bar"><div class="trail-progress-fill" style="--target-pct:${overallPct}%"></div></div>
+        ${BUSINESS_COURSE.map((level, levelIdx) => this.levelHtml(level, levelIdx, flat, next, cols)).join("")}
       </div>
     `;
 
     container.querySelectorAll(".trail-node:not(.locked)").forEach((node) => {
       node.addEventListener("click", (e) => {
-        if (typeof Fx !== "undefined") Fx.ripple(node, e);
+        /* Ripple precisa do wrapper .trail-node-inner (overflow:hidden), não
+           de .trail-node — ver comentário em css/style.css sobre o pino do
+           nó atual (RFC-035 Fase 2). */
+        if (typeof Fx !== "undefined") Fx.ripple(node.querySelector(".trail-node-inner") || node, e);
         this.startLesson(Number(node.dataset.level), Number(node.dataset.lesson));
       });
     });
@@ -97,27 +168,34 @@ const Business = {
     this.observeReveal(container);
   },
 
-  levelHtml(level, levelIdx, flat, next) {
+  levelHtml(level, levelIdx, flat, next, cols) {
     const progress = this.getProgress();
     const doneCount = level.licoes.filter((l) => !!progress[l.id]).length;
     const pct = Math.round((doneCount / level.licoes.length) * 100);
 
-    const nodesHtml = level.licoes
-      .map((lesson, lessonIdx) => {
-        const flatIdx = flat.findIndex((e) => e.lesson.id === lesson.id);
-        const done = !!progress[lesson.id];
-        const unlocked = this.isUnlocked(flatIdx);
-        const isCurrent = !!next && next.lesson.id === lesson.id;
-        const stateClass = done ? "done" : unlocked ? "" : "locked";
-        const icon = done ? "✅" : unlocked ? "💼" : "🔒";
-        return `
-        <div class="trail-node ${stateClass} ${isCurrent ? "current" : ""}" data-level="${levelIdx}" data-lesson="${lessonIdx}" title="${lesson.titulo}">
-          <div class="trail-node-ring"><div class="trail-node-icon">${icon}</div></div>
-          <div class="trail-node-label">${lesson.titulo}</div>
-          <div class="trail-node-xp">+${Events.applyMultiplier(lesson.xp)} XP</div>
+    const states = level.licoes.map((lesson) => {
+      const flatIdx = flat.findIndex((e) => e.lesson.id === lesson.id);
+      return {
+        lesson,
+        done: !!progress[lesson.id],
+        unlocked: this.isUnlocked(flatIdx),
+        isCurrent: !!next && next.lesson.id === lesson.id,
+      };
+    });
+
+    const { colTemplate, rowTemplate, nodesHtml, edgesHtml } = this.gridHtml(states, cols, (state, lessonIdx, gridColumn, gridRow) => {
+      const { lesson, done, unlocked, isCurrent } = state;
+      const stateClass = done ? "done" : unlocked ? "" : "locked";
+      const icon = done ? "✅" : unlocked ? "💼" : "🔒";
+      return `
+        <div class="trail-node ${stateClass} ${isCurrent ? "current" : ""}" data-level="${levelIdx}" data-lesson="${lessonIdx}" title="${lesson.titulo}" style="--node-i:${lessonIdx}; grid-column:${gridColumn} / span 1; grid-row:${gridRow} / span 1;">
+          <div class="trail-node-inner">
+            <div class="trail-node-ring"><div class="trail-node-icon">${icon}</div></div>
+            <div class="trail-node-label">${lesson.titulo}</div>
+            <div class="trail-node-xp">+${Events.applyMultiplier(lesson.xp)} XP</div>
+          </div>
         </div>`;
-      })
-      .join("");
+    });
 
     return `
       <div class="trail-level" style="--level-color:${level.cor}">
@@ -128,7 +206,7 @@ const Business = {
             <h3>${level.titulo}</h3>
           </div>
         </div>
-        <div class="trail-nodes">${nodesHtml}</div>
+        <div class="trail-nodes" style="grid-template-columns:${colTemplate}; grid-template-rows:${rowTemplate};">${nodesHtml}${edgesHtml}</div>
       </div>`;
   },
 
