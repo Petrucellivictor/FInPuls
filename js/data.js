@@ -21116,3 +21116,245 @@ const BUSINESS_COURSE = [
     ],
   },
 ];
+
+// RFC-035 Fase 3B — nós de revisão da trilha Empreender (piloto). Cada
+// entrada tem o MESMO shape de uma lição normal (Software Architect,
+// RFC-035 seção 12) e é inserida em tempo de execução por Business.levels(),
+// ancorada por refLessonIds[6] (última das 7 lições cobertas) — nunca por
+// posição numérica. BUSINESS_COURSE acima não é alterado por essa inserção.
+const BUSINESS_REVIEWS = [
+  {
+    id: "revE_01",
+    tipo: "revisao",
+    titulo: "Revisão: seus últimos 7 pontos",
+    xp: 35,
+    aula: [
+      "Antes de seguir em frente, vale parar e conferir o que realmente ficou dos últimos 7 pontos da trilha Empreender — de 'o que é empreender' até o MEI, a porta de entrada da formalização.",
+      "As perguntas aqui não são idênticas às que você já viu: são situações novas, com nomes e números diferentes, testando se você entendeu o conceito por trás — não se decorou a pergunta original.",
+      "Errou alguma? Sem problema — a explicação logo abaixo de cada resposta mostra exatamente o porquê da resposta certa. É repetindo e entendendo de novo que o conhecimento realmente fica.",
+    ],
+    refLessonIds: ["e1_1", "e1_2", "e1_3", "emod_1", "emod_2", "emod_3", "e2_1"],
+    perguntas: [
+      {
+        pergunta: "Rafael começa a consertar bicicletas de vizinhos nos fins de semana, cobrando por cada serviço, mas nunca abriu CNPJ. De acordo com a diferença entre empreender e ser empresário, o que se pode dizer sobre Rafael?",
+        opcoes: [
+          "Ele não empreendeu, pois só empreende quem tem CNPJ",
+          "Ele empreendeu, mesmo sem ser empresário, já que empreender é uma atitude que não depende de ter CNPJ",
+          "Ele só passará a empreender quando formalizar a empresa",
+          "É impossível prestar qualquer serviço sem CNPJ",
+        ],
+        correta: 1,
+        explicacao: "Empreender é a atitude de identificar e resolver um problema; ser empresário é ter a condição jurídica formal (CNPJ). Rafael empreendeu ao criar uma solução e cobrar por ela, mesmo sem essa formalização.",
+        variante: {
+          pergunta: "Sandra assume a farmácia da família, já formalizada com CNPJ, e continua operando exatamente como antes, sem criar nada novo. O que se pode dizer sobre ela, considerando a diferença entre empreender e ser empresária?",
+          opcoes: [
+            "Ela é empresária, pois tem a condição jurídica formal, mesmo sem necessariamente ter empreendido algo novo",
+            "Ela não pode ser chamada de empresária, pois nunca empreendeu",
+            "Ela empreendeu e é empresária automaticamente, pela mesma razão",
+            "Assumir um negócio de família é sempre ilegal sem inovar",
+          ],
+          correta: 0,
+          explicacao: "Ser empresária é uma condição jurídica (ter CNPJ) que pode existir mesmo sem o componente de ter identificado um problema e criado algo novo — como no caso de administrar um negócio herdado sem mudanças.",
+        },
+      },
+      {
+        pergunta: "André perde o emprego e passa a fazer fretes com o próprio carro para não ficar sem renda, enquanto Bianca, com um emprego estável, identifica uma lacuna no mercado de brechós online e decide investir por escolha própria. Segundo a classificação usada por pesquisas como o GEM, como esses dois casos seriam descritos?",
+        opcoes: [
+          "André empreende por necessidade e Bianca por oportunidade — e nenhuma das duas motivações é mais válida que a outra",
+          "Os dois empreendem por oportunidade, pois qualquer negócio novo é uma oportunidade",
+          "André não pode ser considerado empreendedor, pois agiu sob pressão financeira",
+          "Bianca empreende por necessidade, pois já tinha emprego estável",
+        ],
+        correta: 0,
+        explicacao: "O GEM classifica pela motivação de partida: necessidade (falta de alternativa de renda) ou oportunidade (escolha deliberada) — nenhuma das duas é 'melhor', são só pontos de partida diferentes.",
+        variante: {
+          pergunta: "Diante da perda do único emprego da família, Marcos passa a fazer bicos de pintura residencial para garantir renda. Já Renata, com salário estável, identifica uma lacuna no mercado de doces sem açúcar do bairro e decide investir por escolha própria. Segundo a classificação usada por pesquisas como o GEM, como esses dois casos seriam descritos?",
+          opcoes: [
+            "Marcos empreende por necessidade e Renata por oportunidade — nenhuma das duas motivações é mais válida que a outra",
+            "Os dois empreendem por necessidade, pois qualquer negócio novo surge de uma necessidade de mercado",
+            "Marcos não pode ser considerado empreendedor, pois agiu sob pressão financeira",
+            "Renata empreende por necessidade, pois já tinha um salário estável",
+          ],
+          correta: 0,
+          explicacao: "Empreender por necessidade (falta de alternativa de renda) e por oportunidade (escolha deliberada) são apenas motivações de partida diferentes — a classificação do GEM não atribui mais valor a uma do que à outra.",
+        },
+      },
+      {
+        pergunta: "Um contador autônomo, atuando apenas no CPF, perde um contrato importante porque a empresa contratante exige nota fiscal, algo que ele não consegue emitir como pessoa física sem CNPJ. Qual vantagem prática ele ganharia ao se formalizar como PJ?",
+        opcoes: [
+          "Passaria a poder emitir nota fiscal, além de ter acesso a crédito PJ e contratos mais robustos com empresas",
+          "Ficaria isento de qualquer imposto",
+          "Perderia o direito de atender clientes pessoa física",
+          "Ficaria proibido de emitir qualquer tipo de documento",
+        ],
+        correta: 0,
+        explicacao: "Formalizar como PJ costuma abrir portas comerciais que a informalidade no CPF não oferece — como emitir nota fiscal, ter acesso a crédito PJ e fechar contratos mais robustos com outras empresas.",
+        variante: {
+          pergunta: "Uma fotógrafa autônoma sem CNPJ perde um contrato com uma agência de eventos porque a agência exige emissão de nota fiscal para fechar negócio. Que vantagem prática ela passaria a ter ao se formalizar como PJ?",
+          opcoes: [
+            "Passaria a poder emitir nota fiscal, além de ter acesso a crédito PJ e contratos mais robustos com empresas",
+            "Ficaria isenta de declarar qualquer imposto",
+            "Perderia o direito de atender clientes pessoa física",
+            "Ficaria proibida de emitir qualquer tipo de documento fiscal",
+          ],
+          correta: 0,
+          explicacao: "Assim como no caso do contador, formalizar como PJ costuma abrir acesso a nota fiscal, crédito PJ e contratos mais robustos — vantagens que a atuação informal no CPF não oferece.",
+        },
+      },
+      {
+        pergunta: "Um sócio de uma Sociedade Unipessoal vê a empresa não conseguir pagar um fornecedor por dificuldades de caixa, sem qualquer fraude ou irregularidade envolvida. O que a separação patrimonial busca garantir, nesse caso, em relação aos bens pessoais dele?",
+        opcoes: [
+          "Que seus bens pessoais fiquem, em geral, protegidos dessa dívida específica da empresa",
+          "Que o fornecedor pode tomar automaticamente qualquer bem pessoal dele",
+          "Que ele nunca mais poderá ser sócio de outra empresa",
+          "Que a dívida da empresa seja automaticamente cancelada",
+        ],
+        correta: 0,
+        explicacao: "Em tipos societários como a Sociedade Unipessoal, o patrimônio pessoal do sócio costuma ficar protegido das dívidas da empresa, respeitadas as exceções previstas em lei (como fraude ou confusão patrimonial).",
+        variante: {
+          pergunta: "Um sócio de uma LTDA vê a empresa não conseguir pagar um empréstimo bancário por dificuldades no fluxo de caixa, sem qualquer fraude ou irregularidade na condução do negócio. O que a separação patrimonial busca garantir em relação à casa dele, registrada em seu nome pessoal?",
+          opcoes: [
+            "Que a casa fique, em geral, protegida dessa dívida específica da empresa",
+            "Que o banco pode tomar a casa automaticamente para quitar a dívida",
+            "Que ele nunca mais poderá abrir outra empresa",
+            "Que a dívida da empresa seja automaticamente cancelada",
+          ],
+          correta: 0,
+          explicacao: "A separação patrimonial busca manter o patrimônio pessoal do sócio protegido das dívidas da empresa, respeitadas as exceções legais para casos de fraude ou irregularidade.",
+        },
+      },
+      {
+        pergunta: "Uma barbearia tem R$ 3.000 de custos fixos por mês, e cada corte de cabelo gera uma margem de contribuição de R$ 25 depois de descontar o custo variável (produtos usados). Quantos cortes por mês a barbearia precisa fazer para atingir o ponto de equilíbrio?",
+        opcoes: [
+          "120 cortes, o suficiente para cobrir os R$ 3.000 de custos fixos com a margem de R$ 25 por corte",
+          "25 cortes",
+          "3.000 cortes",
+          "É impossível calcular sem saber o número de funcionários",
+        ],
+        correta: 0,
+        explicacao: "O ponto de equilíbrio é o volume de vendas em que a margem de contribuição acumulada cobre exatamente os custos fixos: R$ 3.000 ÷ R$ 25 = 120 cortes.",
+        variante: {
+          pergunta: "Uma oficina mecânica tem R$ 7.200 de custos fixos por mês, e cada serviço de revisão gera uma margem de contribuição de R$ 90, depois de descontar peças e materiais usados. Quantas revisões por mês são necessárias para atingir o ponto de equilíbrio?",
+          opcoes: [
+            "80 revisões, o suficiente para cobrir os R$ 7.200 de custos fixos com a margem de R$ 90 por revisão",
+            "90 revisões",
+            "7.200 revisões",
+            "É impossível calcular sem saber o número de funcionários",
+          ],
+          correta: 0,
+          explicacao: "R$ 7.200 ÷ R$ 90 = 80 revisões — volume necessário para que a margem de contribuição acumulada cubra exatamente os custos fixos do mês.",
+        },
+      },
+      {
+        pergunta: "Uma loja de roupas recém-aberta calculou que precisa faturar R$ 15.000 por mês para atingir o ponto de equilíbrio, mas fatura apenas R$ 9.000 nos dois primeiros meses. O que costuma sustentar esse tipo de negócio durante esse período inicial, evitando que ele feche as portas antes de estabilizar as vendas?",
+        opcoes: [
+          "A existência de um capital de giro reservado previamente para cobrir esse período abaixo do ponto de equilíbrio",
+          "O fato de os custos fixos deixarem de existir nos primeiros meses",
+          "A margem de contribuição, que aumenta automaticamente nos primeiros meses",
+          "Nada sustenta o negócio; ele necessariamente fecha se não bater o ponto de equilíbrio de imediato",
+        ],
+        correta: 0,
+        explicacao: "É justamente para cobrir esse período inicial, quando o faturamento ainda está abaixo do ponto de equilíbrio, que o capital de giro existe — uma reserva à parte do investimento inicial.",
+        variante: {
+          pergunta: "Uma hamburgueria recém-aberta calculou que precisa faturar R$ 20.000 por mês para atingir o ponto de equilíbrio, mas fatura apenas R$ 11.000 nos dois primeiros meses. O que costuma sustentar esse tipo de negócio durante esse período inicial, evitando que ele feche antes de estabilizar as vendas?",
+          opcoes: [
+            "A existência de um capital de giro reservado previamente para cobrir esse período abaixo do ponto de equilíbrio",
+            "O fato de os custos fixos deixarem de existir nos primeiros meses",
+            "A margem de contribuição, que aumenta automaticamente nos primeiros meses",
+            "Nada sustenta o negócio; ele necessariamente fecha se não bater o ponto de equilíbrio de imediato",
+          ],
+          correta: 0,
+          explicacao: "O capital de giro reservado com antecedência é o que permite ao negócio sobreviver ao período inicial, quando o faturamento ainda está abaixo do ponto de equilíbrio.",
+        },
+      },
+      {
+        pergunta: "Um aplicativo de aulas de idiomas define claramente para quem vende — profissionais que precisam de inglês para o trabalho, e não 'qualquer pessoa que queira aprender inglês'. No mapeamento simplificado de modelo de negócio, essa definição corresponde a qual bloco?",
+        opcoes: [
+          "Segmento de cliente — quem, exatamente, o negócio pretende atender",
+          "Estrutura de custo",
+          "Canais",
+          "Fontes de receita",
+        ],
+        correta: 0,
+        explicacao: "Definir o segmento de cliente é dizer, de forma específica, para quem o negócio existe — quanto mais vago ('qualquer pessoa'), mais difícil acertar a proposta de valor e os canais.",
+        variante: {
+          pergunta: "Uma consultoria financeira anuncia 'reduzimos em até 30% seus gastos mensais em 90 dias, com acompanhamento semanal', em vez de apenas dizer 'fazemos consultoria financeira'. No mapeamento simplificado de modelo de negócio, essa comunicação mais específica corresponde principalmente a qual bloco?",
+          opcoes: [
+            "Proposta de valor — o benefício concreto que justifica a escolha do cliente",
+            "Estrutura de custo",
+            "Segmento de cliente",
+            "Canais",
+          ],
+          correta: 0,
+          explicacao: "A proposta de valor é o motivo concreto pelo qual o cliente escolheria essa solução — descrever o benefício real ('reduzimos gastos em 30%'), e não apenas a atividade genérica ('fazemos consultoria'), é o que caracteriza esse bloco.",
+        },
+      },
+      {
+        pergunta: "Uma empreendedora testou um MVP de doces veganos vendendo diretamente para academias, mas percebeu, no contato real com o mercado, que quem mais comprava eram cafés vegetarianos. Ela decide então redirecionar as vendas para esse novo público, mantendo o mesmo produto. Como se chama esse tipo de ajuste, no ciclo 'construir-medir-aprender' da abordagem Lean Startup?",
+        opcoes: [
+          "Falência técnica",
+          "Pivotar — ajustar um aspecto do modelo de negócio com base em aprendizado real obtido com o mercado",
+          "Sonegação fiscal",
+          "Cost-plus",
+        ],
+        correta: 1,
+        explicacao: "Pivotar é redirecionar algum aspecto do modelo de negócio (aqui, o segmento de cliente) a partir de evidências reais colhidas com o mercado, sem abandonar o negócio inteiro — é o núcleo do ciclo 'construir-medir-aprender' da Lean Startup.",
+        variante: {
+          pergunta: "Um empreendedor testa um MVP de refeições congeladas voltado para atletas, mas percebe, no contato real com clientes, que quem mais compra são famílias com rotina corrida que não têm tempo de cozinhar. Ele decide redirecionar o foco comercial para esse novo público, mantendo o mesmo produto. Como se chama esse tipo de ajuste?",
+          opcoes: [
+            "Falência técnica",
+            "Pivotar — ajustar um aspecto do modelo de negócio com base em aprendizado real obtido com o mercado",
+            "Sonegação fiscal",
+            "Cost-plus",
+          ],
+          correta: 1,
+          explicacao: "Redirecionar o foco comercial com base no que o mercado realmente mostrou, sem abandonar o negócio inteiro, é o que se chama de pivotar.",
+        },
+      },
+      {
+        pergunta: "Uma designer de interiores cobra um valor mais alto de um cliente cuja reforma está atrasando a entrega de um imóvel alugado (gerando prejuízo diário) do que cobraria pelo mesmo projeto numa situação sem urgência — porque o valor que ela entrega, nesse caso, é resolver um prejuízo real e imediato. Que lógica de precificação é essa?",
+        opcoes: [
+          "Precificação por valor percebido — o preço reflete o benefício real entregue ao cliente, não só o custo do serviço",
+          "Cost-plus",
+          "Freemium",
+          "Comissão",
+        ],
+        correta: 0,
+        explicacao: "Cobrar com base no benefício real entregue ao cliente naquele contexto específico (resolver um prejuízo imediato), e não só no custo do serviço, é a lógica da precificação por valor percebido.",
+        variante: {
+          pergunta: "Um encanador cobra mais para consertar, ainda hoje, o vazamento que está impedindo uma loja de abrir ao público, do que cobraria pelo mesmo conserto numa casa sem nenhuma pressa — porque o valor que ele entrega, nesse caso, é evitar um prejuízo comercial imediato. Que lógica de precificação é essa?",
+          opcoes: [
+            "Precificação por valor percebido — o preço reflete o benefício real entregue ao cliente, não só o custo do serviço",
+            "Cost-plus",
+            "Freemium",
+            "Comissão",
+          ],
+          correta: 0,
+          explicacao: "Assim como no caso da designer de interiores, cobrar com base no benefício real entregue ao cliente naquele contexto (evitar um prejuízo comercial imediato), e não só no custo do serviço, é a lógica da precificação por valor percebido.",
+        },
+      },
+      {
+        pergunta: "Um MEI de artesanato faturou 25% acima do teto anual permitido em um determinado ano. Segundo a regra de ultrapassagem do MEI, o que tende a acontecer com o enquadramento tributário dele?",
+        opcoes: [
+          "Ele paga apenas o DAS complementar e continua MEI até o fim do ano",
+          "Ele é desenquadrado automaticamente e retroativamente desde janeiro daquele ano, sendo tributado pelo Simples Nacional sobre todo o período",
+          "Nada acontece, pois o teto é apenas uma sugestão",
+          "Ele fica automaticamente isento de qualquer imposto adicional",
+        ],
+        correta: 1,
+        explicacao: "Passar do teto do MEI em mais de 20% provoca desenquadramento retroativo a janeiro do próprio ano, com tributação pelo Simples Nacional sobre todo o período — não apenas a partir do mês em que passou do limite.",
+        variante: {
+          pergunta: "Um MEI de doces faturou 12% acima do teto anual permitido em um determinado ano. Segundo a regra de ultrapassagem do MEI, o que tende a acontecer?",
+          opcoes: [
+            "Ele é desenquadrado retroativamente desde janeiro daquele ano",
+            "Ele paga o DAS complementar sobre a diferença de imposto referente ao excesso, migrando para o Simples Nacional apenas a partir do ano seguinte",
+            "Nada acontece, pois passou pouco do teto",
+            "Ele perde o direito de ser MEI para sempre, mesmo no ano seguinte",
+          ],
+          correta: 1,
+          explicacao: "Como o excesso (12%) está dentro da faixa de até 20% acima do teto, ele paga apenas o DAS complementar sobre a diferença de imposto, e a migração para o Simples Nacional só ocorre a partir do ano-calendário seguinte.",
+        },
+      },
+    ],
+  },
+];

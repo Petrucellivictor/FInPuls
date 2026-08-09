@@ -984,6 +984,41 @@ input:focus, select:focus, textarea:focus {
 .trail-node-label { font-size: 11.5px; font-weight: 700; margin-top: 8px; line-height: 1.25; max-width: 120px; }
 .trail-node-xp { font-size: 11px; font-weight: 700; color: var(--gold-dark); margin-top: 3px; }
 
+/* Nó de revisão (RFC-035 Fase 3B, UX/UI Designer seção 15) — tag textual
+   visível nos 3 estados (bloqueado/atual/concluído): é o único sinal que,
+   sozinho, já satisfaz o requisito de acessibilidade "não só por cor" (ver
+   registro da etapa). Mesmo padrão de contraste já validado em
+   .badge-variavel (cor sobre fundo claro tingido). */
+.trail-node-tag {
+  margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(108, 79, 207, 0.12); /* --primary a 12% */
+  color: var(--primary);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.trail-node.locked .trail-node-tag { opacity: 0.6; } /* acompanha o dimming já
+  aplicado a .trail-node.locked .trail-node-ring (opacity:0.5), levemente
+  mais alto para o texto continuar legível mesmo apagado. */
+
+/* Acento de cor roxo em camada sobre os 3 estados de .trail-node-ring — nunca
+   substitui border-color, que continua 100% governado pelas regras de estado
+   acima (locked/unlocked/done/current). --primary não colide com nenhuma
+   cor de estado já usada no nó (--level-color/--gold/--green). */
+.trail-node.revisao .trail-node-ring {
+  box-shadow: 0 0 0 3px rgba(108, 79, 207, 0.28), 0 4px 0 rgba(45, 27, 78, 0.08);
+}
+.trail-node.revisao.done .trail-node-ring {
+  box-shadow: 0 0 0 3px rgba(108, 79, 207, 0.28), 0 4px 0 rgba(47, 138, 43, 0.18);
+}
+.trail-node.revisao.current:not(.locked) .trail-node-ring {
+  box-shadow: 0 0 0 3px rgba(108, 79, 207, 0.28), 0 0 0 6px rgba(232, 163, 61, 0.2), 0 4px 0 rgba(45, 27, 78, 0.08);
+}
+
 /* Conectores entre nós — trilha física com glow dourado quando concluída
    (identidade Conceito B). Sempre estritamente horizontal (mesma nodeRow)
    ou vertical (mesma coluna), nunca diagonal — garantido pelo algoritmo de

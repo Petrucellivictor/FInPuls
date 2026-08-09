@@ -267,7 +267,8 @@ fin-plus/
 │   ├── trail.js                                      → trilha única intercalada (financeira + Brasil: História), layout em
 │   │                                                      zig-zag horizontal (RFC-035 Fase 2, v1.55.0; era vertical sinuoso)
 │   ├── business.js                                     → trilha "Empreender" (independente, mesmo layout zig-zag): regimes tributários,
-│   │                                                      obrigações fiscais/contábeis e gestão de pessoas/finanças
+│   │                                                      obrigações fiscais/contábeis, gestão de pessoas/finanças, e o piloto do nó
+│   │                                                      de revisão a cada 7 lições (RFC-035 Fase 3B, v1.56.0 — exclusivo desta trilha)
 │   ├── engagement.js                                   → desafios diários, missão da semana e evento do dia
 │   ├── achievements.js                                   → conquistas desbloqueadas pelo uso real do app
 │   ├── market.js                                           → indicadores em tempo real (moedas, cripto, BCB)
@@ -420,6 +421,17 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   empresa). Conteúdo educativo — não é consultoria contábil, tributária
   ou trabalhista, e valores de limites/alíquotas mudam por lei; confirme
   sempre com seu contador.
+- **Revisão periódica a cada 7 pontos da trilha** (piloto, RFC-035 Fase
+  3B, v1.56.0 — por enquanto **exclusivo da trilha Empreender**): a cada 7
+  lições concluídas, um nó de revisão (🔁, tag "🔁 Revisão") é inserido no
+  caminho, ancorado pela última das 7 lições que cobre (nunca por posição
+  fixa, para sobreviver a novas Ondas de conteúdo). É um nó obrigatório —
+  bloqueia o próximo até ser concluído —, com 10 perguntas próprias
+  (variações das 7 lições anteriores, não cópia literal), mesmo XP da
+  lição que a antecede e mesmo custo de energia de qualquer lição, sem
+  isenção. A trilha "Do Zero ao Avançado" + "Brasil: História & Economia"
+  (a aba Aprender, unificada) ainda não tem esse mecanismo — fica para uma
+  Fase 3C futura, depois de validado o piloto isolado em Empreender.
 - **Desafios diários**, **missão da semana** e **evento aleatório do dia**
   (cenários educativos), com detecção automática de progresso.
 - **Conquistas**: 19 badges desbloqueadas pelo uso real do app, incluindo

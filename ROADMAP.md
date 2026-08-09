@@ -68,6 +68,44 @@ Sem um blueprint modular fixo pré-definido (ver README, "Roadmap sugerido", ite
 - ✅ **Onda 14 — trilha financeira ganha análise técnica de indicadores e valuation por fluxo de caixa descontado no Nível 5 "Avançado"** (v1.53.0, RFC-033): terceira Onda a tocar `COURSE`, depois da Onda 12 e da Onda 13. Também não insere nível novo — expande `nivel5` ("Avançado"), o nível apontado como candidato prioritário desde a nota da própria Onda 13, com 3 lições apendadas ao final, após `av_03`: `av_04` (RSI, oscilador de momentum que a trilha já citava como distrator em `l5_2` sem nunca ensinar), `av_05` (candlestick, anatomia da vela, sem padrões de reversão nomeados) e `av_06` (fluxo de caixa descontado/DCF, valor presente de fluxos futuros, contrastado em prosa com os múltiplos comparativos de `l5_2` sem reensiná-los). `nivel1`-`nivel4`, `nivel6` e as 5 lições pré-existentes de `nivel5` permanecem 100% intactos — `nivel5` passa de **5→8 lições**, e a trilha financeira de **99→102 lições** (6 níveis: 35+20+22+8+8+9). 3 novas entradas no `GLOSSARY` (RSI, Candlestick, DCF; 39→42 entradas). Termos técnicos verificados via `WebSearch`. Testado ao vivo pelo QA Engineer via Chrome DevTools Protocol (Node/Python indisponíveis no ambiente), fluxo completo de quiz de `av_04` via DOM real, checagem de `Trail.isUnlocked()` em múltiplos cenários sem regressão, zero erro de console (ver `CHANGELOG.md`, v1.53.0). **Nota registrada por esta Onda**: `nivel4` e `nivel5` ficam **empatados em 8 lições cada** como os níveis proporcionalmente mais enxutos da trilha financeira — ambos candidatos igualmente prioritários de uma Onda futura, já que `nivel6` (9) e os demais (20-35) seguem à frente.
 - ✅ **Onda 15 — trilha "Brasil: História & Economia" volta a receber conteúdo, com a Guerra do Paraguai** (v1.54.0, RFC-034): quinta Onda a tocar `HISTORY_COURSE`, depois das Ondas 9 e 10 — a trilha ficou pausada desde então enquanto as Ondas 11-14 avançaram Empreender e Financeira, e havia ficado a mais atrasada das 3 em termos absolutos (15 lições). Rebalanceamento deliberado: em vez de insistir pela 4ª vez seguida na trilha financeira (que teria 3 Ondas consecutivas), o Product Owner voltou a atenção para História, mas **sem reabrir o tema 1964-1985** — mesma pausa reafirmada desde as Ondas 9/10, sem nenhum fato novo que a justifique reabrir. Expande `hnivel_imperio` ("Independência, Corte e Império") com 3 lições apendadas ao final, após `himp_3`: `himp_4` (a Guerra do Paraguai, 1864-1870, causas e Tratado da Tríplice Aliança), `himp_5` (financiamento da guerra via apólices e empréstimos ingleses, e a inflação resultante — conectando em prosa com o mesmo padrão "dívida→inflação" já ensinado em `himp_2`/`hjk_2`/`h3_1`) e `himp_6` (legado institucional — libertação de escravizados que serviram, fortalecimento político do Exército — parando **explicitamente em 1889**, sem qualquer menção direta ou indireta a 1964/regime militar, verificado palavra por palavra pelo QA Engineer). `hnivel1`, `hnivel2`, `hnivel_jk`, `hnivel3`, `hnivel4` e as 3 lições pré-existentes de `hnivel_imperio` permanecem 100% intactos — `hnivel_imperio` passa de **3→6 lições**, e a trilha história de **15→18 lições**. Testado ao vivo pelo QA Engineer via Chrome DevTools Protocol, incluindo fluxo de erro→variante, lição reprovada sem progresso indevido, e checagem de `Trail.isUnlocked()` sem regressão (ver `CHANGELOG.md`, v1.54.0). **Gap alternativo considerado e não escolhido nesta Onda**: `BUSINESS_COURSE` também tem termos citados sem contexto (tipos societários — LTDA/Sociedade Unipessoal/contrato social — citados repetidamente sem nunca ensinados como conteúdo dedicado; zero menção a propriedade intelectual/marca ou fontes de captação como investidor anjo/empréstimo PJ) — registrado aqui como próximo candidato de uma Onda futura em Empreender.
 
+## Reformulação da trilha de aprendizado (RFC-035) — em andamento
+
+Pedido do usuário em 2026-08-08 para reformular a mecânica da trilha (não o
+conteúdo em si, que segue o registro por Onda acima), em fases pequenas e
+validadas — mesma disciplina já usada nas Fases 2A/2B/2C de identidade
+visual e nas Fases 1-6 da Cidade Financeira. Detalhe completo em
+`rfcs/RFC-035-reformulacao-trilha-aprendizado.md`.
+
+- ✅ **Fase 1 — energia máxima de 3 para 5** (v1.55.0): `ENERGY_MAX` sobe de
+  3 para 5 em `js/energy.js`, decisão do Gamification Designer para reduzir
+  a frustração do teto diário sem abandonar o gate de energia como
+  mecânica de retenção. `ENERGY_COMBO` (bônus por 3 acertos seguidos numa
+  lição) permanece 3, sem escalar junto. Ver `CHANGELOG.md`, v1.55.0.
+- ✅ **Fase 2 — layout da trilha em zig-zag horizontal** (v1.55.0): troca do
+  antigo caminho vertical sinuoso por um mapa de fases em "S" (blocos de
+  `COLS` nós na horizontal + 2 na vertical, `COLS=5` desktop/`COLS=3`
+  mobile), aplicada igualmente às duas trilhas (Aprender e Empreender),
+  identidade "Conceito B" do UX/UI Designer. Ver `CHANGELOG.md`, v1.55.0.
+- ✅ **Fase 3B — piloto do sistema de revisão periódica a cada 7 pontos,
+  exclusivo da trilha Empreender** (v1.56.0): novo tipo de nó
+  (`tipo: "revisao"`), ancorado por ID (nunca por posição) na 7ª lição que
+  cobre, testado isoladamente em `BUSINESS_COURSE` (`revE_01`, 10 perguntas
+  autorais) antes de generalizar — decisão do Gamification Designer de
+  pilotar só em Empreender, por ser a trilha cujo mecanismo de contagem
+  "7 pontos" (separado por fonte) já reflete fielmente o que vai para
+  produção, ao contrário da aba Aprender (contagem unificada
+  Financeira+História). `js/trail.js` (trilha unificada Aprender) **não
+  foi tocado nesta fase**. QA encontrou 1 bug de conteúdo (variante da
+  pergunta 9 testando um conceito diferente da base) — já corrigido antes
+  do fechamento da fase. Ver `CHANGELOG.md`, v1.56.0.
+- **Fase 3C — rollout do sistema de revisão para a trilha unificada
+  Aprender (Financeira + História), ainda não iniciada.** Mais complexa que
+  o piloto: precisa lidar com duas fontes de conteúdo intercaladas por
+  nível (`COURSE`/`HISTORY_COURSE`, contagem "7 pontos" unificada já
+  decidida pelo Software Architect na Fase 3A) e com o efeito colateral já
+  registrado na RFC de que a revisão também vai contar para o gatilho de
+  história interativa a cada 3 lições financeiras, sem filtro novo.
+
 ## Cidade Financeira — jogo de simulação de vida
 
 - ✅ **RFC-025 — aposentadoria, HUD de idade e Relatório de Fim de

@@ -12,6 +12,7 @@
 
 const Business = {
   activeQuiz: null,
+  _levels: null,
   _flat: null,
 
   init() {
@@ -98,10 +99,33 @@ const Business = {
     this.observeReveal(document.getElementById("businessTrailContainer"));
   },
 
+  /* RFC-035 Fase 3B — insere os nós de revisão de BUSINESS_REVIEWS dentro de
+     um clone de cada nível de BUSINESS_COURSE, ancorado por id (nunca por
+     posição): para cada lição, se refLessonIds[6] de alguma revisão bate com
+     o id dela, a revisão entra logo depois no array `licoes` clonado. Tanto
+     o nível (`{ ...lvl }`) quanto `licoes` (montado via push num array novo)
+     são clones — BUSINESS_COURSE nunca é mutado por esta função (risco 1 da
+     seção 12/Software Architect da RFC-035: um shallow clone do nível NÃO
+     clona o array aninhado, então clonar só o objeto não seria suficiente). */
+  levels() {
+    if (this._levels) return this._levels;
+    const withReviews = BUSINESS_COURSE.map((lvl) => {
+      const licoes = [];
+      lvl.licoes.forEach((lesson) => {
+        licoes.push(lesson);
+        const review = BUSINESS_REVIEWS.find((r) => r.refLessonIds[6] === lesson.id);
+        if (review) licoes.push(review);
+      });
+      return { ...lvl, licoes };
+    });
+    this._levels = withReviews;
+    return withReviews;
+  },
+
   flatLessons() {
     if (this._flat) return this._flat;
     const flat = [];
-    BUSINESS_COURSE.forEach((level, levelIdx) => {
+    this.levels().forEach((level, levelIdx) => {
       level.licoes.forEach((lesson, lessonIdx) => {
         flat.push({ lesson, level, levelIdx, lessonIdx });
       });
@@ -151,7 +175,9 @@ const Business = {
     container.innerHTML = `
       <div class="trail">
         <div class="trail-progress-bar"><div class="trail-progress-fill" style="--target-pct:${overallPct}%"></div></div>
-        ${BUSINESS_COURSE.map((level, levelIdx) => this.levelHtml(level, levelIdx, flat, next, cols)).join("")}
+        ${this.levels()
+          .map((level, levelIdx) => this.levelHtml(level, levelIdx, flat, next, cols))
+          .join("")}
       </div>
     `;
 
@@ -186,13 +212,18 @@ const Business = {
     const { colTemplate, rowTemplate, nodesHtml, edgesHtml } = this.gridHtml(states, cols, (state, lessonIdx, gridColumn, gridRow) => {
       const { lesson, done, unlocked, isCurrent } = state;
       const stateClass = done ? "done" : unlocked ? "" : "locked";
-      const icon = done ? "✅" : unlocked ? "💼" : "🔒";
+      /* RFC-035 Fase 3B (UX/UI Designer, seção 15) — o ícone do anel só troca
+         para 🔁 nos estados em que já varia por conteúdo (desbloqueado/
+         atual); bloqueado continua 🔒 e concluído continua ✅, sem exceção. */
+      const isRevisao = lesson.tipo === "revisao";
+      const icon = done ? "✅" : unlocked ? (isRevisao ? "🔁" : "💼") : "🔒";
       return `
-        <div class="trail-node ${stateClass} ${isCurrent ? "current" : ""}" data-level="${levelIdx}" data-lesson="${lessonIdx}" title="${lesson.titulo}" style="--node-i:${lessonIdx}; grid-column:${gridColumn} / span 1; grid-row:${gridRow} / span 1;">
+        <div class="trail-node ${stateClass} ${isCurrent ? "current" : ""} ${isRevisao ? "revisao" : ""}" data-level="${levelIdx}" data-lesson="${lessonIdx}" title="${lesson.titulo}" style="--node-i:${lessonIdx}; grid-column:${gridColumn} / span 1; grid-row:${gridRow} / span 1;">
           <div class="trail-node-inner">
             <div class="trail-node-ring"><div class="trail-node-icon">${icon}</div></div>
             <div class="trail-node-label">${lesson.titulo}</div>
             <div class="trail-node-xp">+${Events.applyMultiplier(lesson.xp)} XP</div>
+            ${isRevisao ? `<div class="trail-node-tag">🔁 Revisão</div>` : ""}
           </div>
         </div>`;
     });
@@ -241,7 +272,7 @@ const Business = {
 
   startLesson(levelIdx, lessonIdx) {
     if (!Energy.tryStart()) return;
-    const level = BUSINESS_COURSE[levelIdx];
+    const level = this.levels()[levelIdx];
     const lesson = level.licoes[lessonIdx];
     this.activeQuiz = { level, lesson, qIndex: 0, correctCount: 0, correctStreak: 0, answered: false, onVariant: false, variantQuestion: null };
     this.renderAulaOverlay();
@@ -381,6 +412,11 @@ const Business = {
     }
 
     const celebrar = passed && !alreadyDone;
+    /* RFC-035 Fase 3B (Gamification Designer, seção 13, item 4) — reaproveita
+       100% do fluxo visual de conclusão (confete, glow, xpPop, mascote,
+       moedas); só o título e 1 linha extra de subtexto mudam para uma
+       revisão, e o subtexto só aparece no caminho passed && !alreadyDone. */
+    const isRevisao = lesson.tipo === "revisao";
     const overlay = document.getElementById("businessQuizOverlay");
     overlay.innerHTML = `
       <div class="quiz-box" style="text-align:center">
@@ -389,8 +425,9 @@ const Business = {
             ? `<div class="quiz-result-mascot">${Polvin.avatarHtml("md")}</div>`
             : `<div class="quiz-result-emoji">${passed ? "🎉" : "🔁"}</div>`
         }
-        <h2>${passed ? "Lição concluída!" : "Quase lá!"}</h2>
+        <h2>${passed ? (isRevisao ? "Revisão dominada!" : "Lição concluída!") : "Quase lá!"}</h2>
         <p class="text-soft">Você acertou ${correctCount} de ${total} perguntas (${pct}%).</p>
+        ${celebrar && isRevisao ? `<p class="text-soft">Você reforçou o que já tinha aprendido — é isso que faz o conhecimento ficar de verdade.</p>` : ""}
         ${
           passed
             ? alreadyDone

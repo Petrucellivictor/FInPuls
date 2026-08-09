@@ -4,6 +4,73 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.56.0] - 2026-08-09
+
+### Adicionado
+- **RFC-035 Fase 3B — piloto do sistema de "revisão periódica a cada 7
+  pontos da trilha", exclusivo da trilha Empreender por enquanto**
+  (`js/data.js`, `js/business.js`, `css/style.css`): novo tipo de nó,
+  `tipo: "revisao"`, com o MESMO formato de dados de uma lição normal
+  (`id`/`titulo`/`xp`/`perguntas`) — decisão do Software Architect para que
+  `isUnlocked()`/`isDone()`/XP/o fluxo de quiz funcionem sem nenhuma mudança
+  de lógica, reaproveitando a correção de destravamento por contagem total
+  já em produção desde a Onda 9/RFC-028. Piloto único: `revE_01`, novo array
+  `BUSINESS_REVIEWS` em `js/data.js`, com `refLessonIds` explícito
+  (`["e1_1", "e1_2", "e1_3", "emod_1", "emod_2", "emod_3", "e2_1"]`) ancorando
+  a inserção pela ÚLTIMA lição referenciada — nunca por posição numérica —
+  logo depois de `e2_1` (a 7ª lição da trilha Empreender), com 10 perguntas
+  autorais (mais 10 variantes de reforço) cobrindo as 7 lições anteriores.
+  `Business.levels()` foi reescrito para clonar `licoes` (nunca mutar o
+  array canônico `BUSINESS_COURSE`) antes de inserir a revisão dinamicamente
+  — risco de mutação compartilhada sinalizado pelo Architect e confirmado
+  ausente pelo QA Engineer mesmo após reload real da página. XP da revisão
+  igual ao da lição-âncora (`35`, o mesmo de `e2_1`) — decisão do
+  Gamification Designer de nunca usar um valor fixo isolado, para não
+  desvalorizar o esforço de reter conteúdo nem ficar desatualizado conforme
+  o XP típico por lição sobe em Ondas futuras. Consome 1 energia
+  normalmente ao iniciar, sem isenção — a revisão é um nó obrigatório do
+  caminho sequencial (bloqueia o próximo nó até ser concluída, mesmo gate
+  "sem energia" de qualquer lição), então isentá-la só furaria o teto
+  diário de 5 (RFC-035 Fase 1) sem necessidade. Conta normalmente para a
+  missão semanal "complete 3 lições" (grava em `LESSON_LOG` como qualquer
+  lição, decisão explícita de não introduzir um filtro novo). Identidade
+  visual do UX/UI Designer: ícone 🔁, tag `"🔁 Revisão"` (novo estilo
+  `.trail-node-tag`) e um box-shadow roxo extra no anel do nó
+  (`.trail-node.revisao .trail-node-ring`) somado ao dourado padrão da
+  trilha; tela de conclusão com título próprio ("Revisão dominada!") e
+  subtexto reforçando, na voz do POLVIn, por que aquele nó era diferente —
+  reaproveitando 100% do fluxo visual de celebração já existente (confete,
+  XP pop, moedas), sem badge/animação nova. **Escopo explícito: só
+  `js/business.js`/trilha Empreender nesta fase — `js/trail.js` (trilha
+  unificada Aprender, Financeira+História) não foi tocado**, confirmado por
+  `git diff --stat` vazio para esse arquivo; o rollout do mesmo mecanismo
+  para a trilha unificada fica para uma Fase 3C futura, ainda não iniciada,
+  que vai lidar com a complexidade adicional de duas fontes de conteúdo
+  intercaladas (`COURSE`/`HISTORY_COURSE`) e o gatilho de história
+  interativa (decisão já registrada nesta RFC para quando a Fase 3C
+  chegar: a revisão também contará para esse gatilho, sem filtro).
+  Validado ao vivo pelo QA Engineer via Chrome real controlado por CDP:
+  trava de âncora (nó bloqueado até `e2_1` ser concluído, depois vira nó
+  atual na mesma renderização), não-mutação do array `BUSINESS_COURSE`
+  confirmada em 4 momentos incluindo reload real de página, XP/energia/
+  moedas/`LESSON_LOG` exatos, caminho de pergunta-variante ao errar,
+  responsividade em 2 breakpoints, zero regressão nas 18 lições reais da
+  trilha Empreender, na conquista `mestre_empreendedor` (continua exigindo
+  só as 18 lições reais, não a revisão, por desenho) e na trilha unificada
+  Aprender (zero nós de revisão vazando para `js/trail.js`).
+
+### Corrigido
+- **Pergunta 9 da revisão-piloto (`revE_01`) tinha uma variante de reforço
+  testando um conceito diferente da pergunta-base** (`js/data.js`): achado
+  de gravidade média do QA Engineer durante a validação da Fase 3B — a
+  pergunta-base era sobre precificação por valor percebido, mas a
+  `variante` (mostrada ao errar a base) testava canal de aquisição/parceria
+  local, contradizendo o próprio aviso da interface ("vamos reforçar esse
+  MESMO conceito com outro exemplo"). Reescrita para testar o mesmo
+  conceito da base, com um novo cenário (conserto urgente de vazamento com
+  preço maior vs. o mesmo conserto sem pressa) — corrigido no mesmo dia,
+  antes do fechamento da fase, não ficou como pendência.
+
 ## [1.55.0] - 2026-08-08
 
 ### Adicionado
