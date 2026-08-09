@@ -122,9 +122,20 @@ visual e nas Fases 1-6 da Cidade Financeira. Detalhe completo em
     teste dirigido antes desta Onda fechar, então a Onda 3 (1º bloco real
     ancorado em História) reaproveita um caminho já testado, não um caminho
     novo. QA aprovou sem ressalvas. Ver `CHANGELOG.md`, v1.57.0.
-  - **Onda de Revisão 2 — blocos 5-8, ainda não iniciada.** Fim do Nível 1 +
-    Nível 2 (Renda Fixa) até `rf_14`; primeiro bloco misto
-    (Financeira+História, bloco 6), mas ainda ancorado em `COURSE`.
+  - ✅ **Onda de Revisão 2 — blocos 5-8** (v1.58.0): 4 novas entradas em
+    `COURSE_REVIEWS` (`revU_05`-`revU_08`), fechando o Nível 1 "Fundamentos e
+    Comportamento Financeiro" (`revU_05`) e cobrindo boa parte do Nível 2
+    "Renda Fixa" até `rf_14` (`revU_06`-`revU_08`) — 8 revisões publicadas no
+    total. `revU_06` é o **primeiro bloco misto Financeira+História desta
+    RFC** (2 lições de `HISTORY_COURSE` — `h1_1`/`h1_2`, economia colonial —
+    misturadas com 5 de `COURSE`), ancorado e inserido em `COURSE`, com
+    progresso roteado para `COURSE_PROGRESS` pela `fonte` do nível de
+    inserção (não pela fonte de cada pergunta). **Nenhuma mudança em
+    `js/trail.js` foi necessária** — o mecanismo genérico da Onda 1
+    (`withReviews`) absorveu as 4 entradas automaticamente, confirmando que
+    a generalização da Onda 1 estava correta desde o início. QA aprovou sem
+    ressalvas, nenhum bug encontrado, incluindo teste dirigido em produção
+    real do bloco misto. Ver `CHANGELOG.md`, v1.58.0.
   - **Onda de Revisão 3 — blocos 9-12, ainda não iniciada.** Fim do Nível 2
     + Nível 3 (Renda Variável) até `rv_19`; contém o bloco 9, a **primeira
     âncora real em `HISTORY_COURSE`** publicada como conteúdo.

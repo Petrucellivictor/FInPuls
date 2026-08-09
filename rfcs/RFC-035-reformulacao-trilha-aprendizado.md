@@ -4797,3 +4797,1594 @@ Nenhum código tocado.
 - **Próximo agente responsável**: nenhum — aguardando o próximo ciclo
   (Financial Specialist para o conteúdo da Onda de Revisão 2) fora desta
   etapa de fechamento.
+
+### 24. Financial Specialist (Fase 3C — Conteúdo da Onda de Revisão 2, blocos 5-8)
+
+Leitura prévia confirmada por leitura direta de `js/data.js`: o texto
+completo de `aula`/`conto` e o array `perguntas` (base + `variante`) das 21
+lições referenciadas pelos 4 blocos desta Onda — `f1_25` a `f1_30`, `l4_1`
+(fim do Nível 1 de `COURSE`); `l2_1`, `l2_2`, `rf_16`, `rf_05`, `l2_3`,
+`rf_17`, `rf_08`, `rf_09`, `rf_06`, `rf_07`, `rf_10`, `rf_11`, `rf_01`,
+`rf_02`, `rf_04`, `rf_03`, `rf_12`, `rf_13`, `rf_14` (Nível 2 "Renda Fixa" de
+`COURSE`); e `h1_1`, `h1_2` (nível "Colônia" de `HISTORY_COURSE`) — sem
+sobreposição de conteúdo entre os 4 blocos, conforme já confirmado pelo
+Software Architect na seção 19.
+
+XP de cada bloco confirmado por leitura direta em `js/data.js`, igual ao XP
+da lição-âncora (decisão da Fase 3B, seção 13, item 1): `l4_1.xp = 35`,
+`l2_3.xp = 25`, `rf_11.xp = 25`, `rf_14.xp = 25` — batendo exatamente com a
+tabela da seção 19.
+
+**Atenção redobrada ao bloco 6 (`revU_06`), o primeiro bloco misto desta
+RFC**: `h1_1` e `h1_2` são lições de `HISTORY_COURSE` (Colônia — economia
+açucareira primário-exportadora e ciclo do ouro), lidas na íntegra junto com
+as 5 lições de `COURSE` do bloco. Ainda que o bloco inteiro ancore e seja
+inserido em `COURSE[1]` (decisão já tomada pelo Software Architect, seção
+19 — array de inserção segue a âncora, `l2_3`, não a maioria das fontes),
+o conteúdo de História não pode ficar sem cobertura só por ser minoria
+numérica no bloco — por isso `revU_06` reserva 3 das 10 perguntas para
+`h1_1`/`h1_2` (acima do mínimo de 2 pedido), com peso extra em `h1_2` por
+ser a lição mais densa em fatos (quinto, Casas de Fundição, Derrama,
+Inconfidência Mineira, transferência da capital, Tratado de Methuen).
+
+#### 1. Cobertura das 10 perguntas por bloco
+
+Mesmo critério já usado em `revE_01`/`revU_01`-`04`: nenhuma das 7 lições de
+um bloco fica sem pelo menos 1 pergunta, com peso extra nas lições mais
+densas em cálculo/distinção de conceitos.
+
+**`revU_05`** (`f1_25, f1_26, f1_27, f1_28, f1_29, f1_30, l4_1`):
+
+| # | Lição coberta | Conceito testado |
+| - | --- | --- |
+| 1-2 | `f1_25` | Primeiro passo prático para sair do rotativo (parar de comprar); trocar dívida cara por crédito mais barato |
+| 3-4 | `f1_26` | Benefícios do INSS além da aposentadoria (auxílio-doença, salário-maternidade); contribuição automática (CLT) x ativa (autônomo) |
+| 5 | `f1_27` | Teto do INSS e previdência privada como complemento individual |
+| 6 | `f1_28` | Juros acumulados fazem o total pago num financiamento superar bastante o preço original do imóvel |
+| 7 | `f1_29` | Sentir a consequência de gastar tudo de uma vez ensina planejamento (mesada com propósito) |
+| 8 | `f1_30` | Praticar despesas próprias cedo facilita a independência financeira total depois |
+| 9-10 | `l4_1` | O que é perfil de investidor (avaliar tolerância a risco antes de decidir); perfil conservador prioriza segurança |
+
+**`revU_06`** (`h1_1, h1_2, l2_1, l2_2, rf_16, rf_05, l2_3`) — bloco misto:
+
+| # | Lição coberta | Fonte | Conceito testado |
+| - | --- | --- | --- |
+| 1 | `h1_1` | História | Economia primário-exportadora: extrair matéria-prima sem processar concentra valor em quem industrializa/revende |
+| 2-3 | `h1_2` | História | O "quinto" (20% do ouro para a Coroa); Tratado de Methuen — o ouro brasileiro enriqueceu mais a Inglaterra que a colônia |
+| 4 | `l2_1` | Financeira | Comparar rendimento de CDB via % do CDI (acima/abaixo da referência) |
+| 5 | `l2_2` | Financeira | Isenção de IR de LCI/LCA para pessoa física, vantagem sobre o CDB |
+| 6-7 | `rf_16` | Financeira | Carência (90 dias) trava o resgate mesmo em emergência; cálculo de rendimento líquido (isenção compensando taxa nominal menor) |
+| 8-9 | `rf_05` | Financeira | Limite do FGC (R$250 mil por CPF/instituição, somando produtos); Tesouro Direto não depende do FGC (garantia direta do Tesouro Nacional) |
+| 10 | `l2_3` | Financeira | Tesouro Selic é o mais indicado para reserva de emergência (liquidez, baixa oscilação) |
+
+**`revU_07`** (`rf_17, rf_08, rf_09, rf_06, rf_07, rf_10, rf_11`):
+
+| # | Lição coberta | Conceito testado |
+| - | --- | --- |
+| 1 | `rf_17` | O que é um Treasury (título de dívida do governo dos EUA, em dólar) |
+| 2-3 | `rf_08` | Curva de juros ascendente (expectativa de juros mais altos); curva invertida (expectativa de corte/desaceleração) |
+| 4 | `rf_09` | Quando travar Tesouro Prefixado vale a pena (expectativa de queda de juros) |
+| 5-6 | `rf_06` | O que é marcação a mercado; ela só afeta quem vende antes do vencimento |
+| 7 | `rf_07` | Duration: prazo mais longo tende a oscilar mais com mudança nos juros |
+| 8 | `rf_10` | Tesouro IPCA+ paga IPCA + taxa real fixa — cálculo do retorno real |
+| 9-10 | `rf_11` | CDB pós-fixado para reserva de emergência; CDB híbrido para objetivo de longuíssimo prazo |
+
+**`revU_08`** (`rf_01, rf_02, rf_04, rf_03, rf_12, rf_13, rf_14`):
+
+| # | Lição coberta | Conceito testado |
+| - | --- | --- |
+| 1 | `rf_01` | O que é uma debênture (empréstimo à empresa, não sociedade) |
+| 2 | `rf_02` | Isenção de IR da debênture incentivada compensando taxa nominal menor (cálculo) |
+| 3 | `rf_04` | Rating de crédito: nota mais baixa = maior risco = taxa mais alta exigida |
+| 4-5 | `rf_03` | CRI/CRA dependem do cumprimento dos recebíveis; isentos de IR mas sem proteção do FGC |
+| 6 | `rf_12` | Taxa de administração pesa proporcionalmente mais em fundos DI (cálculo) |
+| 7-8 | `rf_13` | Come-cotas desconta cotas automaticamente (mai/nov); antecipar o IR reduz um pouco o efeito dos juros compostos |
+| 9-10 | `rf_14` | Comparar renda fixa exige prazo/liquidez/IR/garantia, não só a taxa; mesma tributação (CDB x Tesouro) não elimina diferença de garantia |
+
+Nenhuma pergunta-base é cópia literal de nenhuma pergunta ou variante já
+publicada nas 21 lições referenciadas — todas usam personagens, valores e
+situações novas, preservando o conceito original. Em alguns pontos onde uma
+primeira redação ficou próxima demais da lição-fonte (ex.: o padrão "Fulano
+deve RX no rotativo a Y% ao mês... encontra um empréstimo a Z% ao mês" de
+`f1_25`, o padrão "Dois jovens de N anos: um já paga as próprias contas há M
+anos..." de `f1_30`, o padrão "Fulano ganha bem e sabe que o INSS vai pagar
+menos por causa do teto..." de `f1_27`, e o padrão "Um CDB anunciado como X%
+do CDI está, em geral..." de `l2_1`), a pergunta foi reescrita com nomes,
+estrutura de frase e contexto diferentes antes de entrar na versão final
+abaixo — não só números/nomes trocados.
+
+#### 2. Precisão factual/financeira/histórica — checklist de validação
+
+- Cálculos conferidos à mão antes de fixar a opção `correta`:
+  - `revU_06` Q2 (quinto): 250g × 20% = 50g.
+  - `revU_06` Q6-7 (rf_16, líquido LCA/LCI x CDB): 9% × (1-0,20) = 7,2%
+    (abaixo dos 8% isentos da LCA, faixa 181-360 dias); 8% × (1-0,225) =
+    6,2% (abaixo dos 6,5% isentos da LCI, faixa até 180 dias) — alíquotas
+    conferidas contra `RF_TAX_TABLE` em `js/data.js` (22,5% até 180 dias,
+    20% de 181 a 360, 17,5% de 361 a 720, 15% acima de 720).
+  - `revU_08` Q2 (rf_02, debênture incentivada): 10% × (1-0,15) = 8,5%
+    (abaixo dos 9% isentos, faixa acima de 720 dias); 9% × (1-0,175) ≈
+    7,4% (abaixo dos 7,5% isentos, faixa 361-720 dias).
+  - `revU_08` Q6 (rf_12, taxa de administração): CDI 8% - 2,5% = 5,5%; CDI
+    11% - 4% = 7%.
+  - `revU_07` Q8 (rf_10, IPCA+): "IPCA + 5%" com inflação 4% → retorno real
+    de 5%; "IPCA + 6,5%" com inflação 3% → retorno real de 6,5% (o
+    componente de taxa real é o ganho garantido além da inflação,
+    independente do valor do IPCA no período).
+  - Nenhum resultado diverge da opção marcada como `correta`.
+- Fatos históricos de `h1_1`/`h1_2` conferidos contra o `conto` original:
+  economia primário-exportadora (pau-brasil → açúcar, mão de obra
+  escravizada, casa-grande/senzala, fim do domínio açucareiro por
+  concorrência caribenha pós-1654); ciclo do ouro (quinto de 20%, Casas de
+  Fundição, Derrama, Inconfidência Mineira de 1789, transferência da
+  capital para o Rio em 1763, Tratado de Methuen de 1703 beneficiando a
+  Inglaterra). Nenhuma data, percentual ou nome próprio novo foi
+  introduzido além do que já está na lição-fonte — as perguntas desta
+  revisão reaproveitam exatamente os mesmos fatos, só em situações-problema
+  diferentes (ex.: `revU_06` Q3, sobre o Tratado de Methuen, não estava
+  coberto por nenhuma pergunta ainda lida de `h1_2` nas seções já
+  publicadas desta lição, então amplia a cobertura factual da lição em vez
+  de só repetir o que a Derrama/Inconfidência Mineira já testam nas
+  perguntas originais).
+- Nenhum número novo de lei/alíquota foi introduzido nos blocos 5 e 7 —
+  tratam de conceitos comportamentais/de mercado genéricos (rotativo,
+  INSS, previdência privada, aluguel x financiamento, mesada, independência
+  financeira, perfil de investidor, Treasury, curva de juros, Tesouro
+  Prefixado, marcação a mercado, duration, Tesouro IPCA+, tipos de CDB).
+  Os blocos 6 e 8 usam a mesma tabela regressiva de IR (`RF_TAX_TABLE`) já
+  publicada e validada no código-fonte do projeto (`js/data.js`), sem
+  inventar nenhuma alíquota — os percentuais de exemplo (8%, 9%, 10% etc.)
+  são valores fictícios de cenário, como as próprias lições-fonte já usam.
+- Nenhuma pergunta ou explicação soa como recomendação personalizada de
+  investimento — todas descrevem conceitos genéricos e situações fictícias,
+  mesma postura editorial já usada no resto da trilha.
+- Cada `explicacao` (base e variante) foi escrita para ser compreensível
+  por alguém sem conhecimento prévio, respondendo diretamente "por que a
+  opção marcada como certa está certa".
+
+#### 3. Checklist do bug da Fase 3B (Q9 de `revE_01`) — revisão par a par
+
+Releitura de todas as 40 perguntas-base contra a `variante` correspondente,
+confirmando que cada par testa o MESMO conceito central, só com
+cenário/nomes/números diferentes:
+
+- **`revU_05`**: todos os 10 pares confirmados mesmo conceito (rotativo →
+  mesmo "primeiro passo: parar de comprar" em ambos os lados do par 1, mesma
+  "troca por crédito mais barato reduz custo" em ambos os lados do par 2;
+  INSS → mesmo "benefício além da aposentadoria" em ambos os lados do par 3
+  — auxílio-doença/salário-maternidade são exemplos diferentes do mesmo
+  conceito "INSS cobre mais que aposentadoria", já a estrutura de par
+  base/variante testando exemplos diferentes do mesmo conceito guarda-chuva
+  segue o mesmo padrão já validado em `f1_16`/Onda 1; mesma "contribuição
+  automática x ativa" em ambos os lados do par 4; mesma "previdência privada
+  complementa o teto do INSS" em ambos os lados do par 5; mesmo "juros
+  inflam o total pago no financiamento" em ambos os lados do par 6; mesma
+  "consequência de gastar tudo de uma vez" em ambos os lados do par 7; mesma
+  "prática cedo facilita independência total" em ambos os lados do par 8;
+  mesmo "avaliar risco antes de decidir" no par 9 e mesmo "conservador
+  prioriza segurança" no par 10). Atenção especial: uma primeira redação dos
+  pares 9 e 10 reaproveitava frases quase idênticas às perguntas originais
+  de `l4_1` (ex.: "Um investidor 'conservador' costuma priorizar:" copiada
+  quase literalmente) — reescritos por completo antes da versão final
+  abaixo, mudando estrutura de frase e adicionando cenário nomeado em vez de
+  só reaproveitar o enunciado genérico da lição-fonte.
+- **`revU_06`**: todos os 10 pares confirmados. Os pares 2/3 (`h1_2`, quinto
+  e Tratado de Methuen) usam o mesmo fato em base e variante, só mudando a
+  forma de perguntar (nomear o imposto x calcular a partir dele; identificar
+  o país beneficiado x interpretar o que o tratado revela) — mesmo padrão de
+  "mesmo conceito, ângulo levemente diferente" já registrado como aceitável
+  pelo QA da Onda 1 (seção 22, item 4) para casos que não são o defeito do
+  Bug 1. Atenção especial no par 7 (`rf_16`, cálculo líquido): a primeira
+  redação usava exatamente o mesmo par de taxas do exemplo já publicado na
+  lição-fonte (9% isento x 10% bruto com 15% de IR) — substituído por dois
+  pares de taxas/prazos diferentes (8%/9% na faixa de 20% e 6,5%/8% na
+  faixa de 22,5%) para não ser uma reprodução do exemplo original, mantendo
+  o mesmo conceito ensinado (isenção pode compensar taxa nominal menor).
+- **`revU_07`**: todos os 10 pares confirmados. Atenção especial nos pares 2
+  e 3 (`rf_08`, curva de juros): a primeira redação misturava, dentro de um
+  único par, "o que a curva ascendente/invertida sinaliza" (leitura) com "o
+  que fazer diante desse sinal" (ação, ex.: travar taxa prefixada) — dois
+  sub-conceitos diferentes reunidos no mesmo par, replicando o padrão do
+  Bug 1. Corrigido separando em dois pares distintos: par 2 (base+variante)
+  só sobre o que a curva ascendente sinaliza; par 3 (base+variante) só sobre
+  o que a curva invertida sinaliza — a "ação" (travar prefixado) já está
+  coberta separadamente pelo par 4 (`rf_09`), sem se misturar com a leitura
+  da curva.
+- **`revU_08`**: todos os 10 pares confirmados. Atenção especial no par 3
+  (`rf_04`, rating de crédito): a primeira redação tinha base sobre
+  "identificar qual nota indica maior risco" e variante sobre "por que
+  rating baixo paga taxa mais alta" — mantido de propósito como um único
+  fio causal (rating baixo → maior risco → taxa mais alta exigida), não como
+  dois conceitos desconexos, já que as duas metades do par descrevem a
+  mesma cadeia lógica, só entrando por pontas diferentes (nota vs taxa) —
+  mesmo raciocínio já usado para justificar o par de `f1_16` na Onda 1.
+
+**Conclusão da checklist**: 2 casos que numa primeira redação teriam
+reproduzido o padrão do Bug 1 (`revU_05` pares 9/10 por cópia quase literal
+do enunciado original, e `revU_07` pares 2/3 por misturar leitura de sinal
+com ação recomendada) foram identificados e corrigidos nesta própria
+revisão, antes de entrar na versão final abaixo — nenhum par restante mistura
+dois conceitos diferentes entre pergunta-base e `variante`.
+
+#### 4. `revU_05` — objeto completo
+
+```js
+{
+  id: "revU_05",
+  tipo: "revisao",
+  titulo: "Revisão: dívidas caras, previdência, moradia e o primeiro passo como investidor",
+  xp: 35,
+  aula: [
+    "Esses últimos 7 pontos da trilha passaram por temas bem diferentes entre si: como sair de uma dívida cara como o rotativo do cartão, o que o INSS cobre além da aposentadoria, quando vale a pena uma previdência privada, a diferença entre alugar e financiar um imóvel, como dar mesada com propósito, o que significa caminhar para a independência financeira dos pais — e o primeiro conceito da trilha de investimentos: o perfil de investidor.",
+    "Como sempre, as perguntas aqui não são as mesmas que você já viu — são situações novas, com pessoas e números diferentes, testando se o conceito realmente ficou, e não se você decorou a pergunta original.",
+    "Se errar alguma, não tem problema: a explicação logo abaixo mostra exatamente o porquê da resposta certa. Essa é a parte que faz o conhecimento grudar de verdade.",
+  ],
+  refLessonIds: ["f1_25", "f1_26", "f1_27", "f1_28", "f1_29", "f1_30", "l4_1"],
+  perguntas: [
+    {
+      pergunta: "Juliana está no rotativo do cartão de crédito, paga apenas o valor mínimo da fatura todo mês, mas continua fazendo compras novas no mesmo cartão. Qual deve ser o primeiro passo prático para ela realmente sair dessa dívida?",
+      opcoes: ["Pedir um limite maior no cartão para ter mais folga", "Parar imediatamente de fazer novas compras no cartão", "Esperar a dívida diminuir sozinha com o tempo", "Trocar de banco sem quitar a dívida atual"],
+      correta: 1,
+      explicacao: "Enquanto novas compras continuam entrando no cartão, qualquer pagamento é anulado pelo crescimento da dívida — por isso parar de usar o cartão é sempre o primeiro passo prático.",
+      variante: {
+        pergunta: "Pedro quer sair definitivamente do rotativo do cartão e já está pensando em trocar essa dívida por um empréstimo mais barato. Mas antes de qualquer outra estratégia, qual passo é indispensável ele tomar primeiro?",
+        opcoes: ["Aumentar o limite do cartão para ter mais crédito disponível", "Parar de fazer novas compras no cartão, já que continuar comprando anula qualquer esforço de pagamento", "Cancelar a conta corrente do banco", "Esperar seis meses antes de tomar qualquer decisão"],
+        correta: 1,
+        explicacao: "Sem parar as novas compras, qualquer estratégia posterior (como trocar por um crédito mais barato) fica comprometida, porque a dívida continua sendo alimentada.",
+      },
+    },
+    {
+      pergunta: "Marcos deve R$4.000 no rotativo do cartão de crédito, com juros de 13% ao mês. Ele descobre a possibilidade de contratar um empréstimo consignado a 3% ao mês para quitar toda essa dívida de uma vez. O que essa troca representa para ele?",
+      opcoes: ["Um prejuízo, pois ele vai pagar duas dívidas ao mesmo tempo", "Uma redução significativa do custo mensal da dívida, já que 3% ao mês é muito menor que 13% ao mês", "Nenhuma diferença, pois todo crédito tem o mesmo custo", "Um aumento da dívida original"],
+      correta: 1,
+      explicacao: "Trocar uma dívida com juros de 13% ao mês por outra com 3% ao mês reduz drasticamente o custo mensal, tornando a dívida bem mais fácil de quitar.",
+      variante: {
+        pergunta: "Camila está com R$2.500 de dívida no rotativo, pagando 11% de juros ao mês, e encontra um empréstimo pessoal com taxa de 4% ao mês para substituir essa dívida. Por que trocar de credor dessa forma tende a valer a pena?",
+        opcoes: ["Porque empréstimos pessoais nunca precisam ser pagos", "Porque o novo crédito tem juros bem menores, reduzindo o custo total e acelerando a quitação da dívida", "Porque ela elimina a dívida sem precisar pagar nada", "Porque aumenta automaticamente o limite do cartão"],
+        correta: 1,
+        explicacao: "Como o rotativo tem juros extremamente altos, substituir essa dívida por um crédito com taxa bem menor reduz o custo total e ajuda a sair do problema mais rápido.",
+      },
+    },
+    {
+      pergunta: "Camila torceu o tornozelo gravemente em uma queda e o médico a afastou do trabalho por dois meses para se recuperar. Ela é contribuinte regular do INSS. Além da futura aposentadoria, que benefício esse tipo de situação pode gerar direito a receber?",
+      opcoes: ["Nenhum, o INSS só paga aposentadoria", "Auxílio-doença, pago pelo INSS a quem fica temporariamente incapaz de trabalhar por motivo de saúde", "Somente um desconto em remédios", "Um empréstimo obrigatório do banco"],
+      correta: 1,
+      explicacao: "O INSS funciona como um seguro social amplo: cobre incapacidade temporária por doença ou acidente através do auxílio-doença, além de outros riscos como maternidade e morte — não só a aposentadoria.",
+      variante: {
+        pergunta: "Bianca está no sétimo mês de gravidez e vai se afastar do trabalho para o nascimento do bebê. Ela contribui para o INSS desde o primeiro emprego. Que benefício, além da aposentadoria futura, essa contribuição garante a ela durante o afastamento?",
+        opcoes: ["Nenhum, o INSS não cobre licença-maternidade", "Salário-maternidade, outro benefício que o INSS paga além da aposentadoria", "Apenas um vale-compras", "Um aumento automático de salário"],
+        correta: 1,
+        explicacao: "Assim como o auxílio-doença, o salário-maternidade é um dos benefícios que o INSS paga a quem contribui regularmente, cobrindo riscos da vida além da aposentadoria.",
+      },
+    },
+    {
+      pergunta: "Larissa trabalha registrada em carteira (CLT) e nunca precisa se preocupar em pagar o INSS por conta própria. Seu irmão Tiago é motorista de aplicativo autônomo. Que diferença existe na forma como cada um contribui para o INSS?",
+      opcoes: ["Nenhuma diferença, ambos são descontados automaticamente", "A contribuição de Larissa é descontada automaticamente do salário; Tiago precisa se organizar e pagar por conta própria, de forma ativa", "Autônomos como Tiago são proibidos de contribuir para o INSS", "Larissa nunca contribui, só Tiago contribui"],
+      correta: 1,
+      explicacao: "Empregados CLT como Larissa têm a contribuição descontada automaticamente da folha de pagamento; autônomos como Tiago precisam se organizar para pagar o INSS por conta própria todo mês.",
+      variante: {
+        pergunta: "Gabriel é CLT e contribui automaticamente para o INSS desde os 20 anos. Seu amigo Vinícius é freelancer há o mesmo tempo, mas nunca se organizou para contribuir por conta própria. Aos 40 anos, qual consequência é mais provável para Vinícius, se essa situação continuar?",
+        opcoes: ["Nenhuma, o INSS contribui automaticamente por ele mesmo sem pagamento", "Ele pode ter dificuldade para se aposentar ou receber benefícios do INSS, por falta de tempo de contribuição registrado", "Ele vai receber uma aposentadoria maior que a de Gabriel", "O governo vai descontar retroativamente sem aviso"],
+        correta: 1,
+        explicacao: "Sem contribuições registradas, o tempo de contribuição de Vinícius fica menor ou inexistente, o que pode reduzir ou impedir o acesso a benefícios futuros do INSS, incluindo a aposentadoria.",
+      },
+    },
+    {
+      pergunta: "Eduardo trabalha como engenheiro sênior e ganha bem acima da média salarial. Ele já percebeu que, ao se aposentar pelo INSS, vai receber um valor limitado pelo teto do benefício — bem menor do que seu salário atual. Que estratégia pode ajudá-lo a reduzir essa diferença na aposentadoria?",
+      opcoes: ["Nenhuma, o teto do INSS é definitivo e não pode ser compensado", "Contribuir também para uma previdência privada, que funciona como um complemento individual ao benefício do INSS", "Pedir demissão para reduzir o tempo de contribuição", "Solicitar ao INSS uma exceção ao teto por causa do salário alto"],
+      correta: 1,
+      explicacao: "Como o INSS tem um valor máximo de benefício (o teto), quem ganha bem durante a carreira e quer manter um padrão de vida parecido na aposentadoria costuma complementar a renda com uma previdência privada.",
+      variante: {
+        pergunta: "Patrícia é médica e sabe que, quando se aposentar pelo INSS, o valor recebido será bem inferior ao que ela ganha atualmente, por causa do teto do benefício. O que a previdência privada representa para alguém nessa situação?",
+        opcoes: ["Um substituto obrigatório do INSS", "Uma segunda rede de proteção que complementa o benefício limitado pelo teto do INSS", "Um seguro contra desemprego", "Uma forma de eliminar o teto do INSS diretamente"],
+        correta: 1,
+        explicacao: "A previdência privada funciona como complemento individual e voluntário, ajudando a cobrir a diferença entre o salário anterior e o valor limitado pelo teto do INSS.",
+      },
+    },
+    {
+      pergunta: "Um imóvel custa R$400.000 e é financiado em 30 anos. Somando todas as parcelas com os juros, o valor total pago chega a R$780.000. O que esse exemplo ilustra?",
+      opcoes: ["Que o valor do imóvel dobrou magicamente", "Que, por causa dos juros ao longo de muitos anos, o valor total pago em um financiamento costuma ser bem maior que o preço original do imóvel", "Que houve um erro de cálculo do banco", "Que financiar sempre custa exatamente o preço de tabela"],
+      correta: 1,
+      explicacao: "Como o financiamento se estende por muitos anos, os juros acumulados fazem o valor total pago ficar bem mais alto do que o preço original do imóvel.",
+      variante: {
+        pergunta: "Um apartamento custa R$250.000 e é financiado em 25 anos, somando ao final R$470.000 em parcelas com juros. O que esse exemplo mostra sobre financiar um imóvel a longo prazo?",
+        opcoes: ["Que o preço do imóvel foi reajustado por lei", "Que os juros acumulados ao longo de tantos anos fazem o total pago superar bastante o preço original do imóvel", "Que o banco cometeu um erro no contrato", "Que financiamentos nunca cobram juros"],
+        correta: 1,
+        explicacao: "Esse exemplo, assim como o anterior, mostra como os juros acumulados durante um financiamento longo fazem o valor total pago superar bastante o preço original do imóvel.",
+      },
+    },
+    {
+      pergunta: "Rafael recebe mesada semanal e decidiu gastar tudo já na segunda-feira comprando figurinhas. Na sexta, quando os amigos combinaram um passeio, ele percebeu que não tinha mais nada guardado. O que essa experiência pode ensinar a ele, dentro da lógica de dar mesada com propósito?",
+      opcoes: ["Que ele deveria receber mais mesada para compensar", "Que gastar tudo de uma vez tem consequências, o que ajuda a aprender sobre planejamento financeiro na prática", "Que dinheiro não tem nenhum limite", "Que ele nunca mais deve receber mesada"],
+      correta: 1,
+      explicacao: "Sentir na prática a falta de dinheiro depois de gastar tudo de uma vez ensina sobre planejamento e consequências de forma mais eficaz do que apenas ouvir conselhos.",
+      variante: {
+        pergunta: "Sofia gastou toda a mesada do mês em um brinquedo no primeiro fim de semana e ficou sem nada para o cinema com a família semanas depois. Segundo a lógica da mesada com propósito, o que essa vivência ajuda a ensinar?",
+        opcoes: ["Que os pais devem sempre cobrir o que falta", "Que decisões de gasto têm consequências reais, e sentir isso em pequena escala ajuda a formar hábitos melhores", "Que ela deve parar de receber mesada", "Que dinheiro guardado nunca faz falta"],
+        correta: 1,
+        explicacao: "Assim como no caso de Rafael, sentir a falta de dinheiro após gastar tudo de uma vez ensina sobre planejamento de forma mais eficaz do que um simples conselho.",
+      },
+    },
+    {
+      pergunta: "Marina, aos 24 anos, assumiu a própria conta de internet e o próprio plano de transporte há 4 anos, mesmo ainda morando com os pais. Seu primo Otávio, da mesma idade, nunca pagou nenhuma despesa própria — tudo sempre foi resolvido pelos pais dele. Quando os dois precisarem se sustentar totalmente sozinhos, quem tende a ter mais facilidade?",
+      opcoes: ["Otávio, pois nunca teve gastos e por isso guardou mais dinheiro", "Os dois vão se sair igual, já que isso não depende de prática", "Marina, pois já praticou administrar despesas próprias antes de precisar se sustentar por completo", "Nenhum dos dois vai conseguir se sustentar sozinho"],
+      correta: 2,
+      explicacao: "Quem já pratica pagar as próprias contas, mesmo pequenas, desenvolve mais familiaridade e confiança para administrar despesas — o que facilita a transição para a independência financeira total.",
+      variante: {
+        pergunta: "Felipe começou a pagar sozinho sua conta de streaming e uma parte do plano de celular aos 18 anos, ainda na casa dos pais. Seu colega Danilo, também com 18, nunca assumiu nenhuma despesa própria. Anos depois, quando os dois precisarem morar sozinhos, quem tende a se adaptar com mais facilidade à vida financeira independente?",
+        opcoes: ["Danilo, porque vai ter mais dinheiro guardado por não ter tido despesas antes", "Felipe, porque já praticou administrar uma despesa própria antes de precisar se sustentar totalmente", "Os dois vão se adaptar exatamente igual", "Isso depende só da sorte de cada um"],
+        correta: 1,
+        explicacao: "A prática prévia de administrar despesas próprias, mesmo pequenas, facilita a adaptação quando a independência financeira total se torna necessária mais tarde.",
+      },
+    },
+    {
+      pergunta: "Antes de aplicar uma herança de R$50.000, Marcos passa dias avaliando se conseguiria dormir tranquilo caso o valor investido caísse 20% num mês ruim. Vitória, ao receber o mesmo valor, decide investir só copiando a aplicação que mais subiu no grupo de amigos no mês anterior. Qual dos dois está aplicando melhor a ideia de perfil de investidor?",
+      opcoes: ["Vitória, porque desempenho passado garante desempenho futuro", "Marcos, porque avalia sua própria tolerância ao risco antes de decidir onde investir", "Nenhum dos dois, perfil de investidor é irrelevante", "Os dois aplicam o conceito igualmente bem"],
+      correta: 1,
+      explicacao: "Avaliar a própria tolerância a perdas e ao risco antes de escolher onde investir é exatamente a lógica por trás do perfil de investidor — copiar quem rendeu mais no passado, sem essa análise, não é.",
+      variante: {
+        pergunta: "De forma resumida, o que o 'perfil de investidor' (suitability) busca identificar antes de recomendar qualquer investimento a alguém?",
+        opcoes: ["A tolerância da pessoa ao risco, seus objetivos e o tempo até precisar do dinheiro", "O valor exato do próximo imposto de renda a pagar", "Qual corretora oferece a menor taxa de corretagem", "O CPF e o endereço completo do investidor"],
+        correta: 0,
+        explicacao: "O perfil de investidor existe para mapear tolerância ao risco, objetivos e horizonte de tempo, orientando quais investimentos fazem sentido para cada pessoa.",
+      },
+    },
+    {
+      pergunta: "Um investidor descreve seu objetivo assim: 'Não me importo em ganhar um pouco menos, desde que meu dinheiro nunca oscile para baixo.' A que perfil de investidor essa descrição mais se aproxima?",
+      opcoes: ["Perfil arrojado", "Perfil conservador", "Perfil especulativo", "Nenhum perfil se aplica"],
+      correta: 1,
+      explicacao: "Priorizar estabilidade e baixo risco, mesmo abrindo mão de um retorno maior, é a marca característica do perfil conservador.",
+      variante: {
+        pergunta: "Entre dois investimentos, um perfil conservador tende a preferir qual característica?",
+        opcoes: ["Maior volatilidade em troca de retorno potencial mais alto", "Maior previsibilidade e segurança, mesmo com retorno menor", "Exposição total a criptomoedas", "Alavancagem para multiplicar ganhos"],
+        correta: 1,
+        explicacao: "O perfil conservador prioriza previsibilidade e segurança, geralmente concentrando a carteira em opções de baixo risco, como renda fixa.",
+      },
+    },
+  ],
+},
+```
+
+#### 5. `revU_06` — objeto completo
+
+```js
+{
+  id: "revU_06",
+  tipo: "revisao",
+  titulo: "Revisão: economia colonial, Selic/CDI e os primeiros títulos de renda fixa",
+  xp: 25,
+  aula: [
+    "Esta revisão cruza dois mundos: as duas primeiras perguntas voltam ao início da colônia — a economia primário-exportadora do açúcar e o ciclo do ouro em Minas Gerais — e as outras oito recuperam o começo da trilha de Renda Fixa: Selic, CDI, CDB, LCI, LCA, FGC e Tesouro Direto.",
+    "Entender de onde vieram os primeiros ciclos econômicos do Brasil ajuda a enxergar por que, séculos depois, ainda existem incentivos do governo (como a isenção de IR de LCI/LCA) para direcionar dinheiro a setores estratégicos como o imobiliário e o agronegócio — a lógica de usar a economia para atingir um objetivo maior não é nova.",
+    "As perguntas usam situações novas, então não adianta decorar a resposta de antes — o que importa é entender o porquê por trás de cada conceito.",
+  ],
+  refLessonIds: ["h1_1", "h1_2", "l2_1", "l2_2", "rf_16", "rf_05", "l2_3"],
+  perguntas: [
+    {
+      pergunta: "No Brasil colonial, o pau-brasil e depois o açúcar eram extraídos e vendidos como matéria-prima para a Europa, sem que a colônia desenvolvesse indústria própria de processamento. Que modelo econômico esse padrão representa?",
+      opcoes: ["Economia primário-exportadora", "Economia de serviços avançados", "Substituição de importações", "Economia planificada centralizada"],
+      correta: 0,
+      explicacao: "É o modelo baseado em exportar matéria-prima barata (pau-brasil, açúcar, depois ouro e café) sem agregar muito valor a ela — um padrão que marcou boa parte da história econômica brasileira.",
+      variante: {
+        pergunta: "Uma região colonial extrai látex de borracha e vende in natura para uma potência industrial, que fabrica pneus e produtos de borracha com alto valor agregado, revendendo-os de volta. Que modelo econômico essa relação representa para a região extratora?",
+        opcoes: ["Economia primário-exportadora", "Economia de serviços", "Substituição de importações", "Economia planificada"],
+        correta: 0,
+        explicacao: "Vender matéria-prima bruta sem agregar valor industrial é a marca da economia primário-exportadora — o mesmo padrão que caracterizou o pau-brasil e o açúcar coloniais no Brasil.",
+      },
+    },
+    {
+      pergunta: "Em Minas Gerais, durante o ciclo do ouro, todo garimpeiro precisava reservar 20% do ouro extraído para a Coroa portuguesa. Esse imposto ficou historicamente conhecido por qual nome?",
+      opcoes: ["O quinto", "A derrama", "O dízimo", "A sesmaria"],
+      correta: 0,
+      explicacao: "O 'quinto' garantia que a Coroa portuguesa recebesse 20% de toda a produção de ouro da colônia — uma forma de extração de riqueza típica do período colonial.",
+      variante: {
+        pergunta: "Se um garimpeiro extraísse 250 gramas de ouro durante o ciclo do ouro em Minas Gerais, aproximadamente quantas gramas seriam destinadas à Coroa portuguesa por causa do imposto do 'quinto' (20%)?",
+        opcoes: ["50 gramas", "125 gramas", "25 gramas", "Nenhuma, o quinto era apenas simbólico"],
+        correta: 0,
+        explicacao: "O 'quinto' correspondia a 20% de todo o ouro extraído — de 250 gramas, 20% (50 gramas) seguiam obrigatoriamente para a Coroa portuguesa.",
+      },
+    },
+    {
+      pergunta: "Pelo Tratado de Methuen (1703), Portugal usava boa parte do ouro extraído do Brasil para comprar produtos manufaturados de qual país europeu — que, no fim, terminou lucrando mais com o ouro brasileiro do que a própria colônia que o produziu?",
+      opcoes: ["Inglaterra", "Espanha", "Holanda", "França"],
+      correta: 0,
+      explicacao: "O Tratado de Methuen fez com que boa parte do ouro brasileiro fluísse para a Inglaterra em troca de manufaturados — um exemplo de como a riqueza extraída de uma colônia pode enriquecer um terceiro país.",
+      variante: {
+        pergunta: "O que o Tratado de Methuen (1703) revela sobre o destino de boa parte da riqueza gerada pelo ouro extraído no Brasil colonial?",
+        opcoes: ["Ela terminou beneficiando a Inglaterra, via compra de manufaturados por Portugal, mais do que a própria colônia produtora", "Ela ficou inteiramente retida dentro do Brasil", "Ela foi usada para industrializar Portugal", "Ela foi doada integralmente à Igreja Católica"],
+        correta: 0,
+        explicacao: "Pelo Tratado de Methuen, Portugal gastava boa parte do ouro brasileiro comprando manufaturados ingleses — um padrão que beneficiou a Inglaterra mais do que a colônia que efetivamente produziu a riqueza.",
+      },
+    },
+    {
+      pergunta: "Enzo viu um CDB anunciado como pagando '95% do CDI'. Comparado à referência do mercado (100% do CDI), essa rentabilidade é considerada, em geral:",
+      opcoes: ["Acima da média do mercado", "Abaixo da referência do CDI", "Isenta de qualquer risco", "Igual à poupança, sempre"],
+      correta: 1,
+      explicacao: "Como o CDI acompanha a Selic de perto, pagar menos de 100% do CDI significa uma rentabilidade abaixo dessa referência de mercado.",
+      variante: {
+        pergunta: "Larissa encontrou dois CDBs no aplicativo do banco: um paga '80% do CDI' e outro paga '118% do CDI'. Qual dos dois está pagando acima da referência do CDI?",
+        opcoes: ["O de 80% do CDI", "O de 118% do CDI", "Nenhum dos dois", "Os dois pagam igual, sempre"],
+        correta: 1,
+        explicacao: "Qualquer percentual acima de 100% do CDI supera essa referência de mercado — no caso, o CDB que paga 118% do CDI.",
+      },
+    },
+    {
+      pergunta: "Marina está comparando um CDB e uma LCA de taxas nominais parecidas, oferecidos pelo mesmo banco. Que vantagem tributária a LCA tem sobre o CDB, para pessoa física?",
+      opcoes: ["É isenta de Imposto de Renda para pessoa física", "Tem liquidez diária garantida", "Não tem nenhum risco de crédito", "Rende sempre mais em valor absoluto que qualquer CDB"],
+      correta: 0,
+      explicacao: "LCI e LCA são isentas de IR para pessoa física, o que pode compensar uma taxa nominal menor em comparação a um CDB equivalente.",
+      variante: {
+        pergunta: "Um gerente de banco ofereceu a Thiago uma LCI pagando uma taxa nominal um pouco menor que a de um CDB do mesmo prazo. Ainda assim, o gerente disse que a LCI poderia valer mais a pena. Isso normalmente acontece por qual motivo?",
+        opcoes: ["Porque a isenção de Imposto de Renda da LCI pode compensar a taxa nominal menor", "Porque LCI sempre tem liquidez diária, diferente do CDB", "Porque LCI nunca tem qualquer risco", "Porque o CDB é proibido para pessoa física"],
+        correta: 0,
+        explicacao: "A isenção de IR da LCI pode fazer o rendimento líquido dela superar o de um CDB com taxa nominal um pouco maior, que ainda sofre desconto de imposto.",
+      },
+    },
+    {
+      pergunta: "Camila investiu em uma LCA que tem carência de 90 dias. Passados apenas 20 dias, ela precisa desse dinheiro para pagar um conserto urgente no carro. O que ela deve esperar ao tentar resgatar?",
+      opcoes: ["Ela pode resgatar normalmente, pagando uma pequena multa", "Ela não conseguirá resgatar antes de completar os 90 dias de carência", "O banco é obrigado por lei a liberar o valor em 24 horas", "A LCA não tem carência, então não há problema"],
+      correta: 1,
+      explicacao: "A carência é o período mínimo (frequentemente 90 dias) em que o dinheiro fica travado na LCI ou LCA, sem possibilidade de resgate, mesmo em emergências.",
+      variante: {
+        pergunta: "Diego aplicou numa LCI com carência de 90 dias, pensando em usar esse dinheiro como reserva de emergência. No dia 60, ele perde parte da renda e precisa sacar o valor investido. O que costuma acontecer nesse tipo de situação?",
+        opcoes: ["Ele resgata sem nenhum problema, pois emergências são exceção à carência", "Ele não consegue resgatar antes do fim da carência, o que reforça por que LCI/LCA não são recomendadas para reserva de emergência", "O banco devolve automaticamente em dobro", "A carência só vale para valores acima de R$100 mil"],
+        correta: 1,
+        explicacao: "Durante a carência, o valor fica indisponível mesmo em emergências — por isso LCI/LCA não são recomendadas para guardar a reserva de emergência.",
+      },
+    },
+    {
+      pergunta: "Guilherme está escolhendo entre uma LCA que paga 8% ao ano (isenta de IR) e um CDB de mesmo prazo (300 dias, alíquota de 20% pela tabela regressiva) que paga 9% ao ano bruto. Qual investimento entrega mais dinheiro líquido a ele?",
+      opcoes: ["O CDB, porque 9% é maior que 8%", "A LCA, porque o rendimento líquido do CDB (cerca de 7,2% após o IR) fica abaixo dos 8% isentos da LCA", "Os dois rendem exatamente igual", "Não é possível saber sem consultar o Banco Central"],
+      correta: 1,
+      explicacao: "Aplicando 20% de IR (faixa de 181 a 360 dias da tabela regressiva) sobre os 9% do CDB, o rendimento líquido cai para cerca de 7,2% ao ano — abaixo dos 8% isentos da LCA.",
+      variante: {
+        pergunta: "Yasmin compara uma LCI que paga 6,5% ao ano (isenta de IR) com um CDB de prazo mais curto (120 dias, alíquota de 22,5% pela tabela regressiva) que paga 8% ao ano bruto. Considerando apenas a tributação, qual investimento rende mais líquido?",
+        opcoes: ["O CDB, porque 8% é maior que 6,5%", "A LCI, porque o rendimento líquido do CDB (cerca de 6,2% após 22,5% de IR) fica abaixo dos 6,5% isentos da LCI", "Os dois rendem igual, líquido", "Isso depende apenas do banco emissor, não da tributação"],
+        correta: 1,
+        explicacao: "Descontando 22,5% de IR (faixa até 180 dias) dos 8% do CDB, sobra cerca de 6,2% líquido ao ano — menos que os 6,5% isentos da LCI.",
+      },
+    },
+    {
+      pergunta: "Otávio tem R$180.000 aplicados em CDB e R$100.000 em poupança, ambos no mesmo banco — um total de R$280.000. Se esse banco quebrar, quanto o FGC garante devolver a ele, no total?",
+      opcoes: ["R$280.000, o valor total aplicado", "R$250.000, porque o limite é por CPF e por instituição, somando todos os produtos cobertos naquele banco", "Nada, pois são produtos diferentes", "R$250.000 para cada produto, sem limite total"],
+      correta: 1,
+      explicacao: "O FGC protege até R$250.000 por CPF e por instituição financeira, somando todos os produtos cobertos que a pessoa tem naquele banco — não é um limite separado por produto.",
+      variante: {
+        pergunta: "Renata tem R$150.000 em LCI e R$150.000 em CDB, ambos no mesmo banco — um total de R$300.000. Se esse banco vier a quebrar, quanto o FGC garante devolver, no total?",
+        opcoes: ["R$300.000, porque são produtos diferentes", "R$250.000, somando todos os produtos cobertos naquele banco, por CPF e instituição", "Nada, porque LCI e CDB não são cobertos juntos", "R$150.000, cobrindo só o CDB"],
+        correta: 1,
+        explicacao: "O limite de R$250.000 é por CPF e por instituição financeira, somando todos os produtos cobertos — no caso, LCI e CDB juntos.",
+      },
+    },
+    {
+      pergunta: "Por que o Tesouro Direto não depende da proteção do FGC para ser considerado seguro?",
+      opcoes: ["Porque o FGC só cobre produtos emitidos por bancos, e o Tesouro Direto tem a garantia direta do Tesouro Nacional, considerada ainda mais robusta", "Porque o Tesouro Direto é mais arriscado que um CDB", "Porque o Tesouro Direto não existe legalmente", "Porque o limite do FGC já foi usado pelo governo"],
+      correta: 0,
+      explicacao: "O FGC protege depósitos e títulos de bancos; o Tesouro Direto é garantido diretamente pelo governo federal, dispensando essa proteção.",
+      variante: {
+        pergunta: "Larissa tem R$100.000 em Tesouro Direto e R$100.000 em ações na bolsa. Qual desses dois investimentos conta com uma garantia direta do governo federal, dispensando a necessidade do FGC?",
+        opcoes: ["As ações, porque empresas grandes são sempre seguras", "O Tesouro Direto, que tem a garantia direta do Tesouro Nacional", "Nenhum dos dois tem qualquer garantia", "Os dois contam com a garantia do FGC"],
+        correta: 1,
+        explicacao: "O Tesouro Direto é garantido diretamente pelo Tesouro Nacional, considerado o emissor mais seguro do país; ações não contam com o FGC nem com essa garantia governamental.",
+      },
+    },
+    {
+      pergunta: "Priscila está escolhendo onde guardar a reserva de emergência, que pode precisar usar a qualquer momento sem perder valor. Qual título do Tesouro Direto combina melhor com esse objetivo?",
+      opcoes: ["Tesouro Prefixado 2032", "Tesouro IPCA+ 2045", "Tesouro Selic", "Nenhum título do Tesouro serve para isso"],
+      correta: 2,
+      explicacao: "O Tesouro Selic tem baixíssima oscilação de preço e alta liquidez, sendo o mais indicado para reserva de emergência.",
+      variante: {
+        pergunta: "Eduardo quer investir um dinheiro que pode precisar resgatar a qualquer momento, sem correr o risco de perder valor caso precise sacar de repente. Qual título do Tesouro Direto é o mais indicado para esse caso?",
+        opcoes: ["Tesouro IPCA+ 2040", "Tesouro Prefixado 2030", "Tesouro Selic", "Nenhuma opção do Tesouro serve para isso"],
+        correta: 2,
+        explicacao: "O Tesouro Selic tem preço estável e liquidez rápida, sendo o mais adequado para quem pode precisar resgatar o dinheiro a qualquer momento.",
+      },
+    },
+  ],
+},
+```
+
+#### 6. `revU_07` — objeto completo
+
+```js
+{
+  id: "revU_07",
+  tipo: "revisao",
+  titulo: "Revisão: curva de juros, marcação a mercado, duration e os tipos de CDB",
+  xp: 25,
+  aula: [
+    "Aqui a revisão foca em conceitos mais técnicos de renda fixa: o Treasury americano, a curva de juros, quando vale a pena travar uma taxa no Tesouro Prefixado, a marcação a mercado, a duration e as diferenças entre CDB pós-fixado, prefixado e híbrido.",
+    "São ideias que se conectam entre si — entender a curva de juros ajuda a decidir entre prefixado e pós-fixado, e entender duration ajuda a escolher o prazo certo para cada objetivo — por isso vale revisar tudo junto.",
+    "De novo: são situações novas, não as mesmas perguntas de antes. Errar faz parte do processo — a explicação de cada resposta existe para fechar qualquer dúvida que sobrar.",
+  ],
+  refLessonIds: ["rf_17", "rf_08", "rf_09", "rf_06", "rf_07", "rf_10", "rf_11"],
+  perguntas: [
+    {
+      pergunta: "Rodrigo comprou um título de dívida emitido pelo governo dos Estados Unidos, que promete devolver o valor investido com juros em dólar dentro de 3 anos. Que tipo de investimento é esse?",
+      opcoes: ["Uma ação de uma empresa americana", "Um Treasury — título de dívida do governo dos EUA, equivalente em dólar ao Tesouro Direto brasileiro", "Um fundo imobiliário americano", "Uma criptomoeda emitida pelo Federal Reserve"],
+      correta: 1,
+      explicacao: "Assim como o Tesouro Direto no Brasil, o Treasury é uma forma de o governo dos EUA tomar dinheiro emprestado, pagando juros em dólar.",
+      variante: {
+        pergunta: "Qual das opções abaixo é um exemplo de Treasury americano?",
+        opcoes: ["Uma ação da Apple negociada na bolsa americana", "Um T-Note, título de dívida de médio prazo emitido pelo governo dos Estados Unidos", "Um ETF que replica o preço do ouro", "Uma debênture emitida por uma empresa brasileira"],
+        correta: 1,
+        explicacao: "T-Bills, T-Notes e T-Bonds são as diferentes 'famílias' de Treasuries — títulos de dívida emitidos pelo governo americano, diferentes de ações, ETFs de commodities ou debêntures de empresas.",
+      },
+    },
+    {
+      pergunta: "Ao estudar a curva de juros, Marina percebe que os títulos de 1 ano pagam 9% ao ano, enquanto os de 6 anos pagam 12% ao ano — uma curva ascendente. O que essa inclinação costuma indicar sobre as expectativas do mercado?",
+      opcoes: ["Que o mercado espera juros mais altos no futuro, ou exige um prêmio de risco maior para os prazos mais longos", "Que a Selic vai cair fortemente nos próximos meses", "Que a inflação zerou naquele período", "Que o governo proibiu a emissão de títulos longos"],
+      correta: 0,
+      explicacao: "Uma curva ascendente, com juros maiores nos prazos mais longos, costuma refletir expectativa de juros mais altos no futuro ou um prêmio de risco maior para prazos longos.",
+      variante: {
+        pergunta: "Bruno nota que a curva de juros mostra 10% ao ano para títulos de 2 anos e 14% ao ano para títulos de 10 anos. O que essa inclinação ascendente costuma sinalizar sobre as expectativas do mercado em relação à Selic futura?",
+        opcoes: ["Que o mercado espera juros mais altos no futuro, ou um prêmio de risco maior para prazos longos", "Que a Selic vai despencar em breve", "Que não existe mais inflação no país", "Que os títulos de 10 anos deixaram de pagar juros"],
+        correta: 0,
+        explicacao: "Assim como no caso de Marina, uma curva ascendente costuma refletir expectativa de juros mais altos no futuro ou um prêmio de risco maior para os prazos mais longos.",
+      },
+    },
+    {
+      pergunta: "A curva de juros muda de formato e passa a mostrar 13% ao ano para títulos curtos e 10% ao ano para títulos longos — uma curva invertida. O que esse formato geralmente sinaliza sobre as expectativas do mercado?",
+      opcoes: ["Que o mercado espera cortes futuros na Selic, muitas vezes associados a uma desaceleração da economia", "Que o mercado espera a Selic subir ainda mais nos próximos anos", "Que os títulos de prazo longo pararam de pagar juros", "Que não há mais Tesouro Direto disponível para compra"],
+      correta: 0,
+      explicacao: "A inversão da curva costuma indicar que o mercado está precificando queda futura da Selic, frequentemente associada à expectativa de uma economia mais fraca.",
+      variante: {
+        pergunta: "Camila percebe que as taxas dos títulos de 1 ano (12%) estão mais altas que as dos títulos de 8 anos (9%) — uma curva invertida. O que essa inversão costuma indicar sobre as expectativas do mercado para a Selic?",
+        opcoes: ["Que o mercado espera cortes futuros na Selic, muitas vezes ligados a uma desaceleração da economia", "Que o mercado espera juros ainda mais altos no futuro", "Que os títulos curtos deixaram de existir", "Que a inflação está zerada"],
+        correta: 0,
+        explicacao: "Assim como no caso de Camila, uma curva invertida costuma indicar que o mercado espera cortes futuros na Selic, muitas vezes ligados à expectativa de uma economia mais fraca.",
+      },
+    },
+    {
+      pergunta: "Felipe acredita que o Banco Central vai cortar bastante a Selic no próximo ano. Pensando na lógica do Tesouro Prefixado, o que essa expectativa sugere que ele faça hoje?",
+      opcoes: ["Vender qualquer título que já tenha e esperar em dinheiro", "Comprar Tesouro Prefixado agora, travando a taxa atual antes da provável queda", "Comprar apenas dólar", "Aumentar o prazo do CDB pós-fixado sem analisar a taxa"],
+      correta: 1,
+      explicacao: "Esperando queda de juros, travar uma taxa prefixada hoje tende a garantir uma remuneração melhor do que a disponível após o corte da Selic.",
+      variante: {
+        pergunta: "Um analista de mercado projeta uma queda expressiva da Selic ao longo dos próximos dois anos. Nesse cenário, qual estratégia com o Tesouro Prefixado costuma fazer mais sentido para quem pode deixar o dinheiro investido até o vencimento?",
+        opcoes: ["Esperar as taxas caírem ainda mais antes de comprar qualquer título prefixado", "Travar uma taxa prefixada o quanto antes, antes que as taxas de mercado caiam mais", "Comprar apenas Tesouro Selic, pois o prefixado deixaria de existir", "Vender todos os títulos públicos imediatamente"],
+        correta: 1,
+        explicacao: "Se o mercado espera queda futura dos juros, travar uma taxa prefixada hoje pode garantir uma remuneração maior do que a que estará disponível depois da queda.",
+      },
+    },
+    {
+      pergunta: "O que significa 'marcação a mercado' em um título de renda fixa prefixado?",
+      opcoes: ["O valor final garantido que você vai receber no vencimento", "A atualização do valor do título com base no que o mercado pagaria por ele agora, antes do vencimento", "Uma taxa cobrada pela corretora para registrar a venda", "O imposto de renda cobrado sobre o rendimento"],
+      correta: 1,
+      explicacao: "Marcação a mercado é o ajuste do valor de um título para refletir o que ele valeria se fosse vendido hoje, considerando as condições atuais do mercado.",
+      variante: {
+        pergunta: "Você comprou um título prefixado a 9% ao ano. Dois meses depois, títulos novos parecidos passam a pagar 7% ao ano. O que provavelmente acontece com o valor de mercado (marcação a mercado) do seu título, antes do vencimento?",
+        opcoes: ["O valor cai, porque seu título ficou menos atraente", "O valor sobe, porque seu título paga mais do que os novos títulos disponíveis no mercado", "O valor não muda nunca antes do vencimento", "O valor zera imediatamente"],
+        correta: 1,
+        explicacao: "Quando as taxas de mercado caem, um título antigo com taxa maior fica mais atraente, e seu valor de mercado tende a subir.",
+      },
+    },
+    {
+      pergunta: "Uma pessoa investiu em um título prefixado e, dois anos depois, vê no aplicativo do banco que o valor atual é menor do que ela investiu, porque as taxas de mercado subiram. Ela pretende manter o título até o vencimento, daqui a 4 anos. O que ela deve considerar?",
+      opcoes: ["Que ela já perdeu esse dinheiro definitivamente", "Que essa queda é só a marcação a mercado; se ela mantiver o título até o vencimento, deve receber o valor combinado na compra, salvo risco de crédito do emissor", "Que ela precisa vender imediatamente para evitar perdas", "Que o título deixou de existir"],
+      correta: 1,
+      explicacao: "Enquanto o investidor não vende, a queda no valor de mercado é apenas uma referência contábil — o valor contratado é preservado até o vencimento, considerando o risco normal de crédito do emissor.",
+      variante: {
+        pergunta: "Quando a marcação a mercado realmente afeta o quanto um investidor recebe por um título de renda fixa prefixado?",
+        opcoes: ["Sempre, mesmo que o investidor fique com o título até o vencimento", "Só se o investidor vender o título antes do vencimento; quem carrega até o fim recebe o valor combinado na compra", "Nunca, ela é só uma informação decorativa no extrato", "Apenas para quem investe em ações"],
+        correta: 1,
+        explicacao: "A marcação a mercado mostra o valor de venda antecipada; se o investidor mantém o título até o vencimento, recebe o valor contratado, independentemente das oscilações no caminho.",
+      },
+    },
+    {
+      pergunta: "Um Tesouro Prefixado com vencimento em 3 anos e outro com vencimento em 25 anos sofrem a mesma alta nos juros de mercado. Qual dos dois tende a ter uma queda de preço maior?",
+      opcoes: ["O de 3 anos, porque vence primeiro", "O de 25 anos, porque tem duration mais alta e sente mais o efeito da mudança nos juros", "Os dois caem exatamente o mesmo percentual", "Nenhum dos dois sofre variação de preço"],
+      correta: 1,
+      explicacao: "Títulos de prazo mais longo geralmente têm duration mais alta, tornando seu preço mais sensível a mudanças nas taxas de juros do mercado.",
+      variante: {
+        pergunta: "Dois Tesouros IPCA+ sofrem a mesma alta nos juros de mercado: um vence em 2 anos, outro em 20 anos. Qual dos dois tende a sofrer a maior queda de preço, por causa da duration?",
+        opcoes: ["O de 2 anos", "O de 20 anos, por ter duration mais alta", "Os dois caem igual", "Nenhum dos dois é afetado pelos juros de mercado"],
+        correta: 1,
+        explicacao: "Assim como no exemplo do Prefixado, o título de vencimento mais distante tende a ter duration mais alta e sentir mais o efeito de uma alta nos juros de mercado.",
+      },
+    },
+    {
+      pergunta: "Um Tesouro IPCA+ promete pagar 'IPCA + 5% ao ano'. Se a inflação do período for de 4%, qual é aproximadamente o retorno real (além da inflação) garantido a quem segurar até o vencimento?",
+      opcoes: ["4%", "5%", "9%", "0%, porque o IPCA anula o retorno"],
+      correta: 1,
+      explicacao: "A taxa real combinada (5% no exemplo) é o ganho garantido além da inflação, que é acompanhada separadamente pelo componente IPCA do título.",
+      variante: {
+        pergunta: "Se um Tesouro IPCA+ promete pagar 'IPCA + 6,5% ao ano', e a inflação do período for de 3%, qual é aproximadamente o retorno real garantido para quem segurar o título até o vencimento?",
+        opcoes: ["3%", "6,5%", "9,5%", "0%"],
+        correta: 1,
+        explicacao: "A taxa real combinada (6,5% no exemplo) é o ganho garantido além da inflação, independentemente do valor exato do IPCA no período.",
+      },
+    },
+    {
+      pergunta: "Camila está montando a reserva de emergência, que pode precisar resgatar em qualquer mês, e não sabe prever o rumo da Selic. Qual tipo de CDB costuma ser mais indicado para essa reserva?",
+      opcoes: ["CDB prefixado de longo prazo", "CDB híbrido IPCA+ com vencimento em 20 anos", "Qualquer CDB, sem consultar a liquidez", "CDB pós-fixado (% do CDI) com liquidez diária"],
+      correta: 3,
+      explicacao: "O pós-fixado acompanha o CDI automaticamente, o que o torna adequado em cenários de incerteza e para reservas de emergência que exigem liquidez rápida.",
+      variante: {
+        pergunta: "Henrique quer investir o dinheiro que reservou para imprevistos, podendo precisar sacar a qualquer momento, sem saber se a Selic vai subir ou cair. Qual tipo de CDB tende a ser mais adequado?",
+        opcoes: ["CDB pós-fixado (% do CDI), pela liquidez e por acompanhar automaticamente o mercado", "CDB prefixado de 5 anos", "CDB híbrido atrelado ao IPCA de longuíssimo prazo", "Não há CDB adequado para esse caso"],
+        correta: 0,
+        explicacao: "Para reserva de emergência, a liquidez e a baixa oscilação de preço tornam o pós-fixado mais adequado do que o prefixado ou o híbrido de longo prazo.",
+      },
+    },
+    {
+      pergunta: "Para um objetivo de longuíssimo prazo, como aposentadoria em 28 anos, qual tipo de CDB tende a fazer mais sentido para proteger o poder de compra do dinheiro?",
+      opcoes: ["CDB pós-fixado, pois o CDI sempre supera a inflação no longo prazo", "CDB híbrido (IPCA + taxa fixa), pois garante ganho real acima da inflação ao longo de décadas", "CDB prefixado, pois a taxa nunca muda em nenhuma hipótese", "Nenhum CDB é indicado para prazos longos"],
+      correta: 1,
+      explicacao: "O CDB híbrido atrelado ao IPCA garante um ganho real combinado, sendo mais adequado para preservar poder de compra em objetivos de muito longo prazo.",
+      variante: {
+        pergunta: "Beatriz está guardando dinheiro para a faculdade da filha, que vai começar daqui a 16 anos, e quer proteger esse valor contra a inflação ao longo de todo esse período. Qual tipo de CDB tende a ser mais indicado?",
+        opcoes: ["CDB pós-fixado, porque acompanha a Selic automaticamente", "CDB híbrido (IPCA + taxa fixa), porque garante um ganho real acima da inflação se mantido até o vencimento", "CDB prefixado, porque a taxa é travada para sempre", "Nenhum CDB protege contra inflação"],
+        correta: 1,
+        explicacao: "Assim como no caso de um objetivo de aposentadoria, o CDB híbrido atrelado ao IPCA protege o poder de compra ao longo de décadas, garantindo ganho real se mantido até o vencimento.",
+      },
+    },
+  ],
+},
+```
+
+#### 7. `revU_08` — objeto completo
+
+```js
+{
+  id: "revU_08",
+  tipo: "revisao",
+  titulo: "Revisão: debêntures, CRI/CRA, rating de crédito e comparando renda fixa de verdade",
+  xp: 25,
+  aula: [
+    "Fechando a revisão do Nível 2, esses 7 pontos trouxeram os títulos emitidos por empresas (debêntures, debêntures incentivadas, CRI e CRA), como interpretar o rating de crédito, como funcionam as taxas de fundos de renda fixa e DI, a 'mordida' do come-cotas e, por fim, como comparar renda fixa de verdade — olhando taxa, prazo, liquidez, IR e garantia juntos.",
+    "Cada um desses temas aparece na hora de escolher entre investimentos parecidos na prática — por isso vale ter clareza sobre eles antes de seguir para a Renda Variável.",
+    "As 10 perguntas abaixo usam situações novas, testando o entendimento de verdade, não a decoreba. Erre à vontade — a explicação existe para isso.",
+  ],
+  refLessonIds: ["rf_01", "rf_02", "rf_04", "rf_03", "rf_12", "rf_13", "rf_14"],
+  perguntas: [
+    {
+      pergunta: "Uma fabricante de eletrodomésticos emite debêntures para financiar a construção de uma nova fábrica. Quem compra essas debêntures está fazendo o quê, na prática?",
+      opcoes: ["Comprando uma parte da empresa, como se fosse sócio", "Emprestando dinheiro para a empresa, em troca de receber juros até o vencimento", "Doando dinheiro para a empresa sem esperar retorno", "Comprando um seguro contra a falência da empresa"],
+      correta: 1,
+      explicacao: "Debênture é dívida, não sociedade — quem compra é credor da empresa, não dono de uma parte dela, e espera receber o valor de volta com juros.",
+      variante: {
+        pergunta: "O que é, de forma resumida, uma debênture emitida por uma empresa?",
+        opcoes: ["Um título de dívida da empresa, em que o investidor empresta dinheiro a ela em troca de juros", "Uma ação da empresa negociada na bolsa", "Uma conta poupança específica de empresas", "Um imposto cobrado sobre o lucro da empresa"],
+        correta: 0,
+        explicacao: "A debênture é uma forma de empresas captarem dinheiro emprestado de investidores, prometendo devolver o valor com juros no prazo combinado.",
+      },
+    },
+    {
+      pergunta: "Uma debênture incentivada paga 9% ao ano, isenta de IR. Uma debênture comum de mesmo prazo (acima de 720 dias, alíquota de 15% pela tabela regressiva) paga 10% ao ano bruto. Considerando apenas o imposto, qual tende a entregar mais dinheiro líquido ao investidor?",
+      opcoes: ["A debênture comum, porque a taxa nominal é maior", "A debênture incentivada, porque o rendimento líquido de 9% isento supera o de 10% menos o IR (cerca de 8,5% líquido)", "As duas entregam exatamente o mesmo valor líquido", "Isso depende apenas do valor investido, nunca da taxa"],
+      correta: 1,
+      explicacao: "10% menos 15% de IR equivale a cerca de 8,5% líquido — menor que os 9% isentos da incentivada, mostrando como a isenção pode compensar uma taxa nominal menor.",
+      variante: {
+        pergunta: "Uma debênture incentivada paga 7,5% ao ano isenta de IR. Uma debênture comum do mesmo prazo (400 dias, alíquota de 17,5% pela tabela regressiva) paga 9% ao ano bruto. Considerando só o imposto, qual tende a valer mais, líquido?",
+        opcoes: ["A debênture comum, porque 9% é maior que 7,5%", "A debênture incentivada, porque o rendimento líquido da comum (cerca de 7,4%) fica abaixo dos 7,5% isentos", "As duas entregam o mesmo valor líquido", "O imposto não afeta debêntures comuns"],
+        correta: 1,
+        explicacao: "Descontando 17,5% de IR (faixa de 361 a 720 dias) dos 9% da debênture comum, sobra cerca de 7,4% líquido — pouco abaixo dos 7,5% isentos da incentivada.",
+      },
+    },
+    {
+      pergunta: "Uma empresa recebe rating BBB e outra recebe rating CC. Qual das duas tem maior risco de não pagar sua dívida em dia?",
+      opcoes: ["A empresa com rating BBB", "A empresa com rating CC", "As duas têm exatamente o mesmo risco", "O rating não indica risco de pagamento"],
+      correta: 1,
+      explicacao: "Quanto mais baixa a nota (como CC), maior o risco percebido de não pagamento; notas mais altas (como BBB) indicam menor risco.",
+      variante: {
+        pergunta: "Dois títulos de mesmo prazo: um com rating A paga 8% ao ano; outro com rating CCC paga 17% ao ano. O que essa grande diferença de taxa provavelmente reflete?",
+        opcoes: ["O título CCC é mais seguro, por isso paga mais", "O título CCC tem maior risco de crédito, e a taxa mais alta compensa esse risco", "A diferença é aleatória e não tem relação com o rating", "O título A paga menos porque tem prazo maior"],
+        correta: 1,
+        explicacao: "Ratings mais baixos indicam maior risco de crédito, e o mercado exige uma taxa mais alta para aceitar esse risco adicional.",
+      },
+    },
+    {
+      pergunta: "Um CRI reúne centenas de prestações mensais de financiamentos de imóveis e as transforma em um único título vendido a investidores. Se boa parte dessas prestações entrar em atraso, o que tende a acontecer com o retorno de quem investiu nesse CRI?",
+      opcoes: ["Nada muda, o retorno é garantido pelo governo", "O retorno pode ser prejudicado, já que o pagamento ao investidor depende dos recebíveis que compõem o título", "O FGC cobre automaticamente qualquer perda", "O retorno aumenta quando há inadimplência"],
+      correta: 1,
+      explicacao: "Como o pagamento do CRI vem dos recebíveis empacotados, a inadimplência dos pagadores originais afeta diretamente o retorno do investidor.",
+      variante: {
+        pergunta: "Um CRA é formado por recebíveis da venda antecipada de uma safra de soja. Se a safra for menor do que o esperado e os pagamentos combinados não forem cumpridos integralmente, o que tende a acontecer com o retorno de quem investiu nesse CRA?",
+        opcoes: ["Nada muda, o retorno do CRA é sempre fixo e garantido", "O retorno pode ser prejudicado, pois depende do cumprimento dos recebíveis agrícolas que formam o título", "O governo cobre automaticamente qualquer diferença", "O retorno sobe automaticamente nesses casos"],
+        correta: 1,
+        explicacao: "Assim como no CRI, o retorno do CRA depende diretamente do cumprimento dos recebíveis que compõem o título — nesse caso, os pagamentos ligados à safra.",
+      },
+    },
+    {
+      pergunta: "Sobre a tributação e a proteção de um CRI para pessoa física, o que é correto?",
+      opcoes: ["É tributado como ações e protegido pelo FGC", "Os juros são isentos de Imposto de Renda, mas o CRI não conta com a proteção do FGC", "Paga sempre 22,5% de IR e é protegido pelo FGC", "Não pode ser comprado por pessoas físicas"],
+      correta: 1,
+      explicacao: "CRI e CRA seguem a mesma isenção de IR para pessoa física que LCI e LCA, mas — diferente delas — não são emitidos por bancos e não têm garantia do FGC.",
+      variante: {
+        pergunta: "Comparando um CDB de um banco com um CRI de mesma taxa de retorno, qual diferença de proteção existe entre eles?",
+        opcoes: ["Nenhuma, ambos têm proteção idêntica", "O CDB conta com a garantia do FGC até o limite de cobertura; o CRI não tem essa proteção e depende da qualidade dos recebíveis e da securitizadora", "O CRI é mais protegido, por envolver imóveis físicos", "O CDB nunca é protegido pelo FGC"],
+        correta: 1,
+        explicacao: "FGC cobre depósitos e títulos emitidos por bancos, como o CDB; CRI é emitido por uma securitizadora e não entra nessa proteção.",
+      },
+    },
+    {
+      pergunta: "Um fundo DI investe majoritariamente em títulos atrelados ao CDI, que está em 8% ao ano. O fundo cobra 2,5% de taxa de administração ao ano. Aproximadamente quanto sobra de rendimento bruto, antes dos impostos, e o que isso sugere na comparação com investir direto no Tesouro Selic?",
+      opcoes: ["Sobram cerca de 5,5% ao ano, uma mordida grande que pode deixar o fundo pior que o Tesouro Selic direto, com custo de custódia bem menor", "Sobram 8% ao ano, pois a taxa não afeta o rendimento bruto", "Sobram 10,5% ao ano, porque a taxa é somada ao CDI", "O fundo devolve automaticamente a taxa cobrada no fim do ano"],
+      correta: 0,
+      explicacao: "Uma taxa de 2,5% sobre um CDI de 8% deixa cerca de 5,5% ao ano antes de impostos, um desconto proporcionalmente grande frente ao custo bem menor de investir direto no Tesouro Selic.",
+      variante: {
+        pergunta: "Se o CDI está em 11% ao ano e um fundo DI cobra 4% de taxa de administração, aproximadamente qual seria o rendimento bruto restante antes dos impostos, e por que essa mordida pesa proporcionalmente mais nesse tipo de fundo?",
+        opcoes: ["Sobram cerca de 7% ao ano — como o retorno bruto do fundo DI já é parecido com o CDI, a taxa consome uma fatia grande desse ganho relativamente menor", "Sobram 11% ao ano, pois taxas de administração não afetam fundos DI", "Sobram 15% ao ano, porque a taxa é somada ao CDI", "O fundo é obrigado a devolver a taxa se render menos que o CDI"],
+        correta: 0,
+        explicacao: "Uma taxa de 4% sobre um CDI de 11% deixa cerca de 7% ao ano antes de impostos — como o retorno bruto do fundo DI já é parecido com o CDI, a taxa consome proporcionalmente mais desse ganho.",
+      },
+    },
+    {
+      pergunta: "Um investidor tem 2.000 cotas em um fundo DI. Depois da cobrança do come-cotas em maio, o que geralmente acontece com a quantidade de cotas dele, mesmo sem ele ter resgatado nada?",
+      opcoes: ["A quantidade de cotas aumenta, como um bônus", "A quantidade de cotas diminui, pois parte do rendimento é usada para pagar o IR antecipado", "A quantidade de cotas permanece exatamente igual", "O fundo é automaticamente encerrado"],
+      correta: 1,
+      explicacao: "O come-cotas desconta o IR devido convertendo parte do rendimento em uma redução no número de cotas do investidor, mesmo sem resgate.",
+      variante: {
+        pergunta: "O que é o 'come-cotas', cobrado em alguns fundos de investimento em maio e novembro?",
+        opcoes: ["Uma taxa cobrada pela corretora para manter o fundo aberto", "Uma antecipação automática do Imposto de Renda sobre o rendimento de alguns fundos, que reduz a quantidade de cotas do investidor", "Um bônus pago pelo fundo aos cotistas duas vezes por ano", "Uma multa por resgate antecipado do fundo"],
+        correta: 1,
+        explicacao: "O come-cotas é uma cobrança automática e semestral de IR sobre o rendimento de certos fundos, que reduz o número de cotas do investidor sem que ele precise resgatar.",
+      },
+    },
+    {
+      pergunta: "Dois investimentos têm a mesma taxa de retorno bruta e a mesma alíquota final de IR: um fundo multimercado (com come-cotas) e um CDB (sem come-cotas, IR só no resgate). No longo prazo, qual tende a acumular um pouco mais, considerando apenas esse efeito?",
+      opcoes: ["O fundo multimercado, porque paga o imposto antes", "O CDB, porque todo o rendimento permanece investido até o resgate, gerando juros sobre um valor maior ao longo do tempo", "Os dois acumulam exatamente o mesmo valor", "Isso depende apenas da corretora usada"],
+      correta: 1,
+      explicacao: "Como o come-cotas retira parte do rendimento antes do vencimento, esse valor deixa de compor juros dentro do fundo, fazendo o investimento sem come-cotas acumular ligeiramente mais no longo prazo, tudo o mais constante.",
+      variante: {
+        pergunta: "Qual é o principal efeito prático do come-cotas em comparação com um investimento que só paga IR no resgate, como um CDB?",
+        opcoes: ["O come-cotas faz o investidor pagar um imposto total maior do que pagaria em outro investimento parecido", "O come-cotas antecipa parte do imposto, o que reduz um pouco o efeito dos juros compostos, já que uma parte do dinheiro sai do fundo antes do tempo", "O come-cotas isenta o investidor de pagar IR no resgate final", "O come-cotas só existe para investimentos em ações"],
+        correta: 1,
+        explicacao: "O imposto total tende a ser o mesmo, mas por ser cobrado antes, uma parte do dinheiro deixa de render dentro do fundo, reduzindo um pouco o efeito dos juros compostos ao longo do tempo.",
+      },
+    },
+    {
+      pergunta: "Simone viu um título prefixado a 15% ao ano com vencimento em 8 anos e sem possibilidade de resgate antecipado, e outro a 12% ao ano com liquidez diária. Antes de escolher só pela taxa maior, o que Simone deveria avaliar?",
+      opcoes: ["Nada, deve escolher sempre o de maior taxa", "Se ela vai precisar do dinheiro antes dos 8 anos e se consegue ficar tanto tempo sem acessar o valor", "Apenas a cor do aplicativo do banco", "Se o título tem nome bonito"],
+      correta: 1,
+      explicacao: "Uma taxa mais alta não compensa se você precisar do dinheiro antes do prazo e não puder (ou só puder com prejuízo) resgatar.",
+      variante: {
+        pergunta: "Ao comparar um CDB que paga 14% ao ano e outro título que paga 11,5% ao ano, o que é indispensável considerar além da taxa anunciada, antes de decidir qual é o melhor negócio?",
+        opcoes: ["Apenas qual banco tem a melhor propaganda", "O prazo de vencimento, a liquidez, a incidência de IR e se há garantia do FGC", "Somente se o CDB é prefixado ou pós-fixado, nada mais importa", "Apenas o valor mínimo de investimento exigido"],
+        correta: 1,
+        explicacao: "A taxa nominal é só uma parte da história: prazo, liquidez, tributação e garantia mudam o quanto você efetivamente ganha e o risco que corre.",
+      },
+    },
+    {
+      pergunta: "Dois títulos têm a mesma taxa bruta de 11% ao ano por 18 meses: um CDB (tributado pela tabela regressiva do IR) e uma LCA (isenta de IR para pessoa física). Considerando só a tributação, qual tende a entregar um retorno líquido maior?",
+      opcoes: ["O CDB, porque bancos maiores pagam mais", "A LCA, porque não há desconto de Imposto de Renda sobre o rendimento", "Os dois sempre rendem exatamente o mesmo, líquido", "Depende apenas da cor do gráfico no aplicativo"],
+      correta: 1,
+      explicacao: "Como a LCA é isenta de IR para pessoa física, o rendimento líquido dela tende a ser maior que o de um CDB com a mesma taxa bruta, que sofre desconto do IR regressivo.",
+      variante: {
+        pergunta: "Dois investimentos oferecem 9% ao ano brutos por 2 anos: um CDB e um título público (Tesouro Direto), ambos tributados pela mesma tabela regressiva de IR sobre o rendimento. Nesse caso, em termos de tributação, o que se pode esperar?",
+        opcoes: ["O Tesouro Direto é isento de IR, rendendo sempre mais", "Como ambos seguem a mesma tabela regressiva de IR, a tributação tende a ser parecida, e o que muda é geralmente a garantia (FGC) e outros detalhes", "O CDB nunca paga IR", "O Tesouro Direto é proibido para pessoa física"],
+        correta: 1,
+        explicacao: "CDB e Tesouro Direto seguem a mesma tabela regressiva de IR sobre o rendimento; a diferença entre eles está mais na garantia (FGC no CDB) e no emissor, não na tributação.",
+      },
+    },
+  ],
+},
+```
+
+#### Registro da etapa
+
+- **Resumo da etapa**: escritas as 10 perguntas (base + variante cada) dos 4
+  blocos da Onda de Revisão 2 (`revU_05`..`revU_08`), cobrindo o fim do
+  Nível 1 (Fundamentos), o início do Nível 2 (Renda Fixa) e — pela primeira
+  vez nesta RFC — 2 lições de `HISTORY_COURSE` dentro de um bloco misto
+  (`revU_06`, com 3 das 10 perguntas dedicadas a `h1_1`/`h1_2`, acima do
+  mínimo de 2 pedido). Todas as perguntas são situações-problema novas,
+  nunca cópia literal de uma pergunta já publicada nas 21 lições-fonte —
+  incluindo 2 casos em que uma primeira redação de `revU_05` (pares 9/10,
+  sobre `l4_1`) reproduzia quase literalmente o enunciado original e foi
+  reescrita por completo antes da versão final. Todos os 40 pares
+  base+`variante` revisados explicitamente contra o padrão do Bug 1 da Fase
+  3B — 2 casos que numa primeira redação teriam misturado dois conceitos
+  diferentes (`revU_05` pares 9/10 por proximidade literal com o original,
+  `revU_07` pares 2/3 por misturar leitura de sinal da curva de juros com a
+  ação recomendada) foram identificados e corrigidos nesta própria revisão
+  (seção 3 acima detalha cada um). Objetos completos, prontos para colagem
+  em `js/data.js` no array `COURSE_REVIEWS` (nas posições `revU_05` a
+  `revU_08`, logo após `revU_04`), registrados nas seções 4-7.
+- **Decisões tomadas**: distribuição de cobertura por lição em cada bloco
+  (seção 1, incluindo a decisão explícita de reservar 3 das 10 perguntas de
+  `revU_06` para as 2 lições de História, acima do mínimo pedido), texto
+  final de `titulo`/`aula` de cada bloco, as 40 perguntas com suas
+  variantes, validação factual/financeira/histórica (seção 2), checklist do
+  Bug 1 (seção 3). Nenhum valor numérico de lei/alíquota novo introduzido —
+  os blocos 6 e 8 reutilizam exatamente a tabela regressiva de IR
+  (`RF_TAX_TABLE`) já publicada em `js/data.js`, sem inventar nenhum
+  percentual de lei; os blocos 5 e 7 tratam de conceitos comportamentais e
+  de mercado genéricos, já publicados nas 21 lições-fonte.
+- **Pendências para os próximos agentes**:
+  - **Frontend Engineer (Fase 3C, Onda de Revisão 2)**: colar os 4 objetos
+    das seções 4-7 em `js/data.js`, no array `COURSE_REVIEWS`, logo depois
+    de `revU_04` (ordem `revU_05`, `revU_06`, `revU_07`, `revU_08`) —
+    nenhuma mudança de mecanismo é necessária em `Trail.levels()` (já
+    generalizado e validado na Onda 1, seções 19/21/22), já que os 4 blocos
+    desta Onda ancoram todos em `COURSE` (`l4_1` em `COURSE[0]`, `l2_3`/
+    `rf_11`/`rf_14` em `COURSE[1]`) — nenhum deles ancora em
+    `HISTORY_COURSE`, então o caminho de inserção nesse array (já validado
+    na Onda 1) não precisa de nova verificação dirigida nesta Onda. Depois
+    de colado, rodar `node --check js/data.js` e o script de validação (ids
+    duplicados, `opcoes.length===4`, `correta` válido, `variante` presente,
+    `refLessonIds` com exatamente 7 ids existentes em `COURSE` — incluindo
+    confirmar que `h1_1`/`h1_2`, apesar de existirem em `HISTORY_COURSE`,
+    não geram erro por não estarem em `COURSE`, já que o mecanismo de
+    inserção só depende do id da âncora, `refLessonIds[6]`, estar no array
+    processado — sem sobreposição entre `revU_05`..`revU_08` nem com
+    `revU_01`..`revU_04`).
+  - **QA Engineer**: validar, além do checklist estrutural, que as 4
+    revisões aparecem na trilha unificada Aprender exatamente depois de
+    `l4_1`, `l2_3`, `rf_11` e `rf_14` respectivamente (nunca antes), que
+    `COURSE`/`HISTORY_COURSE` permanecem intocados após `Trail.render()`
+    rodar, e reler as 40 perguntas em busca de qualquer ambiguidade
+    residual não capturada nesta revisão — com atenção extra ao bloco misto
+    `revU_06` (confirmar que as perguntas de história fazem sentido lidas
+    fora do contexto de `HISTORY_COURSE`, já que o bloco aparece fisicamente
+    dentro da sequência de Renda Fixa em `COURSE[1]`, não ao lado de
+    `HISTORY_COURSE`).
+  - **Documentation Specialist**: registrar a Onda de Revisão 2 como
+    concluída em `CHANGELOG.md`/`ROADMAP.md` depois do QA, e atualizar o
+    status desta RFC quando a Fase 3C avançar para a Onda de Revisão 3
+    (blocos 9-12 — primeira âncora real em `HISTORY_COURSE`, atenção
+    redobrada de QA já sinalizada pelo Software Architect na seção 19).
+- **Riscos**: nenhum risco de conteúdo novo identificado — todas as 40
+  perguntas reaproveitam conceitos, fatos históricos e números já validados
+  nas 21 lições-fonte, sem nenhuma alíquota/teto/definição nova sendo
+  introduzida por esta Onda (os percentuais usados nos cálculos de
+  `revU_06`/`revU_08` seguem a tabela regressiva de IR já publicada em
+  `js/data.js`). Nenhum risco técnico nesta etapa — os 4 blocos ancoram
+  todos em `COURSE`, então não exercitam (nem precisam exercitar de novo) o
+  caminho de inserção em `HISTORY_COURSE`, já validado na Onda 1.
+- **Próximo agente responsável**: Frontend Engineer (Fase 3C, Onda de
+  Revisão 2).
+
+### 25. Frontend Engineer (Fase 3C — Implementação da Onda de Revisão 2)
+
+Confirmado por `git status`/`git diff --stat` no início desta etapa: só a
+própria RFC estava modificada (838 linhas, trabalho do Financial Specialist
+na seção 24), nenhum código pendente — esta implementação partiu do zero.
+Escopo desta etapa, conforme a pendência deixada pela seção 24: colar os 4
+objetos (`revU_05`..`revU_08`) em `js/data.js` no array `COURSE_REVIEWS` já
+existente, e confirmar (não assumir) que `js/trail.js` não precisa de
+nenhuma mudança — o mecanismo genérico já implementado e validado na Onda 1
+(seções 19/21) deveria absorver as 4 novas entradas automaticamente, já que
+todos os 4 blocos desta Onda ancoram em `COURSE` (nenhum exercita de novo o
+caminho de inserção em `HISTORY_COURSE`, validado com teste dirigido na
+Onda 1).
+
+#### 1. `js/data.js` — 4 novas entradas em `COURSE_REVIEWS`
+
+Extraídos os 4 objetos completos da seção 24 (subsecões 4-7) por script
+(nenhuma retranscrição manual, para eliminar risco de erro de transcrição
+num conteúdo desse tamanho): cada bloco de código foi lido diretamente do
+markdown da RFC pelas mesmas linhas onde o Financial Specialist os deixou,
+reindentado em +2 espaços (o array `COURSE_REVIEWS` já está aninhado dentro
+de `const COURSE_REVIEWS = [ ... ]`, então cada objeto de nível superior no
+arquivo fica com `{` em 2 espaços e chaves em 4 — o mesmo padrão já usado
+pelas 4 entradas da Onda 1) e inserido imediatamente depois do `},` que
+fecha `revU_04` e antes do `];` que fecha o array, sem tocar em nenhuma
+linha das 4 entradas já existentes. Nenhum texto ou número alterado em
+relação ao que a seção 24 especificou.
+
+Validado por três scripts Python independentes (nenhum modifica o arquivo,
+só leem e verificam):
+
+- **Balanceamento de chaves/colchetes/parênteses** (tokenizer consciente de
+  string/comentário JS, mesmo utilitário das fases anteriores, já que
+  `node --check` continua indisponível neste ambiente): `js/data.js`,
+  `js/trail.js` e `js/business.js` reportaram `BALANCED OK`.
+- **Estrutura de `COURSE_REVIEWS`** (contagem de entradas, `xp`,
+  `refLessonIds`, ids duplicados): confirmado por regex sobre o array
+  inteiro — **8 entradas** (`revU_01`..`revU_08`, na ordem certa), cada uma
+  com **exatamente 7 `refLessonIds`**, `xp` batendo com a tabela da seção 19
+  em todas (20/20/20/20/**35**/**25**/**25**/**25**), **nenhum id
+  duplicado** entre os 8 blocos nem dentro de um mesmo bloco, e — o ponto
+  mais sensível desta Onda — a âncora (`refLessonIds[6]`) de cada uma das 8
+  entradas existe em `COURSE` OU `HISTORY_COURSE`, nunca nos dois, nunca em
+  nenhum. Confirmado especificamente que `h1_1`/`h1_2` (presentes em
+  `refLessonIds` de `revU_06`, mas não como âncora) são reconhecidos como
+  ids válidos existentes em `HISTORY_COURSE` pelo script, sem gerar nenhum
+  falso positivo de "id não encontrado" — o script varre a união dos dois
+  arrays, exatamente como o mecanismo real de `Trail.levels()` faz.
+- **Contagem real de lições em `COURSE`/`HISTORY_COURSE`**: recontadas via
+  regex por indentação (lições ficam a 8 espaços de indentação, dentro de
+  `licoes: [...]`, diferente do nível, que fica a 4 espaços) — **102 em
+  `COURSE`, 18 em `HISTORY_COURSE`**, batendo exatamente com os números que
+  o Software Architect confirmou na seção 19, confirmando que a inserção
+  desta etapa não alterou (nem duplicou, nem removeu) nenhuma lição real.
+
+#### 2. `js/trail.js` — confirmado que NENHUMA mudança foi necessária
+
+Verificado por leitura direta (não assumido): `Trail.levels()` já contém a
+função `withReviews(courseArr, fonte)` implementada na Onda 1 (seção 21),
+que consulta `COURSE_REVIEWS.find((r) => r.refLessonIds[6] === lesson.id)`
+— uma busca puramente orientada a dados, sem nenhuma referência a IDs
+específicos de revisão ou a quantidade de entradas no array. Adicionar 4
+novas entradas ao array não exige nenhum ajuste nessa função, nem em
+`levelHtml()` (o branch `isRevisao`/tag "🔁 Revisão" já existente) nem em
+`finishLesson()` (o branch de título "Revisão dominada!"/subtexto já
+existente) — ambos também dirigidos por `lesson.tipo === "revisao"`, não por
+nenhuma lista fixa de ids. `git diff --stat js/trail.js` confirma **diff
+vazio** ao final desta etapa: zero linhas alteradas. A hipótese da seção 24
+("nenhuma mudança de mecanismo é necessária") foi confirmada por teste em
+runtime (item 3 abaixo), não só por leitura de código.
+
+#### 3. Teste manual real (Chrome headless via CDP)
+
+Harness montado do zero nesta sessão (mesma limitação das fases anteriores:
+scratchpad isolado por sessão, nenhum driver reaproveitado): `python3 -m
+http.server 8899` servindo a raiz do projeto + `chrome.exe --headless=new
+--remote-debugging-port=9333 --remote-allow-origins=* --user-data-dir=<perfil
+no scratchpad>` (Chrome 151.0.7922.76, mesma versão das fases anteriores) +
+um driver Python novo (`cdp.py`, classe `Tab` sobre `websocket-client`, já
+instalado no ambiente). Conta de teste real criada via `Cloud.signUp()`
+(e-mail `@mailinator.com`), login confirmado imediato — usada apenas para a
+verificação visual (item abaixo); os testes funcionais/estruturais rodaram
+sem exigir login, já que `Store` é local-first (localStorage) e não depende
+de sessão autenticada para `Trail.levels()`/progresso funcionarem.
+
+Testes executados e resultados:
+
+- **Estado ANTES — arrays canônicos limpos**: `COURSE.length === 6`,
+  `[35,20,22,8,8,9]`, `HISTORY_COURSE.length === 6`, `[2,6,2,3,2,3]`,
+  nenhum dos dois com qualquer entrada `tipo:"revisao"`, `COURSE_REVIEWS`
+  com **8** entradas (`revU_01`..`revU_08`) — confirmado antes de qualquer
+  chamada a `Trail.levels()`.
+- **Posição das 4 novas revisões, com as 8 simultaneamente presentes**:
+  `Trail.flatLessons()` agora tem **128 lições** (120 reais + 8 revisões,
+  4 da Onda 1 + 4 desta Onda). Confirmado por índice exato — não só "logo
+  depois", mas **imediatamente adjacente, sem nenhuma lição entre a âncora e
+  a revisão** — para as 8 entradas simultaneamente: `revU_01` após `f1_06`
+  (idx 6→7), `revU_02` após `l1_3` (14→15), `revU_03` após `f1_17`
+  (22→23), `revU_04` após `f1_24` (30→31), `revU_05` após `l4_1` (38→39,
+  última lição do Nível 1 — o próximo item da sequência flat é `h1_1`, 1ª
+  lição de `HISTORY_COURSE[0]`, por causa da intercalação por índice de
+  nível, não um bug), `revU_06` após `l2_3` (46→47), `revU_07` após `rf_11`
+  (54→55), `revU_08` após `rf_14` (62→63, no MEIO do Nível 2 "Renda Fixa" —
+  `rf_14` não é a última lição desse nível, o próximo item real é `rf_15`,
+  confirmando ao vivo que o mecanismo não depende de a âncora ser a última
+  lição de um nível). Todas as 8 verificadas por aritmética de índice
+  (`revIdx === anchorIdx + 1`), não só inspeção visual.
+- **Trava de segurança da âncora, incluindo o efeito da contagem global
+  (RFC-035, comentário em `isUnlocked()`)**: numa conta nova (nada
+  concluído), `revU_05`..`revU_08` começam com `unlocked === false`. Um
+  ponto confirmado nesta etapa que generaliza o que a Onda 1 já registrara:
+  como `isUnlocked()` é por **contagem total** de lições concluídas na
+  sequência flat inteira (não por "a âncora específica está feita"),
+  desbloquear `revU_05` (índice 39) exige 39 itens concluídos ANTES dela —
+  o que inclui não só as 35 lições reais do Nível 1, mas também as 4
+  revisões da Onda 1 (`revU_01`..`revU_04`) que caem nesse intervalo. Uma
+  simulação de progresso que marcasse só as lições reais como feitas
+  (ignorando as revisões anteriores) ficaria presa em `unlocked === false`
+  mesmo com a âncora `l4_1` concluída — não é um bug, é o comportamento por
+  design já documentado no código-fonte, e ficou explícito nesta etapa como
+  um cuidado necessário ao simular progresso para teste (a 1ª tentativa
+  desta própria verificação cometeu exatamente esse erro e foi corrigida
+  antes do resultado final abaixo). Confirmado depois, com a contagem
+  completa: `revU_05` destrava exatamente ao completar `l4_1` (com as
+  revisões anteriores já feitas), `revU_06` continua `false` até `l2_3` ser
+  concluído (mesmo com `revU_05` já feito), `revU_07` só após `rf_11`,
+  `revU_08` só após `rf_14` — sem destravamento fora de ordem em nenhum dos
+  4 casos.
+- **Fluxo completo do quiz — 2 das 4 revisões via UI real (`startLesson` →
+  `answerQuestion` → `nextQuestion` → `finishLesson`), incluindo o bloco
+  misto**:
+  - `revU_05` (10/10 corretas): tela final com título **"Revisão
+    dominada!"**, subtexto de revisão, **"+35 XP e +5 moedas"** — batendo
+    com `xp: 35` (herdado de `l4_1`). Delta de XP medido via `Learn.getXp()`
+    antes/depois: exatamente **+35**. `LESSON_LOG` ganhou uma entrada
+    `{lessonId:"revU_05", fonte:"financeira", ...}`.
+    `COURSE_PROGRESS["revU_05"] === true`.
+  - **`revU_06` (o bloco misto, atenção especial pedida pela seção 24)**:
+    10/10 corretas, incluindo as 3 perguntas de `h1_1`/`h1_2` (História)
+    misturadas com as 7 de Financeira — o quiz rodou sem nenhum erro,
+    tratando as perguntas de história exatamente como qualquer outra
+    pergunta da lição (mesmo componente `answerQuestion`/`nextQuestion`,
+    sem branch condicional por fonte de conteúdo). Título **"Revisão
+    dominada!"**, **"+25 XP e +5 moedas"** — batendo com `xp: 25` (herdado
+    de `l2_3`). Delta de XP: exatamente **+25**. **Ponto crítico verificado
+    à parte**: `COURSE_PROGRESS["revU_06"] === true` e
+    `HISTORY_PROGRESS["revU_06"] === undefined` — confirmando que, apesar de
+    misturar conteúdo de `HISTORY_COURSE`, a revisão grava progresso em
+    `COURSE_PROGRESS` (porque `progressKey()` decide pela `fonte` do NÍVEL
+    onde a revisão foi inserida — `financeira`, já que ancora em `l2_3` — e
+    não pela fonte de cada pergunta individual dentro dela). Nenhum
+    problema visual ou lógico encontrado por a revisão "pertencer" ao array
+    financeiro mas referenciar conteúdo de história: o quiz não expõe em
+    nenhum momento de qual array uma pergunta específica veio, então não há
+    nenhuma superfície onde essa mistura pudesse vazar de forma
+    inconsistente para o usuário.
+  - `revU_07`/`revU_08`: destravamento e conclusão confirmados via
+    simulação de progresso (mesmo padrão já usado na Onda 1 para 2 das 4
+    revisões) — desnecessário repetir o caminho de UI já validado duas
+    vezes nesta mesma etapa para os outros 2 blocos.
+  - `Energy.tryStart()` consumiu 1 energia normalmente em cada início de
+    lição (sem isenção para revisão), com bônus de combo (a cada 3 acertos
+    seguidos) devolvendo energia durante o quiz — comportamento herdado sem
+    nenhuma mudança de código, confirmado ao vivo.
+- **Teste crítico de não-mutação — DOIS arrays, com as 8 revisões
+  (`revU_01`..`revU_08`) inseridas e concluídas SIMULTANEAMENTE, antes/
+  depois de recarregar a página (F5)**: marcadas as 120 lições reais + as 8
+  revisões como concluídas (progresso roteado corretamente por `fonte` de
+  cada entrada — `COURSE_PROGRESS` para as financeiras, `HISTORY_PROGRESS`
+  para `h1_1`/`h1_2`), snapshot de `COURSE.map(l => l.licoes.map(x =>
+  x.id))` e o equivalente para `HISTORY_COURSE` tirado antes do reload,
+  comparado byte-a-byte contra o mesmo snapshot depois de recarregar a
+  página do zero (F5). Resultado: estrutura dos dois arrays idêntica ao
+  snapshot inicial, `COURSE.some(l => l.licoes.some(x =>
+  x.tipo==="revisao")) === false`, idem para `HISTORY_COURSE` — nenhuma das
+  8 revisões (as 4 desta Onda nem as 4 da Onda 1) vazou para os arrays
+  canônicos, mesmo com o dobro de revisões simultâneas testado na Onda 1.
+  `Trail.flatLessons().length === 128 === doneCount`, `Trail.nextEntry() ===
+  null`, progresso das 8 revisões persistiu corretamente após o reload
+  (`COURSE_PROGRESS.revU_05/06/07/08 === true`, confirmado individualmente).
+- **Nenhuma regressão nas 4 revisões da Onda 1 nem nas 120 lições reais**:
+  cobertas dentro do mesmo teste de não-mutação acima (as 128 entradas
+  marcadas incluem as 4 revisões da Onda 1) — nenhum comportamento
+  diferente do já validado na seção 22 (QA da Onda 1) foi observado.
+- **Empreender (`js/business.js`) sem regressão**: `Business.flatLessons()`
+  ainda com **19** lições (18 + `revE_01`, inalterado desde a Fase 3B),
+  `revE_01` ainda na posição 7, `BUSINESS_COURSE` com 6 níveis —
+  confirmado ao vivo nesta mesma sessão, não só por não ter editado o
+  arquivo (`git diff --stat js/business.js` também confirma diff vazio).
+- **Identidade visual, confirmada por captura de tela real** do nó
+  `revU_06` (o bloco misto, maior risco visual desta Onda por ser o
+  primeiro a misturar fontes) em 1400×1200 (desktop) e 375×900 (mobile):
+  screenshots mostram o nó no estado "current" (destravado, não concluído)
+  com o anel em destaque, ícone 🔁, título "Revisão: economia colonial,
+  Selic/CDI e os primeiros títulos de renda fixa", **"+25 XP"** e a tag
+  **"🔁 REVISÃO"** abaixo do XP, corretamente posicionado dentro do card de
+  nível "Nível 2 · Renda Fixa" (não em nenhum card de "História"),
+  imediatamente após o nó concluído "Tesouro Direto" (`l2_3`) e antes do nó
+  travado "Treasury" (`rf_17`) — sem corte nem sobreposição em nenhum dos
+  dois viewports. Confirma visualmente, com conteúdo real publicado (não
+  mais um teste dirigido temporário como na Onda 1), que uma revisão mista
+  não gera nenhuma pista visual de sua origem múltipla — aparece como
+  qualquer outro nó de revisão da trilha financeira.
+- **CSS**: `git diff --stat css/style.css` confirma diff vazio — nenhuma
+  regra nova foi necessária, exatamente como a seção 19 previu e a Onda 1
+  já havia confirmado; o CSS da Fase 3B continua cobrindo 100% dos casos.
+- **Console/exceções**: **zero** `Runtime.exceptionThrown` em toda a sessão
+  de teste (cadastro, navegação, 2 quizzes completos via UI incluindo o
+  bloco misto, simulação de progresso em massa para 6 das 8 revisões,
+  marcação das 128 entradas como concluídas, reload completo da página,
+  captura de screenshots em 2 viewports).
+
+#### 4. Ajustes em relação à especificação original (com justificativa)
+
+Nenhum ajuste de código. Uma correção foi necessária no PRÓPRIO script de
+teste desta etapa (não no código do produto): a primeira tentativa de
+simular progresso para testar a trava de `revU_05` gravou todas as lições
+(incluindo `h1_1`/`h1_2`, que são de `HISTORY_COURSE`) em
+`COURSE_PROGRESS`, causando uma contagem de "concluídas" menor que a real e
+um falso `unlocked === false`. Corrigido roteando cada lição para
+`COURSE_PROGRESS` ou `HISTORY_PROGRESS` conforme sua `fonte`, exatamente
+como `finishLesson()` já faz em produção — depois da correção, o
+comportamento do app bateu com o esperado em 100% dos casos. Registrado
+aqui porque ilustra, com um exemplo concreto, exatamente o comportamento de
+`isUnlocked()` por contagem total que a seção 19/21 já documentava: não é
+suficiente completar a lição-âncora isoladamente para desbloquear uma
+revisão — todas as lições/revisões anteriores na sequência flat também
+precisam estar concluídas, algo que qualquer simulação de progresso futura
+(inclusive as do QA Engineer) deve levar em conta.
+
+#### 5. Arquivos alterados
+
+- `js/data.js` — 4 novas entradas em `COURSE_REVIEWS` (`revU_05`..
+  `revU_08`, 536 linhas), inseridas logo após `revU_04` e antes do
+  fechamento do array. Conteúdo idêntico ao especificado pelo Financial
+  Specialist na seção 24. `COURSE` e `HISTORY_COURSE` não foram alterados
+  em conteúdo (confirmado em runtime, item 3 acima, e por contagem de
+  lições por regex, item 1 acima).
+- Nenhum outro arquivo tocado: `js/trail.js`, `js/business.js`,
+  `css/style.css` e todo o restante do projeto permanecem exatamente como
+  estavam antes desta etapa — confirmado tanto por leitura de código
+  quanto por `git diff --stat` (diff vazio nos três).
+
+#### Registro da etapa
+
+- **Resumo da etapa**: coladas as 4 novas entradas (`revU_05`..`revU_08`)
+  da Onda de Revisão 2 em `COURSE_REVIEWS`, em `js/data.js`, conforme
+  especificado pelo Financial Specialist (seção 24). Confirmado — por
+  leitura de código E por teste em runtime, não só por suposição — que
+  `js/trail.js` não precisou de nenhuma mudança: o mecanismo genérico
+  implementado na Onda 1 (`withReviews`, branches de `levelHtml()`/
+  `finishLesson()` dirigidos por `lesson.tipo`) absorveu as 4 novas
+  entradas automaticamente. Validado ao vivo em Chrome real via CDP: as 8
+  posições de inserção simultâneas (4 da Onda 1 + 4 desta Onda) por
+  aritmética de índice, trava de segurança por contagem total (incluindo o
+  cuidado de rotear progresso de revisões mistas por `fonte` do nível, não
+  por fonte de cada pergunta), fluxo completo de XP/energia/moedas/log via
+  UI real para 2 das 4 revisões (incluindo `revU_06`, o primeiro bloco
+  misto história+financeira desta RFC, sem nenhum problema visual ou
+  lógico por "pertencer" ao array financeiro), teste de não-mutação nos
+  DOIS arrays canônicos com as 8 revisões simultâneas (incluindo reload
+  completo da página), ausência de regressão nas 4 revisões da Onda 1, nas
+  120 lições reais e na trilha Empreender, e conferência visual do nó misto
+  em 2 viewports. Zero exceções de console em toda a sessão de teste.
+- **Decisões tomadas**: nenhuma decisão de produto/arquitetura/conteúdo/
+  design nova — esta etapa só implementou o que as seções 19/24 já haviam
+  decidido, sem nenhum desvio de código (item 4 acima registra só uma
+  correção no script de teste, não no produto).
+- **Pendências para os próximos agentes**:
+  - **QA Engineer**: validação independente dos mesmos cenários (inserção,
+    trava de segurança — com atenção ao efeito de contagem total já
+    registrado no item 4 —, fluxo de XP/energia/moedas/log, não-mutação dos
+    dois arrays com reload agora com 8 revisões simultâneas, regressão nas
+    120 lições reais e no Empreender, estados visuais), com atenção extra
+    pedida pela seção 24 ao bloco misto `revU_06` (confirmar que as 3
+    perguntas de história fazem sentido lidas fora do contexto de
+    `HISTORY_COURSE`, já que o bloco aparece fisicamente dentro da
+    sequência de Renda Fixa em `COURSE[1]`) e reler as 40 perguntas em
+    busca de qualquer ambiguidade residual, como já era pendência da seção
+    24. Formalizar o script de verificação estrutural (agora com 8
+    entradas) como verificação repetível.
+  - **Documentation Specialist**: registrar a Onda de Revisão 2 como
+    concluída em `CHANGELOG.md`/`ROADMAP.md` depois do QA.
+  - **Onda de Revisão 3 (blocos 9-12, `revU_09`..`revU_12`)**: repete o
+    mesmo ciclo (Financial Specialist escreve conteúdo → Frontend Engineer
+    só cola em `COURSE_REVIEWS`, sem mudança de mecanismo → QA), mas com
+    atenção redobrada de QA já sinalizada pelo Software Architect na seção
+    19 — é a primeira Onda a conter um bloco (bloco 9, `revU_09`) que ancora
+    de fato em `HISTORY_COURSE` (`himp_6`), exercitando em produção o
+    caminho de inserção que a Onda 1 só validou com uma entrada de teste
+    temporária (risco 6.1 da seção 19, mitigado mas nunca antes exercitado
+    por conteúdo real).
+- **Riscos**: nenhum risco novo em aberto. O único ponto que exigiu atenção
+  nesta etapa (comportamento de `isUnlocked()` por contagem total afetando
+  como simular progresso corretamente em teste) já era um comportamento
+  documentado no próprio código-fonte desde a Onda 1, não uma descoberta
+  nova — só ficou mais visível com 8 revisões simultâneas em vez de 4.
+- **Próximo agente responsável**: QA Engineer.
+
+### 26. QA Engineer (validação independente — Fase 3C, Onda de Revisão 2)
+
+Validação feita de forma independente do autorrelato do Frontend Engineer
+(seção 25) — nenhum resultado de lá foi aceito sem reprodução própria.
+Ambiente: `python3 -m http.server 8899` servindo a raiz do projeto; Chrome
+real (`151.0.7922.76`) headless via CDP (`--remote-debugging-port=9333
+--remote-allow-origins=*`), controlado por um driver Python próprio
+(`cdp.py`, escrito nesta sessão sobre `websocket-client`) — mesmo padrão das
+fases anteriores desta RFC (seções 9, 17, 22). `node` segue indisponível
+neste ambiente (`node --version` falha com "command not found"); a
+validação de sintaxe de `js/data.js` veio da execução real em Chrome
+(qualquer erro de sintaxe teria impedido `COURSE`/`COURSE_REVIEWS` de
+carregar) e de um script de verificação estrutural em runtime via
+`Runtime.evaluate` (item 5 abaixo), reproduzindo o mesmo tipo de checagem
+que `node --check` faria.
+
+**Cliques reais, não chamadas diretas de função**: toda navegação de trilha,
+clique em nó, resposta de pergunta e fechamento de tela usou
+`element.click()` sobre o DOM de fato renderizado (disparando os listeners
+reais registrados por `Trail.render()`/`renderQuizOverlay()`), nunca chamando
+`Trail.startLesson()`/`answerQuestion()`/`finishLesson()` diretamente. Um
+helper Python (`quiz_helpers.py`, `run_lesson()`) automatiza a sequência de
+cliques (clicar o nó, continuar da aula, clicar a alternativa certa/errada
+escolhida — lida de `Trail.activeQuiz` em runtime para decidir qual botão
+clicar, nunca assumida —, clicar "Próxima pergunta"/"Tentar de novo com
+outro exemplo"/"Concluir lição", fechar a tela de resultado), mas cada passo
+é um clique real sobre um elemento do DOM, mesmo princípio já usado pelas
+fases anteriores (seção 22).
+
+#### Achados metodológicos do próprio harness (não são bugs do produto)
+
+Registrados por transparência, como a tarefa exige:
+
+1. **Tela de colisão de sincronização (`syncCollisionScreen`, RFC-027)**
+   reapareceu a cada nova navegação/aba desta sessão, exatamente como já
+   documentado pela seção 22 (achado 2) — mitigado com um helper
+   (`resolve_gates()`) que escolhe "dados deste aparelho" e espera
+   `#trailContainer` popular antes de prosseguir. Sem esse helper, `Trail.
+   init()` nunca roda e `#trailContainer` fica vazio (0 nós) indefinidamente
+   — armadilha nova desta sessão (não documentada nas fases anteriores com
+   este nível de detalhe): a primeira tentativa desta etapa clicou na aba
+   "Aprender" sem resolver a colisão primeiro, e
+   `document.querySelectorAll("#trailContainer .trail-node").length` ficou
+   em 0 por mais de 10s de polling, até a causa ser identificada. Não é um
+   bug de produto — é o mesmo gate documentado desde o RFC-027, só que
+   reafirmado com mais evidência (polling ativo) nesta sessão.
+2. **Tela de diagnóstico inicial (`Onboarding`, `js/onboarding.js`, feature
+   pré-existente e fora do escopo desta RFC)** aparece sobre toda a
+   aplicação (`.onboarding-screen`, z-index alto) para qualquer conta nova
+   sem `STORAGE_KEYS.PROFILE` salvo — inclusive sobre a trilha, cobrindo
+   visualmente `#trailContainer` mesmo com os 128 nós já renderizados por
+   baixo. Como o teste usa `element.click()` programático (que dispara o
+   listener registrado no elemento, independente do que está visualmente por
+   cima — diferente de um clique de mouse real, que respeitaria z-index/
+   `pointer-events`), a maior parte desta sessão funcionou corretamente
+   mesmo com essa tela por cima; só as capturas de tela (item 8) exigiram
+   dispensá-la explicitamente (`Store.set(STORAGE_KEYS.PROFILE, {...})` +
+   `Onboarding.hide()`) para refletir o que um usuário real veria. Vale
+   registrar como risco de metodologia para qualquer QA futuro que dependa
+   de cliques via mouse real (não CDP `element.click()`) num dispositivo
+   sem perfil: a tela de diagnóstico bloquearia fisicamente o clique no
+   primeiro nó da trilha até ser resolvida — não testado neste ciclo por
+   estar fora do escopo desta RFC (feature não tocada pelo diff).
+3. **Bug do próprio script de teste** (não do produto): a primeira versão do
+   helper `current_question_state()` lia `lesson.perguntas[qIndex].pergunta`
+   sem checar se `qIndex` já havia ultrapassado o total de perguntas — isso
+   acontece de forma legítima por um instante entre o clique em "Concluir
+   lição" (que chama `finishLesson()`, incrementando `qIndex` para além do
+   array) e o fechamento da tela de resultado (que só zera `Trail.
+   activeQuiz` no clique de "Continuar"). O primeiro clique real em
+   `revU_06` terminou corretamente no app (XP/progresso/log gravados,
+   confirmado depois via `Runtime.evaluate`), mas o script Python lançou uma
+   exceção nesse ponto e perdeu o log detalhado passo a passo dessa
+   execução específica. Corrigido guardando `qIndex < lesson.perguntas.
+   length` antes de ler `.pergunta`; `revU_06` foi então re-testado do zero
+   (replay do nó já concluído, com log completo desta vez — ver item 3
+   abaixo) para não deixar nenhuma lacuna de cobertura.
+
+#### Resultado por item pedido
+
+**1. `git status`/`git diff --stat`** — confirmado: só `js/data.js`
+(+536/-0) e esta RFC foram modificados nesta etapa. `git diff --stat` para
+`js/trail.js`, `js/business.js`, `css/style.css`, `index.html`,
+`js/app.js`, `js/energy.js` e `js/achievements.js` retornou **vazio** em
+todos — a alegação do Frontend Engineer (seção 25) de que nenhuma mudança
+de mecanismo foi necessária está confirmada por leitura direta do diff, não
+só pelo autorrelato.
+
+**2. Navegação end-to-end, posição dos 4 novos nós (conta nova, nada
+concluído)** — conta nova criada via o formulário real de cadastro
+(`#authTabSignup` -> `#authEmail`/`#authPassword` com eventos `input` reais ->
+`#authSubmitBtn`), clique real em `[data-tab=aprender]`. Confirmado por
+inspeção do DOM real renderizado (não só de `Trail.flatLessons()` em
+memória) — 128 nós em `#trailContainer`, os 4 novos sempre com classe
+`locked` e imediatamente depois do título exato da lição-âncora, sem
+nenhuma lição entre os dois:
+
+| Revisão | Âncora (título real no DOM) | Índice na sequência flat | Classe antes de qualquer progresso |
+| --- | --- | --- | --- |
+| `revU_05` | Perfil de investidor (`l4_1`) | 39 | `trail-node locked  revisao` |
+| `revU_06` | Tesouro Direto (`l2_3`) | 47 | `trail-node locked  revisao` |
+| `revU_07` | CDB pos-fixado x prefixado x hibrido (`rf_11`) | 55 | `trail-node locked  revisao` |
+| `revU_08` | Comparando renda fixa de verdade (`rf_14`) | 63 | `trail-node locked  revisao` |
+
+Também confirmado, por aritmética de índice (`Trail.flatLessons()`, 128
+entradas = 120 lições reais + 8 revisões), que as 4 revisões da Onda 1
+(`revU_01`..`revU_04`) permanecem nas mesmas posições já validadas pela
+seção 22 (após `f1_06`, `l1_3`, `f1_17`, `f1_24`) — nenhuma das 8 revisões
+deslocou a posição de outra.
+
+**3. Conclusão das revisões via clique real, com atenção especial a
+`revU_06`** — completei as 4 revisões desta Onda via clique real (não
+só as 2 mínimas pedidas), sendo `revU_06` testado duas vezes (primeira
+conclusão real + um replay real do nó já concluído, para exercitar também o
+branch "já tinha concluído essa lição" e recuperar o log detalhado perdido
+pelo achado metodológico 3 acima).
+
+- **`revU_05`** (dívidas caras, previdência, moradia, perfil de
+  investidor): completada via simulação de progresso (as 47 primeiras
+  entradas da sequência flat marcadas via `Store.set` roteado por `fonte`,
+  o mesmo padrão que `finishLesson()` usa em produção) e depois replayada
+  via clique real, errando deliberadamente as perguntas 8 e 9 (perfil de
+  investidor) para exercitar `variante` duas vezes — resultado "Revisão
+  dominada!", 10/10, branch "já tinha concluído" corretamente exibido (sem
+  XP/moedas de novo, confirmado pelo texto exato do DOM).
+- **`revU_06` (bloco misto, atenção redobrada pedida pela seção 24)** —
+  conclusão real (1a vez): 10/10 perguntas, XP antes/depois medido via
+  `Learn.getXp()`: 5 -> 30 (delta exato +25), batendo com `xp: 25`
+  herdado de `l2_3`; moedas 5 -> 10 (delta +5);
+  `COURSE_PROGRESS["revU_06"] === true`; `LESSON_LOG` ganhou exatamente
+  `{lessonId:"revU_06", fonte:"financeira", ...}` (não
+  `HISTORY_PROGRESS`, confirmando a decisão de roteamento por `fonte` do
+  nível de inserção, não por fonte de cada pergunta — ponto crítico pedido
+  pela tarefa, confirmado). Replay real (2a vez, log completo capturado):
+  errei deliberadamente as perguntas 1 e 3 — exatamente as duas perguntas
+  de História (`h1_1`, o modelo econômico primário-exportador, e `h1_2`, o
+  Tratado de Methuen) — para confirmar que o caminho de `variante` funciona
+  igual nas perguntas de História e nas de Financeira dentro da mesma
+  revisão mista, sem nenhum branch condicional por fonte de conteúdo. As
+  duas variantes corrigiram corretamente, resultado final 10/10, branch "já
+  tinha concluído" exibido (XP/moedas inalterados: 55/15 antes e depois).
+  Log passo a passo completo salvo (question 0 errada -> variante da
+  borracha/pneus -> acerto; question 2 errada -> variante "o que o Tratado
+  de Methuen revela" -> acerto; demais 8 perguntas certas de primeira).
+- **`revU_07`** (curva de juros, marcação a mercado, duration, tipos de
+  CDB): completada via clique real, errando deliberadamente as perguntas 2
+  e 7 (as duas leituras de curva de juros — ascendente e invertida — e
+  duration) para exercitar `variante` duas vezes. XP 30 -> 55 (delta exato
+  +25), moedas 10 -> 15 (delta +5), `COURSE_PROGRESS["revU_07"] ===
+  true`, `LESSON_LOG` com `{lessonId:"revU_07", fonte:"financeira"}`,
+  resultado final "Revisão dominada!" / "Você acertou 10 de 10 perguntas
+  (100%)" / "+25 XP e +5 moedas adicionadas à sua conta" — texto exato
+  capturado do DOM renderizado, não assumido do código.
+- **`revU_08`** (debêntures, CRI/CRA, rating de crédito, comparando renda
+  fixa de verdade): completada via clique real, errando deliberadamente a
+  pergunta 3 (rating de crédito) para exercitar `variante`. XP 55 -> 80
+  (delta exato +25), moedas 15 -> 20 (delta +5),
+  `COURSE_PROGRESS["revU_08"] === true`.
+
+Todas as 4 revisões, portanto, foram exercitadas via clique real nesta
+etapa (superando o mínimo de 2 pedido pela tarefa), com o caminho de
+`variante` testado em 9 ocasiões distintas ao longo das 4+1 execuções
+(2 em `revU_05`, 2 na 1a execução de `revU_06` — não capturadas em log
+detalhado, mas confirmadas pelo delta de XP/progresso — mais 2 na 2a
+execução de `revU_06`, 2 em `revU_07`, 1 em `revU_08`), sempre corrigindo
+para a resposta certa e sempre resultando em 10/10 final.
+
+**4. Não-mutação de `COURSE`/`HISTORY_COURSE` com as 8 revisões
+simultâneas, incluindo reload real** — script via `Runtime.evaluate`
+tirando snapshot de `COURSE.map(l=>l.licoes.map(x=>x.id))` e o equivalente
+de `HISTORY_COURSE`, `courseHasRevisao`/`historyHasRevisao`
+(`some(x=>x.tipo==="revisao")`) e a contagem de lições por nível, antes
+de uma navegação HTTP completa (`t.navigate`, não só um re-render em JS) e
+depois dela — com as 8 revisões (`revU_01`..`revU_08`) todas concluídas
+e persistidas no momento da comparação. Resultado: os dois snapshots são
+string-idênticos (`before == after`), `courseHasRevisao === false` e
+`historyHasRevisao === false` nos dois momentos, `COURSE.map(l=>l.licoes.
+length) === [35,20,22,8,8,9]` e `HISTORY_COURSE.map(...) === [2,6,2,3,2,3]`
+inalterados. Progresso das 8 revisões persistiu corretamente depois do
+reload (`revU_01`..`revU_08` todas `true` em `COURSE_PROGRESS`,
+`Trail.flatLessons().length === 128` reconfirmado). Nenhuma das 8 revisões
+(as 4 da Onda 1 nem as 4 desta Onda) vazou para os arrays canônicos em
+nenhum momento.
+
+**5. Verificação estrutural completa (equivalente a `node --check` +
+schema)** — script via `Runtime.evaluate` confirmando: `COURSE_REVIEWS.
+length === 8` (`revU_01`..`revU_08`, ordem certa); todos os 8 `refLessonIds`
+com exatamente 7 ids; `xp` de cada bloco batendo com a seção 19
+(`20,20,20,20,35,25,25,25`); a âncora (`refLessonIds[6]`) de cada uma das 8
+existe em `COURSE` OU `HISTORY_COURSE`, nunca nos dois, nunca em
+nenhum; zero sobreposição de `refLessonIds` entre os 8 blocos e
+zero ids duplicados somando `COURSE`+`HISTORY_COURSE`+`COURSE_REVIEWS`
+(128 ids reais + 8 de revisão = 136 ids únicos); confirmado especificamente
+que `h1_1`/`h1_2` (presentes em `refLessonIds` de `revU_06`, mas não como
+âncora) são reconhecidos sem gerar falso positivo. Para as 40 perguntas
+novas (`revU_05`..`revU_08`): 0 com `opcoes.length !== 4`, 0 com
+`correta` fora de `[0,3]`, 0 sem `variante`, 0 `variante` com
+`opcoes.length !== 4` ou `correta` fora do intervalo, 0 sem
+`explicacao` (base ou variante) — checado nas 40 perguntas-base e 40
+variantes, 80 objetos no total.
+
+**6. Releitura das 40 perguntas contra o padrão do Bug 1 da Fase 3B** — reli
+integralmente as 4 entradas (`revU_05`..`revU_08`, seções 4-7 da RFC) linha
+a linha, incluindo os cálculos citados pelo Financial Specialist (quinto
+20% de 250g = 50g; rendimento líquido LCA/CDB 9% x (1-0,20) = 7,2% < 8% e
+8% x (1-0,225) = 6,2% < 6,5%; debênture incentivada 10% x (1-0,15) = 8,5% <
+9% — a incentivada vence, bate com `correta`; taxa de administração
+8%-2,5%=5,5% e 11%-4%=7%). Todos os cálculos batem com a opção marcada como
+`correta`, sem divergência encontrada. Não encontrei nenhuma recorrência do
+padrão do Bug 1 (base e variante testando conceitos diferentes) nos 40
+pares — os 2 casos que o próprio Financial Specialist relatou ter corrigido
+antes da entrega (`revU_05` pares 9/10 por proximidade literal com o
+enunciado original de `l4_1`, `revU_07` pares 2/3 por misturar leitura da
+curva com ação recomendada) estão, de fato, já corrigidos no texto final —
+confirmado por leitura direta, não só aceito pelo relato. Também não
+encontrei nenhum caso novo (não relatado pelo Financial Specialist) do
+mesmo padrão nos 40 pares.
+
+Atenção extra pedida pela seção 24/25: as perguntas de `h1_1`/`h1_2`
+fazem sentido lidas fora do contexto de `HISTORY_COURSE`? Sim: as 3
+perguntas de História em `revU_06` (economia primário-exportadora, o
+"quinto", Tratado de Methuen) são autocontidas — cada enunciado descreve o
+cenário histórico necessário para responder (ex.: a pergunta sobre o quinto
+explica no próprio enunciado que era um imposto de 20% sobre o ouro
+extraído, sem pressupor que o leitor tenha acabado de sair de uma tela de
+"Brasil: História & Economia"), consistente com o fato de a revisão inteira
+aparecer fisicamente dentro do card "Nível 2 - Renda Fixa" / "Trilha
+Financeira" (confirmado visualmente no item 8) e não ao lado de nenhum nó
+de História. Nenhuma pergunta pressupõe conhecimento de `HISTORY_COURSE`
+além do que o próprio enunciado fornece.
+
+**7. Regressão nas 120 lições reais e na trilha Empreender** —
+`Business.flatLessons().length === 19` (18 lições reais + `revE_01`,
+inalterado), `BUSINESS_COURSE.map(l=>l.licoes.length) === [3,3,3,3,3,3]`,
+`BUSINESS_REVIEWS.length === 1`, `revE_01` ainda no índice 7 — confirmado
+por leitura direta do array em runtime (não só por `git diff --stat`
+vazio, embora isso também tenha sido confirmado). Sequência das 120 lições
+reais: depois de completar as 8 revisões + todas as lições reais até
+`rf_14`, `Trail.nextEntry()` aponta corretamente para `rf_15` (índice 64) —
+a próxima lição real da sequência, sem pular nem repetir nada, confirmando
+que `isUnlocked()`/`nextEntry()` continuam corretos com 8 nós de revisão
+simultâneos inseridos no meio da trilha.
+
+**8. Responsividade (375px vs desktop)** — capturado via
+`Page.captureScreenshot` real com `Emulation.setDeviceMetricsOverride`
+(375x700 mobile vs 1400x900 desktop) do nó `revU_06` (bloco misto, maior
+risco visual desta Onda) já concluído. Em ambos os viewports: ícone de
+concluído (verde, check), anel de destaque roxo/dourado da revisão, título
+completo sem corte, "+25 XP" e a tag "REVISÃO" abaixo do XP,
+posicionado corretamente dentro do card "Nível 2 - Renda Fixa" / "Trilha
+Financeira" (nunca dentro de um card de História), imediatamente após
+"Tesouro Direto" e antes de "Treasury..." — sem sobreposição nem corte em
+nenhum dos dois viewports. Contador do nível mostrou "22/23" no desktop,
+consistente com 19 das 20 lições reais do Nível 2 concluídas (`rf_15`
+ainda pendente, de propósito) + as 3 revisões (`revU_06`/`07`/`08`) já
+feitas = 22 de 23 nós totais daquele nível.
+
+**9. Conquistas (`nivel1_completo`, `trilha_completa`)** — com todas as 35
+lições reais do Nível 1 concluídas (mais as 5 revisões que caem nesse
+intervalo, incluindo `revU_05`), `Achievements.CHECKERS.nivel1_completo()
+=== true` (lê `COURSE[0].licoes.every(...)`, só lições reais, nunca
+revisões — confirmado que a checagem não quebra nem falsifica com revisões
+misturadas no meio); `trilha_completa() === false` (correto, `COURSE`
+inteiro ainda não está 100% concluído nos níveis 3-6); `Achievements.
+checkAll()` executou sem lançar exceção. Confirma, com conteúdo real da
+Onda 2, que a decisão da Fase 3A (seção 12, item 5) continua se sustentando
+sem exceção também com 8 revisões simultâneas.
+
+#### Cobertura adicional (segurança e performance, padrão do escopo de QA)
+
+- **Segurança**: `git diff --stat -- js/supabase-config.js` vazio —
+  arquivo intocado por este diff, confirmado por leitura direta que
+  continua contendo só a chave publishable/anon
+  (`sb_publishable_-iqp9-...`), nunca uma `sb_secret_.../service_role`.
+  Nenhum segredo novo introduzido em nenhum arquivo servido ao navegador.
+- **Performance**: `js/data.js` cresceu para 1.818.879 bytes (de
+  1.780.197 bytes ao fim da Onda 1 — cerca de +38,7KB, consistente com as
+  +536 linhas do diff). `Trail.render()` (128 nós, `container.innerHTML` de
+  94.729 caracteres) medido via `performance.now()` em runtime: ~24,5
+  ms — no mesmo patamar da Onda 1 (~27ms para 124 nós), bem abaixo de
+  qualquer limiar perceptível de travamento da thread principal, mesmo
+  sendo síncrono.
+- **Console/exceções**: nenhuma das dezenas de chamadas `Runtime.evaluate`
+  desta sessão lançou exceção síncrona não esperada (o driver Python
+  levanta erro imediatamente se `exceptionDetails` aparecer — usado, aliás,
+  para detectar o achado metodológico 3). Drenagem adicional de eventos
+  assíncronos (`Log.entryAdded`/`Runtime.exceptionThrown`) por 2 segundos
+  logo após um fluxo completo de quiz (`revU_07`) não capturou nenhum
+  evento de erro pendente.
+
+#### Bugs encontrados
+
+Nenhum bug de funcionalidade, segurança, performance ou regressão foi
+encontrado nesta Onda de Revisão 2. Nenhuma recorrência do padrão do Bug 1
+da Fase 3B nos 40 pares base/`variante` novos. O único ponto que exigiu
+atenção redobrada — `revU_06`, o bloco misto — passou em todos os testes
+dirigidos: progresso roteado corretamente para `COURSE_PROGRESS` (nunca
+`HISTORY_PROGRESS`), perguntas de História autocontidas e factualmente
+corretas (conferidas contra o `conto` original de `h1_1`/`h1_2`),
+identidade visual sem nenhuma pista de sua origem múltipla (aparece só como
+"Trilha Financeira", nunca como História), caminho de `variante` idêntico
+nas perguntas de História e de Financeira dentro do mesmo bloco.
+
+#### Veredito final: aprovado
+
+A implementação da Onda de Revisão 2 (Fase 3C) está funcionalmente correta
+e é segura para publicar: as 4 novas entradas (`revU_05`..`revU_08`)
+aparecem exatamente nas posições esperadas, sempre travadas até a
+lição-âncora ser concluída; as 4 foram completadas via clique real nesta
+sessão (superando o mínimo de 2 pedido), com `revU_06` — o primeiro bloco
+misto história+financeira desta RFC — testado duas vezes de forma
+dirigida, confirmando o roteamento de progresso por `fonte` do nível de
+inserção (não por fonte de cada pergunta) e a ausência de qualquer
+vazamento visual ou lógico da origem mista; XP (35/25/25/25), moedas,
+energia, título, subtexto e `LESSON_LOG` batem exatamente com a
+especificação em todas as execuções, medidos por delta real, não assumidos;
+o caminho de `variante` foi exercitado em 9 ocasiões distintas, sempre
+corrigindo corretamente; teste de não-mutação nos dois arrays canônicos com
+as 8 revisões simultâneas e um reload HTTP real não encontrou nenhum
+vazamento; zero regressão nas 4 revisões da Onda 1, nas 120 lições reais
+(sequência confirmada até `rf_15`, a próxima lição real correta) e na
+trilha Empreender (arquivo intocado, testado ao vivo mesmo assim);
+conquistas `nivel1_completo`/`trilha_completa` seguem lendo só os arrays
+canônicos; responsividade do nó misto confirmada em 2 viewports via
+screenshot pixel real; segurança (nenhuma chave sensível) e performance
+(render ~24,5ms para 128 nós) dentro do esperado; releitura das 40
+perguntas novas não encontrou nenhuma recorrência do Bug 1 da Fase 3B, nem
+nenhum caso novo não relatado pelo Financial Specialist. Nenhuma ressalva
+bloqueia a publicação desta Onda.
+
+- **Resumo da etapa**: validação independente da Onda de Revisão 2 (Fase
+  3C) via Chrome real controlado por CDP, com conta de teste criada pelo
+  formulário real e cliques reais em toda a jornada: posição e trava de
+  âncora dos 4 novos nós (conta nova, tudo travado), conclusão real das 4
+  (não só 2), com atenção redobrada a `revU_06` (testado duas vezes,
+  incluindo o branch "já concluído"), caminho de `variante` exercitado 9
+  vezes, XP/energia/moedas/log medidos por delta real, teste de
+  não-mutação nos dois arrays canônicos com 8 revisões simultâneas e reload
+  HTTP real, verificação estrutural completa (schema das 8 entradas + 80
+  objetos de pergunta), releitura das 40 perguntas novas contra o padrão do
+  Bug 1 (nenhuma recorrência, incluindo os 2 casos que o Financial
+  Specialist relatou já ter corrigido), regressão zero nas 120 lições reais
+  e na trilha Empreender, conquistas de Nível 1/trilha completa,
+  responsividade via screenshot pixel real em 2 viewports, segurança e
+  performance.
+- **Decisões tomadas**: nenhuma — QA reporta, não decide nem corrige.
+- **Pendências para os próximos agentes**:
+  - **Documentation Specialist**: registrar a Onda de Revisão 2 como
+    concluída em `CHANGELOG.md`/`ROADMAP.md`, incluindo a confirmação de
+    que o bloco misto `revU_06` foi validado em produção (não só em teste
+    dirigido) sem nenhum problema de roteamento de progresso ou de
+    identidade visual.
+  - **QA futuro / harness**: se algum ciclo futuro precisar simular cliques
+    de mouse reais (não `element.click()` via CDP), a tela de diagnóstico
+    inicial (`Onboarding`, achado metodológico 2) bloquearia fisicamente o
+    primeiro clique na trilha para qualquer conta sem `STORAGE_KEYS.
+    PROFILE` — vale resolver essa tela primeiro (ou registrar um perfil via
+    `Store.set`) antes de qualquer teste de clique físico começar.
+  - **Onda de Revisão 3 (blocos 9-12, `revU_09`..`revU_12`)**: pode
+    prosseguir sem nenhum ajuste de mecanismo — mas é a Onda que vai conter
+    a primeira âncora real em `HISTORY_COURSE` (bloco 9, `revU_09` ancorado
+    em `himp_6`), então recomendo ao próximo QA repetir com conteúdo real o
+    mesmo teste dirigido que a seção 22 já fez com uma entrada temporária
+    (inserção em `HISTORY_COURSE`, `Trail.progressKey("historia")`,
+    `HISTORY_COURSE` permanecendo intocado) — agora validável em produção,
+    não só em teste sintético.
+- **Riscos**: nenhum risco técnico ou de conteúdo em aberto nesta Onda. O
+  único ponto de atenção elevado pela seção 24/25 (bloco misto `revU_06`)
+  foi testado exaustivamente (2 execuções completas via clique real) sem
+  nenhum problema encontrado. Risco residual, não desta Onda: a Onda 3
+  ainda vai exercitar em produção real o caminho de inserção em
+  `HISTORY_COURSE`, já validado por teste dirigido (seção 22) mas nunca por
+  conteúdo publicado — QA da Onda 3 deve repetir essa validação com dados
+  reais.
+- **Próximo agente responsável**: Documentation Specialist (fechamento da
+  Onda de Revisão 2 em `CHANGELOG.md`/`ROADMAP.md`).
+
+### 27. Documentation Specialist (fechamento da Fase 3C, Onda de Revisão 2)
+
+Leitura prévia das seções 24-26 (Financial Specialist, Frontend Engineer, QA
+Engineer) e conferência cruzada com as 2-3 entradas mais recentes de
+`CHANGELOG.md` (v1.56.0, v1.57.0) antes de escrever, mesmo processo já usado
+no fechamento da Onda 1 (seção 23) — nenhuma afirmação desta etapa foi feita
+sem base direta nas seções acima ou nos próprios arquivos editados.
+
+Documentado:
+
+- **`CHANGELOG.md`**: nova entrada **v1.58.0** — "RFC-035 Fase 3C, Onda de
+  Revisão 2 de 4 — mais 4 revisões periódicas na trilha unificada Aprender,
+  incluindo o primeiro bloco misto Financeira+História desta RFC". Registra
+  os 4 novos nós (`revU_05`-`revU_08`, somando 8 publicadas), o destaque do
+  bloco misto `revU_06` (2 lições de `HISTORY_COURSE` + 5 de `COURSE`,
+  progresso roteado por `fonte` do nível de inserção), e — de forma
+  explícita — que **nenhuma mudança em `js/trail.js` foi necessária**,
+  confirmado por `git diff --stat` vazio e teste em runtime, como prova de
+  que a arquitetura generalizada da Onda 1 estava correta desde o início. O
+  veredito do QA (aprovado sem ressalvas, zero bugs) e que **restam 2 Ondas**
+  (3 — primeira âncora real em `HISTORY_COURSE` — e 4) ficam registrados no
+  fechamento do parágrafo, não implícitos.
+- **`ROADMAP.md`**: dentro da seção "Reformulação da trilha de aprendizado
+  (RFC-035)", o sub-item "Onda de Revisão 2 — blocos 5-8" — que antes dizia
+  "ainda não iniciada" — foi marcado ✅ com o mesmo nível de detalhe já usado
+  no sub-item da Onda 1 (blocos cobertos, destaque do bloco misto, ausência
+  de mudança em `trail.js`, veredito do QA), mantendo os sub-itens das Ondas
+  3 e 4 como pendentes, sem alteração de conteúdo além da renumeração
+  implícita (Onda 3 continua descrita como a primeira a tocar
+  `HISTORY_COURSE` de verdade).
+- **`README.md`**: dois ajustes, confirmados por leitura direta antes de
+  editar (não assumidos da memória da RFC).
+  - A entrada de feature "Revisão periódica a cada 7 pontos da trilha"
+    (seção de features da trilha Aprender) foi atualizada de "Onda de
+    Revisão 1 de 4" para refletir as **8 revisões publicadas** (Ondas 1 e 2
+    de 4), incluindo uma frase sobre o bloco misto `revU_06` — as Ondas 3-4
+    seguem explicitamente marcadas como não iniciadas.
+  - No diagrama de estrutura de arquivos, a linha de `trail.js` mudou de
+    "Onda 1 de 4 (RFC-035 Fase 3C, v1.57.0)" para "Ondas 1-2 de 4 (RFC-035
+    Fase 3C, v1.57.0/v1.58.0)".
+  - Confirmado por leitura completa da seção "Fora do escopo (e por quê)" e
+    do restante do arquivo que nenhuma outra seção ficaria desatualizada por
+    esta Onda — o rollout do mecanismo de revisão continua fora de qualquer
+    lista de "fora do escopo", não há decisão arquitetural nova nesta Onda
+    (só conteúdo colado num array já existente), e nenhuma feature listada
+    como pendente foi tocada.
+- **Esta RFC**: seção 27 (esta) adicionada ao final do Registro por etapa.
+  Status geral da RFC (linha 3, topo do documento) **mantido como "em
+  andamento"** — restam as Ondas de Revisão 3 e 4 antes de a Fase 3C poder
+  ser considerada concluída.
+
+Nenhuma decisão de produto/arquitetura/conteúdo/design nova nesta etapa —
+só documentação do que as seções 24-26 já haviam decidido e validado. Nenhum
+código tocado. Nenhum commit, tag ou publicação criados nesta etapa (fora do
+escopo desta tarefa).
+
+#### Registro da etapa
+
+- **Resumo da etapa**: `CHANGELOG.md` (v1.58.0), `README.md` (feature de
+  revisão atualizada para 8 blocos publicados + diagrama de estrutura de
+  arquivos) e `ROADMAP.md` (sub-item "Onda de Revisão 2" marcado concluído,
+  Ondas 3-4 mantidas pendentes) atualizados para refletir a Onda de Revisão
+  2 da Fase 3C. RFC-035 mantida "em andamento".
+- **Decisões tomadas**: nenhuma — só registro do que os agentes anteriores
+  já decidiram/validaram (seções 24-26).
+- **Pendências para os próximos agentes**: quando a Onda de Revisão 3
+  (blocos 9-12, primeira âncora real em `HISTORY_COURSE`) fechar QA, repetir
+  este mesmo ciclo de documentação — `CHANGELOG.md` com a próxima versão,
+  `ROADMAP.md` marcando a Onda 3 como concluída e a Onda 4 como a próxima, e
+  uma nova seção nesta RFC. Quando a Onda de Revisão 4 fechar, a Fase 3C
+  inteira pode ser marcada como concluída no `ROADMAP.md` e a RFC reavaliada
+  para status "concluída" (se não houver mais fase planejada depois dela).
+- **Riscos**: nenhum.
+- **Próximo agente responsável**: nenhum — aguardando o próximo ciclo
+  (Financial Specialist para o conteúdo da Onda de Revisão 3) fora desta
+  etapa de fechamento.

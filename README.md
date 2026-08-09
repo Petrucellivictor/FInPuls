@@ -266,7 +266,7 @@ fin-plus/
 │   │                                                    3 acertos seguidos numa lição (ENERGY_COMBO não escalou com o teto)
 │   ├── trail.js                                      → trilha única intercalada (financeira + Brasil: História), layout em
 │   │                                                      zig-zag horizontal (RFC-035 Fase 2, v1.55.0; era vertical sinuoso) e nós
-│   │                                                      de revisão a cada 7 lições, Onda 1 de 4 (RFC-035 Fase 3C, v1.57.0)
+│   │                                                      de revisão a cada 7 lições, Ondas 1-2 de 4 (RFC-035 Fase 3C, v1.57.0/v1.58.0)
 │   ├── business.js                                     → trilha "Empreender" (independente, mesmo layout zig-zag): regimes tributários,
 │   │                                                      obrigações fiscais/contábeis, gestão de pessoas/finanças, e o nó de revisão
 │   │                                                      a cada 7 lições (piloto original do mecanismo, RFC-035 Fase 3B, v1.56.0)
@@ -423,19 +423,24 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   ou trabalhista, e valores de limites/alíquotas mudam por lei; confirme
   sempre com seu contador.
 - **Revisão periódica a cada 7 pontos da trilha** (RFC-035 Fases 3B/3C,
-  v1.56.0/v1.57.0): a cada 7 lições concluídas, um nó de revisão (🔁, tag
-  "🔁 Revisão") é inserido no caminho, ancorado pela última das 7 lições
-  que cobre (nunca por posição fixa, para sobreviver a novas Ondas de
+  v1.56.0/v1.57.0/v1.58.0): a cada 7 lições concluídas, um nó de revisão
+  (🔁, tag "🔁 Revisão") é inserido no caminho, ancorado pela última das 7
+  lições que cobre (nunca por posição fixa, para sobreviver a novas Ondas de
   conteúdo). É um nó obrigatório — bloqueia o próximo até ser concluído —,
   com 10 perguntas próprias (variações das 7 lições anteriores, não cópia
   literal), mesmo XP da lição que a antecede e mesmo custo de energia de
   qualquer lição, sem isenção. Piloto validado isoladamente na trilha
-  Empreender (Fase 3B, v1.56.0, `revE_01`); a partir da Fase 3C (v1.57.0)
-  o mecanismo também chegou à trilha unificada Aprender (Financeira +
-  História), começando pela **Onda de Revisão 1 de 4 planejadas**
-  (`revU_01`-`revU_04`, cobrindo o Nível 1 "Fundamentos e Comportamento
-  Financeiro") — as Ondas 2-4, que vão cobrir o restante das ~120 lições
-  já publicadas na trilha Aprender, ainda **não foram iniciadas**.
+  Empreender (Fase 3B, v1.56.0, `revE_01`); a partir da Fase 3C (v1.57.0) o
+  mecanismo também chegou à trilha unificada Aprender (Financeira +
+  História), com **8 revisões publicadas até agora** (`revU_01`-`revU_08`,
+  Ondas de Revisão 1 e 2 de 4 planejadas), cobrindo o Nível 1 "Fundamentos e
+  Comportamento Financeiro" por completo e boa parte do Nível 2 "Renda
+  Fixa". A Onda 2 (v1.58.0) trouxe o primeiro bloco misto
+  Financeira+História (`revU_06`, mistura lições de `HISTORY_COURSE` com
+  `COURSE` num único bloco, progresso roteado pela fonte do nível de
+  inserção) — as Ondas 3-4, que vão cobrir o restante das ~120 lições já
+  publicadas na trilha Aprender (incluindo a primeira âncora real em
+  `HISTORY_COURSE`), ainda **não foram iniciadas**.
 - **Desafios diários**, **missão da semana** e **evento aleatório do dia**
   (cenários educativos), com detecção automática de progresso.
 - **Conquistas**: 19 badges desbloqueadas pelo uso real do app, incluindo

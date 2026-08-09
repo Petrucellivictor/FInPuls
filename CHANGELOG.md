@@ -4,6 +4,55 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.58.0] - 2026-08-09
+
+### Adicionado
+- **RFC-035 Fase 3C, Onda de Revisão 2 de 4 — mais 4 revisões periódicas na
+  trilha unificada Aprender, incluindo o primeiro bloco misto
+  Financeira+História desta RFC** (`js/data.js`): segunda de 4 Ondas
+  planejadas para cobrir os 17 blocos de revisão possíveis nas ~120 lições
+  já publicadas na trilha Aprender (mapeamento do Software Architect, RFC-035
+  seção 19), somando **8 revisões publicadas até agora**
+  (`revU_01`-`revU_08`). 4 novas entradas em `COURSE_REVIEWS` (array já
+  existente desde a Onda 1, v1.57.0): `revU_05` (XP 35, ancorada em `l4_1`,
+  fecha o Nível 1 "Fundamentos e Comportamento Financeiro"), `revU_06`
+  (XP 25, ancorada em `l2_3`/Tesouro Direto), `revU_07` (XP 25, ancorada em
+  `rf_11`) e `revU_08` (XP 25, ancorada em `rf_14`) — as 3 últimas dentro do
+  Nível 2 "Renda Fixa" de `COURSE`. Cada bloco com 10 perguntas autorais
+  (mais 10 variantes de reforço) cobrindo as 7 lições anteriores, sem
+  sobreposição de conteúdo entre blocos nem com as 4 revisões da Onda 1.
+  **Destaque da Onda: `revU_06` mistura 2 lições de `HISTORY_COURSE`
+  (`h1_1`, `h1_2` — economia açucareira colonial e ciclo do ouro) com 5 de
+  `COURSE`**, ancorada e inserida em `COURSE` (a inserção segue a última
+  lição referenciada, não a maioria das fontes — decisão já registrada pelo
+  Software Architect na Onda 1). Progresso da revisão mista é gravado em
+  `COURSE_PROGRESS` (roteado pela `fonte` do nível de inserção, financeira,
+  não pela fonte de cada pergunta individual) — confirmado em produção real
+  pelo QA Engineer, sem nenhum vazamento de `HISTORY_PROGRESS`. **Nenhuma
+  mudança em `js/trail.js` foi necessária** — o mecanismo genérico
+  (`withReviews`, branches de `levelHtml()`/`finishLesson()` dirigidos por
+  `lesson.tipo`, todos implementados na Onda 1) absorveu as 4 novas entradas
+  automaticamente, confirmado por `git diff --stat js/trail.js` vazio e por
+  teste em runtime — prova de que a arquitetura generalizada da Onda 1
+  estava correta desde o início, sem necessidade de ajuste incremental a
+  cada nova Onda de conteúdo. Também sem mudança em `js/business.js` nem
+  `css/style.css`. Validado ao vivo pelo QA Engineer via Chrome real
+  controlado por CDP: posição e trava de âncora das 4 revisões (com as 8
+  simultaneamente presentes), conclusão completa das 4 via clique real
+  (incluindo `revU_06` testado duas vezes — conclusão real + replay do nó já
+  concluído, errando deliberadamente as 2 perguntas de História para
+  exercitar o caminho de `variante` nelas), XP/energia/moedas/`LESSON_LOG`
+  exatos medidos por delta real, roteamento correto de progresso do bloco
+  misto, não-mutação de `COURSE`/`HISTORY_COURSE` com as 8 revisões
+  simultâneas confirmada inclusive após reload real de página, identidade
+  visual do nó misto sem nenhuma pista de origem múltipla (aparece só como
+  "Trilha Financeira", em 2 viewports), zero regressão nas 4 revisões da
+  Onda 1, nas 120 lições reais e na trilha Empreender — aprovado sem
+  ressalvas, nenhum bug encontrado. **Restam 2 Ondas de Revisão**: Onda 3
+  (blocos 9-12, primeira âncora real em `HISTORY_COURSE`, ainda não
+  exercitada por conteúdo publicado) e Onda 4 (blocos 13-17, fecha a
+  cobertura, incluindo um caso de inserção no meio de um nível).
+
 ## [1.57.0] - 2026-08-09
 
 ### Adicionado
