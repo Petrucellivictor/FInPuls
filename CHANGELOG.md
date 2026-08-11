@@ -4,6 +4,91 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.61.0] - 2026-08-11
+
+### Adicionado
+- **RFC-037 Fase 1 — celebrações maiores de progresso, puramente cosméticas,
+  na trilha Aprender (financeira+história unificada) e na trilha Empreender**
+  (`js/trailmilestones.js`, novo, objeto `TrailMilestones`; `Fx.milestoneCelebration()`
+  em `js/fx.js`; `Achievements.suppressNotifyOnce()` em `js/achievements.js`;
+  `STORAGE_KEYS.CELEBRATIONS_SEEN`, novo, `js/storage.js`): dois gatilhos —
+  **"nível completo"** (todas as lições de UM `level.id` de `Trail.levels()`/
+  `Business.levels()` atingem 100%, contadas separadamente por fonte) e
+  **"a cada 5 lições cumulativas concluídas"** na trilha inteira — disparam
+  um card de celebração maior (`.trail-milestone-celebration`, tela cheia,
+  onda de choque, medalhão girando, confete, avatar 2D do PolvIn, vibração
+  tátil). **100% cosmética**: nunca concede XP, moeda ou qualquer recompensa
+  além da que a lição já pagou individualmente — confirmado por spy em
+  runtime (`Fx.coinBurst`/`Learn.addXp`/`Learn.addCoins` nunca chamados) e
+  por auditoria estática do corpo da função, validado de forma independente
+  por dois QAs (Frontend Engineer e QA Engineer). Coordenada com o sistema de
+  conquistas já existente (`js/achievements.js`) via `LEVEL_ACHIEVEMENT_MAP` +
+  `suppressNotifyOnce()`: quando "nível completo" coincide com o desbloqueio
+  de uma conquista já existente (ex. `nivel1_completo`, `mestre_empreendedor`),
+  as duas notificações são coordenadas num único card — nunca dois toasts
+  empilhados para o mesmo marco (confirmado por teste real da colisão).
+  Cadência de 5 lições confirmada pelo Gamification Designer (alinhada ao
+  teto diário de energia, `ENERGY_MAX = 5`), deliberadamente diferente da
+  cadência de 7 do nó de revisão periódica (RFC-035) para não parecer
+  redundante. Marcador `CELEBRATIONS_SEEN` guarda só "até onde a celebração
+  já avisou o usuário" (mesmo padrão de `STORIES_SEEN`/`BOOKS_SEEN`), nunca
+  uma segunda fonte de verdade de progresso; seeding silencioso no primeiro
+  `check()` de cada escopo evita celebração retroativa para quem já tinha
+  progresso antes desta feature existir. Respeita `prefers-reduced-motion`
+  (sem onda de choque/giro/confete, card com fade-in simples), confirmado
+  nos dois sentidos via Chrome headless/CDP.
+- **RFC-037 Fase 2 — temas visuais por bioma nos 18 níveis reais das 3
+  trilhas da aba Aprender** (`js/trailthemes.js`, novo, `TRAIL_THEMES` +
+  `TRAIL_THEMES.themeFor(fonte, levelId)`; 1 linha nova em
+  `Trail.levelHtml()`/`Business.levelHtml()` cada, atributo
+  `data-bioma="..."` no wrapper `.trail-level`; `css/style.css`, novo bloco
+  `[data-bioma="..."]`): 5 biomas (`recife-raso`, `aguas-calmas`,
+  `correnteza-dourada`, `aguas-turbulentas`, `abismo-profundo`), cada um
+  estendendo a mesma metáfora oceânica já estabelecida pela cena decorativa
+  da RFC-036 (zonas de um mesmo oceano, não cenários desconexos), com wash
+  em gradiente + emoji-motivo + 1 animação contínua sutil própria (a mais
+  lenta em `aguas-calmas`, a mais rápida em `aguas-turbulentas`), resolvidos
+  inteiramente via CSS puro sobre o atributo já presente no HTML. Mapeamento
+  completo dos 18 níveis reais (6 financeira + 6 história + 6 Empreender),
+  chaveado por `level.id` (não por posição), com fallback `DEFAULT` para
+  qualquer nível novo de Ondas futuras sem tema mapeado ainda. Não altera
+  conteúdo educativo, ordem de níveis nem critérios de desbloqueio. Parte da
+  animação contínua é removida sob `prefers-reduced-motion` (wash e
+  emoji-motivo permanecem).
+- Ambos os elementos (celebrações e biomas) aplicam-se, desde este
+  incremento, às **duas trilhas** da aba Aprender (financeira/história
+  unificada e Empreender) — decisão explícita do Product Owner registrada
+  na RFC-037. `js/trail.js`/`js/business.js` — só a linha do atributo
+  `data-bioma` foi tocada em cada arquivo; nenhuma função de progresso/
+  desbloqueio (`isUnlocked()`, `isDone()`, `progressKey()`, `levels()`,
+  `flatLessons()`, `getProgress()`) foi alterada, confirmado por
+  `git diff` e reconfirmado de forma independente por dois QAs. Nenhuma
+  dependência de CDN nova (reaproveita Three.js/GSAP já carregados desde a
+  RFC-036). Testado via Chrome headless real (CDP): 27-28 asserções contra
+  os arquivos de produção reais (`data.js`, `trailthemes.js`, `storage.js`,
+  `fx.js`, `achievements.js`, `trail.js`, `business.js`, `trailmilestones.js`),
+  captura de tela real em desktop (1280px) e mobile (390×844) confirmando os
+  5 biomas e o card de celebração sem overflow, e verificação da colisão de
+  sequência tripla (lição que fecha história interativa E cruza um múltiplo
+  de 5 no mesmo evento) — confirmada sequencial, nunca empilhada.
+
+**Achado não bloqueante, escalado ao Gamification Designer/UX-UI Designer**:
+quando uma lição concluída fecha, ao mesmo tempo, uma história interativa
+(RFC-004, a cada 3 lições financeiras) e cruza um múltiplo de 5 lições, o
+jogador enfrenta 3 telas/cliques consecutivos (toast de lição → história
+interativa → desfecho → celebração maior) para sair de uma única lição. Sem
+bug funcional nem empilhamento — é sequencial, como previsto pelo
+Gamification Designer na própria RFC — mas é uma fricção de UX perceptível,
+registrada para avaliação futura (ex.: adiar a celebração de "N lições" em
+~1 evento quando colidir com uma história pendente), não para correção
+antes deste fechamento.
+
+**Fase 3 desta RFC (avatar navegável 3D andando pela trilha,
+`js/trailavatar3d.js`/`js/polvinrig3d.js`, com refatoração planejada de
+`js/citypolvin3d.js` para extrair o rig compartilhado) ainda não foi
+iniciada** — só as decisões de arquitetura/UX estão registradas (RFC-037,
+seções 2 e 3); nenhum código do avatar foi escrito nesta entrega.
+
 ## [1.60.0] - 2026-08-10
 
 ### Adicionado

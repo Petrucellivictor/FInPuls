@@ -32,6 +32,12 @@ const STORAGE_KEYS = {
   SHOP_OWNED: "if_shop_owned",
   EQUIPPED: "if_equipped",
   LEAGUES: "if_leagues",
+  // RFC-037 Fase 1 — marcador de "até onde as celebrações maiores (nível
+  // completo / N lições) já avisaram o usuário", nunca progresso em si
+  // (isso continua 100% em COURSE_PROGRESS/HISTORY_PROGRESS/
+  // BUSINESS_PROGRESS). Mesmo padrão de STORAGE_KEYS.STORIES_SEEN/
+  // BOOKS_SEEN/POLVIN_NOTICE_SHOWN — "não repetir aviso já mostrado".
+  CELEBRATIONS_SEEN: "if_celebrations_seen",
   SIMULATOR_RUNS: "if_simulator_runs",
   SIMULATOR_LOG: "if_simulator_log",
   POLVIN_QUESTIONS_ASKED: "if_polvin_questions_asked",

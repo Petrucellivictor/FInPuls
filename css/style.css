@@ -1062,6 +1062,98 @@ input:focus, select:focus, textarea:focus {
   50% { opacity: 1; }
 }
 
+/* =========================================================================
+   BIOMAS (RFC-037 Fase 2) — tema visual por nível, aplicado via
+   [data-bioma] (js/trailthemes.js + 1 atributo em Trail.levelHtml()/
+   Business.levelHtml()). Extensão da mesma metáfora oceânica que a cena
+   decorativa "Correnteza do Conhecimento" (RFC-036) já estabeleceu — cada
+   bioma é uma "zona" desse oceano, não um cenário desconectado.
+
+   ::before sem z-index próprio: como .trail-level já é position:relative;
+   z-index:1, o pseudo-elemento pinta antes dos filhos reais no mesmo
+   contexto de empilhamento — fica atrás deles por ordem de documento, sem
+   interagir com o z-index:-1 fixo de #trailScene3d (UX/UI Designer,
+   confirmação de código). .trail-level já não tem background opaco
+   próprio (só .trail-level-banner/.trail-node-ring têm), então o wash
+   fica automaticamente coberto onde importa. */
+.trail-level[data-bioma]::before {
+  content: "";
+  position: absolute;
+  top: -16px; right: -12px; bottom: -16px; left: -12px;
+  border-radius: 28px;
+  pointer-events: none;
+  background-repeat: no-repeat;
+}
+
+.trail-level[data-bioma="recife-raso"]::before {
+  background-image:
+    linear-gradient(160deg, rgba(111, 207, 95, 0.28), rgba(79, 174, 74, 0.08)),
+    linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.35) 50%, transparent 60%);
+  background-size: 100% 100%, 240% 240%;
+  animation: fxReefShimmer 6s ease-in-out infinite;
+}
+@keyframes fxReefShimmer {
+  0%, 100% { background-position: 0 0, -70% -70%; }
+  50% { background-position: 0 0, 70% 70%; }
+}
+
+.trail-level[data-bioma="aguas-calmas"]::before {
+  background-image:
+    linear-gradient(160deg, rgba(59, 110, 143, 0.26), rgba(138, 112, 224, 0.1)),
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0 2px, transparent 2px 20px);
+  background-size: 100% 100%, 100% 240%;
+  animation: fxCalmDrift 10s linear infinite; /* a mais lenta das 5 — reforça "calmo" */
+}
+@keyframes fxCalmDrift {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 0, 0 -240%; }
+}
+
+.trail-level[data-bioma="correnteza-dourada"]::before {
+  background-image:
+    linear-gradient(160deg, rgba(232, 163, 61, 0.28), rgba(192, 127, 31, 0.1)),
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.16) 0 6px, transparent 6px 26px);
+  background-size: 100% 100%, 240% 240%;
+  animation: fxGoldenShaft 4s linear infinite;
+}
+@keyframes fxGoldenShaft {
+  0% { background-position: 0 0, 0% 0%; }
+  100% { background-position: 0 0, -100% 100%; }
+}
+
+.trail-level[data-bioma="aguas-turbulentas"]::before {
+  background-image:
+    linear-gradient(160deg, rgba(217, 83, 79, 0.26), rgba(45, 27, 78, 0.2)),
+    linear-gradient(135deg, rgba(217, 83, 79, 0.22), transparent 55%);
+  background-size: 180% 180%, 160% 160%;
+  animation: fxTurbulentChurn 2.4s ease-in-out infinite; /* a mais rápida das 5 — nunca desloca conteúdo real */
+}
+@keyframes fxTurbulentChurn {
+  0%, 100% { background-position: 0 0, 0% 0%; }
+  50% { background-position: 22% 16%, 100% 100%; }
+}
+
+.trail-level[data-bioma="abismo-profundo"]::before {
+  background-image:
+    linear-gradient(160deg, rgba(45, 27, 78, 0.46), rgba(10, 6, 20, 0.3)),
+    radial-gradient(circle at 20% 25%, rgba(255, 255, 255, 0.55) 0 2px, transparent 3px),
+    radial-gradient(circle at 72% 58%, rgba(255, 255, 255, 0.45) 0 2px, transparent 3px),
+    radial-gradient(circle at 46% 82%, rgba(255, 255, 255, 0.4) 0 2px, transparent 3px);
+  animation: fxAbyssTwinkle 5s ease-in-out infinite; /* pontos raros de bioluminescência, piscando devagar */
+}
+@keyframes fxAbyssTwinkle {
+  0%, 100% { opacity: 0.82; }
+  50% { opacity: 1; }
+}
+
+/* Emoji-motivo por bioma — reforço temático leve, sem tocar o HTML gerado
+   por trail.js/business.js (só CSS content: sobre a tag já existente). */
+.trail-level[data-bioma="recife-raso"] .trail-level-tag::before { content: "🐠 "; }
+.trail-level[data-bioma="aguas-calmas"] .trail-level-tag::before { content: "🐢 "; }
+.trail-level[data-bioma="correnteza-dourada"] .trail-level-tag::before { content: "🐟 "; }
+.trail-level[data-bioma="aguas-turbulentas"] .trail-level-tag::before { content: "🐡 "; }
+.trail-level[data-bioma="abismo-profundo"] .trail-level-tag::before { content: "💎 "; }
+
 .quiz-overlay {
   position: fixed; inset: 0;
   background: rgba(15, 43, 38, 0.55);
@@ -2021,6 +2113,11 @@ tr.row-best td {
   .polvin-3d-inner, .talking .polvin-avatar-img,
   .polvin-fab, .polvin-chat-panel,
   .city-game-age-ring.pulse, .city-game-age-hud.aposentado,
+  /* RFC-037 Fase 2 — wash contínuo de cada bioma ([data-bioma]::before):
+     a cor + o emoji-motivo (que carregam a identidade do bioma) continuam
+     100% visíveis, só a animação de shimmer/drift/shaft/churn/twinkle
+     para. */
+  .trail-level[data-bioma]::before,
   /* RFC-027: ponto pulsante do chip "sessão expirada" — mesmo motivo dos
      demais itens desta lista (loop contínuo, não um efeito de disparo
      único): fica estático e visível em vez de "piscar" a 0.01ms. */
@@ -2191,6 +2288,129 @@ tr.row-best td {
   0% { transform: rotate(0deg) translateX(16px) rotate(0deg); opacity: 0.4; }
   50% { opacity: 1; }
   100% { transform: rotate(360deg) translateX(16px) rotate(-360deg); opacity: 0.4; }
+}
+
+/* =========================================================================
+   CELEBRAÇÃO MAIOR DE MARCO — nível completo / N lições (RFC-037 Fase 1)
+   Fx.milestoneCelebration(), ver js/fx.js. Oposição deliberada ao
+   .achievement-toast (pequeno, canto inferior direito, ~4.5s, discreto):
+   este overlay toma a tela por um instante — reservado só para os 2
+   marcos maiores da trilha, nunca para conclusão de lição individual.
+   ========================================================================= */
+.trail-milestone-celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.trail-milestone-celebration.show { opacity: 1; pointer-events: auto; }
+.trail-milestone-celebration.closing { opacity: 0; }
+
+.trail-milestone-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(45, 27, 78, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.trail-milestone-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 360px;
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 34px 24px 26px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  transform: scale(0.9);
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.trail-milestone-celebration.show .trail-milestone-card { transform: scale(1); }
+
+/* Onda de choque — 2 anéis concêntricos expandindo uma única vez a partir
+   do medalhão; cor do bioma do nível concluído (type:"nivel") ou
+   --gold/--primary alternados (type:"licoes"), via --wave-color inline. */
+.trail-milestone-shockwave {
+  position: absolute;
+  top: 34px; left: 50%;
+  width: 96px; height: 96px;
+  margin-left: -48px;
+  border-radius: 50%;
+  border: 3px solid var(--wave-color, var(--gold));
+  opacity: 0;
+  pointer-events: none;
+  animation: fxMilestoneShockwave 0.9s ease-out forwards;
+}
+.trail-milestone-shockwave.delay { animation-delay: 0.15s; }
+@keyframes fxMilestoneShockwave {
+  0% { transform: scale(0); opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.trail-milestone-medallion {
+  position: relative;
+  z-index: 0;
+  width: 96px; height: 96px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 42px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.trail-milestone-medallion.pop { animation: fxMilestonePop 0.65s cubic-bezier(0.2, 0.9, 0.3, 1.3); }
+.trail-milestone-medallion::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  z-index: -1;
+  background: conic-gradient(var(--gold), var(--primary), var(--gold-dark), var(--gold));
+  animation: fxMedallionSpin 6s linear infinite;
+}
+.trail-milestone-medallion.static::before { animation: none; }
+@keyframes fxMilestonePop {
+  0% { transform: scale(0.4); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes fxMedallionSpin { to { transform: rotate(360deg); } }
+
+.trail-milestone-avatar { margin: 0 0 10px; }
+.trail-milestone-title { font-family: var(--font-display); font-size: 20px; color: var(--primary-dark); margin: 4px 0 6px; }
+.trail-milestone-subtitle { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
+.trail-milestone-achievement {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(232, 163, 61, 0.16);
+  color: var(--gold-dark);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .trail-milestone-card { padding: 30px 18px 22px; }
+}
+
+/* Sob redução de movimento: sem pop elástico, sem onda de choque (já não
+   renderizada por js/fx.js quando Fx.prefersReducedMotion()), sem giro do
+   medalhão (.static acima) — o card aparece com um fade-in simples em vez
+   do scale com overshoot. Especificidade de classe garante que isto vença
+   o `* { transition: none !important }` genérico mais abaixo no arquivo. */
+@media (prefers-reduced-motion: reduce) {
+  .trail-milestone-celebration, .trail-milestone-card {
+    transition: opacity 0.2s linear !important;
+  }
+  .trail-milestone-card { transform: none !important; }
 }
 
 /* =========================================================================

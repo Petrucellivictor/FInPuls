@@ -264,8 +264,9 @@ const Trail = {
         </div>`;
     });
 
+    const theme = TRAIL_THEMES.themeFor(level.fonte, level.id); // RFC-037 Fase 2 — tema visual por bioma
     return `
-      <div class="trail-level ${isHistoria ? "historia" : "financeira"}" style="--level-color:${level.cor}">
+      <div class="trail-level ${isHistoria ? "historia" : "financeira"}" style="--level-color:${level.cor}" data-bioma="${theme.biomaId}">
         <div class="trail-level-banner">
           <div class="trail-level-ring" style="--pct:${pct}">
             <span>${doneCount}/${level.licoes.length}</span>

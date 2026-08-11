@@ -273,6 +273,13 @@ fin-plus/
 │   ├── trailscene3d.js                                 → cena 3D decorativa (Three.js) atrás da trilha Aprender/Empreender,
 │   │                                                      animada por scroll via GSAP ScrollTrigger, zero acoplamento com
 │   │                                                      progresso/XP/quiz (RFC-036 Fase A, v1.60.0)
+│   ├── trailthemes.js                                  → mapa estático de 5 temas visuais ("biomas") por bioma oceânico,
+│   │                                                      chaveado por level.id, cobrindo os 18 níveis reais das 3 trilhas
+│   │                                                      da aba Aprender, aplicado via atributo data-bioma (RFC-037 Fase 2, v1.61.0)
+│   ├── trailmilestones.js                              → detecção idempotente de "nível completo"/"5 lições cumulativas" via
+│   │                                                      course:updated, dispara Fx.milestoneCelebration() e coordena com
+│   │                                                      Achievements.notify() para nunca empilhar 2 notificações do mesmo
+│   │                                                      marco; celebrações são puramente cosméticas (RFC-037 Fase 1, v1.61.0)
 │   ├── engagement.js                                   → desafios diários, missão da semana e evento do dia
 │   ├── achievements.js                                   → conquistas desbloqueadas pelo uso real do app
 │   ├── market.js                                           → indicadores em tempo real (moedas, cripto, BCB)
@@ -422,6 +429,24 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   usado para Supabase/Phaser/Three.js (RFC-027). A Fase B desta mesma RFC
   (substituir o motor 2D/Phaser da Cidade Financeira por um jogo 3D
   navegável) ainda não foi iniciada.
+- **Temas visuais por bioma e celebrações maiores de progresso**
+  (RFC-037 Fase 1+2, v1.61.0): cada um dos 18 níveis reais da aba Aprender
+  (financeira, história e Empreender) ganhou um dos 5 "biomas" oceânicos
+  (`recife-raso`, `aguas-calmas`, `correnteza-dourada`, `aguas-turbulentas`,
+  `abismo-profundo`) — a mesma metáfora de oceano da cena decorativa acima,
+  agora também na composição visual (wash de cor, emoji-motivo, 1 animação
+  contínua sutil por bioma), resolvida 100% em CSS sobre um atributo
+  `data-bioma` já emitido no HTML existente. Além disso, completar um nível
+  inteiro ou a cada 5 lições cumulativas concluídas dispara uma celebração
+  maior de tela cheia (onda de choque, medalhão, confete, avatar do PolvIn)
+  — **puramente cosmética**, nunca concede XP/moeda além do que a lição já
+  pagou, e é coordenada com o toast de conquistas já existente para nunca
+  aparecerem 2 notificações empilhadas para o mesmo marco. Nenhuma mudança
+  em conteúdo educativo, ordem de níveis ou critérios de desbloqueio; nenhuma
+  dependência de CDN nova. **O terceiro elemento desta RFC — um avatar 3D do
+  PolvIn "andando" pela trilha conforme o progresso — ainda não foi
+  implementado** (Fase 3, decisões de arquitetura/UX já registradas em
+  `rfcs/RFC-037-*.md`, aguardando implementação).
 - **Níveis de jogador nomeados**: Iniciante → Aprendiz Financeiro →
   Planejador → Investidor → Construtor de Patrimônio → Mestre PolvIn, com o
   contador de XP no cabeçalho "subindo" com animação ao ganhar pontos.

@@ -321,4 +321,81 @@ const Fx = {
       setTimeout(resolve, this.prefersReducedMotion() ? 20 : 320);
     });
   },
+
+  /* =======================================================================
+     RFC-037 Fase 1 — celebração MAIOR de marco de progresso (nível
+     completo de Trail.levels()/Business.levels(), ou N lições cumulativas
+     concluídas). Disparada por js/trailmilestones.js, nunca diretamente
+     por trail.js/business.js.
+
+     Oposição deliberada ao .achievement-toast (UX/UI Designer, seção 3):
+     ele é pequeno, fica no canto, ~4.5s, discreto; esta celebração toma a
+     tela por um instante (overlay position:fixed;inset:0), com sua
+     própria assinatura visual (onda de choque + medalhão), nunca o layout
+     de Fx.retirementCelebration (que é específico da Cidade).
+
+     CRÍTICO (critério de aceite 10 da RFC-037) — 100% cosmética: NUNCA
+     chama this.coinBurst() nem Learn.addXp()/Learn.addCoins(). Cada lição
+     que compõe o marco já pagou seu XP/moeda individualmente quando foi
+     concluída; este card só amplifica visualmente algo que o progresso
+     real já alcançou, o mesmo padrão que Fx.retirementCelebration() já
+     usa para o "momento herói" da Cidade Financeira. */
+  BIOMA_ACCENTS: {
+    "recife-raso": "#4fae4a",
+    "aguas-calmas": "#3b6e8f",
+    "correnteza-dourada": "#e8a33d",
+    "aguas-turbulentas": "#d9534f",
+    "abismo-profundo": "#2d1b4e",
+  },
+
+  milestoneCelebration({ type, titulo, subtitulo, achievementMerge, biomaId } = {}) {
+    // Nunca dois momentos empilhados: se um marco ainda estiver em tela
+    // (ex.: dois eventos course:updated bem próximos), o novo substitui o
+    // anterior em vez de somar um segundo overlay.
+    document.querySelectorAll(".trail-milestone-celebration").forEach((el) => el.remove());
+
+    const reduced = this.prefersReducedMotion();
+    const medalEmoji = type === "licoes" ? "🌊" : "🏆";
+    const accent = type === "nivel" && biomaId ? this.BIOMA_ACCENTS[biomaId] : null;
+    const ring1 = accent || "var(--gold)";
+    const ring2 = accent || "var(--primary)";
+
+    const overlay = document.createElement("div");
+    overlay.className = "trail-milestone-celebration";
+    overlay.innerHTML = `
+      <div class="trail-milestone-backdrop"></div>
+      <div class="trail-milestone-card" role="status" aria-live="polite">
+        ${
+          reduced
+            ? ""
+            : `<div class="trail-milestone-shockwave" style="--wave-color:${ring1}"></div>
+               <div class="trail-milestone-shockwave delay" style="--wave-color:${ring2}"></div>`
+        }
+        <div class="trail-milestone-medallion${reduced ? " static" : " pop"}"><span>${medalEmoji}</span></div>
+        <div class="trail-milestone-avatar">${typeof Polvin !== "undefined" ? Polvin.avatarHtml("lg") : ""}</div>
+        <h2 class="trail-milestone-title">${titulo || "Marco concluído!"}</h2>
+        ${subtitulo ? `<p class="trail-milestone-subtitle">${subtitulo}</p>` : ""}
+        ${achievementMerge ? `<div class="trail-milestone-achievement">🏅 Conquista desbloqueada: ${achievementMerge.titulo}</div>` : ""}
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    const card = overlay.querySelector(".trail-milestone-card");
+    requestAnimationFrame(() => overlay.classList.add("show"));
+
+    if (!reduced) this.confetti(card, 34); // entre o padrão de lição (26) e o "herói" da aposentadoria (40)
+    this.mascotCelebrate(card); // procura .polvin-3d dentro do card (Polvin.avatarHtml acima)
+
+    if (navigator.vibrate) {
+      navigator.vibrate(type === "nivel" ? [30, 20, 30, 20, 60] : [20, 15, 20, 15, 40]);
+    }
+
+    const close = () => {
+      overlay.classList.remove("show");
+      overlay.classList.add("closing");
+      setTimeout(() => overlay.remove(), reduced ? 20 : 260);
+    };
+    overlay.querySelector(".trail-milestone-backdrop").addEventListener("click", close);
+    setTimeout(close, 3400); // mais curto que os toasts (4.5-5.5s) — interrupção maior, não deve prender o usuário
+  },
 };

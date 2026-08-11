@@ -76,7 +76,27 @@ const Achievements = {
     return Store.get(STORAGE_KEYS.ACHIEVEMENTS_UNLOCKED, []);
   },
 
+  /* RFC-037 Fase 1 (Software Architect, Decisão 3) — coordenação entre a
+     celebração maior de "nível completo" (js/trailmilestones.js) e o
+     toast padrão de conquista, quando as duas disparam para o MESMO
+     evento (ex.: terminar o Nível 1 desbloqueia nivel1_completo no mesmo
+     instante). js/trailmilestones.js chama suppressNotifyOnce(ids) ANTES
+     de checkAll() rodar (mesmo handler de clique, linha seguinte) — o
+     desbloqueio/persistência em ACHIEVEMENTS_UNLOCKED não muda em nada,
+     só QUAL toast pequeno aparece: a conquista continua sendo
+     desbloqueada e contada normalmente, só o Achievements.notify() padrão
+     não dispara para ela desta vez (o card grande de trailmilestones.js
+     já embutiu o título da conquista). _suppressedIds é consumido (limpo)
+     no início de checkAll() — vale só para a PRÓXIMA chamada. */
+  _suppressedIds: [],
+  suppressNotifyOnce(ids) {
+    this._suppressedIds = ids || [];
+  },
+
   checkAll() {
+    const suppressed = new Set(this._suppressedIds);
+    this._suppressedIds = [];
+
     const unlocked = this.getUnlocked();
     let changed = false;
     const novas = [];
@@ -93,7 +113,9 @@ const Achievements = {
 
     if (changed) {
       Store.set(STORAGE_KEYS.ACHIEVEMENTS_UNLOCKED, unlocked);
-      novas.forEach((a) => this.notify(a));
+      novas.forEach((a) => {
+        if (!suppressed.has(a.id)) this.notify(a);
+      });
       this.render();
       if (typeof City !== "undefined") City.render();
     }
