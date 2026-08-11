@@ -837,8 +837,19 @@
 <!-- Three.js (PolvIn 3D dentro do jogo 2D, RFC-023) — CDN, build UMD (última versão antes da remoção desse formato).
      SRI adicionado (RFC-027, auditoria de segurança, achado 4) — versão já era travada. -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js" integrity="sha384-T0aPHVj59bnuhOH27TkOKoOaIHLx4bJRRV5UJ6/O48mVZw8wzfoxtFfsyOSg1T74" crossorigin="anonymous"></script>
+<!-- GSAP (core) + ScrollTrigger (RFC-036, Fase A — camada decorativa 3D na trilha Aprender).
+     Gratuito e open-source para todos os usos, incluindo plugins antes pagos como ScrollTrigger
+     (Webflow/GreenSock, abril de 2025). CDN jsdelivr, versão travada + Subresource Integrity,
+     mesmo padrão de Supabase/Phaser/Three.js (RFC-027, achado 4). Ao atualizar a versão, regenere
+     o hash (baixar o arquivo exato e rodar openssl dgst -sha384 -binary arquivo.js | openssl
+     base64 -A — NUNCA copiar hash de um gerador de SRI de terceiro sem essa verificação manual).
+     ScrollTrigger.min.js precisa vir DEPOIS de gsap.min.js (estende o core) e ANTES de
+     js/trailscene3d.js (que chama gsap.registerPlugin(ScrollTrigger)). -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" integrity="sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" integrity="sha384-wl5TeDVvOWt30Pbf8aSo2ZrzsOjddu3avOBvHe+p+OhJt9gP6w9YXmDkN5DK2/dF" crossorigin="anonymous"></script>
 <script src="js/citypolvin3d.js"></script>
 <script src="js/citygame.js"></script>
+<script src="js/trailscene3d.js"></script>
 <script src="js/profile.js"></script>
 <script src="js/leagues.js"></script>
 <script src="js/market.js"></script>

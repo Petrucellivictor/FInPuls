@@ -818,6 +818,21 @@ input:focus, select:focus, textarea:focus {
   }
 }
 
+/* RFC-036 (Fase A) — camada decorativa 3D "Correnteza do Conhecimento", atrás
+   da trilha Aprender/Empreender. Filho direto de <body> (fora de qualquer
+   .tab-panel — evita geometria zero enquanto a aba está com display:none),
+   fixed cobrindo o viewport inteiro. z-index:-1 (não 0) é deliberado: como
+   body não tem transform/filter/opacity, isso garante que a cena fica atrás
+   de TODO o conteúdo estático da página sem exigir position:relative em mais
+   nenhum componente existente. pointer-events:none é redundância defensiva
+   (mesmo padrão de .city-game-polvin3d, linha ~1467). */
+#trailScene3d {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .trail { position: relative; padding: 6px 0 10px; }
 
 /* Barra de progresso geral — substitui a antiga .trail-spine/.trail-spine-fill

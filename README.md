@@ -270,6 +270,9 @@ fin-plus/
 │   ├── business.js                                     → trilha "Empreender" (independente, mesmo layout zig-zag): regimes tributários,
 │   │                                                      obrigações fiscais/contábeis, gestão de pessoas/finanças, e o nó de revisão
 │   │                                                      a cada 7 lições (piloto original do mecanismo, RFC-035 Fase 3B, v1.56.0)
+│   ├── trailscene3d.js                                 → cena 3D decorativa (Three.js) atrás da trilha Aprender/Empreender,
+│   │                                                      animada por scroll via GSAP ScrollTrigger, zero acoplamento com
+│   │                                                      progresso/XP/quiz (RFC-036 Fase A, v1.60.0)
 │   ├── engagement.js                                   → desafios diários, missão da semana e evento do dia
 │   ├── achievements.js                                   → conquistas desbloqueadas pelo uso real do app
 │   ├── market.js                                           → indicadores em tempo real (moedas, cripto, BCB)
@@ -404,6 +407,21 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   um toast comemorativo ao subir de "nível de jogador" — tudo respeitando
   `prefers-reduced-motion`. Mesmo layout, sem divergência, também na
   trilha "Empreender".
+- **Camada 3D decorativa "Correnteza do Conhecimento" atrás da trilha**
+  (RFC-036 Fase A, v1.60.0): cena Three.js de fundo — oceano estilizado,
+  8 gemas do conhecimento (cel-shading, mesma técnica do PolvIn 3D da
+  Cidade, RFC-023), 3 anéis dourados, bolhas e plâncton bioluminescente —
+  reagindo ao scroll real da página via GSAP ScrollTrigger (parallax entre
+  camadas, mudança de cor do fundo ao "mergulhar" conforme o progresso na
+  trilha). Puramente decorativa: zero acoplamento com XP/energia/
+  progresso/quiz (`Trail.*`/`Business.*`/`Learn.*`, confirmado por QA).
+  Pausa o contexto WebGL (não o destrói) ao trocar de aba, respeita
+  `prefers-reduced-motion`, e aparece tanto na trilha Aprender quanto na
+  Empreender. Traz uma dependência nova via CDN — GSAP 3.15.0 +
+  ScrollTrigger 3.15.0, versão travada + SRI, mesmo padrão de segurança já
+  usado para Supabase/Phaser/Three.js (RFC-027). A Fase B desta mesma RFC
+  (substituir o motor 2D/Phaser da Cidade Financeira por um jogo 3D
+  navegável) ainda não foi iniciada.
 - **Níveis de jogador nomeados**: Iniciante → Aprendiz Financeiro →
   Planejador → Investidor → Construtor de Patrimônio → Mestre PolvIn, com o
   contador de XP no cabeçalho "subindo" com animação ao ganhar pontos.

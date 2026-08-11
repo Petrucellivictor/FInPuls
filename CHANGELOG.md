@@ -4,6 +4,82 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.60.0] - 2026-08-10
+
+### Adicionado
+- **RFC-036 Fase A — camada 3D decorativa "Correnteza do Conhecimento"
+  atrás da trilha Aprender/Empreender, animada por scroll (GSAP
+  ScrollTrigger)** (`js/trailscene3d.js`, novo, ~530 linhas; `index.html`;
+  `css/style.css`): cena Three.js puramente decorativa (`#trailScene3d`,
+  `position:fixed`, `z-index:-1`, fora de qualquer `.tab-panel`) atrás do
+  container da trilha — 1 plano de fundo oceânico (`CanvasTexture`,
+  gradiente de 4 cores da paleta já existente do PolvIn), 8 gemas do
+  conhecimento (icosaedros facetados, cel-shading `MeshToonMaterial`, mesma
+  técnica de `js/citypolvin3d.js`, RFC-023), 3 anéis dourados, 6 bolhas
+  wireframe ascendentes e ~350 partículas de plâncton bioluminescente (19
+  objetos no total, dentro do orçamento de 30-40 do Software Architect).
+  Reage ao scroll real da página via 1 `ScrollTrigger` mestre (`scrub`,
+  sem `pin`): parallax entre as camadas de fundo/meio/perto (razão 2.5×,
+  fatores 0.3/0.12) e mudança de cor do fundo conforme o avanço na trilha
+  ("mergulhar" no oceano). Ciclo de vida "pausar, não destruir" ao trocar
+  de aba (`tab:changed`) ou perder foco (`visibilitychange`) — cancela
+  `requestAnimationFrame` e desabilita o `ScrollTrigger`, mas nunca chama
+  `renderer.dispose()`, evitando o custo de recriar o contexto WebGL a
+  cada troca de aba; o canvas (filho direto de `<body>`) é escondido via
+  `visibility:hidden` enquanto pausado, para não vazar atrás de outras
+  abas. Respeita `prefers-reduced-motion` (1 frame estático, sem
+  `requestAnimationFrame` nem listener de scroll). **Zero acoplamento**
+  com a lógica de progresso/XP/quiz/revisão da trilha — nenhuma referência
+  funcional a `Trail.*`/`Business.*`/`Learn.*`/`STORAGE_KEYS`/
+  `course:updated`/`lesson:passed`/`xp:updated`, confirmado por grep
+  independente do Frontend Engineer e do QA Engineer. Nova dependência via
+  CDN jsDelivr, **GSAP 3.15.0 (core) + ScrollTrigger 3.15.0**, versão
+  travada + hash SRI real (baixado das URLs de produção e recalculado de
+  forma independente por dois QAs, não gerado por ferramenta de terceiro),
+  mesmo padrão de segurança já usado para Supabase/Phaser/Three.js
+  (RFC-027, achado 4). Testado via Chrome headless real (CDP): ~60fps em
+  condição normal e ainda ~60fps com CPU 4× throttled (orçamento mínimo
+  era 30fps), zero erros de console além do warning pré-existente de
+  depreciação do build UMD do Three.js, 6+ ciclos de troca de aba sem
+  duplicar `#trailScene3d` nem vazar contexto WebGL, `prefers-reduced-motion`
+  confirmado nos dois sentidos.
+
+### Corrigido
+- **Gemas/anéis nascendo sobre o cabeçalho "Academia PolvIn"/chips
+  `#academiaSubnav` em viewport mobile estreito** (`js/trailscene3d.js`,
+  achado do QA Engineer sobre a Fase A da RFC-036 acima, corrigido antes
+  do fechamento da fase): posição de nascimento (`Math.random()`) das
+  gemas e anéis não tinha zona de exclusão para a faixa onde ficam o
+  título e os chips de navegação (sem fundo opaco próprio) — em telas
+  estreitas (390×844), isso podia colocar um objeto sólido diretamente
+  sobre uma área clicável. Corrigido com uma zona de exclusão de spawn
+  nos 20% superiores da tela (`TOP_EXCLUSION_FRACTION`), calculada a
+  partir da **borda** do objeto (não só do centro), reaproveitando o mesmo
+  range vertical já usado por cada `build*()`. Validado por prova
+  matemática do pior caso (Frontend Engineer) e reverificado
+  empiricamente pelo QA Engineer com **110 objetos amostrados em 10
+  recargas reais (Chrome headless via CDP), 0 violações** — caso mais
+  próximo do limite a 0,4% de margem, confirmando a previsão matemática.
+  Bolhas/plâncton foram deliberadamente deixados fora desta correção (não
+  citados pelo achado original; sobem continuamente por design e
+  atravessariam a faixa de qualquer forma como parte do próprio ciclo de
+  animação — mudar isso exigiria alterar o comportamento do loop de
+  subida, fora do escopo desta correção cirúrgica).
+
+**Pendência conhecida, não bloqueante, escalada ao Product Owner**: falta
+um ambiente de staging Supabase dedicado a QA — nem o Frontend Engineer
+nem o QA Engineer conseguiram validar o fluxo de lição completo (clique
+real em nó → quiz → XP) com uma conta real de ponta a ponta, só por
+análise de código/acoplamento (grep + leitura), porque o app exige login
+antes de renderizar a trilha e nenhum dos dois quis escrever dados de
+teste no banco de produção. Mesma limitação de processo já registrada em
+QAs recentes deste projeto (não introduzida por esta entrega).
+
+**Fase B desta RFC (substituir o motor 2D/Phaser da Cidade Financeira por
+um motor 3D navegável) ainda não foi iniciada** — só decisões de
+arquitetura/gamificação estão registradas (RFC-036, seções 2 e 4); nenhum
+código foi escrito para a Cidade nesta entrega.
+
 ## [1.59.0] - 2026-08-10
 
 ### Adicionado
