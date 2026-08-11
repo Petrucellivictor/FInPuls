@@ -4,6 +4,61 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.59.0] - 2026-08-10
+
+### Adicionado
+- **RFC-035 Fase 3C, Onda de Revisão 3 de 4 — mais 4 revisões periódicas na
+  trilha unificada Aprender, incluindo a primeira âncora real desta série em
+  `HISTORY_COURSE`** (`js/data.js`): terceira de 4 Ondas planejadas para
+  cobrir os 17 blocos de revisão possíveis nas ~120 lições já publicadas na
+  trilha Aprender (mapeamento do Software Architect, RFC-035 seção 19),
+  somando **12 revisões publicadas até agora** (`revU_01`-`revU_12`). 4 novas
+  entradas em `COURSE_REVIEWS`: `revU_09` (XP 25, ancorada em `himp_6`,
+  fecha o nível "Independência, Corte e Império" de `HISTORY_COURSE`),
+  `revU_10` (XP 30, ancorada em `rv_05`), `revU_11` (XP 30, ancorada em
+  `rv_12`) e `revU_12` (XP 30, ancorada em `rv_19`) — as 3 últimas dentro do
+  Nível 3 "Renda Variável" de `COURSE`. Cada bloco com 10 perguntas autorais
+  (mais 10 variantes de reforço) cobrindo as 7 lições anteriores, sem
+  sobreposição de conteúdo entre blocos nem com as 8 revisões das Ondas 1-2.
+  **Destaque da Onda: `revU_09` é a primeira revisão desta RFC fisicamente
+  inserida em `HISTORY_COURSE` com conteúdo real publicado** (6 lições de
+  `HISTORY_COURSE` — `himp_1`-`himp_6`, do Corte de 1808 à Proclamação da
+  República — misturadas com 1 de `COURSE`, `rf_15`/Renda Fixa, que recebeu
+  2 das 10 perguntas mesmo sendo minoria, mesmo critério já aplicado a
+  `revU_06` na Onda 2 no sentido oposto). Progresso de `revU_09` é gravado em
+  `HISTORY_PROGRESS` (roteado pela `fonte` do nível de inserção, história,
+  não pela fonte de cada pergunta individual) — o caminho de inserção em
+  `HISTORY_COURSE`, testado apenas de forma sintética desde a Onda 1, foi
+  finalmente exercitado em produção com conteúdo real e confirmado correto.
+  **Nenhuma mudança em `js/trail.js` foi necessária** — o mecanismo genérico
+  (`withReviews`, branches de `levelHtml()`/`finishLesson()` dirigidos por
+  `lesson.tipo`, todos implementados na Onda 1) absorveu as 4 novas entradas
+  automaticamente, confirmado por `git diff --stat js/trail.js` vazio, mais
+  uma prova de que a arquitetura generalizada da Onda 1 segue correta sem
+  ajuste incremental por Onda. Validado pelo QA Engineer executando
+  literalmente (Node, `vm.createContext`) as funções `withReviews`/`levels`/
+  `flatLessons`/`progressKey` de `js/trail.js` contra o `js/data.js` real:
+  `node --check` OK, `COURSE_REVIEWS.length === 12` sem duplicata nem colisão
+  de âncora, `Trail.flatLessons().length === 132` (120 lições reais + 12
+  revisões), roteamento de `revU_09` para `HISTORY_PROGRESS` confirmado de
+  forma independente do relato do Frontend Engineer, ordem dos níveis de
+  `HISTORY_COURSE` preservada, e regressão contra `HEAD` sem nenhuma
+  diferença em `COURSE`/`HISTORY_COURSE`/`BUSINESS_COURSE`/`BUSINESS_REVIEWS`
+  nem nas 8 revisões já publicadas (`revU_01`-`revU_08` byte-a-byte
+  inalteradas). **Limitação registrada**: sem ferramenta de automação de
+  navegador disponível para o QA desta Onda, a validação não incluiu
+  conclusão de lição via clique real em UI (diferente das Ondas 1-2) — a
+  lógica de dados/roteamento foi coberta com alta confiança por execução
+  real do algoritmo de produção, mas não a renderização DOM/persistência real
+  em `localStorage` do navegador. Dois achados não bloqueantes registrados
+  como backlog: viés pré-existente e sistêmico na distribuição do índice de
+  resposta correta (todo o banco de perguntas, não introduzido por esta
+  Onda) e a mistura de fonte de `revU_09` (comportamento de design já
+  estabelecido desde `revU_06`, não um bug). Aprovado sem ressalvas. **Resta
+  1 Onda de Revisão**: Onda 4 (blocos 13-17, fecha a cobertura, incluindo
+  mais 2 âncoras em `HISTORY_COURSE` e o primeiro caso de inserção no meio
+  de um nível).
+
 ## [1.58.0] - 2026-08-09
 
 ### Adicionado

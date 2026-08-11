@@ -6388,3 +6388,1162 @@ escopo desta tarefa).
 - **Próximo agente responsável**: nenhum — aguardando o próximo ciclo
   (Financial Specialist para o conteúdo da Onda de Revisão 3) fora desta
   etapa de fechamento.
+
+### 28. Financial Specialist (Fase 3C — Conteúdo da Onda de Revisão 3, blocos 9-12)
+
+Leitura prévia confirmada por leitura direta de `js/data.js`: o texto
+completo de `aula`/`conto` e o array `perguntas` (base + `variante`) das 20
+lições referenciadas pelos 4 blocos desta Onda — `rf_15` (Nível 2 "Renda
+Fixa" de `COURSE`); `himp_1` a `himp_6` (nível "Independência/Corte/Império"
+de `HISTORY_COURSE`); `l3_1`, `l3_2`, `rv_01` a `rv_19` (Nível 3 "Renda
+Variável" de `COURSE`) — sem sobreposição de conteúdo entre os 4 blocos,
+conforme já confirmado pelo Software Architect na seção 19.
+
+XP de cada bloco confirmado por leitura direta em `js/data.js`, igual ao XP
+da lição-âncora (decisão da Fase 3B, seção 13, item 1): `himp_6.xp = 25`,
+`rv_05.xp = 30`, `rv_12.xp = 30`, `rv_19.xp = 30` — batendo exatamente com a
+tabela da seção 19.
+
+**Atenção redobrada ao bloco 9 (`revU_09`), o primeiro bloco desta RFC cuja
+âncora é uma lição de `HISTORY_COURSE`.** `himp_6` é a última lição do nível
+"Independência/Corte/Império" de `HISTORY_COURSE` — por isso `revU_09` é
+inserido em `HISTORY_COURSE[1]`, não em `COURSE`, mesmo contendo `rf_15`
+(Renda Fixa) como 1 das 7 lições cobertas. É também o primeiro bloco desta
+RFC em que a História é maioria (6 de 7 lições) e a Financeira é minoria (1
+de 7) — o inverso do bloco misto já publicado (`revU_06`, seção 24, com 2
+lições de História em 7). Seguindo o mesmo critério já usado em `revU_06`
+("o conteúdo minoritário não pode ficar sem cobertura só por ser minoria
+numérica"), `revU_09` reserva 2 das 10 perguntas para `rf_15` — no mínimo
+pedido pela tarefa, suficiente para cobrir os dois erros centrais da lição
+(ignorar liquidez/prazo ao perseguir taxa alta; ignorar a tabela regressiva
+do IR e resgatar cedo demais) sem desequilibrar um bloco que é,
+estruturalmente, sobre o Império.
+
+#### 1. Cobertura das 10 perguntas por bloco
+
+Mesmo critério já usado em `revE_01`/`revU_01`-`08`: nenhuma das 7 lições de
+um bloco fica sem pelo menos 1 pergunta, com peso extra nas lições mais
+densas em fatos/cálculo.
+
+**`revU_09`** (`rf_15, himp_1, himp_2, himp_3, himp_4, himp_5, himp_6`) —
+bloco misto, História majoritária:
+
+| # | Lição coberta | Fonte | Conceito testado |
+| - | --- | --- | --- |
+| 1-2 | `rf_15` | Financeira | Taxa alta sozinha não conta a história toda (ignorar liquidez/prazo); resgatar cedo demais paga alíquota de IR mais alta pela tabela regressiva |
+| 3 | `himp_1` | História | A Abertura dos Portos (1808) encerrou o monopólio comercial de Portugal sobre o Brasil |
+| 4-5 | `himp_2` | História | Cronologia Dia do Fico → Independência (7/set/1822); a indenização de 1825, paga com empréstimo inglês, ilustra que independência política ≠ autonomia financeira |
+| 6 | `himp_3` | História | A sequência das 4 leis abolicionistas, da Eusébio de Queirós (1850) à Lei Áurea (1888) |
+| 7 | `himp_4` | História | A Guerra do Paraguai (1864-1870) como o conflito armado internacional mais longo da história sul-americana |
+| 8 | `himp_5` | História | Emitir moeda sem lastro para financiar a guerra desvalorizou a moeda e alimentou a inflação |
+| 9-10 | `himp_6` | História | A participação de 7%-10% de libertos entre os combatentes (número relevante, mas minoritário); a fragilidade financeira e política do Império, ligada à Proclamação da República de 1889 |
+
+**`revU_10`** (`l3_1, l3_2, rv_01, rv_02, rv_03, rv_04, rv_05`):
+
+| # | Lição coberta | Conceito testado |
+| - | --- | --- |
+| 1-2 | `l3_1` | Comprar ação é virar sócio (não credor); o preço de uma ação reflete expectativas do mercado, não só o resultado presente |
+| 3-4 | `l3_2` | Rendimento mensal de FII costuma ser isento de IR para pessoa física; risco de vacância nos FIIs de tijolo |
+| 5 | `rv_01` | Diferença entre ação ordinária (ON, com voto) e preferencial (PN, geralmente sem voto, com prioridade em dividendos) |
+| 6 | `rv_02` | Mercado fracionário permite comprar menos que o lote padrão (100 ações) |
+| 7 | `rv_03` | JCP sofre retenção de 15% de IR na fonte (diferente do dividendo, isento); vantagem tributária do JCP para a empresa |
+| 8 | `rv_04` | Cálculo do P/L (Preço ÷ Lucro por ação) |
+| 9-10 | `rv_05` | Cálculo do Dividend Yield; a "armadilha do yield" (DY inflado por queda recente de preço) |
+
+**`revU_11`** (`rv_06, rv_07, rv_08, rv_09, rv_10, rv_11, rv_12`):
+
+| # | Lição coberta | Conceito testado |
+| - | --- | --- |
+| 1 | `rv_06` | O que o Ibovespa mede (carteira teórica das ações mais negociadas na B3) |
+| 2 | `rv_07` | Por que ações são mais voláteis que renda fixa (preço reflete expectativas) |
+| 3 | `rv_08` | Baixa liquidez dificulta vender rápido sem aceitar preço menor |
+| 4 | `rv_09` | O que é um IPO e por que ações recém-listadas têm mais incerteza |
+| 5-6 | `rv_10` | Isenção de IR até R$20 mil vendidos no mês (ações); o DARF é calculado e pago pelo próprio investidor |
+| 7-8 | `rv_11` | Day trade é compra e venda no mesmo dia; tributado em 20%, sem a isenção de R$20 mil das operações comuns |
+| 9-10 | `rv_12` | O que é um ETF (diversificação automática); ETFs não têm a isenção de R$20 mil, são tributados em 15% |
+
+**`revU_12`** (`rv_13, rv_14, rv_15, rv_16, rv_17, rv_18, rv_19`):
+
+| # | Lição coberta | Conceito testado |
+| - | --- | --- |
+| 1 | `rv_13` | BDR permite investir em empresas estrangeiras via B3, em reais, com risco cambial de mão dupla |
+| 2-3 | `rv_14` | FII de tijolo (renda de aluguel) x FII de papel (renda de juros de CRIs); o que é um fundo de fundos (FOF) |
+| 4-5 | `rv_15` | Requisito de mínimo de 50 cotistas; limite de concentração de 10% por cotista pessoa física, para manter a isenção de IR |
+| 6 | `rv_16` | Taxa de administração reduz o rendimento líquido distribuído; taxa de gestão é adicional em fundos de gestão ativa |
+| 7 | `rv_17` | O IFIX mistura tijolo e papel, o que pode tornar a comparação com um fundo específico menos precisa |
+| 8 | `rv_18` | Risco de crédito nos FIIs de papel (inadimplência dos devedores dos títulos) |
+| 9-10 | `rv_19` | Diversificação reduz risco específico, mas não elimina risco de mercado |
+
+Nenhuma pergunta-base é cópia literal de nenhuma pergunta ou variante já
+publicada nas 20 lições referenciadas — todas usam personagens, valores e
+situações novas, preservando o conceito original. Em alguns pontos onde uma
+primeira redação ficou próxima demais da lição-fonte (ex.: o padrão "João viu
+duas opções de CDB... 130% do CDI... 105% do CDI" de `rf_15`, reescrito com
+outro personagem, outros percentuais e outro produto de renda fixa; o padrão
+"você e alguns amigos decidem abrir um mercadinho" de `l3_1`, substituído por
+uma comparação direta com o credor de um CDB, já estudado na trilha de Renda
+Fixa, em vez de reaproveitar a mesma metáfora de sociedade comercial), a
+pergunta foi reescrita com nomes, estrutura de frase e contexto diferentes
+antes de entrar na versão final abaixo — não só números/nomes trocados.
+
+#### 2. Precisão factual/financeira/histórica — checklist de validação
+
+- Cálculos conferidos à mão antes de fixar a opção `correta`:
+  - `revU_10` Q8 (`rv_04`, P/L): 40 ÷ 8 = 5 (base); 60 ÷ 12 = 5 (variante) —
+    mesmo P/L, números diferentes, ambos batendo com a opção marcada.
+  - `revU_10` Q9-10 (`rv_05`, Dividend Yield): 6,40 ÷ 80 = 0,08 = 8% (base);
+    2 ÷ 25 = 0,08 = 8% (variante).
+  - Nenhum resultado diverge da opção marcada como `correta`.
+- Fatos históricos de `himp_1`-`himp_6` conferidos contra o `conto` original
+  de cada lição: Abertura dos Portos (28/jan/1808, ainda na Bahia); criação
+  do primeiro Banco do Brasil (alvará de 12/out/1808, operação só a partir de
+  dez/1809); elevação a Reino Unido (16/dez/1815); Dia do Fico (9/jan/1822) e
+  Independência (7/set/1822, riacho Ipiranga); Tratado do Rio de Janeiro
+  (29/ago/1825, indenização de 2 milhões de libras esterlinas, paga com
+  empréstimo de bancos ingleses); as 4 leis abolicionistas (Eusébio de
+  Queirós 1850, Ventre Livre 1871, Sexagenários 1885, Lei Áurea 13/mai/1888,
+  sem indenização aos antigos senhores); Guerra do Paraguai (dez/1864 a
+  1º/mar/1870, Tratado da Tríplice Aliança de 1/mai/1865, morte de Solano
+  López em Cerro Corá); financiamento da guerra (apólices internas,
+  empréstimos da Casa Rothschild — cerca de 7 milhões de libras só em 1865,
+  cerca de 14,3 milhões de libras entre 1863-1871 —, transferência da emissão
+  de moeda do Banco do Brasil para o Tesouro Nacional em 1866, gerando
+  inflação); libertação de escravizados por serviço militar (decreto de
+  novembro de 1866, estimativa de 7%-10% dos combatentes); Proclamação da
+  República (15/nov/1889). Nenhuma data, percentual ou nome próprio novo foi
+  introduzido além do que já está nas lições-fonte — as perguntas desta
+  revisão reaproveitam exatamente os mesmos fatos, só em situações-problema
+  diferentes.
+- Conceitos de Renda Variável (`l3_1`, `l3_2`, `rv_01` a `rv_19`) conferidos
+  contra a `aula` original de cada lição: ação = participação societária,
+  não crédito; ON (voto) x PN (geralmente sem voto, prioridade em
+  dividendos) x units; lote padrão de 100 e mercado fracionário; JCP
+  tributado em 15% na fonte (dedutível para a empresa) x dividendo isento;
+  P/L e P/VP como pontos de partida, não respostas definitivas; Dividend
+  Yield e a armadilha do yield; Ibovespa como carteira teórica ponderada por
+  liquidez; volatilidade e liquidez como características de risco, não
+  indicadores de má qualidade; IPO como captação sem dívida; isenção de
+  R$20.000/mês para ações (fora do day trade) e DARF de responsabilidade do
+  investidor; day trade tributado em 20% sem essa isenção; ETF como
+  diversificação automática, tributado em 15% sem a isenção de R$20 mil;
+  BDR com risco cambial de mão dupla; FII de tijolo (aluguel) x papel (CRIs)
+  x fundo de fundos; requisitos de isenção dos FIIs (negociação em
+  bolsa/balcão, mínimo de 50 cotistas, limite de 10% de concentração por
+  cotista pessoa física); taxa de administração x taxa de gestão; IFIX
+  misturando tijolo e papel; risco de crédito nos FIIs de papel;
+  diversificação reduzindo risco específico sem eliminar risco de mercado.
+  Nenhum desses conceitos foi alterado ou simplificado de forma que
+  divergisse da lição-fonte.
+- Nenhum número novo de lei/alíquota/limite foi introduzido nos 4 blocos —
+  a isenção de R$20 mil/mês para ações, a alíquota de 15% do JCP, de 20% do
+  day trade, de 15% dos ETFs, os requisitos de isenção dos FIIs (50 cotistas,
+  10% de concentração) e a tabela regressiva de IR (`RF_TAX_TABLE`) usada em
+  `revU_09` Q1-2 já estavam publicados nas lições-fonte ou no código-fonte do
+  projeto (`js/data.js`) — nenhum valor foi inventado.
+- Os números históricos aproximados de `himp_5` (614 mil contos de réis de
+  custo, 55 mil contos de orçamento anual, 7 e 14,3 milhões de libras
+  esterlinas de empréstimos) já vinham marcados como estimativas no `conto`
+  original ("números aproximados, que variam conforme a fonte e a
+  metodologia") — nenhuma pergunta desta revisão apresenta esses valores como
+  certeza absoluta, mantendo a mesma cautela historiográfica da lição-fonte.
+- Nenhuma pergunta ou explicação soa como recomendação personalizada de
+  investimento — todas descrevem conceitos genéricos e situações fictícias,
+  mesma postura editorial já usada no resto da trilha.
+- Cada `explicacao` (base e variante) foi escrita para ser compreensível por
+  alguém sem conhecimento prévio, respondendo diretamente "por que a opção
+  marcada como certa está certa".
+
+#### 3. Checklist do bug da Fase 3B (Q9 de `revE_01`) — revisão par a par
+
+Releitura de todas as 40 perguntas-base contra a `variante` correspondente,
+confirmando que cada par testa o MESMO conceito central, só com
+cenário/nomes/números diferentes:
+
+- **`revU_09`**: todos os 10 pares confirmados mesmo conceito. Atenção
+  especial em 3 pontos:
+  - Par 3 (`himp_3`, sequência das 4 leis abolicionistas): uma primeira
+    redação tinha a base pedindo a ordem cronológica completa das 4 leis, e a
+    variante pedindo "o que diferenciou a Lei Áurea das leis anteriores"
+    (ausência de indenização, abolição imediata) — dois sub-conceitos
+    diferentes dentro do mesmo par, reproduzindo o padrão do Bug 1 (igual ao
+    caso já corrigido da curva de juros ascendente/invertida em `revU_07`,
+    seção 24, item 3). Corrigido: a variante passou a perguntar qual das
+    quatro leis foi sancionada por último, mantendo o mesmo conceito de
+    sequência/ordem cronológica testado na base, só entrando por um ângulo
+    diferente (identificar a última, em vez de ordenar todas).
+  - Par 9-10 (`himp_6`, participação de libertos entre os combatentes): uma
+    primeira redação da variante mudava de assunto para "como pessoas
+    escravizadas de propriedade particular também podiam ser libertadas"
+    (um mecanismo diferente do percentual testado na base) — corrigido para
+    manter o mesmo conceito (a estimativa de 7%-10% e sua correta
+    interpretação como minoria relevante, não maioria), evitando misturar
+    dois fatos distintos da lição no mesmo par.
+  - Par 4-5 (`himp_2`, indenização de 1825): base e variante mantidos como
+    duas perguntas separadas (não um único par), cada uma com seu próprio
+    par base+variante internamente consistente — a primeira sobre a
+    cronologia Dia do Fico → Independência, a segunda sobre a indenização
+    financiada por empréstimo inglês — evitando reunir os dois fatos densos
+    de `himp_2` num só par.
+- **`revU_10`**: todos os 10 pares confirmados mesmo conceito (`l3_1` par 1:
+  mesma "ação = sócio, não credor" em ambos os lados, entrando por ângulos
+  diferentes — metáfora direta x contraste com o CDB da trilha de Renda
+  Fixa, mesmo padrão de "mesmo fio causal, pontas diferentes" já aceito na
+  Onda 2 para `rf_04`; par 2: mesma "preço reflete expectativa, não só
+  resultado presente" com sinais opostos — lucro recorde caindo x prejuízo
+  subindo — mantendo o mesmo conceito central; pares 3-4, 5, 6, 7 confirmados
+  mesmo conceito de `l3_2`/`rv_01`/`rv_02`/`rv_03`; pares 8, 9, 10 confirmados
+  cálculo idêntico de P/L e DY, só com números diferentes).
+- **`revU_11`**: todos os 10 pares confirmados mesmo conceito. Atenção
+  especial no par 9-10 (`rv_12`, ETF): a primeira redação da base testava "a
+  vantagem da diversificação automática" e a variante testava diretamente "o
+  que é um ETF" (definição, não vantagem) — dois ângulos do mesmo conceito
+  guarda-chuva (o que é e por que usar um ETF), padrão já aceito desde a Onda
+  1 para casos assim; mantido, pois nenhum dos dois lados introduz um
+  sub-conceito estranho ao ETF (diferente do caso corrigido da curva de
+  juros). A segunda pergunta desse mesmo bloco (par de tributação) manteve
+  base e variante ambas sobre a ausência da isenção de R$20 mil para ETFs.
+- **`revU_12`**: todos os 10 pares confirmados mesmo conceito. Par 2-3
+  (`rv_14`, tijolo x papel x FOF): dividido em duas perguntas separadas
+  (tijolo x papel primeiro, FOF depois) desde a primeira redação, evitando
+  reunir os três tipos de FII num único par confuso. Par 4-5 (`rv_15`,
+  requisitos de isenção): também dividido em duas perguntas separadas (mínimo
+  de cotistas primeiro, limite de concentração depois), pelo mesmo motivo.
+
+**Conclusão da checklist**: 2 casos que numa primeira redação teriam
+reproduzido o padrão do Bug 1 (`revU_09` par 3, mistura de sequência
+cronológica com característica distintiva da Lei Áurea; `revU_09` pares 9-10,
+mudança de assunto de percentual de combatentes para mecanismo de libertação
+por senhores particulares) foram identificados e corrigidos nesta própria
+revisão, antes de entrar na versão final abaixo — nenhum par restante mistura
+dois conceitos diferentes entre pergunta-base e `variante`.
+
+#### 4. `revU_09` — objeto completo
+
+```js
+{
+  id: "revU_09",
+  tipo: "revisao",
+  titulo: "Revisão: erros em renda fixa e o Brasil Império — da Corte de 1808 à Proclamação da República",
+  xp: 25,
+  aula: [
+    "Esta revisão mistura dois mundos: a primeira parte volta a um erro comum na hora de escolher renda fixa — focar só na taxa, sem checar liquidez, prazo e Imposto de Renda —, e as outras nove perguntas percorrem o Brasil Império, da chegada da Corte portuguesa em 1808 até a Proclamação da República em 1889, passando pela Independência endividada, a abolição gradual da escravidão e a guerra mais longa e cara da história sul-americana.",
+    "Não é coincidência que renda fixa e história do Império apareçam juntas aqui: o mesmo padrão de tomar dívida para cobrir um gasto que os cofres não conseguem pagar sozinhos — visto na indenização de 1825 e no financiamento da Guerra do Paraguai — é o tipo de decisão financeira que você também aprende a avaliar, em escala pessoal, na trilha de Renda Fixa.",
+    "Como sempre, as perguntas usam situações novas, não as mesmas que você já viu. Errar faz parte do processo — a explicação de cada resposta existe para fechar qualquer dúvida que sobrar.",
+  ],
+  refLessonIds: ["rf_15", "himp_1", "himp_2", "himp_3", "himp_4", "himp_5", "himp_6"],
+  perguntas: [
+    {
+      pergunta: "Marcelo viu dois CDBs no aplicativo do banco: um pagando 145% do CDI, com vencimento em 6 anos e sem liquidez diária, e outro pagando 106% do CDI, com liquidez diária. Ele aplicou toda a sua reserva de emergência no primeiro, atraído só pela taxa maior. Que erro ele cometeu?",
+      opcoes: ["Nenhum, taxa maior é sempre a melhor escolha para qualquer objetivo", "Ignorar que essa taxa maior vinha com prazo muito mais longo e sem liquidez diária, incompatível com uma reserva de emergência", "O erro foi ter escolhido a taxa menor", "CDBs sempre têm liquidez diária, então não há erro possível"],
+      correta: 1,
+      explicacao: "Taxas maiores costumam vir com prazos mais longos e menor liquidez — usar a reserva de emergência (que pode precisar ser sacada a qualquer momento) nesse tipo de aplicação é o erro central do exemplo.",
+      variante: {
+        pergunta: "Uma pessoa investiu todo o dinheiro que reservou para uma cirurgia (que pode precisar em poucos meses) em uma debênture de 7 anos, sem liquidez antes do vencimento, só porque a taxa anunciada era a maior do mercado. Dois meses depois, precisou do valor. Qual foi o erro dela?",
+        opcoes: ["Ter escolhido uma taxa alta", "Não ter considerado a liquidez e o prazo do investimento antes de aplicar um dinheiro que tinha um objetivo de curto prazo", "A debênture não paga imposto, então não há erro", "Ter investido em renda fixa em vez de ações"],
+        correta: 1,
+        explicacao: "Antes de buscar a taxa mais alta, é preciso checar se o prazo e a liquidez do investimento combinam com o horizonte de tempo do dinheiro — sem isso, imprevistos podem forçar resgates ruins ou até prejuízo.",
+      },
+    },
+    {
+      pergunta: "Rafael e Bianca aplicam o mesmo valor em Tesouro Prefixado, no mesmo dia. Rafael resgata após 140 dias, pois precisou do dinheiro; Bianca mantém o título até o vencimento, 3 anos depois. Comparando apenas a alíquota de Imposto de Renda que cada um paga sobre o rendimento, o que se pode afirmar?",
+      opcoes: ["Os dois pagam exatamente a mesma alíquota, porque aplicaram no mesmo dia", "Rafael paga uma alíquota maior (22,5%, por resgatar em até 180 dias); Bianca paga uma alíquota menor (15%, por manter o título por mais de 720 dias)", "Rafael fica isento de IR por ter resgatado rápido", "Bianca paga mais imposto por ter esperado mais tempo"],
+      correta: 1,
+      explicacao: "A tabela regressiva do IR cobra alíquotas maiores para prazos curtos (22,5% até 180 dias) e menores para prazos longos (15% acima de 720 dias) — quem resgata rápido demais, sem necessidade, acaba pagando mais imposto sobre o rendimento.",
+      variante: {
+        pergunta: "Camila não precisava do dinheiro com urgência, mas resgatou um CDB com apenas 100 dias de aplicação, em vez de esperar mais 300 dias para completar 400 dias investidos. Sem saber, ela se colocou na faixa de alíquota mais alta do IR regressivo. Qual foi o erro dela?",
+        opcoes: ["Nenhum, o resgate antecipado nunca afeta o Imposto de Renda", "Resgatar sem necessidade antes de completar um prazo maior, pagando uma alíquota de IR mais alta (22,5%, por ficar em até 180 dias) do que pagaria esperando mais tempo", "Ter aplicado em um CDB em vez de uma ação", "O erro foi do banco, que deveria ter avisado antes"],
+        correta: 1,
+        explicacao: "Resgatar sem necessidade real, antes de completar mais tempo aplicado, faz o investidor pagar uma alíquota de IR mais alta pela tabela regressiva (22,5% até 180 dias), quando poderia ter esperado para pagar menos (15% acima de 720 dias, ou taxas intermediárias nos prazos entre esses limites).",
+      },
+    },
+    {
+      pergunta: "Antes de 1808, o Brasil só podia legalmente comercializar com Portugal. A partir da Carta Régia assinada por D. João ainda na Bahia, em janeiro de 1808, essa restrição mudou. O que essa mudança permitiu, na prática, ao comércio brasileiro?",
+      opcoes: ["Negociar diretamente com qualquer nação 'amiga', encerrando o monopólio comercial que Portugal tinha sobre o Brasil", "Proibir totalmente as exportações brasileiras", "Transferir o comércio brasileiro para a Espanha", "Criar o primeiro Banco do Brasil"],
+      correta: 0,
+      explicacao: "A Abertura dos Portos às Nações Amigas, assinada por D. João em janeiro de 1808, encerrou, na prática, o pacto colonial: o Brasil passou a poder negociar diretamente com outros países, não só com Portugal.",
+      variante: {
+        pergunta: "Antes de embarcar rumo ao Rio de Janeiro em 1808, D. João assinou, ainda na Bahia, um documento que rompeu com séculos de exclusividade comercial entre o Brasil e Portugal. Qual foi esse documento?",
+        opcoes: ["O Tratado de Methuen", "A Carta Régia de Abertura dos Portos às Nações Amigas", "A Lei Áurea", "O Tratado do Rio de Janeiro"],
+        correta: 1,
+        explicacao: "A Carta Régia de Abertura dos Portos, assinada por D. João em janeiro de 1808 ainda na Bahia, encerrou o monopólio comercial de Portugal sobre o Brasil, permitindo negociação direta com outras nações.",
+      },
+    },
+    {
+      pergunta: "Em 1821, D. João VI retornou a Portugal e deixou seu filho D. Pedro como regente do Brasil, com ordens de também retornar à Europa. D. Pedro recusou publicamente em 9 de janeiro de 1822 e, meses depois, rompeu definitivamente com Portugal. Em que data e onde D. Pedro declarou formalmente a Independência do Brasil?",
+      opcoes: ["7 de setembro de 1822, às margens do riacho Ipiranga, em São Paulo", "9 de janeiro de 1822, no Rio de Janeiro", "29 de agosto de 1825, em Lisboa", "15 de novembro de 1889, no Rio de Janeiro"],
+      correta: 0,
+      explicacao: "Depois do 'Dia do Fico' (9 de janeiro de 1822), a ruptura com Portugal se consolidou em 7 de setembro de 1822, quando D. Pedro declarou a Independência às margens do riacho Ipiranga.",
+      variante: {
+        pergunta: "Quantos meses, aproximadamente, separaram o 'Dia do Fico' da declaração formal de Independência do Brasil?",
+        opcoes: ["Cerca de 8 meses (de janeiro a setembro de 1822)", "Cerca de 3 anos", "Nenhum, os dois eventos aconteceram no mesmo dia", "Cerca de 10 anos"],
+        correta: 0,
+        explicacao: "O 'Dia do Fico' (9 de janeiro de 1822) e a declaração de Independência (7 de setembro de 1822) aconteceram no mesmo ano, com cerca de 8 meses de diferença entre os dois marcos da ruptura com Portugal.",
+      },
+    },
+    {
+      pergunta: "Para que Portugal reconhecesse formalmente a Independência do Brasil, pelo Tratado do Rio de Janeiro de 1825, o governo brasileiro se comprometeu a pagar uma indenização de 2 milhões de libras esterlinas — dinheiro que o Tesouro brasileiro não tinha em caixa. Como o Brasil conseguiu, na prática, pagar essa indenização?",
+      opcoes: ["Vendendo o ouro que ainda restava das minas de Minas Gerais", "Tomando um empréstimo com bancos ingleses, ou seja, nascendo endividado com um terceiro país para pagar ao antigo colonizador", "Emitindo uma nova moeda lastreada em café", "Recebendo uma doação da Inglaterra, sem necessidade de devolução"],
+      correta: 1,
+      explicacao: "Sem dinheiro suficiente em caixa, o Brasil recorreu a um empréstimo de bancos ingleses para pagar a própria indenização a Portugal — nascendo, na prática, endividado com a Inglaterra logo após conquistar a independência política.",
+      variante: {
+        pergunta: "O caso da indenização de 1825, paga com um empréstimo tomado de bancos ingleses, é usado nesta trilha como exemplo de que 'ser politicamente livre' e 'ser financeiramente independente' são coisas diferentes. Por quê?",
+        opcoes: ["Porque o Brasil se tornou soberano politicamente em 1822, mas precisou se endividar externamente logo em seguida para pagar pelo reconhecimento dessa soberania", "Porque o Brasil nunca teve nenhuma dívida externa depois de 1822", "Porque a independência financeira sempre vem antes da política", "Porque os dois conceitos significam exatamente a mesma coisa"],
+        correta: 0,
+        explicacao: "Conquistar soberania política, em 1822, não impediu o Brasil de nascer financeiramente dependente, via dívida externa, para custear o próprio reconhecimento dessa soberania em 1825 — um lembrete de que liberdade de decisão não é o mesmo que ausência de dívidas, também válido para finanças pessoais.",
+      },
+    },
+    {
+      pergunta: "A abolição da escravidão no Brasil não aconteceu de uma vez: foi construída por quatro leis diferentes, ao longo de quase quatro décadas. Colocando essas quatro leis na ordem cronológica correta, qual sequência está certa?",
+      opcoes: ["Eusébio de Queirós (1850) → Ventre Livre (1871) → Sexagenários (1885) → Lei Áurea (1888)", "Lei Áurea (1888) → Ventre Livre (1871) → Sexagenários (1885) → Eusébio de Queirós (1850)", "Ventre Livre (1871) → Eusébio de Queirós (1850) → Lei Áurea (1888) → Sexagenários (1885)", "Sexagenários (1885) → Lei Áurea (1888) → Eusébio de Queirós (1850) → Ventre Livre (1871)"],
+      correta: 0,
+      explicacao: "A sequência correta é Eusébio de Queirós (1850, fim do tráfico), Ventre Livre (1871), Sexagenários (1885) e, por fim, a Lei Áurea (1888), que aboliu a escravidão de forma imediata e incondicional.",
+      variante: {
+        pergunta: "Qual das quatro leis do processo abolicionista brasileiro foi sancionada por último, encerrando esse processo gradual em 1888?",
+        opcoes: ["A Lei Áurea", "A Lei Eusébio de Queirós", "A Lei do Ventre Livre", "A Lei dos Sexagenários"],
+        correta: 0,
+        explicacao: "A Lei Áurea, de 13 de maio de 1888, foi a última das quatro leis do processo abolicionista, depois de Eusébio de Queirós (1850), Ventre Livre (1871) e Sexagenários (1885) — e a única a abolir a escravidão de forma imediata e incondicional.",
+      },
+    },
+    {
+      pergunta: "A Guerra do Paraguai se estendeu de dezembro de 1864 a março de 1870 — mais de cinco anos, um período incomum para os padrões da época. Por que essa duração é destacada como um recorde na história sul-americana?",
+      opcoes: ["Porque tornou a Guerra do Paraguai o conflito armado internacional mais longo da história da América do Sul", "Porque foi o primeiro conflito da história a envolver navios de guerra", "Porque nenhuma outra guerra sul-americana durou mais de um mês", "Porque foi o único conflito armado do século XIX no continente"],
+      correta: 0,
+      explicacao: "A duração de mais de cinco anos ininterruptos de combates (dezembro de 1864 a março de 1870) tornou a Guerra do Paraguai o conflito armado internacional mais longo da história sul-americana.",
+      variante: {
+        pergunta: "Comparado aos padrões da época, o que a duração de mais de cinco anos da Guerra do Paraguai (1864-1870) revela sobre esse conflito, segundo o texto?",
+        opcoes: ["Que foi um período incomum de combates ininterruptos, o que rendeu a ele o título de conflito internacional mais longo da história sul-americana", "Que foi, na verdade, um dos conflitos mais curtos já registrados nas Américas", "Que a guerra foi interrompida diversas vezes por tréguas de vários anos", "Que não existe nenhum registro confiável sobre sua duração"],
+        correta: 0,
+        explicacao: "Mais de cinco anos de combates ininterruptos, um período incomum para os padrões da época, é o que rendeu à Guerra do Paraguai o título de conflito armado internacional mais longo da história sul-americana.",
+      },
+    },
+    {
+      pergunta: "Em 1866, ainda em plena Guerra do Paraguai, o governo imperial retirou do Banco do Brasil da época o privilégio de emitir papel-moeda, transferindo essa função ao Tesouro Nacional, para baratear o custo dos empréstimos ligados à guerra. Que efeito essa emissão de mais moeda, sem lastro suficiente em ouro e prata, teve sobre a economia do Império?",
+      opcoes: ["Desvalorizou a moeda brasileira e alimentou a inflação, encarecendo importações e pressionando as exportações", "Fortaleceu imediatamente o valor da moeda brasileira frente às moedas estrangeiras", "Não teve nenhum efeito perceptível sobre preços ou câmbio", "Eliminou completamente a dívida do Império"],
+      correta: 0,
+      explicacao: "Emitir mais papel-moeda sem produção equivalente de bens e serviços ajudou a desvalorizar a moeda brasileira e alimentar a inflação — o mesmo padrão que a trilha já mostrou se repetir em outros momentos da história econômica do país.",
+      variante: {
+        pergunta: "Por que a decisão de 1866 de emitir mais papel-moeda, sem lastro suficiente em ouro e prata, para financiar despesas da Guerra do Paraguai, é apontada como um exemplo do padrão 'gastar muito financiado por dívida e emissão de moeda tende a gerar inflação depois', já visto em outros momentos desta trilha?",
+        opcoes: ["Porque mais moeda circulando, sem aumento equivalente na produção de bens e serviços, ajudou a desvalorizar a moeda da época e alimentar a inflação", "Porque a emissão de moeda em 1866 eliminou toda a dívida externa do Império imediatamente", "Porque não existe nenhuma relação entre emissão de moeda e inflação", "Porque essa emissão de moeda fortaleceu permanentemente o câmbio brasileiro"],
+        correta: 0,
+        explicacao: "O mecanismo é o mesmo de outros momentos já estudados nesta trilha (como o Plano de Metas de JK): mais moeda circulando sem produção equivalente tende a desvalorizar a moeda e pressionar os preços para cima.",
+      },
+    },
+    {
+      pergunta: "Para preencher as fileiras de um Exército desgastado por anos de combate, o governo imperial concedeu, a partir de 1865-1866, liberdade a alguns escravizados do Estado aptos a servir, e alguns senhores particulares também libertaram pessoas escravizadas para servirem como substitutas, mediante indenização paga pelo governo. Historiadores estimam que essas pessoas libertadas chegaram a representar entre 7% e 10% dos combatentes da guerra. Isso significa que a maioria dos soldados brasileiros era formada por pessoas recém-libertadas?",
+      opcoes: ["Sim, mais de 90% dos combatentes eram pessoas recém-libertadas", "Não — mesmo sendo um número historicamente relevante, essa estimativa de 7% a 10% representa uma minoria entre os combatentes brasileiros", "Sim, exatamente metade dos combatentes era formada por pessoas recém-libertadas", "Não, porque nenhuma pessoa escravizada participou da guerra"],
+      correta: 1,
+      explicacao: "A estimativa de 7% a 10% dos combatentes, embora historicamente relevante, representa uma minoria — a maior parte das tropas brasileiras era formada por outros grupos, incluindo os Corpos de Voluntários da Pátria.",
+      variante: {
+        pergunta: "Segundo estimativas de historiadores citadas nesta trilha, qual foi, aproximadamente, a participação de pessoas libertadas por serviço militar entre os combatentes da Guerra do Paraguai?",
+        opcoes: ["Entre 7% e 10% dos combatentes", "Mais de 90% dos combatentes", "Nenhuma participação, a lei proibia isso", "Exatamente metade dos combatentes"],
+        correta: 0,
+        explicacao: "Historiadores estimam que pessoas libertadas por decreto do Estado ou por decisão de senhores particulares (em troca de indenização) chegaram a representar entre 7% e 10% dos combatentes da Guerra do Paraguai.",
+      },
+    },
+    {
+      pergunta: "Apesar de vencedora na Guerra do Paraguai, a trilha descreve o Império como tendo saído do conflito 'mais frágil' em dois sentidos. Quais são eles?",
+      opcoes: ["Fragilidade financeira (dívida muito maior) e fragilidade política (desgaste crescente com diferentes grupos, incluindo elite agrária e setores do Exército)", "Fragilidade militar (perda de território) e fragilidade diplomática (fim de todas as alianças)", "Fragilidade demográfica (queda da população total) e fragilidade religiosa", "O texto não aponta nenhuma fragilidade após a vitória"],
+      correta: 0,
+      explicacao: "Mesmo vencedor, o Império saiu do conflito com dívida muito maior (fragilidade financeira) e com desgaste político crescente junto a diferentes grupos, incluindo parte da elite agrária e setores do próprio Exército (fragilidade política) — fatores que o texto associa ao cenário que precedeu a Proclamação da República, em 1889.",
+      variante: {
+        pergunta: "O texto aponta a dívida crescente da guerra e o fortalecimento político de oficiais do Exército, mais coesos desde o conflito, como parte de um cenário mais amplo. A que evento histórico, ocorrido em 15 de novembro de 1889, esse cenário é associado?",
+        opcoes: ["À Proclamação da República, que encerrou o período imperial brasileiro", "À assinatura da Lei Áurea", "Ao início da Guerra do Paraguai", "À indenização paga a Portugal pela Independência"],
+        correta: 0,
+        explicacao: "O texto aponta, entre outros fatores, a dívida crescente e o peso político crescente de setores do Exército como parte do cenário mais amplo que precedeu a Proclamação da República, em 15 de novembro de 1889 — evento que encerra o período imperial.",
+      },
+    },
+  ],
+},
+```
+
+#### 5. `revU_10` — objeto completo
+
+```js
+{
+  id: "revU_10",
+  tipo: "revisao",
+  titulo: "Revisão: ações, FIIs, tipos de ação e os primeiros indicadores (P/L, P/VP, Dividend Yield)",
+  xp: 30,
+  aula: [
+    "Esta revisão fecha a virada para a Renda Variável: o que significa ser sócio de uma empresa via ações, o que é um Fundo Imobiliário, os diferentes tipos de ação (ON, PN, units), como comprar na prática, a diferença entre dividendo e Juros sobre Capital Próprio, e os primeiros indicadores para avaliar uma ação — P/L, P/VP e Dividend Yield.",
+    "São ideias que se conectam: entender que uma ação é participação societária ajuda a entender por que ela oscila mais que renda fixa, e P/L, P/VP e DY são ferramentas para não escolher uma ação só pelo entusiasmo do momento.",
+    "As perguntas abaixo trazem situações novas — não são as mesmas que você já viu. Errar faz parte do aprendizado; a explicação de cada resposta está logo abaixo.",
+  ],
+  refLessonIds: ["l3_1", "l3_2", "rv_01", "rv_02", "rv_03", "rv_04", "rv_05"],
+  perguntas: [
+    {
+      pergunta: "Diferente de quem compra um CDB (e vira credor do banco), o que caracteriza uma pessoa que compra uma ação de uma empresa?",
+      opcoes: ["Ela se torna credora da empresa, como no CDB", "Ela se torna sócia (acionista) da empresa, participando de lucros e riscos, ao contrário de quem empresta dinheiro via CDB", "Ela se torna funcionária da empresa", "Ela se torna fornecedora da empresa"],
+      correta: 1,
+      explicacao: "Diferente de um credor (que empresta dinheiro e recebe juros, como no CDB), o acionista é sócio da empresa — participa dos lucros (via dividendos) e também dos riscos do negócio.",
+      variante: {
+        pergunta: "Bruno comprou ações de uma fabricante de calçados listada na bolsa. O que ele se tornou, na prática, ao fazer essa compra?",
+        opcoes: ["Credor da fabricante de calçados", "Sócio (acionista) da fabricante de calçados, participando de lucros e riscos do negócio", "Funcionário contratado da fabricante de calçados", "Fornecedor de matéria-prima da fabricante de calçados"],
+        correta: 1,
+        explicacao: "Comprar uma ação significa adquirir uma fração da empresa, tornando-se sócio (acionista), com direito a participar dos lucros via dividendos e sujeito também aos riscos do negócio.",
+      },
+    },
+    {
+      pergunta: "Uma fabricante de eletrônicos anuncia lucro recorde no trimestre, mas mesmo assim o preço da sua ação cai na bolsa no dia seguinte. Por que isso pode acontecer, mesmo com um resultado positivo?",
+      opcoes: ["É impossível isso acontecer, ações sempre sobem quando o lucro é recorde", "Porque o preço da ação reflete expectativas do mercado sobre o futuro, que podem ter sido ainda mais otimistas do que o resultado divulgado", "Porque toda empresa lucrativa é obrigada a ter ação em queda", "Porque o resultado precisa ser aprovado pelo Banco Central antes de afetar o preço"],
+      correta: 1,
+      explicacao: "O preço de uma ação reflete o que o mercado espera para o futuro, não só o resultado presente — se as expectativas eram ainda melhores que o lucro divulgado, o preço pode cair mesmo com lucro recorde.",
+      variante: {
+        pergunta: "Uma rede de varejo divulga prejuízo no trimestre, mas a ação dela sobe na bolsa no mesmo dia. O que esse comportamento aparentemente contraditório ilustra sobre o preço das ações?",
+        opcoes: ["Que o preço das ações nunca reage a resultados divulgados", "Que o preço reflete expectativas do mercado sobre o futuro, que podem ter sido piores do que o prejuízo realmente divulgado", "Que é ilegal o preço subir depois de um prejuízo", "Que ações sempre sobem quando a empresa vai mal"],
+        correta: 1,
+        explicacao: "Se o mercado esperava um prejuízo ainda maior, o resultado real — mesmo negativo — pode ser recebido como uma surpresa positiva, fazendo o preço subir. O que importa é a expectativa, não só o número em si.",
+      },
+    },
+    {
+      pergunta: "Patrícia recebe todo mês o rendimento distribuído por um Fundo Imobiliário negociado em bolsa, seguindo as regras vigentes de isenção. Quanto de Imposto de Renda ela paga sobre esse rendimento mensal, em geral?",
+      opcoes: ["27,5%", "15%", "6%", "Nenhum, é isento para pessoa física, seguindo as regras vigentes"],
+      correta: 3,
+      explicacao: "Os rendimentos mensais distribuídos por FIIs costumam ser isentos de Imposto de Renda para pessoa física, desde que atendidos os requisitos vigentes.",
+      variante: {
+        pergunta: "Comparando a tributação do aluguel recebido diretamente de um imóvel próprio com o rendimento mensal distribuído por um FII (seguindo os requisitos de isenção vigentes), o que diferencia os dois, do ponto de vista do Imposto de Renda para pessoa física?",
+        opcoes: ["Os dois são sempre isentos de IR", "O aluguel direto é tributado conforme a tabela do IR; o rendimento do FII costuma ser isento, seguindo as regras vigentes", "O FII é sempre tributado em 27,5%, mais que o aluguel direto", "Não existe diferença nenhuma entre os dois"],
+        correta: 1,
+        explicacao: "Enquanto o aluguel recebido diretamente de um imóvel é tributado pela tabela normal do IR, o rendimento mensal distribuído por FIIs costuma ser isento para pessoa física, seguindo as regras vigentes.",
+      },
+    },
+    {
+      pergunta: "Um FII que possui um prédio de escritórios perde metade dos locatários, que não renovaram os contratos de aluguel. Qual risco específico dos FIIs 'de tijolo' esse cenário ilustra?",
+      opcoes: ["Risco de vacância", "Risco de o Tesouro Nacional quebrar", "Risco de o FGC não cobrir", "Risco cambial"],
+      correta: 0,
+      explicacao: "A vacância (imóveis desocupados ou sem locatários) reduz a receita de aluguel do fundo, impactando diretamente os dividendos distribuídos aos cotistas.",
+      variante: {
+        pergunta: "Por que a perda de locatários é considerada um risco relevante para um FII 'de tijolo', diferente de um investimento em renda fixa?",
+        opcoes: ["Porque reduz diretamente a receita de aluguel do fundo, e consequentemente os rendimentos distribuídos aos cotistas — um risco que não existe em títulos de renda fixa", "Porque obriga o FII a devolver automaticamente o dinheiro aos cotistas", "Porque o FGC deixa de proteger o fundo nesse caso", "Porque o fundo é automaticamente fechado pela CVM"],
+        correta: 0,
+        explicacao: "Diferente da renda fixa, cujo retorno geralmente já é combinado, o FII de tijolo depende da ocupação dos imóveis para gerar renda — a vacância reduz diretamente essa receita e os rendimentos distribuídos.",
+      },
+    },
+    {
+      pergunta: "Uma investidora quer ter direito a votar nas assembleias de uma empresa listada na bolsa, além de participar dos lucros. Qual tipo de ação ela deve procurar?",
+      opcoes: ["Ação preferencial (PN)", "Ação ordinária (ON)", "Uma unit, exclusivamente", "Nenhum tipo de ação dá direito a voto"],
+      correta: 1,
+      explicacao: "A ação ordinária (ON, código terminado em 3) é a que garante direito a voto nas assembleias da empresa; a preferencial (PN) geralmente não vota, mas costuma ter prioridade em dividendos.",
+      variante: {
+        pergunta: "Um investidor percebe que uma mesma empresa tem dois códigos negociados na bolsa: um terminado em 3 e outro terminado em 4, com preços diferentes. O que essa diferença de terminação representa?",
+        opcoes: ["O código terminado em 3 é a ação ordinária (ON, com direito a voto); o terminado em 4 é a preferencial (PN, geralmente sem voto, mas com prioridade em dividendos)", "Os dois códigos são exatamente o mesmo tipo de ação, só com nomes diferentes", "O código terminado em 4 é sempre uma unit", "Isso significa que a empresa tem duas sedes diferentes"],
+        correta: 0,
+        explicacao: "O código terminado em 3 identifica ações ordinárias (ON, com voto); o terminado em 4, ações preferenciais (PN, sem voto, mas geralmente com prioridade em dividendos) — por isso podem ter preços diferentes.",
+      },
+    },
+    {
+      pergunta: "Um investidor iniciante tem apenas R$500 para investir e quer comprar ações de uma empresa cujo lote padrão de 100 ações custaria R$4.500. Como ele pode comprar uma quantidade menor, compatível com o valor que tem disponível?",
+      opcoes: ["Ele não pode comprar, só é permitido negociar o lote padrão completo", "Comprando no mercado fracionário, identificado por um 'F' no fim do código, que permite quantidades menores que o lote padrão", "Pedindo um desconto direto à corretora", "Esperando a ação virar um Fundo Imobiliário"],
+      correta: 1,
+      explicacao: "O mercado fracionário (código terminado em F) permite comprar quantidades menores que o lote padrão (geralmente 100 ações), sendo a alternativa para quem tem menos dinheiro disponível.",
+      variante: {
+        pergunta: "Ao pesquisar o preço 'por lote' de uma ação na bolsa brasileira, a quantas ações esse valor costuma corresponder, considerando o lote padrão usual?",
+        opcoes: ["1 ação", "10 ações", "100 ações", "10.000 ações"],
+        correta: 2,
+        explicacao: "O lote padrão negociado na bolsa costuma corresponder a 100 ações; quantidades menores são negociadas no mercado fracionário.",
+      },
+    },
+    {
+      pergunta: "Uma empresa distribui parte do lucro do ano como Juros sobre Capital Próprio (JCP) a seus acionistas. Diferente do dividendo, o que acontece com esse valor na hora do acionista receber?",
+      opcoes: ["É totalmente isento de Imposto de Renda, como o dividendo", "Sofre retenção de 15% de Imposto de Renda na fonte", "É tributado em 27,5%, a mesma alíquota do day trade", "É automaticamente reinvestido, sem cair na conta do acionista"],
+      correta: 1,
+      explicacao: "Diferente do dividendo (isento de IR para pessoa física), o JCP sofre retenção de 15% de Imposto de Renda na fonte.",
+      variante: {
+        pergunta: "Do ponto de vista da empresa que paga, por que o JCP pode ser vantajoso mesmo gerando retenção de IR para o acionista que recebe?",
+        opcoes: ["Porque o JCP é dedutível da base de cálculo do IRPJ e da CSLL da empresa, reduzindo o imposto que ela paga", "Porque o JCP elimina totalmente o imposto de renda da empresa", "Porque é obrigatório por lei pagar só JCP, nunca dividendo", "Porque o JCP nunca precisa ser informado no balanço da empresa"],
+        correta: 0,
+        explicacao: "O JCP é dedutível da base de cálculo do IRPJ/CSLL da empresa, reduzindo o imposto que ela paga — uma vantagem que pode compensar, no balanço final, a retenção de 15% que o acionista sofre.",
+      },
+    },
+    {
+      pergunta: "Uma ação é negociada a R$40, e a empresa gerou R$8 de lucro por ação nos últimos 12 meses. Qual é o P/L dessa ação, e o que ele representa de forma simplificada?",
+      opcoes: ["P/L de 5, indicando que 5 anos de lucro atual 'pagariam' o preço da ação, mantendo tudo constante", "P/L de 320, o produto entre preço e lucro", "P/L de 0,2, o inverso do lucro", "Não é possível calcular o P/L com essas informações"],
+      correta: 0,
+      explicacao: "P/L = Preço ÷ Lucro por ação = 40 ÷ 8 = 5 — ou seja, 5 anos de lucro atual 'pagariam' o preço pago, mantendo tudo constante.",
+      variante: {
+        pergunta: "Uma ação custa R$60 e a empresa lucrou R$12 por ação nos últimos 12 meses. Qual é o P/L, e o que ele significa de forma simplificada?",
+        opcoes: ["P/L de 5, ou seja, 5 anos do lucro atual 'pagariam' o preço da ação, mantendo tudo constante", "P/L de 720, o produto entre preço e lucro", "P/L de 0,2, o inverso do lucro", "Não é possível calcular o P/L com essas informações"],
+        correta: 0,
+        explicacao: "P/L = Preço ÷ Lucro por ação = 60 ÷ 12 = 5 — assim como no primeiro exemplo, 5 anos de lucro atual 'pagariam' o preço pago, mantendo tudo constante.",
+      },
+    },
+    {
+      pergunta: "Uma ação custa R$80 e pagou R$6,40 de dividendos por ação nos últimos 12 meses. Qual é, aproximadamente, o Dividend Yield dessa ação?",
+      opcoes: ["2%", "6,4%", "8%", "80%"],
+      correta: 2,
+      explicacao: "DY = proventos ÷ preço = 6,40 ÷ 80 = 0,08, ou seja, 8%.",
+      variante: {
+        pergunta: "Uma ação custa R$25 e pagou R$2 de dividendos por ação nos últimos 12 meses. Qual é, aproximadamente, o Dividend Yield dessa ação?",
+        opcoes: ["2%", "4%", "8%", "25%"],
+        correta: 2,
+        explicacao: "DY = proventos ÷ preço = 2 ÷ 25 = 0,08, ou seja, 8% — mesmo cálculo do exemplo anterior, só com números diferentes.",
+      },
+    },
+    {
+      pergunta: "O preço de uma ação despenca 45% depois que a empresa anuncia resultados bem piores que o esperado, mas o Dividend Yield calculado com os dividendos pagos no ano anterior continua parecendo muito atrativo. O que esse cenário exemplifica?",
+      opcoes: ["Que a empresa certamente vai manter ou aumentar os próximos dividendos", "A 'armadilha do yield' (yield trap): um DY alto calculado sobre dividendos antigos, que pode não se repetir diante da piora nos resultados da empresa", "Que o DY é sempre uma garantia de bom investimento", "Que a ação se transformou automaticamente em um Fundo Imobiliário"],
+      correta: 1,
+      explicacao: "Um DY inflado por uma queda recente de preço, calculado sobre proventos já pagos, é a clássica 'armadilha do yield' — merece investigação, não confiança automática, já que a empresa pode reduzir ou cortar os próximos pagamentos.",
+      variante: {
+        pergunta: "Um investidor vê uma ação com Dividend Yield de 15%, bem acima da média do setor, logo depois de uma forte queda no preço motivada por problemas na empresa. Qual deveria ser a reação dele diante desse número tão alto?",
+        opcoes: ["Comprar imediatamente, sem investigar mais nada, já que DY alto é sempre uma vantagem garantida", "Investigar a causa da queda de preço antes de confiar no DY, já que ele pode estar inflado por dividendos antigos que não se repetirão (a 'armadilha do yield')", "Ignorar completamente o DY, pois ele nunca é um indicador relevante", "Assumir que a empresa está prestes a se tornar um Fundo Imobiliário"],
+        correta: 1,
+        explicacao: "Um DY muito acima da média do setor, logo após uma queda de preço por problemas na empresa, merece investigação, não comemoração — é o padrão clássico da 'armadilha do yield'.",
+      },
+    },
+  ],
+},
+```
+
+#### 6. `revU_11` — objeto completo
+
+```js
+{
+  id: "revU_11",
+  tipo: "revisao",
+  titulo: "Revisão: índices da bolsa, volatilidade, liquidez, tributação de ações e ETFs",
+  xp: 30,
+  aula: [
+    "Esses 7 pontos trouxeram o Ibovespa e os outros índices da bolsa, a volatilidade e a liquidez de ações, o IPO, a tributação da venda de ações (isenção até R$20 mil e o DARF), a diferença entre day trade e operação comum, e o ETF.",
+    "É a parte mais 'regras do jogo' da Renda Variável: entender esses mecanismos evita erros caros, como assumir que toda venda de um ativo segue a mesma regra de isenção das ações.",
+    "Situações novas de novo — a ideia não é decorar a pergunta, é entender o porquê por trás de cada resposta.",
+  ],
+  refLessonIds: ["rv_06", "rv_07", "rv_08", "rv_09", "rv_10", "rv_11", "rv_12"],
+  perguntas: [
+    {
+      pergunta: "O noticiário informa: 'A bolsa brasileira fechou o pregão em alta de 2,3% hoje, puxada pelo Ibovespa'. O que, tecnicamente, essa alta de 2,3% está descrevendo?",
+      opcoes: ["O aumento de 2,3% na taxa Selic", "O desempenho médio de uma carteira teórica das ações mais negociadas na B3, que subiu 2,3% no dia", "A alta de 2,3% no valor do dólar", "A alta de 2,3% na inflação do mês"],
+      correta: 1,
+      explicacao: "O Ibovespa reflete o desempenho médio de uma cesta das ações mais negociadas na bolsa brasileira — não é a taxa de juros, o dólar, nem a inflação.",
+      variante: {
+        pergunta: "Um investidor quer comparar o desempenho da carteira de ações dele com uma referência ampla do mercado brasileiro de ações. Qual índice ele deveria usar para essa comparação?",
+        opcoes: ["O IFIX", "O Ibovespa", "O IPCA", "A Selic"],
+        correta: 1,
+        explicacao: "O Ibovespa é o principal índice de referência (benchmark) do mercado de ações brasileiro, formado pelas ações mais negociadas na B3.",
+      },
+    },
+    {
+      pergunta: "Uma pessoa vai precisar de um valor específico de dinheiro daqui a 3 meses para pagar uma reforma na casa, e decide investir esse valor em ações, atraída pelo potencial de retorno. Qual é o principal risco dessa decisão?",
+      opcoes: ["Nenhum risco real existe nesse caso", "Precisar vender as ações justamente em um momento de queda do mercado, sendo obrigada a realizar prejuízo para ter o dinheiro a tempo", "Pagar juros mais altos ao banco", "Perder automaticamente o direito a receber dividendos"],
+      correta: 1,
+      explicacao: "Ao descasar um objetivo de curto prazo com um ativo volátil como ações, a pessoa corre o risco de precisar vender justamente durante uma queda, realizando prejuízo — por isso volatilidade não combina com dinheiro que tem data certa para ser usado.",
+      variante: {
+        pergunta: "Por que ações costumam apresentar oscilações de preço mais intensas no curto prazo do que títulos de renda fixa?",
+        opcoes: ["Porque é proibido o preço de ações ficar estável", "Porque o preço reflete expectativas constantes sobre o futuro da empresa e da economia, que mudam com frequência", "Porque renda fixa nunca tem qualquer tipo de oscilação", "Porque ações só existem no mercado brasileiro"],
+        correta: 1,
+        explicacao: "O preço das ações reage a expectativas sobre o futuro (resultados, cenário econômico, notícias), que mudam com frequência — o que gera mais volatilidade do que a renda fixa, cujo retorno costuma ser mais previsível.",
+      },
+    },
+    {
+      pergunta: "Um investidor precisa vender rapidamente uma quantidade grande de ações de uma empresa pequena, pouco negociada na bolsa. Qual dificuldade ele provavelmente vai enfrentar?",
+      opcoes: ["Nenhuma, baixa liquidez não afeta a velocidade da venda", "Encontrar compradores suficientes, o que pode obrigá-lo a aceitar um preço menor para concluir a venda rapidamente", "A obrigação de doar as ações para a bolsa", "A conversão automática das ações em um Fundo Imobiliário"],
+      correta: 1,
+      explicacao: "Em ações de baixa liquidez, a falta de compradores suficientes pode forçar o vendedor a aceitar um preço menor para vender rapidamente.",
+      variante: {
+        pergunta: "Uma ação de uma empresa consolidada e muito negociada na bolsa costuma ser chamada de 'blue chip'. O que caracteriza esse tipo de ação em termos de liquidez?",
+        opcoes: ["Alta liquidez, com muitos compradores e vendedores diários, facilitando entrar e sair da posição rapidamente", "Baixa liquidez, por ser negociada só uma vez por ano", "Isenção automática de Imposto de Renda", "Ausência total de qualquer risco"],
+        correta: 0,
+        explicacao: "'Blue chips' costumam ter alta liquidez: alto volume diário de negociação, o que facilita comprar ou vender rapidamente sem grande impacto no preço.",
+      },
+    },
+    {
+      pergunta: "Uma empresa de capital fechado decide vender ações ao público pela primeira vez, passando a ser negociada na B3. Como se chama esse processo, e qual é uma vantagem dele para a empresa?",
+      opcoes: ["IPO — permite captar dinheiro de novos acionistas para financiar crescimento, sem precisar contrair dívida", "Follow-on de dívida — obriga a empresa a pagar juros a bancos", "Recuperação judicial — protege a empresa de credores", "Fechamento de capital — reduz o número de acionistas"],
+      correta: 0,
+      explicacao: "O IPO (Oferta Pública Inicial) permite à empresa captar recursos de novos acionistas para financiar sua expansão, como alternativa a tomar dívida com bancos.",
+      variante: {
+        pergunta: "Uma ação recém-listada por meio de um IPO costuma oscilar mais nos primeiros meses de negociação do que ações de empresas já consolidadas na bolsa. O que ajuda a explicar essa diferença?",
+        opcoes: ["É proibido essa ação oscilar, deve ser um erro do sistema", "A ação recém-listada ainda não tem histórico de preço em bolsa, o que tende a gerar mais incerteza e oscilação no curto prazo", "Ações de IPO são sempre isentas de volatilidade", "Isso significa que a empresa com certeza vai falir"],
+        correta: 1,
+        explicacao: "A falta de histórico de negociação em bolsa torna o comportamento do preço de ações recém-listadas mais incerto e, geralmente, mais volátil logo após o IPO.",
+      },
+    },
+    {
+      pergunta: "Camila vendeu R$17.000 em ações num único mês, com lucro de R$2.500 nessa operação, fora do day trade. Segundo a regra de isenção vigente, esse lucro é tributado?",
+      opcoes: ["Sim, sempre é tributado em 15%", "Não, porque o total vendido no mês (R$17.000) ficou abaixo do limite de isenção de R$20.000", "Sim, mas apenas 6%", "Não, porque ações nunca são tributadas"],
+      correta: 1,
+      explicacao: "Como o total vendido no mês ficou abaixo de R$20.000, o lucro dessa venda de ações é isento de Imposto de Renda, segundo a regra vigente.",
+      variante: {
+        pergunta: "Diego vendeu R$32.000 em ações em um único mês, com lucro de R$4.000, ultrapassando o limite de isenção. Segundo a regra vigente, o que acontece com o Imposto de Renda sobre esse lucro?",
+        opcoes: ["Continua isento, porque ele nunca havia vendido acima de R$20 mil antes", "Passa a ser tributado em 15% sobre o lucro do mês inteiro, já que o total vendido ultrapassou R$20.000", "É tributado em 22,5%, a alíquota mais alta da tabela regressiva", "É automaticamente perdoado pela Receita Federal"],
+        correta: 1,
+        explicacao: "Ao ultrapassar o limite de R$20.000 vendidos no mês, o lucro do mês inteiro passa a ser tributado em 15%, segundo a regra vigente.",
+      },
+    },
+    {
+      pergunta: "Roberto vendeu ações com lucro acima do limite de isenção mensal. Diferente da renda fixa, o que ele precisa fazer para regularizar o Imposto de Renda devido?",
+      opcoes: ["Nada, a corretora recolhe automaticamente, como na renda fixa", "Calcular o imposto devido (15% do lucro), gerar uma guia DARF e pagar até o último dia útil do mês seguinte à venda", "Esperar a declaração anual de Imposto de Renda para pagar tudo de uma vez, sem nenhuma guia própria", "Pedir isenção diretamente à B3"],
+      correta: 1,
+      explicacao: "Diferente da renda fixa, o IR sobre ações não é retido automaticamente — cabe ao próprio investidor calcular o imposto, gerar o DARF e pagar até o último dia útil do mês seguinte à venda.",
+      variante: {
+        pergunta: "O que é o DARF, no contexto da venda de ações com lucro acima da faixa de isenção?",
+        opcoes: ["Um tipo de ação negociada na bolsa", "A guia usada para pagar o Imposto de Renda devido sobre o lucro, calculada e recolhida pelo próprio investidor", "Um imposto cobrado apenas por corretoras estrangeiras", "Um documento emitido automaticamente pela empresa"],
+        correta: 1,
+        explicacao: "O DARF é a guia de recolhimento que o próprio investidor deve gerar e pagar quando há Imposto de Renda devido sobre o lucro com ações, já que não existe retenção automática como na renda fixa.",
+      },
+    },
+    {
+      pergunta: "Fernanda compra ações de uma empresa às 9h30 e vende essas mesmas ações às 16h do mesmo dia. Que tipo de operação caracteriza essa compra e venda?",
+      opcoes: ["Day trade", "Investimento de longo prazo", "Um IPO", "Uma operação de renda fixa"],
+      correta: 0,
+      explicacao: "Comprar e vender o mesmo ativo dentro do mesmo pregão (mesmo dia) caracteriza uma operação de day trade.",
+      variante: {
+        pergunta: "O que diferencia, do ponto de vista do prazo, uma operação de day trade de uma operação comum (swing trade)?",
+        opcoes: ["No day trade, a compra e a venda acontecem no mesmo dia; na operação comum, em dias diferentes", "No day trade, é obrigatório manter o ativo por pelo menos um ano", "Não existe nenhuma diferença de prazo entre os dois", "Day trade só pode ser feito uma vez por mês"],
+        correta: 0,
+        explicacao: "A diferença central está no prazo: day trade é compra e venda do mesmo ativo no mesmo dia; a operação comum (ou swing trade) acontece em dias diferentes.",
+      },
+    },
+    {
+      pergunta: "Um investidor fez operações de day trade em um mês e teve lucro total de R$5.000, um valor bem abaixo dos R$20 mil de isenção que valeriam para operações comuns. Ele está isento de Imposto de Renda sobre esse lucro?",
+      opcoes: ["Sim, porque o valor é baixo", "Não — no day trade não existe a isenção de R$20 mil; o lucro é tributado em 20%, independente do valor total", "Sim, day trade é sempre isento", "Não, mas a alíquota seria de apenas 6%"],
+      correta: 1,
+      explicacao: "A isenção de R$20 mil não vale para day trade — todo o lucro dessas operações é tributado em 20%, qualquer que seja o valor total.",
+      variante: {
+        pergunta: "Comparando a alíquota de Imposto de Renda sobre o lucro de uma operação comum (fora do day trade, acima do limite de isenção) com a de uma operação de day trade, o que se pode afirmar?",
+        opcoes: ["As duas têm exatamente a mesma alíquota, 15%", "A operação comum é tributada em 15%; o day trade, sem direito à isenção de R$20 mil, é tributado em 20%, uma alíquota maior", "O day trade é sempre isento; só a operação comum é tributada", "A operação comum é tributada em 20%; o day trade, em 15%"],
+        correta: 1,
+        explicacao: "A operação comum acima do limite de isenção é tributada em 15%; o day trade, sem essa isenção, é tributado em 20% — uma alíquota mais alta, refletindo o perfil de operação de curtíssimo prazo.",
+      },
+    },
+    {
+      pergunta: "Ao comprar uma única cota de um ETF que replica o Ibovespa, um investidor passa a ter exposição a dezenas de empresas diferentes através de um único código negociado na bolsa. Que vantagem prática essa compra oferece, comparada a escolher e comprar cada ação individualmente?",
+      opcoes: ["Isenção total de qualquer imposto", "Diversificação automática entre várias empresas, com a compra de um único ativo", "Garantia de que o preço nunca vai cair", "Acesso a taxas de juros mais altas que a Selic"],
+      correta: 1,
+      explicacao: "O ETF entrega diversificação automática em um único ativo negociado na bolsa, sem precisar escolher e comprar cada ação separadamente.",
+      variante: {
+        pergunta: "O que é, de forma resumida, um ETF (Exchange Traded Fund)?",
+        opcoes: ["Um título de renda fixa emitido pelo governo", "Um fundo que reúne vários ativos (como as ações de um índice) e é negociado na bolsa como se fosse uma única ação", "Um seguro contra queda da bolsa", "Um tipo de Fundo Imobiliário exclusivo para imóveis comerciais"],
+        correta: 1,
+        explicacao: "ETF é um fundo negociado em bolsa que reúne diversos ativos (geralmente replicando um índice), comprado e vendido como se fosse uma única ação.",
+      },
+    },
+    {
+      pergunta: "Larissa vende R$14.000 em cotas de um ETF em um mês, com lucro de R$1.800, e assume que está isenta de Imposto de Renda por estar abaixo dos R$20 mil, como valeria para ações individuais. Esse raciocínio está correto?",
+      opcoes: ["Sim, a regra de isenção das ações vale igualmente para ETFs", "Não — ETFs não têm a isenção de R$20 mil; o lucro é tributado em 15%, independente do valor total vendido", "Sim, porque ETFs nunca são tributados", "Não, porque ETFs são tributados como day trade, a 20%"],
+      correta: 1,
+      explicacao: "A isenção de R$20 mil é exclusiva para ações individuais — ETFs são tributados em 15% sobre o ganho, sem essa faixa de isenção.",
+      variante: {
+        pergunta: "A isenção de R$20 mil por mês, válida para a venda de ações individuais, também vale para a venda de cotas de ETF?",
+        opcoes: ["Sim, a regra é idêntica para ações e ETFs", "Não — a venda de cotas de ETF é tributada em 15% sobre o ganho, sem essa faixa de isenção", "Sim, mas só para ETFs internacionais", "Não, porque ETFs são sempre isentos de Imposto de Renda"],
+        correta: 1,
+        explicacao: "Diferente das ações individuais, a venda de ETFs não tem a isenção de R$20 mil — o ganho é tributado em 15%, qualquer que seja o valor vendido.",
+      },
+    },
+  ],
+},
+```
+
+#### 7. `revU_12` — objeto completo
+
+```js
+{
+  id: "revU_12",
+  tipo: "revisao",
+  titulo: "Revisão: BDRs, tipos de FII, requisitos de isenção, taxas e diversificação em renda variável",
+  xp: 30,
+  aula: [
+    "Fechando a revisão da Renda Variável: os BDRs (empresas estrangeiras pela bolsa brasileira), os diferentes tipos de FII (tijolo, papel, fundo de fundos), os requisitos por trás da isenção de IR dos FIIs, as taxas de administração e gestão, o IFIX, o risco de crédito dos FIIs de papel e, para fechar, por que diversificar.",
+    "Depois desta revisão, você já passou por ações, FIIs, ETFs, BDRs e os principais riscos e indicadores de cada um — a diversificação, tema da última pergunta, é exatamente sobre como combinar tudo isso numa carteira só.",
+    "Como sempre: situações novas, não decoreba. Erre à vontade, a explicação está logo abaixo de cada resposta.",
+  ],
+  refLessonIds: ["rv_13", "rv_14", "rv_15", "rv_16", "rv_17", "rv_18", "rv_19"],
+  perguntas: [
+    {
+      pergunta: "Um investidor brasileiro quer ter exposição às ações da Microsoft, mas sem abrir conta em uma corretora americana nem converter reais em dólar manualmente. Comprando um BDR dessa empresa na B3, o que ele está adquirindo, na prática?",
+      opcoes: ["Um título de dívida da Microsoft", "Um certificado negociado no Brasil que representa a posse de ações da Microsoft mantidas no exterior", "Uma cota de um Fundo Imobiliário americano", "Uma criptomoeda ligada à Microsoft"],
+      correta: 1,
+      explicacao: "O BDR é um certificado negociado na B3 que representa ações de empresas estrangeiras mantidas por uma instituição no exterior — permite exposição internacional operando em reais, sem conta fora do país.",
+      variante: {
+        pergunta: "A ação de uma empresa europeia sobe 12% em euro ao longo de um ano, mas no mesmo período o euro cai 8% frente ao real. Um investidor brasileiro que tem um BDR dessa empresa deve esperar um retorno em reais de exatamente 12%?",
+        opcoes: ["Sim, o retorno em reais é sempre igual ao retorno na moeda original", "Não — a queda da moeda estrangeira frente ao real tende a reduzir o retorno em reais, mesmo com a ação subindo 12% na moeda original", "Sim, porque BDRs não sofrem variação cambial", "Não, porque BDRs são sempre convertidos automaticamente em ações brasileiras"],
+        correta: 1,
+        explicacao: "Como o ativo de referência do BDR está em moeda estrangeira, a queda dessa moeda frente ao real reduz o retorno final em reais, mesmo com alta da ação na moeda original — o mesmo risco cambial de mão dupla.",
+      },
+    },
+    {
+      pergunta: "Um FII possui uma rede de galpões logísticos alugados para empresas de e-commerce, recebendo aluguel mensal desses locatários. De onde vem, principalmente, a renda distribuída por esse fundo?",
+      opcoes: ["De juros pagos por títulos de crédito", "Do aluguel cobrado dos inquilinos dos imóveis físicos que o fundo possui", "De dividendos pagos por ações que o fundo possui", "De apostas em variação cambial"],
+      correta: 1,
+      explicacao: "FIIs de tijolo são donos de imóveis físicos, e sua renda vem principalmente dos aluguéis pagos pelos inquilinos desses imóveis.",
+      variante: {
+        pergunta: "Um FII não possui nenhum imóvel físico, mas investe em uma carteira de CRIs indexados ao CDI, distribuindo aos cotistas os juros recebidos desses papéis. Que tipo de FII é esse, e de onde vem sua renda?",
+        opcoes: ["FII de tijolo — a renda vem do aluguel de imóveis", "FII de papel (ou de recebíveis) — a renda vem dos juros pagos pelos títulos de crédito da carteira", "Fundo de fundos — a renda vem de outros FIIs", "Uma ação preferencial — a renda vem de dividendos"],
+        correta: 1,
+        explicacao: "Um fundo que investe em títulos de crédito imobiliário (como CRIs), em vez de possuir imóveis diretamente, é classificado como FII de papel, com renda vinda dos juros desses papéis, funcionando de forma parecida com a renda fixa.",
+      },
+    },
+    {
+      pergunta: "Em vez de comprar imóveis físicos ou papéis de crédito diretamente, um determinado FII monta sua carteira comprando cotas de vários outros Fundos Imobiliários, buscando diversificação. Como esse tipo de fundo é chamado?",
+      opcoes: ["FII de tijolo", "FII de papel", "Fundo de fundos (FOF)", "ETF de ações"],
+      correta: 2,
+      explicacao: "Um fundo que investe em cotas de outros FIIs, em vez de investir diretamente em imóveis ou papéis, é chamado de fundo de fundos (FOF).",
+      variante: {
+        pergunta: "O que caracteriza especificamente um fundo de fundos (FOF) dentro do universo dos FIIs, diferenciando-o de um FII de tijolo ou de papel?",
+        opcoes: ["Ele compra cotas de outros FIIs, em vez de investir diretamente em imóveis ou papéis de crédito", "Ele só pode ter um único cotista", "Ele investe exclusivamente em ações estrangeiras", "Ele nunca distribui rendimentos aos cotistas"],
+        correta: 0,
+        explicacao: "O FOF se diferencia por investir em cotas de outros fundos, em vez de imóveis (tijolo) ou papéis de crédito (papel) diretamente — uma forma de diversificar entre vários fundos com uma única cota.",
+      },
+    },
+    {
+      pergunta: "Um FII recém-criado conta hoje com apenas 22 cotistas. Considerando o requisito mínimo de cotistas exigido pela regra de isenção de IR vigente, esse fundo atende a esse critério específico?",
+      opcoes: ["Sim, o mínimo exigido é de 10 cotistas", "Não, o mínimo exigido é de 50 cotistas, e o fundo tem apenas 22", "Sim, não existe número mínimo de cotistas", "Não, o mínimo exigido é de 500 cotistas"],
+      correta: 1,
+      explicacao: "A regra vigente exige um mínimo de 50 cotistas para a isenção de IR sobre os rendimentos — um fundo com apenas 22 cotistas não atenderia esse requisito específico.",
+      variante: {
+        pergunta: "Qual é o número mínimo de cotistas que um FII precisa ter para poder manter a isenção de Imposto de Renda sobre seus rendimentos, segundo a regra vigente?",
+        opcoes: ["5", "20", "50", "Não existe número mínimo"],
+        correta: 2,
+        explicacao: "Um dos requisitos para a isenção é o fundo ter no mínimo 50 cotistas, segundo as regras vigentes.",
+      },
+    },
+    {
+      pergunta: "Um cotista pessoa física detém, sozinho, 13% das cotas de um determinado FII. Segundo a lógica da regra de isenção vigente, o que isso pode comprometer?",
+      opcoes: ["Nada, não existe limite de concentração para pessoa física", "A manutenção da isenção de Imposto de Renda sobre os rendimentos daquele fundo, já que o limite de concentração por cotista pessoa física é de 10%", "Apenas o direito de voto em assembleias", "Apenas a possibilidade de vender as cotas no mercado secundário"],
+      correta: 1,
+      explicacao: "Ultrapassar o limite de concentração de 10% por cotista pessoa física é um dos fatores que pode comprometer a isenção de Imposto de Renda sobre os rendimentos do fundo.",
+      variante: {
+        pergunta: "Por que existe um limite de concentração (10%) de cotas ou de rendimento por cotista pessoa física para que um FII mantenha a isenção de IR?",
+        opcoes: ["Para incentivar que poucas pessoas controlem o fundo", "Para evitar que o FII seja usado por poucas pessoas como forma de escapar da tributação normal de aluguéis recebidos por pessoa física", "Não existe nenhuma razão específica para esse limite", "Para garantir que só bancos possam investir em FIIs"],
+        correta: 1,
+        explicacao: "O limite existe para que a isenção beneficie fundos com base ampla e pulverizada de cotistas, evitando que sirva como veículo de poucas pessoas para reduzir tributação individual.",
+      },
+    },
+    {
+      pergunta: "Dois FIIs têm exatamente o mesmo desempenho dos imóveis que possuem, mas um cobra taxa de administração de 0,5% ao ano e o outro, 2% ao ano. O que se espera sobre o rendimento líquido distribuído aos cotistas de cada um?",
+      opcoes: ["Os dois distribuirão exatamente o mesmo valor, taxas não afetam a distribuição", "O fundo com taxa maior (2%) tende a distribuir um rendimento líquido menor aos cotistas, já que a taxa é descontada de dentro do fundo", "O fundo com taxa maior sempre distribui mais, porque a taxa financia melhorias nos imóveis", "Taxas de administração só afetam FIIs de papel, nunca os de tijolo"],
+      correta: 1,
+      explicacao: "Como a taxa de administração é descontada de dentro do fundo, um fundo com taxa maior tende a sobrar menos rendimento líquido para distribuir aos cotistas, tudo o mais igual.",
+      variante: {
+        pergunta: "Um FII tem um gestor que constantemente compra e vende imóveis e papéis, buscando superar o desempenho médio do mercado. Além da taxa de administração, que outra cobrança costuma existir nesse tipo de fundo de gestão ativa?",
+        opcoes: ["Uma taxa de gestão, que remunera especificamente esse trabalho ativo de tomar decisões de investimento", "Um Imposto de Renda adicional, exclusivo para fundos ativos", "Uma multa por negociar imóveis com frequência", "Nenhuma cobrança adicional é permitida por lei"],
+        correta: 0,
+        explicacao: "Fundos de gestão ativa costumam cobrar, além da administração, uma taxa de gestão que remunera o trabalho de decisão constante do gestor — diferente dos fundos de gestão passiva, que tendem a ter taxas mais baixas.",
+      },
+    },
+    {
+      pergunta: "Um investidor quer comparar o desempenho da sua carteira de Fundos Imobiliários com uma referência ampla do mercado de FIIs. Qual índice ele deveria usar?",
+      opcoes: ["Ibovespa", "IFIX", "IPCA", "Selic"],
+      correta: 1,
+      explicacao: "O IFIX é o índice de referência para Fundos Imobiliários na B3, medindo o desempenho médio dos FIIs mais negociados e relevantes.",
+      variante: {
+        pergunta: "Um investidor compara o desempenho de um FII de papel, sensível principalmente ao CDI, diretamente com o IFIX geral, que mistura fundos de tijolo e de papel. Por que essa comparação pode não ser a mais precisa?",
+        opcoes: ["Porque o IFIX exclui automaticamente FIIs de papel", "Porque tijolo e papel reagem de forma diferente a fatores como taxa de juros e vacância, tornando a mistura no índice menos representativa de um fundo específico", "Porque o IFIX só é atualizado uma vez por ano", "Porque FIIs de papel não têm cota negociada em bolsa"],
+        correta: 1,
+        explicacao: "Misturar tipos de fundo com comportamentos diferentes (tijolo x papel) no mesmo índice torna a comparação direta com um fundo específico menos precisa.",
+      },
+    },
+    {
+      pergunta: "Uma incorporadora que tomou crédito por meio de um CRI presente na carteira de um FII de papel passa por dificuldades financeiras e atrasa o pagamento desse título. Qual risco esse cenário está ilustrando para o fundo?",
+      opcoes: ["Risco de vacância", "Risco de crédito", "Risco cambial", "Risco de come-cotas"],
+      correta: 1,
+      explicacao: "O atraso ou inadimplência de um devedor de título presente na carteira de um FII de papel é justamente o risco de crédito — diferente do risco de vacância, que afeta os FIIs de tijolo.",
+      variante: {
+        pergunta: "Um FII de papel promete um retorno bem mais alto do que a média de fundos parecidos no mercado. Antes de investir apenas pela taxa oferecida, o que vale investigar, seguindo a lógica de risco e retorno?",
+        opcoes: ["Nada, retorno mais alto é sempre uma vantagem sem contrapartida", "A qualidade e a diversificação dos devedores da carteira, já que um retorno muito acima da média costuma refletir um risco de crédito maior", "Apenas o nome do gestor do fundo", "Apenas se o fundo paga rendimento mensal ou trimestral"],
+        correta: 1,
+        explicacao: "Um retorno muito acima da média de mercado costuma refletir um risco de crédito maior nos devedores da carteira de um FII de papel — vale investigar antes de investir apenas pela taxa.",
+      },
+    },
+    {
+      pergunta: "Um investidor tem 100% do seu dinheiro em ações de uma única mineradora, que sofre um grave acidente ambiental e desvaloriza 55%. Se ele tivesse distribuído o mesmo valor entre 25 empresas de setores diferentes, o que provavelmente teria mudado?",
+      opcoes: ["Nada, o resultado seria exatamente igual", "O impacto desse problema específico sobre a carteira total teria sido bem menor, já que estaria diluído entre várias empresas", "Ele teria perdido ainda mais dinheiro diversificando", "A diversificação eliminaria totalmente qualquer risco de perda"],
+      correta: 1,
+      explicacao: "Diversificar entre várias empresas dilui o impacto de um problema específico em uma delas sobre o resultado total da carteira — isso é o chamado 'risco específico'.",
+      variante: {
+        pergunta: "O que a diversificação busca reduzir, principalmente, ao distribuir o dinheiro entre diferentes ativos e setores?",
+        opcoes: ["O risco de mercado como um todo, eliminando qualquer possibilidade de queda", "O risco específico: o impacto de um problema isolado em uma única empresa ou setor sobre a carteira inteira", "O valor pago em Imposto de Renda", "A necessidade de ter uma corretora"],
+        correta: 1,
+        explicacao: "A diversificação reduz o risco específico de um único ativo ou setor, mas não elimina o risco de mercado como um todo.",
+      },
+    },
+    {
+      pergunta: "Durante uma crise econômica generalizada, um investidor bem diversificado entre ações de setores diferentes, FIIs e BDRs ainda vê sua carteira cair de valor, mesmo sem nenhum problema específico em nenhuma dessas empresas ou fundos. Isso significa que a diversificação falhou?",
+      opcoes: ["Sim, diversificação deveria eliminar qualquer queda", "Não — diversificação reduz o risco específico, mas não elimina o risco de mercado, que afeta a maioria dos ativos em uma crise generalizada", "Sim, isso prova que diversificar nunca funciona", "Não, porque crises econômicas nunca afetam ativos diversificados"],
+      correta: 1,
+      explicacao: "Diversificação reduz o risco específico, mas não protege totalmente contra o risco de mercado, que afeta a maioria dos ativos durante uma crise generalizada.",
+      variante: {
+        pergunta: "Além de diversificar entre ações de setores diferentes, que outras formas de diversificação foram estudadas nesta trilha para reduzir o risco específico de uma carteira de renda variável?",
+        opcoes: ["Nenhuma outra forma existe além de comprar mais ações", "Diversificar entre tipos de ativo (ações, FIIs de tijolo e papel) e geografias (via BDRs), além de setores diferentes", "Apenas diversificar entre bancos diferentes", "Apenas diversificar entre corretoras diferentes"],
+        correta: 1,
+        explicacao: "A diversificação pode ir além de ações de setores diferentes, incluindo tipos de FII (tijolo e papel) e exposição internacional via BDRs — todas formas de reduzir a dependência de um único acerto ou erro específico.",
+      },
+    },
+  ],
+},
+```
+
+#### Registro da etapa
+
+- **Resumo da etapa**: escritas as 10 perguntas (base + variante cada) dos 4
+  blocos da Onda de Revisão 3 (`revU_09`..`revU_12`), cobrindo o fim do
+  Nível 2 (Renda Fixa, via `rf_15`), o nível "Independência/Corte/Império"
+  inteiro de `HISTORY_COURSE` (`himp_1`-`himp_6`) e o Nível 3 (Renda
+  Variável) até `rv_19`. `revU_09` é a primeira revisão desta RFC cuja
+  âncora (`himp_6`) pertence a `HISTORY_COURSE`, e também o primeiro bloco
+  misto com maioria histórica (6 lições de História, 1 de Financeira) — as 2
+  perguntas dedicadas a `rf_15` (acima do mínimo de 1-2 pedido) garantem que
+  a lição financeira minoritária não fique sem cobertura, seguindo o mesmo
+  critério já aplicado a `revU_06` (seção 24) no sentido oposto. Todas as
+  perguntas são situações-problema novas, nunca cópia literal de uma
+  pergunta já publicada nas 20 lições-fonte. Todos os 40 pares
+  base+`variante` revisados explicitamente contra o padrão do Bug 1 da Fase
+  3B — 2 casos que numa primeira redação teriam misturado dois conceitos
+  diferentes (`revU_09` par 3, sequência cronológica das 4 leis abolicionistas
+  misturada com a característica distintiva da Lei Áurea; `revU_09` pares
+  9-10, mudança de assunto do percentual de combatentes libertados para o
+  mecanismo de libertação por senhores particulares) foram identificados e
+  corrigidos nesta própria revisão (seção 3 acima detalha cada um). Objetos
+  completos, prontos para colagem em `js/data.js` no array `COURSE_REVIEWS`
+  (nas posições `revU_09` a `revU_12`, logo após `revU_08`), registrados nas
+  seções 4-7.
+- **Decisões tomadas**: distribuição de cobertura por lição em cada bloco
+  (seção 1, incluindo a decisão explícita de reservar 2 das 10 perguntas de
+  `revU_09` para a única lição financeira do bloco, `rf_15`, mesmo sendo
+  minoria), texto final de `titulo`/`aula` de cada bloco, as 40 perguntas com
+  suas variantes, validação factual/financeira/histórica (seção 2),
+  checklist do Bug 1 (seção 3). Confirmado que o campo usado para a tela de
+  intro de `revU_09` é `aula` (não `conto`), seguindo a convenção já
+  registrada pelo Software Architect (seção 12) de que `COURSE_REVIEWS` é um
+  único array com um shape fixo para todas as entradas, independente da
+  fonte/array de destino em tempo de execução (`startLesson()` já checa
+  `lesson.conto || lesson.aula`, então o campo `aula` funciona igual, mesmo
+  a revisão sendo fisicamente inserida em `HISTORY_COURSE[1]`). Nenhum valor
+  numérico de lei/alíquota/limite novo introduzido — todos os percentuais e
+  datas usados já estavam publicados nas lições-fonte ou no código-fonte do
+  projeto (`RF_TAX_TABLE`, requisitos de isenção de FIIs), e os valores
+  históricos aproximados de `himp_5` mantêm a mesma ressalva de
+  aproximação já presente na lição original.
+- **Pendências para os próximos agentes**:
+  - **Frontend Engineer (Fase 3C, Onda de Revisão 3)**: colar os 4 objetos
+    das seções 4-7 em `js/data.js`, no array `COURSE_REVIEWS`, logo depois
+    de `revU_08` (ordem `revU_09`, `revU_10`, `revU_11`, `revU_12`) — nenhuma
+    mudança de mecanismo é esperada em `Trail.levels()` (já generalizado e
+    validado nas Ondas 1-2, seções 19/21/22/25/26), mas esta é a primeira
+    Onda que efetivamente exercita em produção o caminho de inserção em
+    `HISTORY_COURSE` com um bloco publicado (`revU_09`, ancorado em
+    `himp_6`, inserido em `HISTORY_COURSE[1]`) — atenção redobrada já
+    sinalizada pelo Software Architect (seção 19) e pelo QA da Onda 2
+    (seção 26). Depois de colado, rodar `node --check js/data.js` e o
+    script de validação (ids duplicados, `opcoes.length===4`, `correta`
+    válido, `variante` presente, `refLessonIds` com exatamente 7 ids
+    existentes — confirmando que `rf_15`, apesar de existir em `COURSE`, não
+    gera erro por `revU_09` estar sendo inserido em `HISTORY_COURSE`, já que
+    o mecanismo de inserção só depende do id da âncora, `refLessonIds[6]`
+    (`himp_6`), estar presente no array processado — sem sobreposição entre
+    `revU_09`..`revU_12` nem com `revU_01`..`revU_08`).
+  - **QA Engineer**: validar, além do checklist estrutural, que as 4
+    revisões aparecem na trilha unificada Aprender exatamente depois de
+    `himp_6`, `rv_05`, `rv_12` e `rv_19` respectivamente (nunca antes), que
+    `revU_09` aparece fisicamente dentro da sequência de História (não de
+    Renda Fixa), que `COURSE`/`HISTORY_COURSE` permanecem intocados após
+    `Trail.render()` rodar, e reler as 40 perguntas em busca de qualquer
+    ambiguidade residual não capturada nesta revisão — com atenção extra ao
+    bloco misto `revU_09` (confirmar que as 2 perguntas de `rf_15` fazem
+    sentido lidas dentro do contexto de História em que o bloco aparece
+    fisicamente na trilha, e que `Trail.progressKey()` roteia o progresso
+    dessa revisão para `HISTORY_PROGRESS`, não `COURSE_PROGRESS`, mesmo
+    contendo uma lição de `COURSE` entre as referenciadas).
+  - **Documentation Specialist**: registrar a Onda de Revisão 3 como
+    concluída em `CHANGELOG.md`/`ROADMAP.md` depois do QA, destacando que
+    esta foi a primeira Onda com uma âncora real em `HISTORY_COURSE`, e
+    atualizar o status desta RFC quando a Fase 3C avançar para a Onda de
+    Revisão 4 (blocos 13-17, últimas 5 revisões, incluindo mais 2 âncoras em
+    `HISTORY_COURSE` e o caso de inserção no meio de um nível, já
+    sinalizados pelo Software Architect na seção 19).
+- **Riscos**: nenhum risco de conteúdo novo identificado — todas as 40
+  perguntas reaproveitam conceitos, fatos históricos e números já validados
+  nas 20 lições-fonte, sem nenhuma alíquota/teto/definição nova sendo
+  introduzida por esta Onda. Risco técnico residual, não desta etapa: esta é
+  a primeira Onda cujo conteúdo real exercita o caminho de inserção em
+  `HISTORY_COURSE` em produção (bloco `revU_09`) — já testado por teste
+  dirigido sintético na Onda 1 (seção 22), mas nunca com conteúdo publicado
+  até agora; QA da Onda 3 deve repetir essa validação com dados reais,
+  conforme já pedido pela seção 26.
+- **Próximo agente responsável**: Frontend Engineer (Fase 3C, Onda de
+  Revisão 3).
+
+### 29. Frontend Engineer (Fase 3C — Implementação da Onda de Revisão 3, primeira âncora real em HISTORY_COURSE)
+
+**Estado do repositório confirmado antes de mexer em qualquer arquivo**: `git
+status`/`git diff --stat` mostraram mudanças em andamento de uma RFC paralela
+(RFC-036, 3D/scroll/GSAP) tocando `index.html` e `css/style.css` — nenhum dos
+dois foi tocado nesta etapa. Apenas `js/data.js` foi editado; `js/trail.js`
+permanece com diff zero (`git diff --stat js/trail.js` vazio), confirmando a
+previsão do Software Architect (seções 19/21/25/28) de que o mecanismo
+genérico já em produção desde a Onda 1 (v1.57.0) absorveria esta Onda sem
+nenhuma mudança de código.
+
+#### 1. Implementação
+
+Os 4 objetos completos (`revU_09`..`revU_12`) das seções 4-7 foram colados
+literalmente em `js/data.js`, dentro do array `COURSE_REVIEWS`, logo depois
+de `revU_08` e antes do `];` de fechamento — nenhum outro trecho do arquivo
+foi alterado. `node --check js/data.js` passou sem erros.
+
+#### 2. Por que `js/trail.js` não precisou de nenhuma mudança
+
+Reli o mecanismo genérico (linhas 100-136 de `js/trail.js`, comentado pelo
+Software Architect na seção 19): `Trail.levels()` roda `withReviews()` duas
+vezes, uma vez para `COURSE` (`fonte: "financeira"`) e outra para
+`HISTORY_COURSE` (`fonte: "historia"`) — cada passe percorre `COURSE_REVIEWS`
+inteiro procurando, para cada lição do array que está processando no
+momento, uma revisão cujo `refLessonIds[6]` bata com o `id` dessa lição.
+Como um id de lição só existe em um dos dois arrays-fonte, cada revisão só é
+"encontrada e inserida" no passe correto — não existe branch explícito de "se
+a âncora é história, insira aqui". `revU_09` tem `refLessonIds[6] = "himp_6"`;
+quando o passe de `COURSE` roda, nenhuma lição de `COURSE` tem id `"himp_6"`,
+então `revU_09` nunca é encontrado ali; quando o passe de `HISTORY_COURSE`
+roda, `himp_6` existe (é a última lição do nível "Independência, Corte e
+Império"), então `revU_09` é inserido logo depois dela, com `fonte:
+"historia"` herdada do nível. `Trail.progressKey(fonte)` (linha 150-152) já
+mapeia `"historia"` para `STORAGE_KEYS.HISTORY_PROGRESS` — routing correto
+sem nenhum código novo. Nenhum problema real encontrado; o mecanismo genérico
+absorveu a inserção em `HISTORY_COURSE` exatamente como previsto.
+
+#### 3. Testes manuais via Chrome headless/CDP
+
+Servido o app com `python -m http.server 8791` na raiz do projeto e
+controlado via Chrome 151 headless (`--headless=new
+--remote-debugging-port=9222`) através do protocolo CDP puro (WebSocket +
+`Runtime.evaluate`, sem Puppeteer instalado no ambiente). Todas as
+verificações abaixo rodaram no app real, no navegador real, não em simulação
+isolada. Uma armadilha encontrada e corrigida: o Chrome cacheava `js/data.js`
+entre reloads (via `location.reload()` simples), mostrando `COURSE_REVIEWS.length
+=== 8` mesmo depois da edição — corrigido usando `Network.setCacheDisabled` +
+`Page.reload({ ignoreCache: true })`, depois do que os reloads passaram a
+refletir o arquivo real do disco.
+
+**3.1 Posição das 4 novas revisões na trilha unificada** (`Trail.flatLessons()`,
+estado zerado/fresh):
+
+| Revisão | Âncora | idx âncora | idx revisão | Imediatamente após? | `fonte` |
+| --- | --- | --- | --- | --- | --- |
+| `revU_09` | `himp_6` | 70 | 71 | sim | `historia` |
+| `revU_10` | `rv_05` | 78 | 79 | sim | `financeira` |
+| `revU_11` | `rv_12` | 86 | 87 | sim | `financeira` |
+| `revU_12` | `rv_19` | 94 | 95 | sim | `financeira` |
+
+As 4 aparecem exatamente 1 posição depois da respectiva lição-âncora, nunca
+antes — confirmado por leitura direta de `Trail.flatLessons()`, não por
+inspeção visual apenas.
+
+**3.2 `revU_09` grava em `HISTORY_PROGRESS`, não em `COURSE_PROGRESS` (teste
+mais importante desta Onda)**: completada a lição real via fluxo de UI
+(intro → 10 perguntas, sempre respondendo a opção `correta`, sem cair em
+nenhuma variante) a partir de `Trail.startLesson(3, 6)` (posição real de
+`revU_09` em `Trail.levels()` no estado de teste). Depois de concluída:
+`Store.get(STORAGE_KEYS.HISTORY_PROGRESS, {})["revU_09"] === true` e
+`Store.get(STORAGE_KEYS.COURSE_PROGRESS, {})["revU_09"] === undefined` —
+confirmado programaticamente, não assumido. Isso valida que
+`Trail.progressKey("historia")` roteou corretamente mesmo `revU_09` contendo
+`rf_15` (uma lição de `COURSE`) entre as 7 referenciadas — o roteamento
+depende só de `fonte`, herdada do array em que a revisão foi fisicamente
+inserida (`HISTORY_COURSE`), não do conteúdo das perguntas.
+
+**3.3 Trava de âncora, testada nas 4 (não só em `revU_09`)**: para cada par
+âncora→revisão, marquei via `Store` todas as lições do array plano até (mas
+sem incluir) a âncora como concluídas e chamei `Trail.isUnlocked(idxRevisão)`
+— resultado `false` (travada) nas 4; marquei também a âncora como concluída e
+chamei de novo — resultado `true` (destravada) nas 4. A âncora em si já
+estava acessível antes de ser concluída (`Trail.isUnlocked(idxÂncora) ===
+true`), como esperado.
+
+**3.4 Conclusão das 4 revisões — XP, energia, título, `LESSON_LOG`**:
+completadas em sequência real via UI (clique nas opções corretas e nos
+botões "Próxima pergunta"/"Concluir lição", sem atalho de estado):
+
+| Revisão | XP ganho | Energia antes → depois | Título na tela final | `LESSON_LOG` |
+| --- | --- | --- | --- | --- |
+| `revU_09` | +25 (0→25) | 5→5 | "Revisão dominada!" | `{lessonId:"revU_09", fonte:"historia"}` |
+| `revU_10` | +30 (25→55) | 5→5 | "Revisão dominada!" | `{lessonId:"revU_10", fonte:"financeira"}` |
+| `revU_11` | +30 (55→85) | 5→5 | "Revisão dominada!" | `{lessonId:"revU_11", fonte:"financeira"}` |
+| `revU_12` | +30 (85→115) | 5→5 | "Revisão dominada!" | `{lessonId:"revU_12", fonte:"financeira"}` |
+
+XP bate exatamente com o previsto pelo Financial Specialist (seção 28: 25
+para `revU_09`, 30 para as outras 3). Energia terminou em 5/5 (o máximo) nas
+4 porque, respondendo tudo certo, cada lição de 10 perguntas gera 3 bônus de
+combo (`ENERGY_COMBO=3`, a cada 3 acertos seguidos) — mais que suficiente
+para repor o 1 ponto gasto ao iniciar (`Energy.tryStart()`), sem nunca
+esgotar. `courseHas`/`histHas` no `Store` batem com a `fonte` de cada
+revisão, replicando o resultado do item 3.2 para as outras 3 (todas
+`financeira` → `COURSE_PROGRESS`).
+
+**3.5 Teste de não-mutação, com 12 revisões inseridas simultaneamente**: dois
+reloads reais e independentes da página (`localStorage.clear()` +
+`Page.reload({ignoreCache:true})`), sem nenhum estado JS reaproveitado entre
+eles:
+- `COURSE.some(lvl => lvl.licoes.some(l => l.tipo === "revisao"))` → `false`
+- `HISTORY_COURSE.some(lvl => lvl.licoes.some(l => l.tipo === "revisao"))` → `false`
+- `BUSINESS_COURSE.some(lvl => lvl.licoes.some(l => l.tipo === "revisao"))` → `false`
+- `Trail.flatLessons().length` → `132` nas duas cargas (120 lições reais + 12
+  revisões), valor idêntico e determinístico entre as duas
+- `COURSE_REVIEWS.map(r => r.id)` → as 12 esperadas, `revU_01`..`revU_12`, sem
+  duplicata
+
+Nenhuma revisão vazou para dentro de `COURSE` ou `HISTORY_COURSE` — a cópia
+defensiva de `withReviews()` (`courseArr.map(lvl => ({...lvl, licoes}))`,
+nunca reaproveitando o array `licoes` original) continua funcionando com o
+dobro do volume de revisões desta Onda em diante.
+
+**3.6 Regressão nas Ondas 1+2, nas 120 lições reais e na trilha Empreender**:
+- `revU_06` e `revU_08` (Ondas 1/2, já em produção) confirmados presentes em
+  `COURSE_REVIEWS` sem alteração de conteúdo.
+- `BUSINESS_COURSE` (18 lições) e `BUSINESS_REVIEWS` (`revE_01`, a única da
+  trilha Empreender) com contagem idêntica à pré-existente — nenhum dos dois
+  arquivos/arrays da trilha Empreender foi tocado nesta Onda, e a checagem
+  estrutural confirma que eles não reagem a mudanças em `COURSE_REVIEWS`
+  (arrays independentes, sem acoplamento).
+- Total de 120 lições reais (102 de `COURSE` + 18 de `HISTORY_COURSE`)
+  preservado — nenhuma lição real foi criada, removida ou movida.
+
+**3.7 Intercalação Financeira+História com uma revisão vivendo dentro do
+array de História**: `Trail.levels()` intercala por índice de nível
+(`financeira[i]`, `historia[i]`, alternando), não por lição individual — a
+revisão inserida em `HISTORY_COURSE[1]` (nível "Independência, Corte e
+Império") não desloca a posição relativa desse nível na intercalação, só
+adiciona um nó a mais DENTRO dele. Confirmado lendo `HISTORY_COURSE` (array
+original, não mutado) diretamente: a ordem `himp_1, himp_2, himp_3, himp_4,
+himp_5, himp_6` permanece exatamente essa, sem nenhum nó de revisão
+inserido no array-fonte — a revisão só aparece na visão renderizada por
+`Trail.levels()`/`Trail.flatLessons()`, que clona antes de inserir. Os níveis
+vizinhos de História (antes e depois de "Independência, Corte e Império") não
+mudaram de posição na sequência intercalada.
+
+#### 4. Registro da etapa
+
+- **Resumo da etapa**: os 4 objetos de `revU_09` a `revU_12` (Financial
+  Specialist, seção 28) foram colados em `js/data.js`, dentro de
+  `COURSE_REVIEWS`, sem nenhuma outra alteração no arquivo. `js/trail.js` não
+  precisou de nenhuma mudança — confirmado tanto por leitura do mecanismo
+  quanto por `git diff --stat js/trail.js` vazio ao fim da etapa. Todos os
+  testes descritos no item 3 rodaram contra o app real, servido localmente e
+  controlado via Chrome headless/CDP (não simulação/mock), incluindo dois
+  reloads reais de página para o teste de não-mutação. O teste mais crítico
+  desta Onda — `revU_09` gravar em `HISTORY_PROGRESS`, não em
+  `COURSE_PROGRESS`, apesar de referenciar `rf_15` (uma lição de `COURSE`)
+  entre as 7 cobertas — passou: o roteamento depende exclusivamente da
+  `fonte` herdada do array onde a revisão foi fisicamente inserida
+  (`HISTORY_COURSE`), nunca do conteúdo das perguntas.
+- **Decisões tomadas**: nenhuma decisão de conteúdo ou arquitetura nova — a
+  etapa foi de colagem + validação, seguindo à risca o objeto já aprovado
+  pelo Financial Specialist e o mecanismo já aprovado pelo Software
+  Architect. Única decisão técnica local: método de teste (servidor HTTP
+  Python local + Chrome headless via CDP puro, com `Network.setCacheDisabled`
+  para evitar falso-negativo por cache do navegador entre reloads).
+- **Pendências**: nenhuma pendência de implementação. QA Engineer deve, além
+  de reler as 40 perguntas em busca de ambiguidade residual (já pedido pelo
+  Financial Specialist, seção 28), confirmar de forma independente o item 3.2
+  desta seção (roteamento de `revU_09` para `HISTORY_PROGRESS`) e o item 3.7
+  (intercalação preservada), por serem os dois pontos de maior risco técnico
+  desta Onda.
+- **Riscos**: nenhum risco técnico novo identificado após os testes — o
+  caminho de inserção em `HISTORY_COURSE`, que era teórico/testado apenas de
+  forma sintética até a Onda 2 (seções 22 e 26), agora está validado com
+  conteúdo real e permanente em produção. Risco residual, já sinalizado pelo
+  Software Architect (seção 19): a próxima Onda (blocos 13-17) inclui mais 2
+  âncoras em `HISTORY_COURSE` e o primeiro caso de inserção no MEIO de um
+  nível (não ao final) — merece o mesmo nível de atenção quando chegar a vez
+  dela.
+- **Próximo agente responsável**: QA Engineer.
+
+### 30. QA Engineer (Fase 3C — Validação da Onda de Revisão 3)
+
+- **Resumo da etapa**: revisão completa do diff de `js/data.js` (536 inserções, 0 deleções — mudança puramente aditiva) e das 40 perguntas-base + 40 variantes de `revU_09`–`revU_12`. Validação executada de forma independente do relato do Frontend Engineer: em vez de só reler o código do mecanismo, o QA copiou e **executou literalmente** (Node, `vm.createContext`) as funções `withReviews`/`levels`/`flatLessons`/`progressKey` de `js/trail.js` (arquivo não alterado nesta Onda) contra o `js/data.js` real e não commitado.
+- **Resultados confirmados por execução real**: `node --check js/data.js` OK; `COURSE_REVIEWS.length` = 12 (`revU_01`..`revU_12`, sem duplicata); nenhuma colisão de âncora (`refLessonIds[6]`) entre as 12 revisões; todos os `refLessonIds` novos resolvem para lições reais existentes; `Trail.flatLessons().length` = 132; **`revU_09` confirmado gravando em `HISTORY_PROGRESS`** (não `COURSE_PROGRESS`), de forma independente do teste do Frontend Engineer — bate com o item 3.2 pedido nesta seção; ordem/quantidade de níveis de `HISTORY_COURSE` idêntica antes/depois da inserção (item 3.7 confirmado); regressão checada via `git show HEAD:js/data.js` — `COURSE`/`HISTORY_COURSE`/`BUSINESS_COURSE`/`BUSINESS_REVIEWS` idênticos ao `HEAD`, `revU_06`/`revU_08` presentes e byte-a-byte inalterados.
+- **Achados (não bloqueantes)**:
+  1. **Viés de distribuição do índice de resposta correta**: índice `1` correto em 61% das 80 perguntas desta Onda — mas isso é **sistêmico e pré-existente** em todo o banco de perguntas (`revU_01`-`revU_08`: 79%; `COURSE`: 84%; `HISTORY_COURSE`: 79% no índice 0), e a Onda 3 está, na verdade, mais balanceada que o lote anterior. Não bloqueia; encaminhado como item de backlog para o Gamification Designer (embaralhamento programático de `opcoes`/`correta` em todo o banco, fora do escopo desta Onda).
+  2. **`revU_09` grava em `HISTORY_PROGRESS` apesar de referenciar `rf_15` (Renda Fixa, `COURSE`)**: não é bug novo — o mecanismo de ancoragem por `refLessonIds[6]` já existe desde a Onda 1, e `revU_06` (em produção) já faz a mistura inversa. Tematicamente coerente (9 das 10 perguntas de `revU_09` são de História) e sem inconsistência funcional (leitura/escrita usam a mesma chave `fonte` nos dois pontos do código). Nenhuma ação obrigatória; sugestão de badge visual "revisão mista" fica a critério do UX/UI Designer/Product Owner, se um dia priorizarem.
+  3. Leitura de conteúdo das 40 perguntas-base + 40 variantes: nenhum gabarito incorreto, nenhuma opção duplicada, cálculos (P/L, Dividend Yield, IR regressivo, DARF, isenção de FII) corretos, conteúdo histórico fiel às lições-fonte `himp_1`-`himp_6`. Checagem básica de padrões de injeção (`<script`, `onerror=`, `javascript:`) no conteúdo novo: nenhum encontrado.
+- **Limitações do ambiente de teste**: não foi possível completar uma lição real via UI/navegador (app exige `#authGateScreen`, sem ferramenta de automação de navegador disponível no ambiente do QA) — a validação de dados/roteamento foi feita por execução real do algoritmo de produção em vez de simulação de clique, o que cobre a lógica de dados com alta confiança mas não cobre renderização DOM/persistência real em `localStorage` do navegador.
+- **Recomendação**: **Aprovado.** Nenhum bug de conteúdo, dado ou mecânica de roteamento encontrado. Os dois achados são itens de backlog (um sistêmico/pré-existente, outro um comportamento de design já estabelecido e coerente), não motivo de bloqueio.
+- **Próximo agente responsável**: Documentation Specialist (fechar o registro desta Onda no `CHANGELOG.md`, conforme padrão das Ondas 1/2).
+
+### 31. Documentation Specialist (fechamento da Fase 3C, Onda de Revisão 3)
+
+Leitura prévia das seções 28-30 (Financial Specialist, Frontend Engineer, QA
+Engineer) e conferência cruzada com as 2-3 entradas mais recentes de
+`CHANGELOG.md` (v1.57.0, v1.58.0) antes de escrever, mesmo processo já usado
+nos fechamentos das Ondas 1 e 2 (seções 23 e 27) — nenhuma afirmação desta
+etapa foi feita sem base direta nas seções acima ou nos próprios arquivos
+editados.
+
+Documentado:
+
+- **`CHANGELOG.md`**: nova entrada **v1.59.0** — "RFC-035 Fase 3C, Onda de
+  Revisão 3 de 4 — mais 4 revisões periódicas na trilha unificada Aprender,
+  incluindo a primeira âncora real desta série em `HISTORY_COURSE`".
+  Registra os 4 novos nós (`revU_09`-`revU_12`, somando 12 publicadas), o
+  destaque do bloco misto `revU_09` (primeira revisão fisicamente inserida
+  em `HISTORY_COURSE` com conteúdo real, 6 lições de História + `rf_15`,
+  roteamento confirmado para `HISTORY_PROGRESS`), que **nenhuma mudança em
+  `js/trail.js` foi necessária** (`git diff --stat` vazio), o método de
+  validação do QA (execução real via `vm.createContext`, não simulação de
+  clique — e a limitação registrada de que esta Onda não teve automação de
+  navegador disponível, diferente das Ondas 1-2), os dois achados não
+  bloqueantes de backlog, e que **resta 1 Onda** (a 4, que fecha a
+  cobertura) fica registrado no fechamento do parágrafo, não implícito.
+- **`ROADMAP.md`**: dentro da seção "Reformulação da trilha de aprendizado
+  (RFC-035)", o sub-item "Onda de Revisão 3 — blocos 9-12" — que antes dizia
+  "ainda não iniciada" — foi marcado ✅ com o mesmo nível de detalhe já usado
+  nos sub-itens das Ondas 1 e 2 (blocos cobertos, destaque da âncora real em
+  `HISTORY_COURSE`, ausência de mudança em `trail.js`, veredito do QA e sua
+  limitação de ambiente), mantendo o sub-item da Onda 4 como pendente.
+  Também corrigido o parágrafo-resumo da Fase 3C (linha "em andamento (Onda
+  de Revisão 1 de 4 concluída, Ondas 2-4 pendentes)"), que já estava
+  desatualizado antes desta etapa — não refletia a Onda 2, concluída desde
+  v1.58.0 — para "em andamento (Ondas de Revisão 1-3 de 4 concluídas, Onda 4
+  pendente)".
+- **`README.md`**: dois ajustes, confirmados por leitura direta antes de
+  editar (não assumidos da memória da RFC) — o mesmo grep usado nos
+  fechamentos anteriores mostrou texto que ficaria impreciso sem
+  atualização.
+  - A entrada de feature "Revisão periódica a cada 7 pontos da trilha"
+    (seção de features da trilha Aprender) foi atualizada de "8 revisões
+    publicadas... Ondas 1 e 2 de 4" para refletir as **12 revisões
+    publicadas** (Ondas 1-3 de 4), incluindo uma frase sobre `revU_09` ser a
+    primeira âncora real em `HISTORY_COURSE` — a Onda 4 segue explicitamente
+    marcada como a única ainda não iniciada.
+  - No diagrama de estrutura de arquivos, a linha de `trail.js` mudou de
+    "Ondas 1-2 de 4 (RFC-035 Fase 3C, v1.57.0/v1.58.0)" para "Ondas 1-3 de 4
+    (RFC-035 Fase 3C, v1.57.0/v1.58.0/v1.59.0)".
+  - Confirmado por leitura da seção "Fora do escopo (e por quê)" que nenhuma
+    outra seção ficaria desatualizada por esta Onda — não há decisão
+    arquitetural nova (só conteúdo colado num array já existente), e nenhuma
+    feature listada como pendente foi tocada.
+- **Esta RFC**: seção 31 (esta) adicionada ao final do Registro por etapa.
+  Status geral da RFC (linha 3, topo do documento) **mantido como "em
+  andamento"** — resta a Onda de Revisão 4 antes de a Fase 3C poder ser
+  considerada concluída.
+
+Nenhuma decisão de produto/arquitetura/conteúdo/design nova nesta etapa —
+só documentação do que as seções 28-30 já haviam decidido e validado. Nenhum
+código tocado. Nenhum commit, tag ou publicação criados nesta etapa (fora do
+escopo desta tarefa).
+
+#### Registro da etapa
+
+- **Resumo da etapa**: `CHANGELOG.md` (v1.59.0), `README.md` (feature de
+  revisão atualizada para 12 blocos publicados + diagrama de estrutura de
+  arquivos) e `ROADMAP.md` (sub-item "Onda de Revisão 3" marcado concluído,
+  Onda 4 mantida pendente, parágrafo-resumo da Fase 3C corrigido para
+  refletir corretamente as 3 Ondas já concluídas) atualizados para refletir
+  a Onda de Revisão 3 da Fase 3C. RFC-035 mantida "em andamento".
+- **Decisões tomadas**: nenhuma decisão de produto/arquitetura/conteúdo
+  nova — só registro do que os agentes anteriores já decidiram/validaram
+  (seções 28-30). Única correção feita por iniciativa própria: o
+  parágrafo-resumo da Fase 3C no `ROADMAP.md` estava desatualizado desde o
+  fechamento da Onda 2 (não contava a Onda 2 como concluída apesar do
+  sub-item já marcado ✅) — corrigido nesta etapa para não perpetuar a
+  inconsistência.
+- **Pendências para os próximos agentes**: quando a Onda de Revisão 4
+  (blocos 13-17, últimas 5 revisões, fecha a cobertura) fechar QA, repetir
+  este mesmo ciclo de documentação — `CHANGELOG.md` com a próxima versão,
+  `ROADMAP.md` marcando a Onda 4 e a Fase 3C inteira como concluídas, e uma
+  nova seção nesta RFC. Nesse ponto, avaliar se a RFC-035 como um todo pode
+  mudar de status para "concluída" (checar se não há mais fase planejada
+  depois da Fase 3C).
+- **Riscos**: nenhum.
+- **Próximo agente responsável**: nenhum — aguardando o próximo ciclo
+  (Financial Specialist para o conteúdo da Onda de Revisão 4) fora desta
+  etapa de fechamento.

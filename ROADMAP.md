@@ -99,8 +99,8 @@ visual e nas Fases 1-6 da Cidade Financeira. Detalhe completo em
   pergunta 9 testando um conceito diferente da base) — já corrigido antes
   do fechamento da fase. Ver `CHANGELOG.md`, v1.56.0.
 - **Fase 3C — rollout do sistema de revisão para a trilha unificada
-  Aprender (Financeira + História), em andamento (Onda de Revisão 1 de 4
-  concluída, Ondas 2-4 pendentes).** Mais complexa que o piloto: lida com
+  Aprender (Financeira + História), em andamento (Ondas de Revisão 1-3 de 4
+  concluídas, Onda 4 pendente).** Mais complexa que o piloto: lida com
   duas fontes de conteúdo intercaladas por nível (`COURSE`/`HISTORY_COURSE`,
   contagem "7 pontos" unificada já decidida pelo Software Architect na
   Fase 3A) e com o efeito colateral já registrado na RFC de que a revisão
@@ -136,9 +136,19 @@ visual e nas Fases 1-6 da Cidade Financeira. Detalhe completo em
     a generalização da Onda 1 estava correta desde o início. QA aprovou sem
     ressalvas, nenhum bug encontrado, incluindo teste dirigido em produção
     real do bloco misto. Ver `CHANGELOG.md`, v1.58.0.
-  - **Onda de Revisão 3 — blocos 9-12, ainda não iniciada.** Fim do Nível 2
-    + Nível 3 (Renda Variável) até `rv_19`; contém o bloco 9, a **primeira
-    âncora real em `HISTORY_COURSE`** publicada como conteúdo.
+  - ✅ **Onda de Revisão 3 — blocos 9-12** (v1.59.0): 4 novas entradas em
+    `COURSE_REVIEWS` (`revU_09`-`revU_12`), fechando o Nível 2 "Renda Fixa"
+    e cobrindo o Nível 3 "Renda Variável" até `rv_19` — 12 revisões
+    publicadas no total. `revU_09` é a **primeira revisão desta RFC
+    fisicamente inserida em `HISTORY_COURSE` com conteúdo real** (ancorada
+    em `himp_6`, 6 lições de História + 1 de `COURSE`/`rf_15`), com
+    progresso confirmado gravando em `HISTORY_PROGRESS` — o caminho de
+    inserção em História, só testado de forma sintética desde a Onda 1, foi
+    finalmente exercitado em produção. **Nenhuma mudança em `js/trail.js`
+    foi necessária**. QA validou por execução real do mecanismo de produção
+    (`vm.createContext`, não simulação de clique — sem automação de
+    navegador disponível nesta Onda) e aprovou sem ressalvas, com 2 achados
+    não bloqueantes registrados como backlog. Ver `CHANGELOG.md`, v1.59.0.
   - **Onda de Revisão 4 — blocos 13-17, ainda não iniciada.** Níveis 4, 5, 6
     (Diversificação/Avançado/Pro) + fim de História; fecha a cobertura de
     tudo publicado hoje, incluindo mais 2 âncoras em `HISTORY_COURSE` e um

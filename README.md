@@ -266,7 +266,7 @@ fin-plus/
 │   │                                                    3 acertos seguidos numa lição (ENERGY_COMBO não escalou com o teto)
 │   ├── trail.js                                      → trilha única intercalada (financeira + Brasil: História), layout em
 │   │                                                      zig-zag horizontal (RFC-035 Fase 2, v1.55.0; era vertical sinuoso) e nós
-│   │                                                      de revisão a cada 7 lições, Ondas 1-2 de 4 (RFC-035 Fase 3C, v1.57.0/v1.58.0)
+│   │                                                      de revisão a cada 7 lições, Ondas 1-3 de 4 (RFC-035 Fase 3C, v1.57.0/v1.58.0/v1.59.0)
 │   ├── business.js                                     → trilha "Empreender" (independente, mesmo layout zig-zag): regimes tributários,
 │   │                                                      obrigações fiscais/contábeis, gestão de pessoas/finanças, e o nó de revisão
 │   │                                                      a cada 7 lições (piloto original do mecanismo, RFC-035 Fase 3B, v1.56.0)
@@ -432,15 +432,17 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   qualquer lição, sem isenção. Piloto validado isoladamente na trilha
   Empreender (Fase 3B, v1.56.0, `revE_01`); a partir da Fase 3C (v1.57.0) o
   mecanismo também chegou à trilha unificada Aprender (Financeira +
-  História), com **8 revisões publicadas até agora** (`revU_01`-`revU_08`,
-  Ondas de Revisão 1 e 2 de 4 planejadas), cobrindo o Nível 1 "Fundamentos e
-  Comportamento Financeiro" por completo e boa parte do Nível 2 "Renda
-  Fixa". A Onda 2 (v1.58.0) trouxe o primeiro bloco misto
-  Financeira+História (`revU_06`, mistura lições de `HISTORY_COURSE` com
-  `COURSE` num único bloco, progresso roteado pela fonte do nível de
-  inserção) — as Ondas 3-4, que vão cobrir o restante das ~120 lições já
-  publicadas na trilha Aprender (incluindo a primeira âncora real em
-  `HISTORY_COURSE`), ainda **não foram iniciadas**.
+  História), com **12 revisões publicadas até agora** (`revU_01`-`revU_12`,
+  Ondas de Revisão 1-3 de 4 planejadas), cobrindo o Nível 1 "Fundamentos e
+  Comportamento Financeiro", o Nível 2 "Renda Fixa" por completo e o Nível 3
+  "Renda Variável" até `rv_19`. A Onda 2 (v1.58.0) trouxe o primeiro bloco
+  misto Financeira+História (`revU_06`, mistura lições de `HISTORY_COURSE`
+  com `COURSE` num único bloco, progresso roteado pela fonte do nível de
+  inserção); a Onda 3 (v1.59.0) trouxe `revU_09`, a **primeira revisão desta
+  RFC fisicamente inserida em `HISTORY_COURSE` com conteúdo real** (6 lições
+  de História + 1 de `COURSE`, progresso gravado em `HISTORY_PROGRESS`) —
+  resta apenas a Onda 4, que vai fechar a cobertura das ~120 lições já
+  publicadas na trilha Aprender, ainda **não iniciada**.
 - **Desafios diários**, **missão da semana** e **evento aleatório do dia**
   (cenários educativos), com detecção automática de progresso.
 - **Conquistas**: 19 badges desbloqueadas pelo uso real do app, incluindo
