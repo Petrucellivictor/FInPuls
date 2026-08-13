@@ -4,6 +4,72 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.62.0] - 2026-08-12
+
+### Adicionado
+- **RFC-037 Fase 3 (final) — avatar navegável 3D do PolvIn andando pela
+  trilha Aprender (financeira/história unificada)** (`js/trailavatar3d.js`,
+  novo, objeto `TrailAvatar3D`; `js/polvinrig3d.js`, novo, objeto
+  `PolvinRig3D`): o PolvIn 3D (mesma técnica procedural/cel-shading do
+  `js/citypolvin3d.js`, RFC-023, agora extraída para um builder
+  compartilhado) aparece ancorado sobre o nó `.trail-node.current` (ou o
+  último `.trail-node.done`, se a trilha estiver 100% concluída), e "anda"
+  (lerp com easing `easeOutBack`, squash de chegada, yaw na direção do
+  deslocamento) até o novo nó sempre que uma lição real é concluída
+  (`course:updated` com troca de nó-alvo) — replay/quiz reprovado não
+  dispara caminhada (idempotente). O pino ▲ tradicional recua para
+  opacidade 0,35 (`.trail-node.avatar-here::before`) em vez de desaparecer.
+  Posicionamento é 100% leitura de `getBoundingClientRect()` sobre o DOM já
+  renderizado por `Trail.render()` — zero chamada a `Trail.*`/`Business.*`,
+  zero `STORAGE_KEYS` novo (confirmado por grep independente em duas
+  rodadas de QA). Escopo restrito à trilha financeira/história (não
+  Empreender, decisão de produto registrada na RFC). Só ativa quando a aba
+  Aprender está ativa E o nó-alvo está visível (`IntersectionObserver`),
+  pausando (não destruindo) o contexto WebGL ao trocar de aba — mesmo
+  padrão "pausar, não destruir" da RFC-036. Respeita
+  `prefers-reduced-motion` (sem caminhada nem idle, snap direto para a
+  posição atual).
+- **`js/polvinrig3d.js`**: extração literal (mesma geometria, mesma
+  hierarquia de grupos, mesmos 23 meshes/6 tentáculos) do corpo de
+  `CityPolvin3D.buildRig()` para um módulo compartilhado entre a Cidade
+  Financeira e o avatar da trilha — identidade visual do mascote garantida
+  em um único lugar em vez de duplicada. `js/citypolvin3d.js` foi
+  refatorado para delegar a `PolvinRig3D.buildGradientMap()`/`toonMat()`/
+  `build(scene)`, com API pública (`init()`, `render(opts)`,
+  `setScreenPosition()`) 100% preservada — `setScreenPosition()`,
+  `shortestAngleDelta()` e `render(opts)` sem nenhuma alteração de
+  caractere, confirmado por `git diff` linha a linha por dois QAs
+  independentes; regressão da Cidade Financeira testada e confirmada
+  numericamente (mesma geometria, mesmas cores, mesmo comportamento de
+  `render()` para os mesmos parâmetros) em ambas as rodadas de QA.
+
+### Corrigido
+- **Colisão visual do avatar 3D com o rótulo "+N XP" do nó anterior em
+  viewport mobile (≤640px)**, encontrada pelo QA Engineer durante a
+  validação da Fase 3 (`js/trailavatar3d.js`): quando o nó atual e o nó
+  anterior ficam empilhados na mesma coluna do grid (conector vertical
+  reto, ~40% das transições de lição em mobile por causa do padrão "3
+  horizontal + 2 vertical" do zig-zag), o canvas do avatar invadia o texto
+  de XP do nó já concluído acima. Corrigido com compressão vertical em
+  runtime (`closestNodeBottomAbove()`/`anchorY()`, novas): o avatar nunca
+  se desloca lateralmente (manteria centralizado sobre o próprio nó), só
+  aproxima-se verticalmente do próprio nó quando detecta, via leitura pura
+  de `getBoundingClientRect()`, que ancorar na posição padrão invadiria o
+  rótulo do nó anterior — mesmo princípio já usado pelo UX/UI Designer para
+  o próprio label do nó atual, agora estendido ao nó anterior. Reverificado
+  de forma independente: 0/60 sobreposições em mobile (eram 22/60, ~37%,
+  com a fórmula antiga usada como controle) e 0/60 em desktop, 0/120
+  sobreposições contra o rótulo do próprio nó atual, `js/trail.js`/
+  `js/business.js`/`css/style.css` não tocados pela correção (nenhuma
+  função de progresso/desbloqueio alterada).
+
+Com esta entrega, a **RFC-037 está concluída em todas as 3 fases**:
+celebrações maiores + temas por bioma (Fase 1+2, v1.61.0) e avatar
+navegável (Fase 3, v1.62.0). Nenhuma dependência de CDN nova nesta versão.
+Orçamento de performance confirmado: ~42 meshes combinados (avatar + cena
+decorativa da RFC-036) em 2 contextos WebGL simultâneos, ~60fps medido em
+ambas as rodadas de QA (mínimo exigido era 30fps).
+
 ## [1.61.0] - 2026-08-11
 
 ### Adicionado

@@ -280,6 +280,12 @@ fin-plus/
 │   │                                                      course:updated, dispara Fx.milestoneCelebration() e coordena com
 │   │                                                      Achievements.notify() para nunca empilhar 2 notificações do mesmo
 │   │                                                      marco; celebrações são puramente cosméticas (RFC-037 Fase 1, v1.61.0)
+│   ├── polvinrig3d.js                                  → geometria procedural compartilhada do PolvIn 3D (23 meshes,
+│   │                                                      cel-shading), extraída de citypolvin3d.js — usada pela Cidade
+│   │                                                      Financeira e pelo avatar da trilha (RFC-037 Fase 3, v1.62.0)
+│   ├── trailavatar3d.js                                → avatar 3D do PolvIn "andando" pela trilha Aprender (financeira/
+│   │                                                      história), ancorado via getBoundingClientRect() sobre o nó atual,
+│   │                                                      zero acoplamento com Trail.*/Business.* (RFC-037 Fase 3, v1.62.0)
 │   ├── engagement.js                                   → desafios diários, missão da semana e evento do dia
 │   ├── achievements.js                                   → conquistas desbloqueadas pelo uso real do app
 │   ├── market.js                                           → indicadores em tempo real (moedas, cripto, BCB)
@@ -443,10 +449,23 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   pagou, e é coordenada com o toast de conquistas já existente para nunca
   aparecerem 2 notificações empilhadas para o mesmo marco. Nenhuma mudança
   em conteúdo educativo, ordem de níveis ou critérios de desbloqueio; nenhuma
-  dependência de CDN nova. **O terceiro elemento desta RFC — um avatar 3D do
-  PolvIn "andando" pela trilha conforme o progresso — ainda não foi
-  implementado** (Fase 3, decisões de arquitetura/UX já registradas em
-  `rfcs/RFC-037-*.md`, aguardando implementação).
+  dependência de CDN nova.
+- **Avatar navegável 3D do PolvIn na trilha** (RFC-037 Fase 3, v1.62.0 —
+  fecha a RFC-037): o PolvIn 3D (`js/trailavatar3d.js`, mesma geometria
+  procedural/cel-shading da Cidade Financeira, agora compartilhada via
+  `js/polvinrig3d.js`) aparece ancorado sobre a lição atual/última concluída
+  na trilha financeira/história e "anda" fisicamente até o próximo nó quando
+  uma lição é concluída de verdade, com sombra de contato e o pino ▲
+  tradicional recuando para opacidade reduzida em vez de sumir. Posicionado
+  100% via leitura do DOM já renderizado pela trilha (`getBoundingClientRect()`)
+  — zero leitura de `Trail.*`/`Business.*`, zero `STORAGE_KEYS` novo. Ativo só
+  na trilha financeira/história (Empreender fica de fora deste MVP, decisão
+  de produto); só roda enquanto a aba Aprender está visível e o nó-alvo está
+  em tela, pausando (não destruindo) o contexto WebGL ao trocar de aba —
+  mesmo padrão da cena decorativa (RFC-036). Respeita
+  `prefers-reduced-motion`. Rodando junto com a cena decorativa da RFC-036,
+  soma ~42 meshes em 2 contextos WebGL simultâneos a ~60fps. Nenhuma
+  dependência de CDN nova.
 - **Níveis de jogador nomeados**: Iniciante → Aprendiz Financeiro →
   Planejador → Investidor → Construtor de Patrimônio → Mestre PolvIn, com o
   contador de XP no cabeçalho "subindo" com animação ao ganhar pontos.

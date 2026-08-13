@@ -833,6 +833,61 @@ input:focus, select:focus, textarea:focus {
   pointer-events: none;
 }
 
+/* RFC-037 Fase 3 — avatar navegável (js/trailavatar3d.js). Ao contrário de
+   #trailScene3d (z-index:-1, atrás de tudo), este canvas precisa aparecer
+   SOBRE os nós da trilha — direção de profundidade oposta, por isso vive
+   fora daquela cena (Software Architect, Decisão 1). Filho direto de
+   <body>, position:fixed com left/top calculados em JS a partir de
+   getBoundingClientRect() do nó-alvo (nunca de Trail.* ou Business.*).
+   transform:translate(-50%,-100%) ancora o canto INFERIOR central do
+   canvas no ponto de ancoragem — o corpo cresce sempre para cima a partir
+   dali, nunca invadindo o label/XP abaixo do nó (UX/UI Designer, Decisão
+   5). Tamanho (96px desktop / 64px mobile) é definido em JS via
+   renderer.setSize(), não aqui — evita duas fontes de verdade para o
+   mesmo número. z-index acima do conteúdo normal da trilha (.trail-level
+   z-index:1, .trail-progress-bar z-index:2), mas bem abaixo de qualquer
+   overlay/modal (.modal-overlay z-index:90, .quiz-overlay e afins). */
+.trail-avatar-3d-canvas {
+  position: fixed;
+  z-index: 6;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  visibility: hidden;
+  will-change: left, top;
+}
+
+/* Sombra de contato — elemento DOM simples (não faz parte do canvas 3D,
+   sem custo de mesh), ancorada no MESMO ponto x,y do canvas: resolve (a)
+   ancorar visualmente o personagem no "chão" em vez de flutuar sobre o nó,
+   e (b) assumir o papel de "é aqui" que o pino ▲ cumpria sozinho (ver
+   .trail-node.avatar-here acima), permitindo recuá-lo sem removê-lo. */
+.trail-avatar-shadow {
+  position: fixed;
+  z-index: 6;
+  width: 40px;
+  height: 14px;
+  transform: translate(-50%, -35%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(45, 27, 78, 0.35), transparent 70%);
+  pointer-events: none;
+  visibility: hidden;
+  animation: avatarShadowPulse 1.8s ease-in-out infinite;
+}
+/* Mesma cadência de nodeBreathe (1.8s) — familiaridade de ritmo entre a
+   sombra do avatar e o pulso do próprio nó atual (UX/UI Designer). */
+@keyframes avatarShadowPulse {
+  0%, 100% { transform: translate(-50%, -35%) scale(1); opacity: 0.9; }
+  50% { transform: translate(-50%, -35%) scale(0.85); opacity: 0.6; }
+}
+/* Sob redução de movimento: sombra permanece visível e estática (não
+   pulsa) — a identidade "PolvIn está aqui" continua, só sem o movimento
+   (UX/UI Designer, Decisão 4). Regra própria (não a lista compartilhada
+   mais abaixo) porque aquela lista zera `transform`, e aqui o transform
+   também é usado para ANCORAR a sombra, não só para animá-la. */
+@media (prefers-reduced-motion: reduce) {
+  .trail-avatar-shadow { animation: none !important; }
+}
+
 .trail { position: relative; padding: 6px 0 10px; }
 
 /* Barra de progresso geral — substitui a antiga .trail-spine/.trail-spine-fill
@@ -962,6 +1017,14 @@ input:focus, select:focus, textarea:focus {
   0%, 100% { transform: translateX(-50%) translateY(0); }
   50% { transform: translateX(-50%) translateY(-4px); }
 }
+/* RFC-037 Fase 3 (UX/UI Designer, Decisão 5) — quando o avatar 3D
+   (js/trailavatar3d.js) se ancora com sucesso a este nó, ele recebe a
+   classe puramente apresentacional ".avatar-here" e o pino ▲ recua (não
+   some) para opacidade 0.35: a sombra de contato do avatar assume o papel
+   de "é aqui", mas o pino continua existindo como fallback caso o WebGL
+   falhe/seja desligado no meio da sessão — nunca 2 indicadores de posição
+   competindo pela mesma leitura. */
+.trail-node.avatar-here::before { opacity: 0.35; animation: none; }
 
 /* Hover/clique usam transição própria, mais curta e SEM o transition-delay
    de stagger da entrada — sem este reset explícito, o delay calculado por
