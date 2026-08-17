@@ -1,8 +1,15 @@
 /* =========================================================================
-   TRAILSCENE3D.JS — "Correnteza do Conhecimento" (RFC-036, Fase A).
+   TRAILSCENE3D.JS — "Correnteza do Conhecimento" (RFC-036, Fase A + A.3).
    Cena 3D decorativa (Three.js) atrás da trilha Aprender/Empreender: fundo
    do mar estilizado, gemas do conhecimento, anéis dourados, bolhas e
    plâncton bioluminescente, animados por scroll via GSAP ScrollTrigger.
+
+   Fase A.3 (riqueza crescente): pool fixo de 12 unidades de orçamento (4
+   gemas douradas extras, 3 baús do tesouro, 1 cluster de moedas, 1 cluster
+   de pérolas) que aparece gradualmente conforme `progress` avança — mais
+   "pobre" no topo da página, mais "rico" no fim. `progress` continua vindo
+   exclusivamente do mesmo scroll da página já usado pelo mergulho/parallax
+   (ver ACOPLAMENTO abaixo — nada muda aqui).
 
    ACOPLAMENTO: ZERO, por decisão de arquitetura (RFC-036, Software
    Architect + Cyber Security Specialist). Este módulo NUNCA lê/importa
@@ -40,6 +47,17 @@ const TrailScene3D = {
   rings: [],
   bubbles: [],
   plankton: null,
+  dirLight: null,
+
+  // Pool fixo de "riqueza crescente" (RFC-036, Fase A.3) — 4 gemas douradas
+  // extras + 3 baús (grupo com 2 meshes cada) + 1 cluster de moedas + 1
+  // cluster de pérolas = 9 itens agendados (12 unidades de orçamento).
+  // Criado 1x em init(), nunca destruído — só visible/scale/opacity variam
+  // por frame (Software Architect, seção 11: "pool fixo, nunca realocar").
+  richnessPool: [],
+  chests: [],
+  coinCluster: null,
+  pearlCluster: null,
 
   scrollTriggerInstance: null,
   rafId: null,
@@ -60,6 +78,7 @@ const TrailScene3D = {
     gold: 0xe8a33d,
     goldDark: 0xc07f1f,
     green: 0x4fae4a,
+    surface: 0xffffff, // --surface — usado nas pérolas (RFC-036, Fase A.3)
   },
 
   /* ---------------------------------------------------------------------
@@ -90,6 +109,7 @@ const TrailScene3D = {
     const dirLight = new THREE.DirectionalLight(0xfff4e0, 0.5);
     dirLight.position.set(2, 3, 4);
     this.scene.add(dirLight);
+    this.dirLight = dirLight; // referência guardada p/ o "holofote" da riqueza (applyRichness)
 
     this.gradientMap = this.buildGradientMap();
 
@@ -102,6 +122,13 @@ const TrailScene3D = {
     this.buildRings();
     this.buildBubbles();
     this.buildPlankton();
+
+    // Riqueza crescente (RFC-036, Fase A.3) — pool fixo, nasce invisível,
+    // controlado por progress via applyRichness(). Ver seção 11/12 da RFC.
+    this.buildRichnessGems();
+    this.buildChests();
+    this.buildCoinCluster();
+    this.buildPearlCluster();
 
     this.reducedMotion = this.prefersReducedMotion();
     this.setupScrollTrigger();
@@ -219,6 +246,22 @@ const TrailScene3D = {
   // RFC-036 seção 3). Nenhum objeto "sólido" (gema/anel — opacidade 1.0/
   // 0.85) pode nascer aqui (achado 1 do QA, RFC-036 seção 7).
   TOP_EXCLUSION_FRACTION: 0.2,
+
+  // Riqueza crescente (RFC-036, Fase A.3 — Software Architect seção 11 +
+  // UX/UI Designer seção 12). appearAt de cada item fica dentro da faixa
+  // [RICHNESS_APPEAR_START, RICHNESS_APPEAR_END] — início em 0.15 (não 0)
+  // garante que a cena comece "pobre" nos primeiros instantes de rolagem;
+  // fim em 0.95 (não 1.0) garante que o último item termine de aparecer
+  // antes do fim absoluto da página (sem "pop" de última hora).
+  RICHNESS_APPEAR_START: 0.15,
+  RICHNESS_APPEAR_END: 0.95,
+  // Largura da rampa smoothstep (fração de progress) usada por cada item —
+  // suave nas duas pontas, nunca liga/desliga abruptamente.
+  RICHNESS_FADE_WINDOW: 0.18,
+  // prefers-reduced-motion: a riqueza usa progress=0.5 (não 0, que não
+  // mostraria nenhum item novo) no frame estático — mergulho/parallax
+  // continuam travados em progress=0 como já eram antes desta fase.
+  REDUCED_MOTION_RICHNESS_PROGRESS: 0.5,
 
   // Distância/tamanho visível no plano Z=depthZ, dada a câmera perspectiva
   // atual — usado para espalhar objetos dentro do frustum em cada camada.
@@ -416,6 +459,232 @@ const TrailScene3D = {
   },
 
   /* ---------------------------------------------------------------------
+     Riqueza crescente (RFC-036, Fase A.3) — pool fixo pré-criado em init(),
+     nunca destruído. Cada item nasce invisível (scale 0) e é revelado só
+     por applyRichness() conforme progress avança — nunca scene.add()/
+     remove() depois daqui (Software Architect, seção 11).
+     --------------------------------------------------------------------- */
+
+  // Centraliza o registro de um item de riqueza: esconde, zera a escala,
+  // grava os metadados que applyRichness() usa por frame, e adiciona como
+  // filho de midGroup (mesma profundidade narrativa de gemas/anéis —
+  // reaproveita o parallax x0.3 já calculado por applyParallax()).
+  scheduleAppearance(obj, appearAt, baseScale, baseOpacity) {
+    obj.visible = false;
+    obj.scale.setScalar(0);
+    obj.userData.appearAt = appearAt;
+    obj.userData.baseScale = baseScale;
+    obj.userData.baseOpacity = baseOpacity;
+    if (obj.material && baseOpacity != null) {
+      obj.material.transparent = true;
+      obj.material.opacity = baseOpacity;
+    }
+    this.midGroup.add(obj);
+    this.richnessPool.push(obj);
+    return obj;
+  },
+
+  // 4 gemas douradas extras — reaproveita literalmente a técnica de
+  // buildGems() (mesmo IcosahedronGeometry/randomSpawnY/visibleMinDimAtZ),
+  // só com a paleta enviesada para ouro (2 --gold : 1 --gold-dark, mesma
+  // convenção "1 em cada 3" já usada por buildGems()/buildRings()) e
+  // agendadas no pool em vez de sempre visíveis (UX/UI Designer, seção 12).
+  buildRichnessGems() {
+    const colors = [this.COLORS.gold, this.COLORS.gold, this.COLORS.goldDark];
+    const appearAts = [0.15, 0.22, 0.3, 0.45]; // beats 1, 2, 3, 5 da tabela do UX/UI Designer
+    for (let i = 0; i < 4; i++) {
+      const depthZ = -6 + Math.random() * 4; // mesma camada "meio" das gemas originais
+      const radius = this.visibleMinDimAtZ(depthZ) * (0.05 + Math.random() * 0.05);
+      const geo = new THREE.IcosahedronGeometry(radius, 0);
+      const mesh = new THREE.Mesh(geo, this.toonMat(colors[i % 3]));
+
+      const halfW = this.visibleWidthAtZ(depthZ) * 0.42;
+      mesh.position.set((Math.random() * 2 - 1) * halfW, this.randomSpawnY(depthZ, 0.42, radius), depthZ);
+      mesh.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+      mesh.userData.spinSpeed = 0.05 + Math.random() * 0.08;
+
+      // Reaproveita a rotação contínua já calculada em updateAmbient() para
+      // this.gems — as gemas de riqueza giram igual às originais, mesmo
+      // quando invisíveis (custo desprezível, evita duplicar lógica).
+      this.gems.push(mesh);
+      this.scheduleAppearance(mesh, appearAts[i], 1, 1);
+    }
+  },
+
+  // 3 baús do tesouro — THREE.Group de 2 meshes (corpo + tampa em
+  // meio-cilindro "entreaberta", geometria exata da seção 12 do UX/UI
+  // Designer). 1 appearAt por grupo (6 unidades de orçamento, 3 itens de
+  // agendamento — os 2 meshes filhos herdam visibilidade/escala do pai).
+  buildChests() {
+    const appearAts = [0.38, 0.52, 0.68]; // beats 4, 6, 8 da tabela do UX/UI Designer
+    for (let i = 0; i < 3; i++) {
+      const depthZ = -6 + Math.random() * 4; // mesma camada "meio"
+      const dim = this.visibleMinDimAtZ(depthZ);
+      const w = dim * 0.16;
+      const h = dim * 0.1;
+      const d = dim * 0.11;
+
+      const group = new THREE.Group();
+
+      // Corpo — base assentada em y=0 do grupo (spawnY = "chão" do baú).
+      const bodyMesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), this.toonMat(this.COLORS.goldDark));
+      bodyMesh.position.y = h / 2;
+      group.add(bodyMesh);
+
+      // Tampa — meio-cilindro deitado (eixo alinhado com a profundidade d),
+      // inclinado ~18° extra para sugerir "entreaberta". Lê como "baú" em
+      // baixa resolução visual melhor que uma segunda BoxGeometry (UX/UI
+      // Designer, seção 12).
+      const lidRadius = h / 2;
+      const lidGeo = new THREE.CylinderGeometry(lidRadius, lidRadius, d, 10, 1, true, 0, Math.PI);
+      const lidMesh = new THREE.Mesh(lidGeo, this.toonMat(this.COLORS.gold));
+      lidMesh.rotation.x = -Math.PI / 2 + THREE.MathUtils.degToRad(18);
+      lidMesh.position.y = h;
+      group.add(lidMesh);
+
+      const halfW = this.visibleWidthAtZ(depthZ) * 0.4;
+      // objectRadius aqui é a extensão TOTAL acima da base (não metade) —
+      // o baú cresce só para cima a partir de spawnY, diferente de
+      // gemas/anéis (posição = centro, radius simétrico).
+      const clearance = h + lidRadius;
+      group.position.set((Math.random() * 2 - 1) * halfW, this.randomSpawnY(depthZ, 0.4, clearance), depthZ);
+      group.rotation.y = Math.random() * Math.PI * 2;
+
+      this.chests.push(group);
+      // Baú é a "âncora" opaca da composição (opacidade 1.0, UX/UI Designer
+      // seção 12) — baseOpacity=null porque Group não tem .material próprio
+      // (scheduleAppearance ignora a linha de opacidade para grupos; os
+      // filhos herdam só visible/scale do pai, como o Architect especificou).
+      this.scheduleAppearance(group, appearAts[i], 1, null);
+    }
+  },
+
+  // Pilha de moedas — 1 InstancedMesh, 18 instâncias em 5 "torres"
+  // empilhadas [2,3,4,4,5] dispostas em pentágono (a torre de 5, maior,
+  // no centro geométrico) — 1 unidade de orçamento para ~18 moedas
+  // visíveis, mesmo princípio já usado pelo Points do plâncton.
+  buildCoinCluster() {
+    const depthZ = -6 + Math.random() * 4; // mesma camada "meio"
+    const dim = this.visibleMinDimAtZ(depthZ);
+    const coinRadius = dim * 0.028;
+    const coinHeight = coinRadius * 0.35;
+    const geo = new THREE.CylinderGeometry(coinRadius, coinRadius, coinHeight, 12);
+    const mat = this.toonMat(this.COLORS.gold);
+
+    const counts = [2, 3, 4, 4, 5]; // cresce em direção ao centro — perfil de "montinho"
+    const total = counts.reduce((a, b) => a + b, 0); // 18
+    const mesh = new THREE.InstancedMesh(geo, mat, total);
+
+    const clusterRadius = dim * 0.12;
+    const outerCounts = counts.slice(0, 4); // as 4 torres ao redor
+    const centerCount = counts[4]; // a torre de 5, no centro geométrico
+
+    const towers = outerCounts.map((count, i) => {
+      // Ângulos levemente irregulares (não múltiplos exatos de 90°) para
+      // o pentágono não parecer perfeitamente simétrico/artificial.
+      const angle = (i / outerCounts.length) * Math.PI * 2 + (Math.random() * 0.3 - 0.15);
+      return { count, x: Math.cos(angle) * clusterRadius, z: Math.sin(angle) * clusterRadius };
+    });
+    towers.push({ count: centerCount, x: 0, z: 0 });
+
+    const maxStackHeight = Math.max(...counts) * coinHeight * 1.05;
+    const dummy = new THREE.Object3D();
+    let idx = 0;
+    towers.forEach((tower) => {
+      for (let s = 0; s < tower.count; s++) {
+        const jitterX = (Math.random() * 2 - 1) * coinRadius * 0.03;
+        const jitterZ = (Math.random() * 2 - 1) * coinRadius * 0.03;
+        // Empilhamento centrado verticalmente em torno da origem do cluster
+        // (mesma convenção simétrica de randomSpawnY usada por gemas/anéis).
+        const y = (s - (tower.count - 1) / 2) * coinHeight * 1.05;
+        dummy.position.set(tower.x + jitterX, y, tower.z + jitterZ);
+        dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
+        dummy.updateMatrix();
+        mesh.setMatrixAt(idx, dummy.matrix);
+        idx++;
+      }
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+
+    const halfW = this.visibleWidthAtZ(depthZ) * 0.35;
+    const footprint = Math.max(clusterRadius + coinRadius, maxStackHeight / 2);
+    mesh.position.set((Math.random() * 2 - 1) * halfW, this.randomSpawnY(depthZ, 0.4, footprint), depthZ);
+
+    this.coinCluster = mesh;
+    // Opacidade 0.9 (UX/UI Designer, seção 12) — levemente abaixo de 1.0
+    // pra 18 peças pequenas não virarem um "bloco" de brilho que compete
+    // com os baús.
+    this.scheduleAppearance(mesh, 0.6, 1, 0.9);
+  },
+
+  // Pérolas — 1 InstancedMesh, 14 instâncias em 3 "cachos" [5,5,4] tipo
+  // "cacho de uva" (1 pérola central maior + as demais ao redor), dispostos
+  // em triângulo irregular para ler como "achado disperso", diferente da
+  // pilha de moedas organizada.
+  buildPearlCluster() {
+    const depthZ = -6 + Math.random() * 4; // mesma camada "meio"
+    const dim = this.visibleMinDimAtZ(depthZ);
+    const pearlRadius = dim * 0.022;
+    const geo = new THREE.SphereGeometry(pearlRadius, 8, 6);
+    // MeshToonMaterial com instanceColor (alternância --surface/--gold por
+    // instância, via setColorAt) — cor base branca, instanceColor multiplica.
+    const mat = new THREE.MeshToonMaterial({ color: this.COLORS.surface, gradientMap: this.gradientMap });
+
+    const cachoCounts = [5, 5, 4]; // 3 cachos
+    const total = cachoCounts.reduce((a, b) => a + b, 0); // 14
+    const mesh = new THREE.InstancedMesh(geo, mat, total);
+    // mesh.instanceColor é criado automaticamente por setColorAt() abaixo
+    // na 1ª chamada — não precisa ser alocado manualmente aqui.
+
+    const clusterSpread = dim * 0.16;
+    // 3 cachos em triângulo irregular dentro do footprint do cluster.
+    const cachoOffsets = [
+      { x: -clusterSpread * 0.5, y: clusterSpread * 0.3 },
+      { x: clusterSpread * 0.55, y: clusterSpread * 0.1 },
+      { x: 0, y: -clusterSpread * 0.45 },
+    ];
+
+    const dummy = new THREE.Object3D();
+    let idx = 0;
+    cachoCounts.forEach((count, cachoIdx) => {
+      const offset = cachoOffsets[cachoIdx];
+      for (let p = 0; p < count; p++) {
+        const isCentral = p === 0;
+        const localRadius = pearlRadius * 1.1;
+        const angle = (p / count) * Math.PI * 2 + Math.random() * 0.4;
+        const scaleFactor = isCentral ? 1.15 : 0.8 + Math.random() * 0.35;
+
+        dummy.position.set(
+          offset.x + (isCentral ? 0 : Math.cos(angle) * localRadius),
+          offset.y + (isCentral ? 0 : Math.sin(angle) * localRadius),
+          (Math.random() * 2 - 1) * pearlRadius * 0.5
+        );
+        dummy.rotation.set(0, 0, 0);
+        dummy.scale.setScalar(scaleFactor);
+        dummy.updateMatrix();
+        mesh.setMatrixAt(idx, dummy.matrix);
+
+        // 70% --surface / 30% --gold (UX/UI Designer, seção 12) — glint
+        // dourado ocasional, branco predominante (identidade de pérola).
+        const color = idx % 10 < 7 ? this.COLORS.surface : this.COLORS.gold;
+        mesh.setColorAt(idx, new THREE.Color(color));
+        idx++;
+      }
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+
+    const halfW = this.visibleWidthAtZ(depthZ) * 0.35;
+    const footprint = clusterSpread + pearlRadius * 1.3;
+    mesh.position.set((Math.random() * 2 - 1) * halfW, this.randomSpawnY(depthZ, 0.4, footprint), depthZ);
+
+    this.pearlCluster = mesh;
+    // Opacidade 0.8 (UX/UI Designer, seção 12) — "luxo suave", acima do
+    // patamar "fantasma" de bolhas/plâncton, abaixo de baús/gemas/moedas.
+    this.scheduleAppearance(mesh, 0.8, 1, 0.8);
+  },
+
+  /* ---------------------------------------------------------------------
      Scroll (GSAP ScrollTrigger) — só criado se reduced-motion estiver OFF.
      --------------------------------------------------------------------- */
 
@@ -464,6 +733,7 @@ const TrailScene3D = {
     this.updateAmbient(elapsed, dt);
     this.applyParallax(this.progress);
     this.applyBackgroundOffset(this.progress);
+    this.applyRichness(this.progress);
 
     this.renderer.render(this.scene, this.camera);
   },
@@ -511,6 +781,32 @@ const TrailScene3D = {
     this.bgTexture.offset.y = -progress * 2 || 0; // "|| 0" normaliza -0, ver applyParallax
   },
 
+  // Riqueza crescente (RFC-036, Fase A.3): revela/escala/esmaece cada item
+  // do pool conforme progress avança, com rampa smoothstep (sem popping) —
+  // mesmo mecanismo especificado pelo Software Architect (seção 11). O
+  // custo por frame é O(tamanho do pool, 9 itens), não O(total de
+  // instâncias renderizadas) — clusters (moedas/pérolas) são revelados
+  // como 1 unidade inteira (visible/scale/opacity do InstancedMesh), nunca
+  // recompondo matriz de instância por frame.
+  applyRichness(progress) {
+    this.richnessPool.forEach((obj) => {
+      const t = THREE.MathUtils.clamp((progress - obj.userData.appearAt) / this.RICHNESS_FADE_WINDOW, 0, 1);
+      const factor = t * t * (3 - 2 * t); // smoothstep — sem popping
+      obj.visible = factor > 0.01; // custo de render zero quando não iniciado
+      obj.scale.setScalar(obj.userData.baseScale * factor);
+      if (obj.material && obj.userData.baseOpacity != null) {
+        obj.material.opacity = obj.userData.baseOpacity * factor;
+      }
+    });
+
+    // "Holofote" sobre o tesouro — reforço gratuito, sem mesh novo (Software
+    // Architect + UX/UI Designer, seção 11/12): intensidade sobe de 0.5 a
+    // 0.85 conforme o progresso avança.
+    if (this.dirLight) {
+      this.dirLight.intensity = 0.5 + progress * 0.35;
+    }
+  },
+
   /* Frame único e estático (prefers-reduced-motion): progress=0, sem rAF,
      sem ScrollTrigger. Congela num quadro "pausado", não "quebrado" —
      gemas com rotação individual não alinhada (já randomizada na
@@ -520,8 +816,14 @@ const TrailScene3D = {
     this.progress = 0;
     this.camera.position.x = 0;
     this.camera.lookAt(0, 0, 0);
+    // Mergulho/parallax permanecem travados em progress=0, como já eram
+    // antes da Fase A.3 — só a riqueza usa um valor diferente (abaixo),
+    // porque progress=0 nunca revelaria nenhum item novo (appearAt começa
+    // em 0.15) e esconderia a feature inteira do usuário com reduced-motion
+    // (Software Architect, seção 11, item 6).
     this.applyParallax(0);
     this.applyBackgroundOffset(0);
+    this.applyRichness(this.REDUCED_MOTION_RICHNESS_PROGRESS);
     this.renderer.render(this.scene, this.camera);
   },
 

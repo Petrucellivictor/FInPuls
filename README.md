@@ -432,9 +432,22 @@ Veja `CLAUDE.md` para a Regra de Ouro, o template de RFC e os critérios de qual
   `prefers-reduced-motion`, e aparece tanto na trilha Aprender quanto na
   Empreender. Traz uma dependência nova via CDN — GSAP 3.15.0 +
   ScrollTrigger 3.15.0, versão travada + SRI, mesmo padrão de segurança já
-  usado para Supabase/Phaser/Three.js (RFC-027). A Fase B desta mesma RFC
-  (substituir o motor 2D/Phaser da Cidade Financeira por um jogo 3D
-  navegável) ainda não foi iniciada.
+  usado para Supabase/Phaser/Three.js (RFC-027). **Fase A.3 — riqueza
+  crescente conforme o avanço na rolagem** (v1.63.0): a mesma cena ganhou
+  4 gemas douradas extras, 3 baús do tesouro, um cluster de 18 moedas em
+  torres e um cluster de 14 pérolas — cuja densidade cresce suavemente
+  (sem "pop-in") à medida que o usuário rola a página, reaproveitando a
+  mesma métrica de scroll que já move o efeito "mergulho" (decisão de
+  produto deliberada: reage à rolagem, não ao progresso real do jogador
+  entre sessões — mantém o mesmo zero acoplamento). Pool fixo de objetos
+  (nada criado/destruído durante o scroll), dentro do orçamento de
+  performance (31 unidades/39 objetos reais, teto 34) mesmo com o avatar
+  navegável (RFC-037) rodando simultaneamente. `prefers-reduced-motion`
+  passou a mostrar um estado intermediário de riqueza no frame estático
+  (em vez de escondê-la por completo). Nenhuma cor nova, nenhuma
+  dependência de CDN nova. A Fase B desta mesma RFC (substituir o motor
+  2D/Phaser da Cidade Financeira por um jogo 3D navegável) ainda não foi
+  iniciada.
 - **Temas visuais por bioma e celebrações maiores de progresso**
   (RFC-037 Fase 1+2, v1.61.0): cada um dos 18 níveis reais da aba Aprender
   (financeira, história e Empreender) ganhou um dos 5 "biomas" oceânicos

@@ -4,6 +4,61 @@ Todas as alterações relevantes deste projeto são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.63.0] - 2026-08-16
+
+### Adicionado
+- **RFC-036 Fase A.3 — riqueza crescente na cena decorativa 3D da trilha
+  Aprender/Empreender, conforme o avanço na rolagem** (`js/trailscene3d.js`,
+  estendido, nenhum módulo novo): a cena "Correnteza do Conhecimento"
+  (oceano estilizado, gemas, anéis, bolhas, plâncton — RFC-036 Fase A,
+  v1.60.0) ganhou elementos que remetem a riqueza/prosperidade — 4 gemas
+  douradas extras, 3 baús do tesouro (`THREE.Group`, corpo + tampa em
+  meio-cilindro "entreaberta"), um cluster de 18 moedas em 5 torres
+  (`InstancedMesh`) e um cluster de 14 pérolas em 3 cachos (`InstancedMesh`)
+  — cuja densidade/presença cresce suavemente (curva `smoothstep`, sem
+  "pop-in") conforme o usuário rola a página, reaproveitando a mesma
+  métrica `progress` (0=topo, 1=fim da página) que já move o efeito
+  "mergulho" desde a Fase A original. Decisão de produto confirmada: a
+  riqueza reage à posição de rolagem, não ao progresso real do jogador —
+  mantém zero acoplamento com `Trail.*`/`Business.*`/`Learn.*`/
+  `STORAGE_KEYS` (confirmado por grep independente em duas rodadas de QA).
+  Todos os objetos novos usam um pool fixo pré-criado (nunca instanciados/
+  destruídos durante o scroll — só `visible`/`scale`/`opacity` variam por
+  frame), técnica 100% procedural já validada (`MeshToonMaterial`+
+  `gradientMap`, sem textura de imagem, sem `.glb`/`.gltf`) e paleta 100%
+  já existente em `:root` (`--gold`, `--gold-dark`, `--surface` — nenhuma
+  cor nova). `prefers-reduced-motion` continua respeitado: o frame estático
+  passou a usar um valor intermediário (`progress=0.5`) só para a riqueza,
+  em vez de `0`, para não esconder a feature inteira de usuários com essa
+  preferência (mergulho/parallax continuam travados em `progress=0`, sem
+  mudança). Orçamento de objetos: 19 já existentes + 12 novos = 31 unidades
+  (confirmado em runtime via `scene.traverse()`, 39 objetos Three.js
+  reais), dentro do teto rígido de 34 definido para esta fase. Nenhuma
+  recompensa de XP/moeda/badge concedida pela riqueza — puramente
+  decorativo. Nenhuma dependência de CDN nova.
+- Performance validada com os dois contextos WebGL da aba Aprender ativos
+  ao mesmo tempo (a cena decorativa em densidade máxima de riqueza **e**
+  o avatar navegável da RFC-037 rodando simultaneamente, CPU 4x
+  throttled) — cenário nunca testado antes desta fase. Nota de
+  metodologia registrada pelo QA Engineer: em ambiente Chrome headless
+  (sem sinal de vsync real), a contagem de callbacks de
+  `requestAnimationFrame` não é uma métrica confiável (chegou a medir
+  ~180-210/s, muito acima de qualquer cap de 60Hz) — a métrica usada para
+  a conclusão final foi o custo real de execução de cada frame de
+  renderização (`performance.now()` antes/depois), que ficou entre
+  0,35ms e 1,2ms mesmo no cenário combinado mais pesado, uma margem de
+  ~8-13x sobre o orçamento de 16,6ms (60fps). Nenhum problema de
+  performance real foi encontrado; a divergência é sobre confiabilidade
+  de metodologia de medição em ambiente sem display real, não sobre o
+  comportamento do app.
+
+Pendências não bloqueantes que seguem em aberto desde a Fase A original:
+validação de FPS em hardware móvel físico real (toda a validação até
+agora foi headless/emulada) e um teste de "pior caso" do bioma
+`correnteza-dourada` (que compartilha a cor `--gold` com boa parte da
+composição de riqueza desta fase) com conta e curso reais, em vez de
+markup estático injetado.
+
 ## [1.62.0] - 2026-08-12
 
 ### Adicionado
